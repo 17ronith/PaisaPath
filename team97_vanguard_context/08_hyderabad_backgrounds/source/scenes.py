@@ -1222,6 +1222,31 @@ SCENES = [('01_charminar', 'Charminar', charminar),
           ('08_bus_stop', 'Bus stop', busstop),
           ('09_hitec_city', 'HITEC City', hitec)]
 
+# scenes 10-20 live in scenes2.py (helpers in px2.py)
+import scenes2 as S2  # noqa: E402
+
+SCENES += [('10_home', 'Home', S2.home),
+           ('11_kirana', 'Kirana store', S2.kirana),
+           ('12_college', 'Junior college', S2.college),
+           ('13_bank', 'Bank branch', S2.bank),
+           ('14_mobile_shop', 'Mobile shop', S2.mobile_shop),
+           ('15_clinic', 'Clinic reception', S2.clinic),
+           ('16_canteen', 'College canteen', S2.canteen),
+           ('17_turf', 'Turf cricket (night)', S2.turf),
+           ('18_campus', 'University gate', S2.campus),
+           ('19_home_age60', 'Home, decades later (epilogue)', S2.home_age60),
+           ('20_office_lobby', 'Office lobby (5 years later)', S2.office_lobby)]
+PREVIEW_SCENE = '10_home'
+PALETTE_CAP = 160   # max colours per background (scenes 01-09 sit at 59-142)
+
+
+def cap_palette(sc, n=PALETTE_CAP):
+    im = sc.image().convert('RGB')
+    if len(im.getcolors(1 << 20)) <= n:
+        return
+    q = im.quantize(colors=n, method=Image.Quantize.MAXCOVERAGE, dither=Image.Dither.NONE).convert('RGB')
+    sc.a[..., :3] = np.asarray(q)
+
 
 def main(only=None):
     os.makedirs('out/1x', exist_ok=True)
@@ -1231,9 +1256,10 @@ def main(only=None):
         if only and slug not in only:
             continue
         sc = fn()
+        cap_palette(sc)
         sc.save(f'out/1x/{slug}.png')
         sc.save(f'out/4x/{slug}@4x.png', 4)
-        tiles.append((sc.image().convert('RGB'), name))
+        tiles.append((sc.image().convert('RGB'), f'{slug[:2]}  {name}', slug))
         print('ok', slug)
     if only:
         return
@@ -1241,17 +1267,18 @@ def main(only=None):
     pl.save('out/1x/battle_platforms_overlay.png')
     pl.save('out/4x/battle_platforms_overlay@4x.png', 4)
     # contact sheet
-    pad, lab, cols = 8, 14, 3
+    pad, lab, cols = 8, 14, 4
     rows = (len(tiles) + cols - 1) // cols
     sheet = Image.new('RGB', (cols * (W + pad) + pad, rows * (H + lab + pad) + pad), (26, 26, 40))
     d = ImageDraw.Draw(sheet)
-    for i, (im, name) in enumerate(tiles):
+    for i, (im, name, _) in enumerate(tiles):
         x, y = pad + (i % cols) * (W + pad), pad + (i // cols) * (H + lab + pad)
         d.text((x + 1, y + 1), name, fill=(240, 240, 255))
         sheet.paste(im, (x, y + lab))
     sheet.resize((sheet.width * 2, sheet.height * 2), Image.NEAREST).save('out/contact_sheet.png')
     # battle preview: one scene + platforms
-    prev = Image.alpha_composite(tiles[0][0].convert('RGBA'), pl.image())
+    base = next(im for im, _, slug in tiles if slug == PREVIEW_SCENE)
+    prev = Image.alpha_composite(base.convert('RGBA'), pl.image())
     prev.resize((W * 2, H * 2), Image.NEAREST).save('out/battle_preview.png')
 
 
