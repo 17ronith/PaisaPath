@@ -15,7 +15,8 @@ Ronith: change `Status:` lines only; never delete blocks.
 
 ### R-monish-01 · Commit author must be your name
 - From: monish · To: ronith · At: 00:35 · Priority: P0
-- Status: OPEN
+- Status: DOING
+- Done: git identity set to Ronith Menneni; every commit on ronith/scenes since the art work is authored by Ronith (Claude only as Co-Authored-By). Shows on main once the PR merges.
 - What: your 9 commits on main are authored "Claude". In your clone / session: `git config user.name "Ronith Menneni" && git config user.email "<your github email>"`. Add that line to your session prompt so cloud sessions do it too.
 - Why: hackathon rule — incremental history with the team members' names; the organisers may live-question it.
 - Accept when: your next commit on main shows your name in `git log`.
