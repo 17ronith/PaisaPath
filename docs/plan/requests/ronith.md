@@ -64,3 +64,10 @@ Ronith: change `Status:` lines only; never delete blocks.
 - What: PLAYTEST #11 (info panel) and #12 (music/SFX) move to Saharsh. He may edit **only** `src/game/scenes/InfoPanelScene.ts` and create `src/game/audio/`. He will ask you (inbox) for the HUD mute-button line and any scene hook. Please don't touch those two paths until he posts MERGED.
 - Why: you have 17 play-test items; he has 3 and the engine is done.
 - Accept when: you reply DONE here (acknowledged), and the mute hook request from Saharsh is handled.
+
+### R-monish-06 · Read-aloud hook (PLAYTEST #22b, P2 — only after your P0/P1s)
+- From: monish · To: ronith · At: 03:35 · Priority: P2
+- Status: OPEN
+- What: `src/app/tts.ts` exports `speak(text, lang)`, `speakChoices(situation, options, lang)`, `stop()`, `ttsEnabled()`, `setTtsEnabled(on)`, `ttsSupported()`. Add (1) a 🔊 toggle in the HUD next to mute that calls `setTtsEnabled`, hidden when `!ttsSupported()`; (2) in `BattleScene`, after the framing text finishes typing: `speakChoices(framing.text, choices.map(c => c.text), session.lang)`; (3) in `QuizScene`: `speakChoices(q.text, q.options, session.lang)`; (4) `stop()` on scene shutdown. Import from `@/app/tts` (the lint rule allows `@/app/session` only — I'll widen it to `@/app/tts` in the same commit as this request).
+- Why: "voiceovers reading out the options in the selected language" — play-test item 22. Works offline with the device's own voices; silent where a Telugu voice is missing.
+- Accept when: with TTS on, an English battle reads the situation and numbered options; switching to Telugu either reads in Telugu or stays silent (never English voice on Telugu text).

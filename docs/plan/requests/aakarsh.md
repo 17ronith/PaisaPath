@@ -67,3 +67,10 @@ Aakarsh: change `Status:` lines only; never delete blocks.
 - What: `docs/plan/PLAYTEST-01.md` — 9 (framings weak), 20 (ambiguous choices), 21 (effects too mild), 22a (Hindi strings), 24 (CONCEPTS.md with Monish), 19 (scam-call event, P2). Start with 24: once the concept list is pinned, 9 and 20 become mechanical.
 - Why: Four players independently said the questions don't clearly teach the concept they're meant to.
 - Accept when: every one of your rows in PLAYTEST-01.md reads DONE or has a DECLINED reason.
+
+### R-monish-05 · CONCEPTS.md is generated — three concepts have no main task
+- From: monish · To: aakarsh · At: 03:40 · Priority: P1
+- Status: OPEN
+- What: `docs/plan/CONCEPTS.md` has all 17 concepts with a draft definition, the current situation + lesson pulled from your pack, NCFE items and evidence counts. **Gaps:** `risk_return`, `instant_loan_trap`, `fake_payment_proof` exist only as detours/events — each needs one main task (Stage 2 or 3 fits all three: a "double in 6 months" group, an instant-loan app at salary time, a fake-screenshot buyer for the Earner). Then work the ☐ checklist under each concept; edit the definitions freely — they're mine, the words are yours.
+- Why: PLAYTEST #24 — pin what we teach before rewriting questions (#9, #20).
+- Accept when: no "⚠ no main task" flags remain and every concept's four ☐ are ticked.

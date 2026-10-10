@@ -49,8 +49,8 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ['**/app/**', '!**/app/session'],
-              message: 'game/minigames may import only @/app/session from app',
+              group: ['**/app/**', '!**/app/session', '!**/app/tts'],
+              message: 'game/minigames may import only @/app/session and @/app/tts from app',
             },
           ],
         },

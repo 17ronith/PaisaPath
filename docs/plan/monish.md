@@ -6,7 +6,7 @@
 
 Role until the end: integrator, every PDF, the video, the forms. Nap **05:30–07:00**.
 
-- [ ] **04:00** confirm on GitHub that `deliverables/M2.pdf` is on `main` and the last commit is before 04:00. Post `MERGED: M2 in` in chat.
+- [x] **04:00** confirm on GitHub that `deliverables/M2.pdf` is on `main` and the last commit is before 04:00. Post `MERGED: M2 in` in chat.
 - [ ] **04:15–05:15** `docs/plan/CONCEPTS.md` skeleton (PLAYTEST #24): table of the 17 concepts → one-line definition · the real-life situation · the lesson line · NCFE item · tasks that evidence it. Aakarsh fills the content columns after his nap.
 - [ ] **04:15–05:30** `src/app/tts.ts` (PLAYTEST #22b, P2): `speak(text, lang)` over the Web Speech API (`en-IN`/`te-IN`/`hi-IN` if the device has voices, else silent), `stop()`, a `ttsEnabled` flag persisted in localStorage. Hand Ronith one line to call it from Battle and Quiz (request in his inbox).
 - [ ] **05:30–07:00** nap.
