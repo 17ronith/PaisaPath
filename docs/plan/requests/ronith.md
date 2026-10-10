@@ -41,3 +41,10 @@ Ronith: change `Status:` lines only; never delete blocks.
 - What: nine finished 480×270 pixel-art backdrops are in `team97_vanguard_context/08_hyderabad_backgrounds/1x/` with a platforms overlay. Full mapping table and 5-step wiring in `docs/plan/ronith.md` → "Hyderabad backdrops". Copy the **1×** PNGs to `public/assets/backdrops/`, preload them, and draw the one matching `framing.place` in the arena strip at scale 0.75 (360×202) instead of `grassField`; keep `grassField` as fallback. Then, if cheap, the same images at 0.25 as TownMap thumbnails.
 - Why: this is the single biggest visual upgrade available before the demo video; every battle currently sits on a procedural green field.
 - Accept when: the Charminar scam task renders on the Charminar backdrop at 360×640 with no console errors, `npm run build` precache grows by ≈170 KB not 500 KB, and `npm run check` is green.
+
+### R-monish-04 · Backdrops now cover every place — plus epilogue and stage-transition art
+- From: monish · To: ronith · At: 02:05 · Priority: P1
+- Status: OPEN
+- What: supersedes the mapping in R-monish-03 (same wiring, bigger table). 20 backdrops in `team97_vanguard_context/08_hyderabad_backgrounds/1x/` now cover all 13 `places.json` ids directly (`10_home` … `18_campus`), plus `19_home_age60` for `EpilogueScene`, `20_office_lobby` for the Stage 1→2 transition, `09_hitec_city` for Stage 2→3. Full table + wiring in `docs/plan/ronith.md` → "Hyderabad backdrops". `home` alone is 40 of 123 framings — do that one first if you do nothing else.
+- Why: this turns every screen from a green rectangle into Hyderabad; it is the demo video.
+- Accept when: a battle at `home`, `kirana` and `charminar` each shows its own backdrop at 360×640; Epilogue shows the aged room; `npm run build` precache grows ≈370 KB; `npm run check` green.
