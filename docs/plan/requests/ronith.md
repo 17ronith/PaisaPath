@@ -57,3 +57,10 @@ Ronith: change `Status:` lines only; never delete blocks.
 - What: `docs/plan/PLAYTEST-01.md` — items 8, 18, 7, 6, 13, 16 are P0 (letterbox, backdrops, Switch bug, quiz heading, hearts label, back-to-map). Then 1, 2, 3, 4, 5, 10, 14, 17, 23. Tick Status in that file as you go.
 - Why: The team played the build; these are what the judges will see first.
 - Accept when: every one of your rows in PLAYTEST-01.md reads DONE or has a DECLINED reason.
+
+### R-monish-05 · Delegation on record: Saharsh edits InfoPanelScene.ts and src/game/audio/
+- From: monish · To: ronith · At: 03:25 · Priority: P1
+- Status: OPEN
+- What: PLAYTEST #11 (info panel) and #12 (music/SFX) move to Saharsh. He may edit **only** `src/game/scenes/InfoPanelScene.ts` and create `src/game/audio/`. He will ask you (inbox) for the HUD mute-button line and any scene hook. Please don't touch those two paths until he posts MERGED.
+- Why: you have 17 play-test items; he has 3 and the engine is done.
+- Accept when: you reply DONE here (acknowledged), and the mute hook request from Saharsh is handled.

@@ -2,6 +2,26 @@
 
 > **Inbox:** `docs/plan/requests/monish.md` — read it before every edit; OPEN P0/P1 items come before this checklist. To ask someone else for something, append to *their* inbox.
 
+## After M2 (04:00 → 11:00) — Monish
+
+Role until the end: integrator, every PDF, the video, the forms. Nap **05:30–07:00**.
+
+- [ ] **04:00** confirm on GitHub that `deliverables/M2.pdf` is on `main` and the last commit is before 04:00. Post `MERGED: M2 in` in chat.
+- [ ] **04:15–05:15** `docs/plan/CONCEPTS.md` skeleton (PLAYTEST #24): table of the 17 concepts → one-line definition · the real-life situation · the lesson line · NCFE item · tasks that evidence it. Aakarsh fills the content columns after his nap.
+- [ ] **04:15–05:30** `src/app/tts.ts` (PLAYTEST #22b, P2): `speak(text, lang)` over the Web Speech API (`en-IN`/`te-IN`/`hi-IN` if the device has voices, else silent), `stop()`, a `ttsEnabled` flag persisted in localStorage. Hand Ronith one line to call it from Battle and Quiz (request in his inbox).
+- [ ] **05:30–07:00** nap.
+- [ ] **07:00** play test 2 (all four, phone + laptop). Write `docs/plan/PLAYTEST-02.md` in the same format; re-check every PLAYTEST-01 row marked DONE.
+- [ ] **07:30** integration call, 20 min. Decide cuts from the list: second mini-game → Telugu beyond onboarding → Stage 3 depth → town map → live email → what-if screen. Record the decision in `PLAYTEST-02.md`.
+- [ ] **08:00–09:00** `deliverables/src/final_report.tex` (≤ 3 pages: solution, approach, features, results). Numbers from Saharsh by 09:30 (tests, sim table) and from the validator. Team 97, no names, no IIIT. Compile here with xelatex.
+- [ ] **08:30** feature freeze announced in chat.
+- [ ] **09:00** `docs/demo-script.md` — ≤ 4 min, the 9 beats of README §8 with what's on screen + the voiceover line each. Ronith records the screen at 09:30 using `?demo=1` for the late game; you record the voiceover; stitch; upload to Drive; **"Anyone with the link"**; test in incognito by **10:30**.
+- [ ] **09:30** README final pass: setup/run only + credits (Kenney CC0, Press Start 2P OFL, any body font, music track licence, "original pixel-art backdrops by the team").
+- [ ] **10:15 code freeze**: `git checkout main && git pull && npm ci && npm run check && npm run build`. Only you push after this. `git archive -o team97.zip HEAD`.
+- [ ] **10:45** verify the latest commit on GitHub `main`; submit video link + zip through the forms on Discord.
+- [ ] **11:00–11:25** slides PDF with Aakarsh (6–8 slides: problem · approach · solution with screenshots · results · NGO integration · next steps). Submit by 11:30.
+
+> Everything below this line is the original phase plan. Where it disagrees with **After M2**, After M2 wins.
+
 **MINE:** `src/shared/`, `src/app/`, `server/`, `public/ngo/`, root configs
 (`package.json`, `package-lock.json`, `vite.config.ts`, `tsconfig.json`,
 `index.html`, `.prettierrc`, `.eslintrc.cjs`, `.github/`), `docs/`,
@@ -95,16 +115,16 @@ rule), rebase-merged to `main`, tagged `v0-skeleton`.
 
 ## M2 crunch (03:15 → 03:55)
 
-- [ ] Collect numbers: `npm test` count + pass, `npm run validate:content`
+- [x] Collect numbers: `npm test` count + pass, `npm run validate:content`
       output (tasks/framings/explainers counts), scaler table (₹200 bat at
       4 pocket-money bands), one DevTools slow-3G load time, playtest notes
       from the 02:45 call (time to first battle, confusions).
-- [ ] Write M2 (≤ 2 pages): (1) current approach + changes since M1 (decisions
+- [x] Write M2 (≤ 2 pages): (1) current approach + changes since M1 (decisions
       in README §6: S=5000, 10 chapters, 2 mini-games, Telugu, Aunty, hints;
       stack = TS/Phaser/Vite); (2) experiments + results (the numbers above);
       (3) testing progress (unit tests, schema validation, play test, device
       throttle); (4) plan for remaining time (Phase 2 table + cut list).
-- [ ] `xelatex` → `deliverables/M2.pdf`. Open it. **Team 97 on top. No names.
+- [x] `xelatex` → `deliverables/M2.pdf`. Open it. **Team 97 on top. No names.
       No IIIT.** Commit directly to `main`, push, **verify on GitHub by 03:55**.
 
 ## Phase 2 (04:05 → 08:30) — nap 05:45–07:15
@@ -126,7 +146,7 @@ rule), rebase-merged to `main`, tagged `v0-skeleton`.
 - [x] `deliverables/final_report.tex` draft (≤ 3 pages: solution, approach,
       features, results). Reuse M2 numbers; add final test count, content
       counts, playtest results, perf.
-- [ ] `README.md` rewrite — **setup/run only** (Node 20, `npm i`, `npm run dev`,
+- [x] `README.md` rewrite — **setup/run only** (Node 20, `npm i`, `npm run dev`,
       `npm run server`, `npm run build`, tests), plus **asset credits**
       (Kenney Tiny Town, RPG Urban Pack — CC0; fonts; any audio). No solution
       explanation. Keep MIT `LICENSE`.

@@ -2,6 +2,31 @@
 
 > **Inbox:** `docs/plan/requests/ronith.md` — read it before every edit; OPEN P0/P1 items come before this checklist. To ask someone else for something, append to *their* inbox.
 
+## After M2 (04:00 → 11:00) — Ronith
+
+You own the demo's face. 17 of the 24 play-test items are yours; two of them
+(**#11 info panel, #12 music/SFX**) are **delegated to Saharsh** — he edits only
+`src/game/scenes/InfoPanelScene.ts` and a new `src/game/audio/` folder; you add
+the one-line hooks he asks for. Nap **04:15–05:45**.
+
+- [ ] **04:00** merge PR #24 (Rebase and merge). Then `git checkout -B ronith/p0 origin/main`.
+- [ ] **04:15–05:45** nap.
+- [ ] **05:45–07:00 — the six P0s, in this order** (PLAYTEST-01):
+  - [ ] #8 letterbox: switch to `Scale.RESIZE` (or `ENVELOP` + backdrop bleed); HUD anchored to safe areas; test on a 19.5:9 phone and a 16:9 laptop.
+  - [ ] #18 backdrops: `home` first, then the rest of the table in "Hyderabad backdrops" below (R-monish-04).
+  - [ ] #7 "Not me? Switch" cycles `pocket_money → scholarship → earner` and re-renders label + blurb from `content.personas`.
+  - [ ] #6 quiz heading: `quiz.before_title` / `quiz.after_title` + "Question n of 5".
+  - [ ] #13 hearts: label "HAPPY" with the number; one-time tooltip on the first battle: "hearts = how you feel; at zero you restart".
+  - [ ] #16 "◀ Map" in the HUD everywhere except inside a battle.
+- [ ] **07:00** play test 2.
+- [ ] **07:15–08:30 — P1s on the demo path**: #5 title screen (Tank Bund sunset + logo treatment + avatar walking across) · #4 Hyderabad theme on ChapterMap/TownMap/StageEnd/Epilogue · #2 avatars (16×16 Kenney at 4×, 2 male + 2 female + 1 neutral) · #3 fonts (Press Start 2P titles only; readable OFL pixel body font) · #14 chapter-start text formatting · #17 run all 17 explainers in `ExplainerScene`, fix any op that doesn't render, Aunty portrait beside the text · R-monish-02 EndReport buttons (download / email / facilitator view).
+- [ ] **08:30 feature freeze.** After this only: #1 walk + step sounds (≤ 1.2 s), #10 aunty portrait, #23 investing screen one-card-at-a-time — **only if the P0s and P1s are done**.
+- [ ] **08:30–09:30** bugs from PLAYTEST-02 assigned to you.
+- [ ] **09:30** record the demo screen capture (Chrome device mode 360×640 at 2×, `?demo=1` for the late game) following `docs/demo-script.md`. Hand the file to Monish by 10:00.
+- [ ] **10:15** last PR merged, `npm run check` green.
+
+> Everything below this line is the original phase plan. Where it disagrees with **After M2**, After M2 wins.
+
 **MINE:** `src/game/` (everything), `public/assets/`.
 **NOT MINE:** anything else. You consume `Game`/`Step`/`Outcome` from the
 engine via `getSession().game`, `ContentPack` via `getSession().content`,

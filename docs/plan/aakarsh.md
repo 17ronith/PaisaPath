@@ -2,6 +2,25 @@
 
 > **Inbox:** `docs/plan/requests/aakarsh.md` — read it before every edit; OPEN P0/P1 items come before this checklist. To ask someone else for something, append to *their* inbox.
 
+## After M2 (04:00 → 11:00) — Aakarsh
+
+Content is complete; now it has to *teach*. Four players said the questions
+don't clearly carry the concept. Nap **04:15–05:45**.
+
+- [ ] **04:00–04:15** sync; `git checkout -B aakarsh/teach origin/main`.
+- [ ] **04:15–05:45** nap.
+- [ ] **05:45–07:00** PLAYTEST-01 #24: fill `docs/plan/CONCEPTS.md` (Monish leaves the skeleton): for each of the 17 concepts — the real-life situation, the lesson line, which tasks evidence it. Any concept with no evidencing task gets one or gets cut. This pins the target for the next two items.
+- [ ] #21 effect magnitudes: weak/critical choices cost 1.5× (money and happiness); Saharsh re-runs the sim; iterate once.
+- [ ] #20 ambiguous choices: every task must have exactly one choice that is clearly the concept's answer and one that is clearly the trap; rewrite the rest.
+- [ ] **07:00** play test 2.
+- [ ] **07:15–08:30** #9 framings: read every Stage 1 framing aloud as a 16-year-old; cut vague ones, one concept per task · #22a Hindi: `strings/hi.json` ≥ 90 % keys + `hi.content.json` for onboarding, quiz, personas, the two demo tasks · #19 scam-call event: `events.json` entry with `framing.portrait: "caller_wonky"` and 2-turn pressure (Ronith builds the incoming-call overlay).
+- [ ] **08:30** feature freeze — text-only changes allowed until 10:15.
+- [ ] **08:30–09:30** lesson lines: ≤ 2 lines, name the concept, no undefined jargon. Telugu overlay sanity for the two demo tasks.
+- [ ] **09:30–10:15** cross-playtest Ronith's build as a student; fix confusing text; file the rest in PLAYTEST-02.
+- [ ] **11:00–11:25** slides with Monish — you own the "what it teaches" and "results" slides.
+
+> Everything below this line is the original phase plan. Where it disagrees with **After M2**, After M2 wins.
+
 **MINE:** `src/content/` (everything).
 **NOT MINE:** anything else. Your JSON must satisfy `src/shared/schema.ts`;
 you never edit the schema. If a field is missing, post `CONTRACT:`.

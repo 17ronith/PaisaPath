@@ -118,7 +118,7 @@ Monish adds it on `main` in minutes; you `git pull --rebase origin main`.
 | **11:30**       | **SLIDES DEADLINE.**                                                                                                                                                                                                                                                                                                                                                                         | —                                     |
 
 Sleep: nobody sleeps before 04:00. After M2, two people nap 04:15–05:45
-(Aakarsh, Ronith), the other two nap 05:45–07:15 (Monish, Saharsh). A fresh
+(Aakarsh, Ronith), the other two nap 05:30–07:00 (Monish, Saharsh) so all four are up for the 07:00 play test. A fresh
 brain at 09:00 is worth more than one more feature at 05:00.
 
 ### Phase 1 tracks (00:15 → 03:15)

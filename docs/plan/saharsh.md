@@ -2,6 +2,25 @@
 
 > **Inbox:** `docs/plan/requests/saharsh.md` — read it before every edit; OPEN P0/P1 items come before this checklist. To ask someone else for something, append to *their* inbox.
 
+## After M2 (04:00 → 11:00) — Saharsh
+
+Engine is done; your job now is learning quality + sound + the numbers for the
+final report. Two UI items are **delegated to you by Ronith**: edit only
+`src/game/scenes/InfoPanelScene.ts` and a new `src/game/audio/` folder; ask
+Ronith (inbox) for any hook line elsewhere in `src/game`. Nap **05:30–07:00**.
+
+- [ ] **04:00–05:30** PLAYTEST-01 #15 Scam-or-Legit timer: 30 s → 60 s, or 8 s per message with a visible bar.
+- [ ] #20 Kirana Rush item list: only unarguable items (rice, medicine, bus pass vs game top-up, second earphones); rename the question to "need NOW vs can wait" if it helps.
+- [ ] #21 economy with Aakarsh: raise weak/critical effect magnitudes 1.5× in content (his), lower Stage 2/3 incomes if needed (yours), **new sim target**: random play ends with ≤ 1 month of income spare; worst play broke ≥ 50 %. Re-run `npm run sim -- --content` until targets pass; paste the table in PLAYTEST-01.
+- [ ] **05:30–07:00** nap.
+- [ ] **07:00** play test 2.
+- [ ] **07:15–08:30** delegated UI: #12 one looping CC0 chiptune + step/select/good/bad/coin blips in `src/game/audio/` with a `Sound` helper and a mute flag (Ronith wires the HUD button) · #11 InfoPanel redesign: groups Money · Commitments · Learning · Mini-games with icons.
+- [ ] **08:30** feature freeze. Cross-playtest Ronith's build on a phone; file bugs in PLAYTEST-02.
+- [ ] **09:30** send Monish: final test count by area (`npx vitest run --reporter=json --outputFile=/tmp/vt.json`), the final `npm run sim -- --content` table, and one sentence on what the balance pass changed.
+- [ ] **10:15** last PR merged, `npm run check` green.
+
+> Everything below this line is the original phase plan. Where it disagrees with **After M2**, After M2 wins.
+
 **MINE:** `src/engine/` (everything), `src/minigames/` (Phase 2).
 **NOT MINE:** anything else. The engine imports **only** `src/shared`. No
 Phaser, no `window`, no content JSON (tests use inline fixtures in
