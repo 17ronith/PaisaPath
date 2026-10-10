@@ -192,6 +192,10 @@ Rules:
    something required. Put the request in `requests/monish.md` and ping
    `REQ:` in chat; Monish merges in ≤ 15 min.
 8. **Red `main` = stop the line.** Whoever broke it fixes it before anything else.
+   **Exception (since 02:08):** GitHub Actions on this org stopped launching jobs
+   (runs fail with 0 steps — a minutes/billing problem, not code). Until it
+   comes back, **`npm run check && npm run build` on your machine is the gate**,
+   and a red tick with no steps is ignored. A red run *with* steps is still real.
 9. **03:50–04:05 and 10:15–11:00: only Monish pushes to `main`.**
 
 ---

@@ -44,6 +44,8 @@ REPO=$(git remote get-url origin | sed -E "s|.*github.com[:/]||; s|\.git$||")
 if command -v gh >/dev/null 2>&1; then
   echo; echo "== open PRs =="
   gh api "repos/$REPO/pulls?state=open" -q '.[] | "  #\(.number) \(.title[0:60]) (\(.user.login) · \(.head.ref))"' 2>/dev/null || echo "  (gh not authenticated)"
-  echo; echo "== last CI runs on main =="
-  gh run list -R "$REPO" --branch main --limit 4 2>/dev/null || true
+  echo; echo "== last CI runs on main (0 steps = GitHub not launching jobs, ignore) =="
+  for id in $(gh api "repos/$REPO/actions/runs?branch=main&per_page=4" -q '.workflow_runs[].id' 2>/dev/null); do
+    gh api "repos/$REPO/actions/runs/$id/jobs" -q '.jobs[] | "  \(.conclusion // .status)  steps=\(.steps|length)  \(.name)"' 2>/dev/null | head -1
+  done
 fi
