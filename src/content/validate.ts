@@ -55,7 +55,7 @@ const NCFE_ITEMS: NcfeItem[] = [
   'considers_affordability',
 ];
 /** Stages whose content is final: ≥1 main task per pillar (CONTRACTS §3) and every persona framing. */
-const STRICT_STAGES: Stage[] = [1];
+const STRICT_STAGES: Stage[] = [1, 2, 3];
 /** Engine economy (CONTRACTS §2.1): coins per chapter, and the real ₹ that maps to it. */
 const STAGE_INCOME_COINS: Record<Stage, number> = { 1: 5000, 2: 25000, 3: 60000 };
 const STAGE_REAL_REF: Record<2 | 3, number> = { 2: 20000, 3: 50000 };
