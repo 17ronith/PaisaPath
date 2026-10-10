@@ -11,6 +11,7 @@ import { QuizScene } from './QuizScene';
 import { ChapterMapScene } from './ChapterMapScene';
 import { BattleScene } from './BattleScene';
 import { MinigameOfferScene } from './MinigameOfferScene';
+import { InvestScene } from './InvestScene';
 import { StageEndScene } from './StageEndScene';
 import { EpilogueScene } from './EpilogueScene';
 import { EndReportScene } from './EndReportScene';
@@ -26,6 +27,7 @@ export const scenes: (typeof Phaser.Scene)[] = [
   ChapterMapScene,
   BattleScene,
   MinigameOfferScene,
+  InvestScene,
   StageEndScene,
   EpilogueScene,
   EndReportScene,

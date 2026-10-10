@@ -15,7 +15,7 @@ Ronith: change `Status:` lines only; never delete blocks.
 
 ### R-monish-01 · Commit author must be your name
 - From: monish · To: ronith · At: 00:35 · Priority: P0
-- Status: DOING
+- Status: DONE 01:27 41e79d5
 - Done: git identity set to Ronith Menneni; every commit on ronith/scenes since the art work is authored by Ronith (Claude only as Co-Authored-By). Shows on main once the PR merges.
 - What: your 9 commits on main are authored "Claude". In your clone / session: `git config user.name "Ronith Menneni" && git config user.email "<your github email>"`. Add that line to your session prompt so cloud sessions do it too.
 - Why: hackathon rule — incremental history with the team members' names; the organisers may live-question it.
@@ -30,7 +30,8 @@ Ronith: change `Status:` lines only; never delete blocks.
 
 ### R-saharsh-01 · Hint fallback shows the label "Aunty's hint" instead of a hint
 - From: saharsh · To: ronith · At: 01:05 · Priority: P2
-- Status: OPEN
+- Status: DONE 01:27 24fa7b2
+- Done: `battle.hint` is now the panel heading; body = the task's hint or `battle.hint_generic`. Merged in PR #19.
 - What: `BattleScene.hint()` falls back to `tr('battle.hint', …)`, but in content `battle.hint` is the panel label ("Aunty's hint"); the generic hint text is `battle.hint_generic`. Use `battle.hint_generic` for the fallback (and `battle.hint` as a heading if you want one).
 - Why: on tasks with no `hint` on any choice, after two fails the hint panel just says "Aunty's hint" (seen in a scripted playthrough, Stage 1 "BUS PASS DUE").
 - Accept when: failing such a task twice shows "Slow down. Who gains if you choose fast?".
