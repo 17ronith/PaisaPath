@@ -33,31 +33,31 @@ block on art.
 
 Branch `ronith/scenes`. Merge to `main` at ~01:30 and ~02:40 minimum.
 
-- [ ] `scenes/BootScene.ts` + `PreloadScene.ts` — load font, atlas, portraits,
+- [x] `scenes/BootScene.ts` + `PreloadScene.ts` — load font, atlas, portraits,
       a few SFX; progress bar; then `Title`.
-- [ ] `ui/` helpers: `PixelPanel` (9-slice or rect), `Bar` (label + fill with
+- [x] `ui/` helpers: `PixelPanel` (9-slice or rect), `Bar` (label + fill with
       tween to new value, colour shifts at 30%), `Button` (big touch target
       ≥ 56px tall, press feedback), `TextBox` (typewriter ≤ 2 lines, tap to
       complete), `Portrait`.
-- [ ] `scenes/TitleScene.ts` — title text (never a game name; use "Learning
+- [x] `scenes/TitleScene.ts` — title text (never a game name; use "Learning
       Money by Living It"), **language toggle en/te** (`session.setLang`),
       "Start" / "Continue" (if `session.hasSave()`).
-- [ ] `scenes/OnboardingScene.ts` — a tiny state machine: avatar picker (4
+- [x] `scenes/OnboardingScene.ts` — a tiny state machine: avatar picker (4
       sprites) → name input (DOM `<input>` overlay via `this.add.dom`, max 12
       chars, no emoji) → L1–L4 picture questions from `content.lifeQuestions`
       → persona card (`content.personas`) with **"Not me? Switch"** cycling
       personas → builds a partial `Profile` and goes to `Quiz` `{mode:'before'}`.
-- [ ] `scenes/QuizScene.ts` — 5 questions from `content.quiz`, one per screen,
+- [x] `scenes/QuizScene.ts` — 5 questions from `content.quiz`, one per screen,
       big option buttons, no feedback per question (it's a measurement).
       `mode: 'before'` → computes `quizBefore`, `difficulty` (0–1 simple,
       2–3 medium, 4–5 hard), calls `session.startGame(profile)`, shows "Your
       before score: n/5 · medium", then `ChapterMap`. `mode: 'after'` →
       `game.answerQuiz(answers)`, then `game.next()` → `EndReport`.
-- [ ] `scenes/ChapterMapScene.ts` — vertical node path (10 nodes, 3 stage
+- [x] `scenes/ChapterMapScene.ts` — vertical node path (10 nodes, 3 stage
       bands, current node pulsing, detour nodes as small side nodes, completed
       = filled). Tap current node → `TownMap` (Phase 2) or straight to the
       driver (Phase 1).
-- [ ] `flow/Driver.ts` — **the router.** `advance()` calls `game.next()` and
+- [x] `flow/Driver.ts` — **the router.** `advance()` calls `game.next()` and
       switches on `step.kind`:
       `chapter_start` → `ChapterStartScene` (toast: income label by persona,
       fired effects list, "Day 1 of month n") →
@@ -66,7 +66,7 @@ Branch `ronith/scenes`. Merge to `main` at ~01:30 and ~02:40 minimum.
       locked/skip; Phase 2: launch Saharsh's scene) → `stage_end` → `StageEnd`
       → `epilogue` → `Epilogue` → `quiz_after` → `Quiz{after}` → `done` →
       `EndReport`. After every `choose()`, `await session.save()`.
-- [ ] `scenes/BattleScene.ts` — **the generic screen.** Input `{ step }`.
+- [x] `scenes/BattleScene.ts` — **the generic screen.** Input `{ step }`.
       Render framing (title, speaker, text, portrait, pressure bar), player
       panel from `game.state.bars`, stage label. "Returning in disguise" badge
       when `step.returning`. If `step.hintsOn`, show Aunty hint bubble (choice
@@ -77,17 +77,17 @@ Branch `ronith/scenes`. Merge to `main` at ~01:30 and ~02:40 minimum.
       `Explainer{ explainerId: o.explainerId }`. Then: `o.critical` → red
       flash "RESTART" → `Driver.advance()` (engine re-serves the task);
       `o.clearedConcept` → "LEARNED ✓" badge; else `Driver.advance()`.
-- [ ] `scenes/ExplainerScene.ts` — plays an `Explainer` from the content pack
+- [x] `scenes/ExplainerScene.ts` — plays an `Explainer` from the content pack
       using the 6-op DSL (CONTRACTS §1): `text` (slot top/mid/bottom, fade),
       `bar` (4 slots, tween from→to), `coins` (N small circles tween between
       3 anchor points), `grow` (stack of squares growing per year, label with
       ₹ value via `principal × (1+r)^t`), `split` (horizontal stacked bar),
       `clear`. Skip button after 3 s. Adds id to replay (engine already
       tracks `seenExplainers`). Calls `onDone`.
-- [ ] `scenes/HUDScene.ts` — persistent overlay: hearts (happiness/20),
+- [x] `scenes/HUDScene.ts` — persistent overlay: hearts (happiness/20),
       wallet ₹, stage badge, **Info button** (opens `InfoPanel`), **Replay
       button** (opens `ReplayLibrary`). Phase 1: Info/Replay buttons can be no-ops.
-- [ ] Play 5 battles end-to-end at 360×640 in Chrome device mode. Fix touch
+- [x] Play 5 battles end-to-end at 360×640 in Chrome device mode. Fix touch
       targets. **Merge.**
 
 ## Phase 2 (04:05 → 08:30) — nap 04:15–05:45, then build
