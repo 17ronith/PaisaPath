@@ -1,0 +1,44 @@
+[
+  {
+    "id": "invest_medium_s3_01",
+    "pillar": "invest",
+    "difficulty": "medium",
+    "stage": 3,
+    "concept": "compounding",
+    "pressure": 45,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "THE RAISE",
+        "speaker": "Aunty",
+        "place": "bank",
+        "text": "Salary went up by ₹10,000. Spend the raise, or move ₹5,000 a month into Banyan Savings?"
+      }
+    },
+    "choices": [
+      {
+        "id": "spend",
+        "text": "ENJOY THE RAISE",
+        "quality": "weak",
+        "effects": [{ "label": "Lifestyle up", "wallet": -5000, "happiness": 10 }],
+        "lesson": "Fun now. But the banyan only grows from roots you plant.",
+        "attitude": "now",
+        "ncfe": [{ "item": "saves_actively", "value": 0 }]
+      },
+      {
+        "id": "invest",
+        "text": "BANYAN ₹5,000",
+        "quality": "good",
+        "effects": [
+          { "label": "Into Banyan Savings", "wallet": -5000, "savings": 5000, "happiness": 3 }
+        ],
+        "lesson": "₹5,000 a month for 25 years at 8% is a very big tree. (Assumption, not a promise.)",
+        "attitude": "later",
+        "ncfe": [
+          { "item": "saves_actively", "value": 1 },
+          { "item": "compound_interest", "value": 1 }
+        ]
+      }
+    ]
+  }
+]

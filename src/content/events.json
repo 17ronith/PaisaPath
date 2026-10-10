@@ -1,0 +1,35 @@
+[
+  {
+    "id": "friend_asks_again",
+    "stages": [1],
+    "weight": 1,
+    "concept": "pay_yourself_first",
+    "framings": {
+      "default": {
+        "title": "FRIEND AGAIN",
+        "speaker": "Friend",
+        "place": "canteen",
+        "text": "Bro, about that ₹500… can't return it yet. Actually, can you spare ₹300 more till Sunday?"
+      }
+    },
+    "choices": [
+      {
+        "id": "lend_again",
+        "text": "LEND ₹300",
+        "quality": "weak",
+        "effects": [{ "label": "Lent again", "wallet": -300, "happiness": 3 }],
+        "lesson": "Money lent without a plan to get it back is money given.",
+        "attitude": "now"
+      },
+      {
+        "id": "decline",
+        "text": "NOT THIS TIME",
+        "quality": "good",
+        "effects": [{ "label": "Held firm", "happiness": -3 }],
+        "lesson": "Awkward for a minute. Solvent for the month.",
+        "attitude": "later",
+        "ncfe": [{ "item": "keeps_budget", "value": 1 }]
+      }
+    ]
+  }
+]

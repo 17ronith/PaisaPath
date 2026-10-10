@@ -1,0 +1,15 @@
+[
+  { "id": "home", "name": "Home", "x": 0.18, "y": 0.78 },
+  { "id": "college", "name": "Junior college", "x": 0.42, "y": 0.62 },
+  { "id": "canteen", "name": "Canteen", "x": 0.5, "y": 0.68 },
+  { "id": "charminar", "name": "Charminar", "x": 0.72, "y": 0.84 },
+  { "id": "durgam_cheruvu", "name": "Durgam Cheruvu", "x": 0.3, "y": 0.3 },
+  { "id": "gachibowli", "name": "Gachibowli towers", "x": 0.8, "y": 0.22 },
+  { "id": "campus", "name": "University campus", "x": 0.6, "y": 0.18 },
+  { "id": "bank", "name": "Bank", "x": 0.55, "y": 0.45 },
+  { "id": "kirana", "name": "Kirana store", "x": 0.25, "y": 0.55 },
+  { "id": "bus_stop", "name": "Bus stop", "x": 0.35, "y": 0.85 },
+  { "id": "clinic", "name": "Clinic", "x": 0.68, "y": 0.55 },
+  { "id": "mobile_shop", "name": "Mobile shop", "x": 0.82, "y": 0.66 },
+  { "id": "turf", "name": "Turf ground", "x": 0.15, "y": 0.15 }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "cashbox",
+    "name": "Cash box at home",
+    "blurb": "Safe in the cupboard. Earns nothing — and every year prices creep up, so it quietly buys less.",
+    "meanYearlyPct": 0,
+    "volatilityPct": 0,
+    "teaches": "time_value"
+  },
+  {
+    "id": "banyan",
+    "name": "Banyan Savings",
+    "blurb": "Slow and steady, like the Pillalamarri banyan: roots become trunks, trunks grow branches.",
+    "meanYearlyPct": 8,
+    "volatilityPct": 2,
+    "teaches": "compounding"
+  },
+  {
+    "id": "chai",
+    "name": "Chai Stall Fund",
+    "blurb": "Good months and slow months. Over years it usually grows, but it wobbles.",
+    "meanYearlyPct": 10,
+    "volatilityPct": 12,
+    "teaches": "time_value"
+  },
+  {
+    "id": "mango",
+    "name": "Mango Orchard Co.",
+    "blurb": "Great harvests and terrible ones. Big swings both ways. Never put everything here.",
+    "meanYearlyPct": 14,
+    "volatilityPct": 30,
+    "teaches": "time_value"
+  }
+]

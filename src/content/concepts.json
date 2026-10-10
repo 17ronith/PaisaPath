@@ -1,0 +1,37 @@
+[
+  {
+    "id": "needs_vs_wants",
+    "pillar": "budget",
+    "name": "Needs vs wants",
+    "explainerId": "exp_needs_vs_wants",
+    "ncfe": ["considers_affordability", "keeps_budget"]
+  },
+  {
+    "id": "pay_yourself_first",
+    "pillar": "save",
+    "name": "Pay yourself first",
+    "explainerId": "exp_needs_vs_wants",
+    "ncfe": ["saves_actively", "keeps_budget"]
+  },
+  {
+    "id": "time_value",
+    "pillar": "invest",
+    "name": "Money now vs money later",
+    "explainerId": "exp_compounding",
+    "ncfe": ["time_value"]
+  },
+  {
+    "id": "compounding",
+    "pillar": "invest",
+    "name": "Compounding",
+    "explainerId": "exp_compounding",
+    "ncfe": ["compound_interest"]
+  },
+  {
+    "id": "spot_fake_officials",
+    "pillar": "safety",
+    "name": "Spot fake officials",
+    "explainerId": "exp_needs_vs_wants",
+    "ncfe": ["compares_options"]
+  }
+]

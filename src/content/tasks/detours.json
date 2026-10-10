@@ -1,0 +1,76 @@
+[
+  {
+    "id": "detour_turf_no_money",
+    "isDetour": true,
+    "pillar": "budget",
+    "difficulty": "simple",
+    "stage": 1,
+    "concept": "needs_vs_wants",
+    "pressure": 60,
+    "framings": {
+      "default": {
+        "title": "TURF MATCH",
+        "speaker": "Friends",
+        "place": "turf",
+        "text": "'Bro, you coming? ₹150 each.' You check the wallet. The biryani ate it."
+      }
+    },
+    "choices": [
+      {
+        "id": "say_no",
+        "text": "SAY NO",
+        "quality": "ok",
+        "effects": [{ "label": "Missed the match", "happiness": -15 }],
+        "lesson": "Last night's ₹500 cost you today's match. That's the real price of impulse."
+      },
+      {
+        "id": "borrow",
+        "text": "BORROW ₹150",
+        "quality": "weak",
+        "effects": [
+          { "label": "Borrowed", "wallet": 150, "happiness": 5 },
+          { "label": "Repaid friend", "wallet": -150, "delayChapters": 1 }
+        ],
+        "lesson": "Borrowing moves the hole to next month. It doesn't fill it.",
+        "attitude": "now"
+      }
+    ]
+  },
+  {
+    "id": "detour_friend_bad_advice",
+    "isDetour": true,
+    "pillar": "safety",
+    "difficulty": "medium",
+    "stage": 1,
+    "concept": "spot_fake_officials",
+    "pressure": 70,
+    "framings": {
+      "default": {
+        "title": "FRIEND SAYS",
+        "speaker": "Friend",
+        "place": "canteen",
+        "text": "'Arre, my cousin paid and his came through. Just pay, what's ₹500?' The caller rings again."
+      }
+    },
+    "choices": [
+      {
+        "id": "pay",
+        "text": "PAY ₹500",
+        "quality": "critical",
+        "effects": [{ "label": "Paid the scammer", "wallet": -500, "happiness": -25 }],
+        "scam": "fell",
+        "lesson": "Your friend's cousin didn't get a scholarship. He got scammed too.",
+        "hint": "Has anyone ever been paid BY paying first?"
+      },
+      {
+        "id": "portal",
+        "text": "CHECK PORTAL",
+        "quality": "good",
+        "effects": [{ "label": "Verified yourself", "happiness": 4 }],
+        "scam": "spotted",
+        "ncfe": [{ "item": "compares_options", "value": 1 }],
+        "lesson": "Portal says: no fee, ever. Lesson learned the long way."
+      }
+    ]
+  }
+]

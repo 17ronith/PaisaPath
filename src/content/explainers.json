@@ -1,0 +1,84 @@
+[
+  {
+    "id": "exp_needs_vs_wants",
+    "concept": "needs_vs_wants",
+    "title": "Needs first, wants after",
+    "durationMs": 10000,
+    "steps": [
+      { "at": 0, "op": "text", "text": "Your month: ₹5,000", "slot": "top" },
+      {
+        "at": 800,
+        "op": "split",
+        "parts": [
+          { "label": "Needs", "pct": 60, "color": "#4caf50" },
+          { "label": "Wants", "pct": 25, "color": "#ff9800" },
+          { "label": "Save", "pct": 15, "color": "#2196f3" }
+        ]
+      },
+      {
+        "at": 4000,
+        "op": "text",
+        "text": "A want bought first eats a need later.",
+        "slot": "bottom",
+        "size": "sm"
+      },
+      {
+        "at": 7000,
+        "op": "text",
+        "text": "Needs → Save → Wants. In that order.",
+        "slot": "mid",
+        "size": "lg"
+      }
+    ]
+  },
+  {
+    "id": "exp_compounding",
+    "concept": "compounding",
+    "title": "Growth that makes more growth",
+    "durationMs": 14000,
+    "steps": [
+      { "at": 0, "op": "text", "text": "₹1,000 saved today", "slot": "top" },
+      {
+        "at": 500,
+        "op": "grow",
+        "id": "g",
+        "label": "Banyan Savings",
+        "ratePct": 8,
+        "years": 30,
+        "principal": 1000
+      },
+      {
+        "at": 6000,
+        "op": "text",
+        "text": "A banyan drops roots. Roots become trunks. Trunks grow branches.",
+        "slot": "bottom",
+        "size": "sm"
+      },
+      {
+        "at": 9000,
+        "op": "bar",
+        "id": "a",
+        "label": "Without compounding",
+        "from": 0,
+        "to": 34,
+        "slot": 0
+      },
+      {
+        "at": 9000,
+        "op": "bar",
+        "id": "b",
+        "label": "With compounding",
+        "from": 0,
+        "to": 100,
+        "slot": 1
+      },
+      {
+        "at": 12000,
+        "op": "text",
+        "text": "Assumes 8% a year. Real returns vary and can be negative.",
+        "slot": "bottom",
+        "size": "sm"
+      }
+    ]
+  }
+]

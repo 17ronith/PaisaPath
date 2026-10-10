@@ -1,0 +1,56 @@
+[
+  {
+    "id": "budget_medium_s2_01",
+    "pillar": "budget",
+    "difficulty": "medium",
+    "stage": 2,
+    "concept": "needs_vs_wants",
+    "pressure": 50,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "FIRST RENT",
+        "speaker": "Broker",
+        "place": "gachibowli",
+        "text": "Solo 1BHK near the office: ₹12,000. Sharing with two colleagues: ₹6,000. Salary is ₹20,000."
+      }
+    },
+    "choices": [
+      {
+        "id": "solo",
+        "text": "SOLO FLAT",
+        "quality": "weak",
+        "effects": [
+          {
+            "label": "Rent",
+            "wallet": -12000,
+            "happiness": 8,
+            "repeat": { "everyChapters": 1, "times": 2 }
+          }
+        ],
+        "lesson": "60% of salary on rent leaves nothing for an emergency or a goal.",
+        "attitude": "now",
+        "ncfe": [{ "item": "considers_affordability", "value": 0 }]
+      },
+      {
+        "id": "share",
+        "text": "SHARE",
+        "quality": "good",
+        "effects": [
+          {
+            "label": "Rent",
+            "wallet": -6000,
+            "happiness": 2,
+            "repeat": { "everyChapters": 1, "times": 2 }
+          }
+        ],
+        "lesson": "30% on rent. Room to save, room to breathe.",
+        "attitude": "later",
+        "ncfe": [
+          { "item": "considers_affordability", "value": 1 },
+          { "item": "keeps_budget", "value": 1 }
+        ]
+      }
+    ]
+  }
+]

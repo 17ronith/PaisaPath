@@ -1,0 +1,84 @@
+{
+  "lifeQuestions": [
+    {
+      "id": "L1",
+      "text": "Where does most of your money come from?",
+      "options": [
+        { "text": "My family gives it", "icon": "family", "persona": "pocket_money" },
+        { "text": "A scholarship", "icon": "scholarship", "persona": "scholarship" },
+        { "text": "I earn it", "icon": "work", "persona": "earner" },
+        { "text": "I don't really get money", "icon": "empty", "persona": "pocket_money" }
+      ]
+    },
+    {
+      "id": "L2",
+      "text": "In a normal week, how much do you spend on yourself?",
+      "options": [
+        { "text": "Under ₹100", "pocketMoneyMonthly": 200 },
+        { "text": "₹100 – ₹300", "pocketMoneyMonthly": 800 },
+        { "text": "₹300 – ₹700", "pocketMoneyMonthly": 2000 },
+        { "text": "More than ₹700", "pocketMoneyMonthly": 4000 }
+      ]
+    },
+    {
+      "id": "L3",
+      "text": "Do you have your own bank account?",
+      "options": [
+        { "text": "Yes", "setFlag": "has_bank_account" },
+        { "text": "No", "setFlag": "no_bank_account" },
+        { "text": "Not sure", "setFlag": "no_bank_account" }
+      ]
+    },
+    {
+      "id": "L4",
+      "text": "Whose phone do you use for UPI?",
+      "options": [
+        { "text": "My own", "setFlag": "upi_own" },
+        { "text": "Family's", "setFlag": "upi_family" },
+        { "text": "I don't use UPI", "setFlag": "upi_none" }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "id": "K1",
+      "concept": "time_value",
+      "pillar": "invest",
+      "text": "Your uncle offers ₹1,000 today or ₹1,000 a year from now. Which is better?",
+      "options": ["₹1,000 today", "₹1,000 next year", "Same thing"],
+      "answer": 0
+    },
+    {
+      "id": "K2",
+      "concept": "loan_interest",
+      "pillar": "save",
+      "text": "You borrow ₹500 and agree to pay back ₹600. How much is the interest?",
+      "options": ["₹50", "₹100", "₹600"],
+      "answer": 1
+    },
+    {
+      "id": "K3",
+      "concept": "compounding",
+      "pillar": "invest",
+      "text": "₹1,000 in an account that adds 10% a year, nothing taken out. After 2 years you have:",
+      "options": ["More than ₹1,200", "Exactly ₹1,200", "Less than ₹1,200"],
+      "answer": 0
+    },
+    {
+      "id": "K4",
+      "concept": "inflation",
+      "pillar": "budget",
+      "text": "Prices go up 5% but your pocket money stays the same. Next year you can buy:",
+      "options": ["More", "The same", "Less"],
+      "answer": 2
+    },
+    {
+      "id": "K5",
+      "concept": "diversification",
+      "pillar": "invest",
+      "text": "One Charminar vendor sells only umbrellas. Another sells umbrellas and water bottles. Who earns more safely across the year?",
+      "options": ["Only umbrellas", "Umbrellas and water bottles", "Both the same"],
+      "answer": 1
+    }
+  ]
+}
