@@ -478,6 +478,12 @@
           {
             "label": "No health cover",
             "happiness": 2
+          },
+          {
+            "label": "Hospital stay with no cover: ₹2 lakh",
+            "wallet": -200000,
+            "happiness": -15,
+            "delayChapters": 1
           }
         ],
         "ncfe": [
@@ -486,7 +492,7 @@
             "value": 0
           }
         ],
-        "lesson": "A buffer covers a broken phone, not a hospital stay. Some risks are too big to carry alone.",
+        "lesson": "A buffer covers a broken phone, not a hospital stay. Some risks are too big to carry alone, and this one is coming.",
         "hint": "₹60,000 against a ₹2 lakh hospital bill?"
       }
     ]
