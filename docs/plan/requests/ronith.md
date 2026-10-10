@@ -78,3 +78,10 @@ Ronith: change `Status:` lines only; never delete blocks.
 - What: `src/game/music.ts` exports `startMusic()`, `stopMusic()`, `stepBlip(left)`. (1) In `TitleScene`, call `startMusic()` inside the START/CONTINUE tap handler (needs a user gesture; it is idempotent and already obeys your mute flag — the HUD ♪/× button now silences music too without changes). (2) In the walk you're adding for #1, call `stepBlip(frame % 2 === 0)` on each frame change. Nothing else to wire.
 - Why: PLAYTEST #12 and the sound half of #1, without touching `audio.ts`.
 - Accept when: music starts on START, mutes with the HUD button, and the avatar's steps tick.
+
+### R-monish-08 · Incoming-call overlay for the scam-call side quest (PLAYTEST #19)
+- From: monish · To: ronith · At: 04:55 · Priority: P2 (after your P0/P1s)
+- Status: OPEN
+- What: event `scam_call_sidequest` (PR #26, Aakarsh merges) has `framing.portrait: "caller_wonky"` on every persona. (1) Add a 32×32 dodgy-caller portrait under that key (sunglasses, blurry — compose from a Kenney face + recolour); until then `portraitKey()` already falls back by speaker role. (2) When a `Step.kind === 'event'` framing has `portrait === 'caller_wonky'`, show a 2-second "incoming call" overlay (ringing phone panel, the portrait, ACCEPT button) before the normal battle screen. Decline isn't offered — the lesson is in the choices.
+- Why: play-test note 19: "a scam call that comes up as a random side quest, with a wonky DP".
+- Accept when: the event renders with the call overlay then the battle; `npm run check` green.

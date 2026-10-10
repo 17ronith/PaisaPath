@@ -88,3 +88,10 @@ Aakarsh: change `Status:` lines only; never delete blocks.
 - What: add to `en.json` (+ `te.json`, `hi.json`): `info.card.money` "Money", `info.card.learning` "Learning", `info.card.minigames` "Mini-games". They fall back to English until then.
 - Why: InfoPanel redesign (PLAYTEST #11) uses them.
 - Accept when: `validate:content` shows te/hi still ≥ 99 % / 100 %.
+
+### R-monish-08 · PR #26: scam-call side quest (PLAYTEST #19, content half)
+- From: monish · To: aakarsh · At: 04:55 · Priority: P2
+- Status: OPEN
+- What: review/merge PR #26 (`events.json` +1 event, all personas). Edit the lines freely. Ronith has the overlay request (R-monish-08 in his inbox).
+- Why: play-test item 19.
+- Accept when: merged or declined with reason.
