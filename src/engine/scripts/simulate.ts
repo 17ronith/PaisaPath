@@ -91,6 +91,7 @@ interface Row {
   restarts: number;
   minHappy: number;
   broke: number;
+  literate: number;
   done: number;
 }
 const rows: Row[] = [];
@@ -106,6 +107,7 @@ for (const policy of policies) {
       restarts: avg(sums.map((s) => s.restarts)),
       minHappy: avg(runs.map((r) => r.minHappiness)),
       broke: avg(runs.map((r) => r.brokeChapters)),
+      literate: avg(sums.map((s) => (s.ncfe.literate ? 1 : 0))),
       done: avg(runs.map((r) => (r.game.state.phase === 'done' ? 1 : 0))),
     });
     console.log(
@@ -130,8 +132,9 @@ for (const policy of policies) {
 // times, `worst` restarts at least once and still finishes.
 const TARGETS: Record<Policy, { what: string; ok: (r: Row) => boolean }> = {
   good: {
-    what: 'finishes stable (all done, 0 restarts, never broke, happiness ≥ 30)',
-    ok: (r) => r.done === 1 && r.restarts === 0 && r.broke === 0 && r.minHappy >= 30,
+    what: 'finishes stable (all done, 0 restarts, never broke, happiness ≥ 30), ≥ 90% literate',
+    ok: (r) =>
+      r.done === 1 && r.restarts === 0 && r.broke === 0 && r.minHappy >= 30 && r.literate >= 0.9,
   },
   random: { what: 'detours 2–4 times on average', ok: (r) => r.detours >= 2 && r.detours <= 4 },
   worst: {

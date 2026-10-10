@@ -55,8 +55,41 @@ export function attitudeBand(laterShare: number): number {
   return 5;
 }
 
-export function ncfeScore(content: ContentPack, log: LogEntry[]): NcfeScore {
+const isKnowledge = (item: string): item is NcfeKnowledge =>
+  (NCFE_KNOWLEDGE as string[]).includes(item);
+
+/** Knowledge items a quiz question tests: its concept's NCFE tags, else the concept id itself. */
+function quizItems(content: ContentPack, conceptId: string): NcfeKnowledge[] {
+  const tags = content.concepts.find((c) => c.id === conceptId)?.ncfe ?? [conceptId];
+  return [...new Set(tags)].filter(isKnowledge);
+}
+
+/**
+ * After-quiz answers as knowledge evidence (NCFE-FLIS measures knowledge with questions too):
+ * each answered question gives 1 (right) or 0 (wrong) to the knowledge items its concept tests.
+ * Behaviour items are never evidenced by a quiz.
+ */
+export function quizEvidence(
+  content: ContentPack,
+  answers: number[] | undefined,
+): { item: NcfeKnowledge; value: 0 | 1 }[] {
+  if (!answers) return [];
+  return content.quiz.flatMap((q, i) => {
+    if (answers[i] === undefined) return [];
+    const value: 0 | 1 = answers[i] === q.answer ? 1 : 0;
+    return quizItems(content, q.concept).map((item) => ({ item, value }));
+  });
+}
+
+export function ncfeScore(
+  content: ContentPack,
+  log: LogEntry[],
+  quizAfterAnswers?: number[],
+): NcfeScore {
   const evidence = new Map<NcfeItem, number[]>();
+  for (const ev of quizEvidence(content, quizAfterAnswers)) {
+    evidence.set(ev.item, [...(evidence.get(ev.item) ?? []), ev.value]);
+  }
   let now = 0;
   let later = 0;
   for (const e of log) {
@@ -135,7 +168,7 @@ export function summarize(
   return {
     finalBars: { ...s.bars },
     perPillar,
-    ncfe: ncfeScore(content, s.log),
+    ncfe: ncfeScore(content, s.log, s.quizAfterAnswers),
     safety: { spotted, faced },
     mistakesFixed: [...s.learned],
     mistakesOpen: [...s.mistakes],
