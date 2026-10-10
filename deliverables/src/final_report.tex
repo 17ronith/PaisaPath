@@ -40,35 +40,39 @@
 \vspace{-2pt}
 
 \section{Solution}
-\textbf{[2--3 sentences: what it is, who it is for, the two design claims.]}
+A browser game for Intermediate (Grade 11--12) students from underserved communities in Hyderabad, delivered through NGOs on shared low-end phones. The student names an avatar, answers four life questions that pick a \emph{persona} (pocket money, scholarship or earner) and a five-question quiz that sets the difficulty, then lives a compressed life in three stages --- \textbf{Intermediate student $\rightarrow$ first salary $\rightarrow$ earning more} --- and an epilogue at 60. Every decision is a Pok\'emon-style \textbf{money battle} set in a Hyderabad place and priced relative to the student's own pocket money. Two design claims from M1 hold throughout: \textbf{the game teaches the concepts while being relatable to the target demographic}, and \textbf{the teaching is done through short abstract animations} that play \emph{after} the choice, never as a lecture first. Mistakes are banked and return in disguise until learned. The game ends with the same quiz (learning gain), an NCFE-aligned score, an in-game ``what if'' of the biggest mistake, and a PDF report emailed to the NGO facilitator.
 
 \section{Approach}
-\subsection{Player journey} \textbf{[pipeline figure or 6-step list]}
-\subsection{How teaching works} \textbf{[situation → choice → consequence → abstract animation → mistake bank → returns in disguise]}
-\subsection{Architecture} \textbf{[client / engine / content / services; one generic battle screen driven by JSON]}
-\subsection{Guardrail and privacy} \textbf{[no real products; assumptions labelled; nickname-only; never asks OTP/PIN/Aadhaar; NGO join codes]}
+\subsection{Teaching loop}
+Situation (a task from the student's difficulty bucket, framed for their persona) $\rightarrow$ choice (2--4 options) $\rightarrow$ consequence (bars move now; some effects are scheduled chapters later) $\rightarrow$ a 10--20\,s abstract animation naming the concept $\rightarrow$ the concept is banked if the choice was weak, and comes back later in a new disguise. Weak choices send the player down a detour; a scam, going broke or happiness at zero restarts the task. Money comes only from life (allowance, scholarship, wages) --- and from two skippable mini-games framed as side gigs, locked while any bar is low.
+\subsection{Architecture}
+\textbf{One generic battle screen driven by JSON.} Four parts with one-way dependencies: \emph{shared} contract types and a zod schema; a \emph{pure game engine} (seeded RNG, economy scaler, chapter loop, task selector with pillar rotation and an investing gate, consequence scheduler with delays and repeats, mistake bank, NCFE scoring, investing simulation, deterministic what-if replay, save/resume); a \emph{content pack} editable by non-coders (tasks per pillar $\times$ difficulty with one framing per persona, detours, random events, explainer animations in a six-op DSL, personas, quiz, places, assets, strings per language); and a \emph{Phaser 3 client} as an offline PWA. A small Node report service emails the PDF (sandbox inbox in the demo) and falls back to a local outbox offline. A static facilitator dashboard mocks the NGO view.
+\subsection{Economy}
+Everyone starts Stage~1 with \rs5{,}000 in-game per month; in-game price $=$ real price $\times$ \rs5{,}000 $/$ monthly pocket money (from the indirect weekly-spend question), so a \rs200 bat costs the same \emph{share} of money in the game as in the student's life. Ten monthly chapters (4 + 3 + 3); stage jumps skip 5, 6 and 25 years so compounding on four made-up assets is visible.
+\subsection{Guardrail and privacy}
+No real products, companies or tickers; nothing is recommended; every projection carries ``assumes X\% a year; real returns vary and can be negative; simulations are assumptions, not promises.'' The app never asks for OTP, PIN, Aadhaar, phone or email; students are a nickname; NGOs enrol with batch join codes; the sponsor sees aggregates only.
 
 \section{Features}
 \begin{itemize}
-  \item \textbf{[Onboarding: language, avatar + typed name, 4 life questions → persona (switchable), 5-question difficulty quiz = ``before'' score]}
-  \item \textbf{[Three life stages, 10 monthly chapters, chapter map with detours and restarts, town map]}
-  \item \textbf{[Money battles: N tasks × 3 persona framings; delayed and repeating consequences; hints after two fails]}
-  \item \textbf{[Abstract explainer animations (N) + replay library; info button]}
-  \item \textbf{[Mistake bank: returns in disguise, ``learned'' badges]}
-  \item \textbf{[Mini-games (2), locked while bars are low]}
-  \item \textbf{[Investing with four made-up assets; stage jumps show compounding; epilogue at 60 with assumption labels]}
-  \item \textbf{[``What if'': biggest mistake replayed the other way (in-game only)]}
-  \item \textbf{[After-quiz → learning gain; NCFE-aligned score + safety score; PDF report emailed to facilitator, guardian CC]}
-  \item \textbf{[NGO dashboard (mock); Telugu strings; PWA offline; low-end phone layout]}
+  \item Onboarding: language (English, Telugu; Hindi partial), avatar + typed name, four picture questions $\rightarrow$ persona with ``Not me? Switch'', five-question difficulty quiz $=$ before score.
+  \item \textbf{[N]} main tasks across 4 pillars $\times$ 3 difficulties $\times$ 3 stages, each framed for all three personas (\textbf{[N]} framings), \textbf{[N]} detours, \textbf{[N]} random events, \textbf{[N]} delayed or repeating consequences (EMIs, lent money, no buffer).
+  \item \textbf{[N]} abstract explainer animations, one per concept, replayable from a library; an info panel with bars, commitments, open mistakes, lock status.
+  \item Chapter map and town map with \textbf{[N]} Hyderabad backdrops (original pixel art); hints after two failures; a guide character.
+  \item Mini-games: \emph{Kirana Rush} (needs vs wants) and \emph{Scam or Legit} (swipe fakes), locked while bars are low.
+  \item Investing from savings only, four made-up assets, seeded yearly returns, stage-jump growth, epilogue at 60 with assumption labels.
+  \item ``What if'': the biggest mistake from the decision log replayed with the other choice, same seed, side by side (in-game only).
+  \item End: after-quiz $\rightarrow$ learning gain; NCFE-aligned score (8 knowledge, 9 behaviour, 3 attitude; literate $=$ K$\ge$6, B$\ge$6, A$\ge$3; 27\% national reference) and a safety score; PDF report emailed to the facilitator with guardian CC; facilitator dashboard (mock).
+  \item Offline PWA; save and resume; one string file per language.
 \end{itemize}
 
 \section{Results}
 \begin{itemize}
-  \item \textbf{[Engine: N unit tests; seeded simulation table (3 policies)]}
-  \item \textbf{[Content: N tasks, N framings, N explainers, N events; validator]}
-  \item \textbf{[Play tests: N peers; time to first battle; help requests; learning gain observed]}
-  \item \textbf{[Device: load time on Slow 3G + 4× CPU; offline run; bundle size]}
-  \item \textbf{[Report pipeline: sandbox inbox screenshot reference]}
-  \item \textbf{[Limitations + next steps: real-student price survey, Bhashini translation, NGO pilot]}
+  \item \textbf{Engine correctness:} \textbf{[N]} unit tests passing (engine \textbf{[N]}, content \textbf{[N]}, mini-games \textbf{[N]}, client helpers \textbf{[N]}). Save/resume round-trips exactly; what-if is deterministic.
+  \item \textbf{Scripted players on the real content} (20 seeds per cell): \textbf{[final sim table: good / random / worst $\times$ simple / medium / hard --- happiness, detours, restarts, broke, literate]}. Good play finishes stable and literate; careless play detours and can go broke; worst play restarts but always finishes.
+  \item \textbf{Content validation:} every cross-reference resolves; every stage covers every pillar with every persona; all 17 NCFE items evidenced; double-blind string check passes.
+  \item \textbf{Play tests:} team play test at 02:15 logged 24 issues (6 blocking) --- economy too forgiving, ambiguous choices, unlabelled bars, letterboxing, a too-short timer --- \textbf{[N]} fixed by the second play test at 07:00; \textbf{[second play-test findings]}.
+  \item \textbf{Devices and network} (production build, 360$\times$640): Fast 3G + 4$\times$ CPU \textbf{5.1\,s} to first frame on first visit, \textbf{1.4\,s} repeat; Slow 3G 20.5\,s (\textbf{[N]} KB); \textbf{offline reload 0.5\,s}.
+  \item \textbf{Report pipeline:} seeded games produce PDF reports; emailed to a sandbox inbox with guardian CC; offline fallback verified.
+  \item \textbf{Limitations and next steps:} prices are team estimates (next: a 10-student survey); Telugu is machine-drafted and needs a native check; Bhashini translation and voice; a real NGO pilot with the dashboard live; the slow-3G first load needs a smaller bundle.
 \end{itemize}
 \end{document}
