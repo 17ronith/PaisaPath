@@ -14,6 +14,7 @@ import { Button } from '@/game/ui/Button';
 import { PixelPanel } from '@/game/ui/PixelPanel';
 import { TextBox } from '@/game/ui/TextBox';
 import { COLOR, text, tr } from '@/game/ui/theme';
+import { VIEW } from '@/game/view';
 import { once, type OnDone, type SortItem, type SortRound, type Verdict } from './sortRound';
 
 export interface MiniGameData {
@@ -31,9 +32,11 @@ export interface AnswerButton<A extends string> {
 type Phase = 'intro' | 'play' | 'feedback' | 'result';
 
 export const FEEDBACK_MS = 1300;
-const HEADER_H = 56;
+const HEADER_H = 60;
 const BOX_H = 76;
 const BTN_H = 84;
+/** Fill that Button maps to its grey Kenney skin. */
+const GREY = 0x505878;
 
 export abstract class SortGameScene<A extends string, T extends SortItem<A>> extends Phaser.Scene {
   protected round!: SortRound<A, T>;
@@ -79,8 +82,9 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
   }
 
   create(): void {
-    this.W = this.scale.width;
-    this.H = this.scale.height;
+    // Logical 360×640 layout; the camera is zoomed by RES (src/game/view.ts).
+    this.W = VIEW.width;
+    this.H = VIEW.height;
     this.playTop = 8 + HEADER_H + 8;
     this.playBottom = this.H - 12 - BTN_H - 10 - BOX_H - 8;
     this.round = this.makeRound();
@@ -219,12 +223,12 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
     const quitW = 48;
     const panelW = W - 24 - quitW;
     const head = new PixelPanel(this, 8, 8, panelW, HEADER_H);
-    head.add(text(this, 10, 9, def.title.toUpperCase(), 'xs', COLOR.ink));
-    this.scoreText = text(this, panelW - 10, 9, '', 'xs', COLOR.money).setOrigin(1, 0);
+    head.add(text(this, 10, 6, def.title.toUpperCase(), 'xs', COLOR.ink));
+    this.scoreText = text(this, panelW - 10, 6, '', 'xs', COLOR.money).setOrigin(1, 0);
     this.timer = new Bar(
       this,
       10,
-      26,
+      32,
       {
         label: tr('minigame.time', 'TIME'),
         max: this.round.opts.timeLimitMs / 1000,
@@ -238,7 +242,7 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
     new Button(this, W - 8 - quitW / 2, 8 + HEADER_H / 2 - 1, 'X', () => this.finish(false), {
       width: quitW,
       height: HEADER_H - 3,
-      fill: COLOR.muted,
+      fill: GREY,
     });
   }
 
@@ -292,7 +296,7 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
     const h = body.height + 140;
     const y = Math.round((this.H - h) / 2);
     const panel = new PixelPanel(this, 20, y, w, h);
-    panel.add([text(this, w / 2, 20, title, 'md', titleColor).setOrigin(0.5, 0), body]);
+    panel.add([text(this, w / 2, 20, title, 'lg', titleColor).setOrigin(0.5, 0), body]);
     const btn = new Button(this, this.W / 2, y + h - 44, cta, onTap, {
       width: w - 48,
       fill: COLOR.good,

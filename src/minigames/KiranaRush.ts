@@ -3,6 +3,7 @@
 import Phaser from 'phaser';
 import { PixelPanel } from '@/game/ui/PixelPanel';
 import { COLOR, text, tr } from '@/game/ui/theme';
+import { RES } from '@/game/view';
 import { SortGameScene, type AnswerButton } from './SortGameScene';
 import { fallMsFor, newKiranaRound, type Basket, type KiranaItem } from './kiranaItems';
 import type { SortRound, Verdict } from './sortRound';
@@ -20,7 +21,7 @@ export class KiranaRushScene extends SortGameScene<Basket, KiranaItem> {
   protected get answers(): [AnswerButton<Basket>, AnswerButton<Basket>] {
     return [
       { answer: 'need', label: tr('minigame.need', 'NEED'), fill: COLOR.good, key: 'LEFT' },
-      { answer: 'want', label: tr('minigame.want', 'WANT'), fill: 0xd07030, key: 'RIGHT' },
+      { answer: 'want', label: tr('minigame.want', 'WANT'), fill: COLOR.warn, key: 'RIGHT' },
     ];
   }
 
@@ -56,13 +57,19 @@ export class KiranaRushScene extends SortGameScene<Basket, KiranaItem> {
     this.startY = this.playTop + CARD_H / 2 + 8;
     this.landY = counterTop - CARD_H / 2 - 2;
     this.drawShelves(W);
-    const counter = new PixelPanel(this, 4, counterTop, W - 8, 36, { fill: WOOD, shadow: false });
-    counter.add(
-      text(this, (W - 8) / 2, 12, tr('minigame.kirana.counter', 'COUNTER'), 'xs', WALL).setOrigin(
-        0.5,
-        0,
-      ),
-    );
+    this.add
+      .rectangle(4, counterTop, W - 8, 36, WOOD)
+      .setOrigin(0)
+      .setStrokeStyle(2, COLOR.panelEdge);
+    this.add.rectangle(4, counterTop + 36, W - 8, 4, COLOR.panelEdge, 0.35).setOrigin(0);
+    text(
+      this,
+      W / 2,
+      counterTop + 18,
+      tr('minigame.kirana.counter', 'COUNTER'),
+      'xs',
+      WALL,
+    ).setOrigin(0.5);
   }
 
   private drawShelves(W: number): void {
@@ -80,11 +87,13 @@ export class KiranaRushScene extends SortGameScene<Basket, KiranaItem> {
   protected showItem(item: KiranaItem, index: number): void {
     const card = new PixelPanel(this, -CARD_W / 2, -CARD_H / 2, CARD_W, CARD_H);
     card.add([
-      this.add.text(14, CARD_H / 2, item.icon, { fontSize: '34px' }).setOrigin(0, 0.5),
+      this.add
+        .text(14, CARD_H / 2, item.icon, { fontSize: '34px', resolution: RES })
+        .setOrigin(0, 0.5),
       text(this, 66, 14, item.name, 'sm', COLOR.ink, {
         wordWrap: { width: CARD_W - 80, useAdvancedWrap: true },
       }),
-      text(this, 66, CARD_H - 30, `₹${item.price}`, 'md', COLOR.money),
+      text(this, 66, CARD_H - 32, `₹${item.price}`, 'md', COLOR.money),
     ]);
     this.item = this.add.container(this.W / 2, this.startY, [card]);
     this.itemAge = 0;

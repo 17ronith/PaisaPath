@@ -51,7 +51,7 @@ export class ScamOrLegitScene extends SortGameScene<MessageKind, PhoneMessage> {
     const top = this.playTop;
     const h = this.playBottom - this.playTop;
     const pw = BUBBLE_W + 40;
-    const phone = new PixelPanel(this, (this.W - pw) / 2, top, pw, h, { fill: COLOR.ink });
+    const phone = new PixelPanel(this, (this.W - pw) / 2, top, pw, h, { variant: 'dark' });
     phone.add([
       this.add.rectangle(12, 26, pw - 24, h - 46, SCREEN).setOrigin(0),
       this.add.rectangle(pw / 2, 13, 50, 6, COLOR.muted),
@@ -66,8 +66,8 @@ export class ScamOrLegitScene extends SortGameScene<MessageKind, PhoneMessage> {
     const body = text(this, 12, 28, msg.text, 'sm', COLOR.ink, {
       wordWrap: { width: w - 24, useAdvancedWrap: true },
     });
-    const h = Math.round(body.height + 42);
-    const panel = new PixelPanel(this, -w / 2, -h / 2, w, h);
+    const h = Math.round(body.height + 44);
+    const panel = new PixelPanel(this, -w / 2, -h / 2, w, h, { variant: 'card' });
     panel.add([sender, body]);
     const cx = this.W / 2;
     const bubble = this.add
