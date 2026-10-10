@@ -1,0 +1,50 @@
+[
+  {
+    "id": "invest_medium_s2_03",
+    "pillar": "invest", "difficulty": "medium", "stage": 2, "concept": "risk_return", "pressure": 70, "source": "team estimate",
+    "framings": {
+      "default": { "title": "DOUBLE IN 6 MONTHS", "speaker": "College senior", "place": "gachibowli", "intro": "Three months into the job. ₹15,000 sits in savings.", "text": "'Bro, this group doubles money in 6 months, guaranteed. I put ₹20,000 last month. Spots closing today!'" },
+      "pocket_money": { "title": "DOUBLE IN 6 MONTHS", "speaker": "Neighbour uncle", "place": "home", "intro": "First salary, first savings: ₹15,000.", "text": "'Beta, my nephew's scheme — 100% return in 6 months, fixed. Only for people I trust. Decide tonight.'" },
+      "scholarship": { "title": "DOUBLE IN 6 MONTHS", "speaker": "Hostel friend", "place": "gachibowli", "intro": "Your first salary savings: ₹15,000.", "text": "A forwarded voice note: 'Guaranteed double in 6 months. Already 300 people in. Last 10 slots!'" },
+      "earner": { "title": "DOUBLE IN 6 MONTHS", "speaker": "Old customer", "place": "kirana", "intro": "Steady salary now; ₹15,000 saved.", "text": "'I remember you from the shop! My company doubles money in 6 months. Put ₹15,000, get ₹30,000. Sign here.'" }
+    },
+    "choices": [
+      { "id": "all_in", "text": "PUT IN ALL ₹15,000", "quality": "critical", "effects": [{ "label": "Scheme vanished", "wallet": -15000, "happiness": -30 }], "scam": "fell", "attitude": "now", "ncfe": [{ "item": "risk_return", "value": 0 }], "lesson": "A guaranteed double is a guaranteed lie. Bigger promised return = bigger risk, and here the risk was everything.", "hint": "What's the catch when the reward is unreal?" },
+      { "id": "half", "text": "TRY WITH ₹5,000", "quality": "weak", "effects": [{ "label": "Scheme vanished", "wallet": -5000, "happiness": -12 }], "scam": "fell", "ncfe": [{ "item": "risk_return", "value": 0 }], "lesson": "Testing a scam with less money is still losing money. The return told you the risk." },
+      { "id": "ask_proof", "text": "ASK WHO REGULATES IT", "quality": "ok", "effects": [{ "label": "They stopped replying", "happiness": 2 }], "scam": "spotted", "ncfe": [{ "item": "risk_return", "value": 1 }], "lesson": "Good question. Real investments can tell you who regulates them; this one went quiet." },
+      { "id": "banyan", "text": "NO — BANYAN SAVINGS", "quality": "good", "effects": [{ "label": "Into Banyan Savings", "wallet": -5000, "savings": 5000, "happiness": 4 }], "scam": "spotted", "attitude": "later", "ncfe": [{ "item": "risk_return", "value": 1 }, { "item": "saves_actively", "value": 1 }], "lesson": "8% a year, slow and real, beats 100% in 6 months, fast and fake. Return and risk travel together." }
+    ]
+  },
+  {
+    "id": "safety_hard_s2_03",
+    "pillar": "safety", "difficulty": "hard", "stage": 2, "concept": "instant_loan_trap", "pressure": 75, "source": "team estimate",
+    "framings": {
+      "default": { "title": "INSTANT LOAN APP", "speaker": "App notification", "place": "mobile_shop", "intro": "Salary is 9 days away. Phone screen cracked: ₹4,000 to fix.", "text": "'₹5,000 in 2 minutes! No documents, no questions. Just allow contacts + photos. Tap to get cash now.'" },
+      "pocket_money": { "title": "INSTANT LOAN APP", "speaker": "App notification", "place": "home", "intro": "Salary is 9 days away. Mom's medicines: ₹4,000 this week.", "text": "'₹5,000 in 2 minutes! No documents. Allow contacts + photos and the money is yours.'" },
+      "scholarship": { "title": "INSTANT LOAN APP", "speaker": "App notification", "place": "gachibowli", "intro": "Salary is 9 days away. Hostel deposit due: ₹4,000.", "text": "'₹5,000 in 2 minutes, zero paperwork. Allow contacts + photos to continue.'" },
+      "earner": { "title": "INSTANT LOAN APP", "speaker": "App notification", "place": "kirana", "intro": "Salary is 9 days away. Dad's shop rent short by ₹4,000.", "text": "'Cash in 2 minutes! No documents. Allow contacts + photos. 3,00,000 happy users.'" }
+    },
+    "choices": [
+      { "id": "take_loan", "text": "TAKE THE ₹5,000", "quality": "critical", "effects": [{ "label": "Loan app harassment", "wallet": -2500, "happiness": -35 }, { "label": "Loan app 'fee' + penalty", "wallet": -3000, "happiness": -10, "delayChapters": 1 }], "scam": "fell", "attitude": "now", "ncfe": [{ "item": "loan_interest", "value": 0 }], "lesson": "₹5,000 became ₹10,500 owed in weeks, and they messaged your contacts. The permissions were the price.", "hint": "Why does a lender need your contacts and photos?" },
+      { "id": "borrow_friend", "text": "BORROW ₹4,000 FROM A FRIEND", "quality": "ok", "effects": [{ "label": "Borrowed", "wallet": 4000, "happiness": -3 }, { "label": "Repaid friend", "wallet": -4000, "delayChapters": 1 }], "ncfe": [{ "item": "loan_interest", "value": 1 }], "lesson": "Zero interest, one awkward week. Far better than an app — but a buffer would have cost nothing." },
+      { "id": "wait", "text": "USE A CHEAP SCREEN GUARD, FIX ON PAYDAY", "quality": "good", "effects": [{ "label": "Managed 9 days", "wallet": -200, "happiness": -4 }], "attitude": "later", "ncfe": [{ "item": "major_expense_no_borrow", "value": 1 }, { "item": "loan_interest", "value": 1 }], "lesson": "Nine uncomfortable days cost ₹200. The 'instant' loan would have cost ₹5,500 and your peace. Easy money is the most expensive kind." },
+      { "id": "emergency_fund", "text": "USE THE EMERGENCY JAR", "quality": "good", "effects": [{ "label": "From emergency jar", "savings": -4000, "happiness": 2 }], "requiresFlags": [], "ncfe": [{ "item": "major_expense_no_borrow", "value": 1 }], "lesson": "This is exactly what the jar was for. No lender, no interest, no harassment." }
+    ]
+  },
+  {
+    "id": "safety_medium_s3_03",
+    "pillar": "safety", "difficulty": "medium", "stage": 3, "concept": "fake_payment_proof", "pressure": 60, "source": "team estimate",
+    "framings": {
+      "default": { "title": "FAKE SCREENSHOT", "speaker": "Buyer", "place": "home", "intro": "You're selling your old phone online for ₹8,000.", "text": "Buyer at the door: 'Paid! See the screenshot — ₹8,000 successful.' Your phone hasn't pinged. 'Network issue, it'll show in an hour.'" },
+      "pocket_money": { "title": "FAKE SCREENSHOT", "speaker": "Buyer", "place": "home", "intro": "Selling the old TV for ₹8,000 to buy a bigger one.", "text": "'Transferred, here's the screenshot.' Your bank app shows nothing. 'Server slow, bro. Let me take it, it'll reflect.'" },
+      "scholarship": { "title": "FAKE SCREENSHOT", "speaker": "Buyer", "place": "gachibowli", "intro": "Selling your laptop for ₹8,000 after an upgrade.", "text": "'Done, ₹8,000 sent — screenshot attached.' No notification on your side. 'UPI is down today, check the news.'" },
+      "earner": { "title": "FAKE SCREENSHOT", "speaker": "Customer", "place": "kirana", "intro": "Running your own shop now. Big order: ₹8,000 of stock.", "text": "Customer loads the car, shows 'Payment successful ₹8,000'. Your QR speaker hasn't announced anything. 'It's processing, I'm in a hurry.'" }
+    },
+    "choices": [
+      { "id": "hand_over", "text": "HAND IT OVER", "quality": "critical", "effects": [{ "label": "Goods gone, no money", "wallet": -8000, "happiness": -25 }], "scam": "fell", "ncfe": [{ "item": "watches_finances", "value": 0 }], "lesson": "A screenshot is a picture. Money arrives only when YOUR app says so. ₹8,000 of goods walked away.", "hint": "Whose screen proves a payment — theirs or yours?" },
+      { "id": "wait_hour", "text": "WAIT AN HOUR, THEN GIVE", "quality": "weak", "effects": [{ "label": "Buyer left, came back angry", "happiness": -8 }], "detourTaskId": "detour_buyer_pressure", "lesson": "Waiting was right; promising to give anyway was not. 'It'll reflect later' is the scam's second line." },
+      { "id": "check_own_app", "text": "CHECK MY OWN APP FIRST", "quality": "good", "effects": [{ "label": "No payment found; buyer vanished", "happiness": 3 }], "scam": "spotted", "ncfe": [{ "item": "watches_finances", "value": 1 }], "lesson": "Your own app, your own balance — that's the only proof. The 'buyer' disappeared the moment you checked." },
+      { "id": "cash_only", "text": "CASH OR NOTHING", "quality": "ok", "effects": [{ "label": "Sale fell through", "happiness": -2 }], "scam": "spotted", "lesson": "Safe, but you lost a real sale too. Checking your own app would have kept both." }
+    ]
+  }
+]

@@ -74,3 +74,10 @@ Aakarsh: change `Status:` lines only; never delete blocks.
 - What: `docs/plan/CONCEPTS.md` has all 17 concepts with a draft definition, the current situation + lesson pulled from your pack, NCFE items and evidence counts. **Gaps:** `risk_return`, `instant_loan_trap`, `fake_payment_proof` exist only as detours/events — each needs one main task (Stage 2 or 3 fits all three: a "double in 6 months" group, an instant-loan app at salary time, a fake-screenshot buyer for the Earner). Then work the ☐ checklist under each concept; edit the definitions freely — they're mine, the words are yours.
 - Why: PLAYTEST #24 — pin what we teach before rewriting questions (#9, #20).
 - Accept when: no "⚠ no main task" flags remain and every concept's four ☐ are ticked.
+
+### R-monish-06 · PR for you: Hindi 100 % + three draft tasks for the concept gaps
+- From: monish · To: aakarsh · At: 03:50 · Priority: P1
+- Status: OPEN
+- What: branch `monish/for-aakarsh-hindi` (PR opened). Inside `src/content/`: `strings/hi.json` (159/159 keys), `strings/hi.content.json` (same 99 keys as Telugu), 2-line wiring in `index.ts`, and the "Hindi is partial" test replaced by "Hindi ≥ 90 % and overlay keys match Telugu". Also `docs/plan/drafts/missing-concept-tasks.json`: three ready-to-paste Stage 2/3 tasks for `risk_return`, `instant_loan_trap`, `fake_payment_proof` (all personas, real ₹) — see `drafts/README.md` for two things to adjust. **You review and merge**; it's your folder. Validator + 124 tests are green on the branch.
+- Why: PLAYTEST #22a and #24 were on your list; this clears them while you sleep.
+- Accept when: PR merged (or declined with reason) and the three tasks pasted/edited/rejected.
