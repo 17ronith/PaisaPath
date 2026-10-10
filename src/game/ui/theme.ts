@@ -1,10 +1,15 @@
-// Shared look: palette, pixel font, text factory, and a t() wrapper with an inline
+// Shared look: palette, pixel fonts, text factory, and a t() wrapper with an inline
 // English fallback for chrome strings not yet in content/strings (Aakarsh adds them later).
 import Phaser from 'phaser';
 import { t } from '@/shared/i18n';
+import { RES } from '../view';
 
-/** Press Start 2P has no Telugu glyphs; the browser falls back per glyph to the next family. */
-export const FONT = '"PressStart2P", "Noto Sans Telugu", "Nirmala UI", monospace';
+/** Headings: chunky pixel display face. No Telugu glyphs, so the browser falls back per glyph. */
+export const FONT_HEAD = '"PressStart2P", "Noto Sans Telugu", "Nirmala UI", monospace';
+/** Body + buttons: a cleaner, more readable pixel face. */
+export const FONT_BODY = '"Jersey10", "Noto Sans Telugu", "Nirmala UI", sans-serif';
+/** @deprecated use FONT_BODY / FONT_HEAD */
+export const FONT = FONT_BODY;
 
 export const COLOR = {
   bg: 0x1b1b2f,
@@ -30,7 +35,14 @@ export const COLOR = {
 export const hex = (c: number): string => '#' + c.toString(16).padStart(6, '0');
 
 export type TextSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-const PX: Record<TextSize, number> = { xs: 8, sm: 10, md: 12, lg: 16, xl: 20 };
+/** xs–md use the body face, lg–xl the heading face. */
+const STYLE: Record<TextSize, { px: number; family: string; spacing: number }> = {
+  xs: { px: 15, family: FONT_BODY, spacing: 1 },
+  sm: { px: 17, family: FONT_BODY, spacing: 2 },
+  md: { px: 21, family: FONT_BODY, spacing: 2 },
+  lg: { px: 14, family: FONT_HEAD, spacing: 8 },
+  xl: { px: 20, family: FONT_HEAD, spacing: 8 },
+};
 
 export function text(
   scene: Phaser.Scene,
@@ -41,11 +53,14 @@ export function text(
   color: number = COLOR.ink,
   extra: Phaser.Types.GameObjects.Text.TextStyle = {},
 ): Phaser.GameObjects.Text {
+  const st = STYLE[size];
   return scene.add.text(x, y, str, {
-    fontFamily: FONT,
-    fontSize: `${PX[size]}px`,
+    fontFamily: st.family,
+    fontSize: `${st.px}px`,
     color: hex(color),
-    lineSpacing: Math.round(PX[size] * 0.5),
+    lineSpacing: st.spacing,
+    // Rasterise at the device's real density so text is sharp after the RES× camera zoom.
+    resolution: RES,
     ...extra,
   });
 }
