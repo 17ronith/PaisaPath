@@ -206,6 +206,7 @@
         "id": "stay_on",
         "text": "STAY ON CALL, EXPLAIN",
         "quality": "weak",
+        "detourTaskId": "detour_safe_account",
         "effects": [
           {
             "label": "Two hours of threats",
@@ -536,6 +537,7 @@
         "id": "join",
         "text": "JOIN, EVERYONE IS",
         "quality": "weak",
+        "detourTaskId": "detour_chit_advance",
         "effects": [
           {
             "label": "Chit contribution",
@@ -681,6 +683,7 @@
         "id": "later",
         "text": "START WHEN THEY'RE 15",
         "quality": "weak",
+        "detourTaskId": "detour_late_start",
         "effects": [
           {
             "label": "Nothing saved yet",

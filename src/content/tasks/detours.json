@@ -547,5 +547,558 @@
         "lesson": "Now you're borrowing because you lent. Save first; lend only what you can lose."
       }
     ]
+  },
+  {
+    "id": "detour_compare_again",
+    "isDetour": true,
+    "pillar": "budget",
+    "difficulty": "hard",
+    "stage": 1,
+    "concept": "compare_before_buying",
+    "pressure": 50,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "SLIPPERS TOO",
+        "speaker": "Shopkeeper",
+        "place": "charminar",
+        "text": "Two shops down, your friend got the same outfit for ₹550. Now you need slippers. First shop: ₹250."
+      }
+    },
+    "choices": [
+      {
+        "id": "compare",
+        "text": "CHECK 3 SHOPS THIS TIME",
+        "quality": "good",
+        "effects": [{ "label": "Same slippers for ₹150", "wallet": -150, "happiness": 3 }],
+        "ncfe": [{ "item": "compares_options", "value": 1 }],
+        "lesson": "Ten minutes of comparing saved ₹100. The first price is rarely the best price."
+      },
+      {
+        "id": "first_again",
+        "text": "BUY HERE, IT'S QUICKER",
+        "quality": "weak",
+        "effects": [{ "label": "Paid ₹250 at the first shop", "wallet": -250, "happiness": -2 }],
+        "ncfe": [{ "item": "compares_options", "value": 0 }],
+        "lesson": "Quick cost you ₹100 again. Compare before buying, every time."
+      }
+    ]
+  },
+  {
+    "id": "detour_nothing_left",
+    "isDetour": true,
+    "pillar": "save",
+    "difficulty": "simple",
+    "stage": 1,
+    "concept": "goal_jar",
+    "pressure": 45,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "JAR STILL EMPTY",
+        "speaker": "Your wish list",
+        "place": "home",
+        "text": "Month end, and nothing went into the jar. The thing you wanted is on offer for ₹300, today only."
+      }
+    },
+    "choices": [
+      {
+        "id": "weekly_jar",
+        "text": "START ₹50 A WEEK IN A JAR",
+        "quality": "good",
+        "effects": [{ "label": "Named jar started", "wallet": -50, "savings": 50, "happiness": 2 }],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "saves_actively", "value": 1 },
+          { "item": "long_term_goals", "value": 1 }
+        ],
+        "lesson": "Small and regular beats 'someday'. A named jar with ₹50 a week gets you there."
+      },
+      {
+        "id": "borrow_buy",
+        "text": "BORROW AND BUY IT TODAY",
+        "quality": "weak",
+        "effects": [
+          { "label": "Borrowed to buy it", "happiness": 6 },
+          { "label": "Repaid the ₹300", "wallet": -300, "delayChapters": 1 }
+        ],
+        "attitude": "now",
+        "ncfe": [{ "item": "long_term_goals", "value": 0 }],
+        "lesson": "'Today only' offers are made to rush you. Borrowing for a want just moves the cost to next month."
+      }
+    ]
+  },
+  {
+    "id": "detour_buffer_now",
+    "isDetour": true,
+    "pillar": "save",
+    "difficulty": "medium",
+    "stage": 1,
+    "concept": "emergency_buffer",
+    "pressure": 55,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "NO CUSHION",
+        "speaker": "Bad luck",
+        "place": "home",
+        "text": "Two days later your phone charger dies: ₹150. Nothing is saved, and the month isn't over."
+      }
+    },
+    "choices": [
+      {
+        "id": "start_buffer",
+        "text": "PAY IT, START A ₹50 BUFFER",
+        "quality": "good",
+        "effects": [
+          {
+            "label": "New charger, and a buffer started",
+            "wallet": -200,
+            "savings": 50,
+            "happiness": -2
+          }
+        ],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "saves_actively", "value": 1 },
+          { "item": "major_expense_no_borrow", "value": 1 }
+        ],
+        "lesson": "Shocks keep coming. A small buffer started today means the next one won't hurt as much."
+      },
+      {
+        "id": "borrow_again",
+        "text": "BORROW FROM A FRIEND",
+        "quality": "weak",
+        "effects": [
+          { "label": "Borrowed ₹150", "happiness": -3 },
+          { "label": "Repaid ₹150", "wallet": -150, "delayChapters": 1 }
+        ],
+        "ncfe": [{ "item": "major_expense_no_borrow", "value": 0 }],
+        "lesson": "Without a buffer, every small shock becomes a loan."
+      }
+    ]
+  },
+  {
+    "id": "detour_now_or_later",
+    "isDetour": true,
+    "pillar": "invest",
+    "difficulty": "simple",
+    "stage": 1,
+    "concept": "time_value",
+    "pressure": 40,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "NOW OR LATER, AGAIN",
+        "speaker": "Friend",
+        "place": "college",
+        "text": "A friend owes you ₹100: 'I can pay you now, or the same ₹100 after exams in 3 months. Your call.'"
+      }
+    },
+    "choices": [
+      {
+        "id": "now",
+        "text": "TAKE IT NOW",
+        "quality": "good",
+        "effects": [{ "label": "Got ₹100 back today", "wallet": 100, "happiness": 2 }],
+        "ncfe": [{ "item": "time_value", "value": 1 }],
+        "lesson": "Money now can be used or saved now. The same amount later is worth less."
+      },
+      {
+        "id": "after_exams",
+        "text": "AFTER EXAMS IS FINE",
+        "quality": "weak",
+        "effects": [
+          { "label": "Waiting…", "happiness": -1 },
+          { "label": "₹100 finally repaid", "wallet": 100, "delayChapters": 2 }
+        ],
+        "ncfe": [{ "item": "time_value", "value": 0 }],
+        "lesson": "You waited 3 months for the same ₹100. Prices rose, so it buys less now."
+      }
+    ]
+  },
+  {
+    "id": "detour_tin_shrinks",
+    "isDetour": true,
+    "pillar": "invest",
+    "difficulty": "medium",
+    "stage": 1,
+    "concept": "inflation",
+    "pressure": 50,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "TIN BOX CHECK",
+        "speaker": "Canteen anna",
+        "place": "canteen",
+        "text": "Six months on: samosa ₹13, tea ₹11. The same ₹1,000 in your tin buys noticeably less."
+      }
+    },
+    "choices": [
+      {
+        "id": "move_now",
+        "text": "MOVE IT TO BANYAN NOW",
+        "quality": "good",
+        "effects": [{ "label": "Moved the tin money to Banyan Savings", "happiness": 2 }],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "inflation", "value": 1 },
+          { "item": "saves_actively", "value": 1 }
+        ],
+        "lesson": "Late is better than never. Money that grows can keep up with prices."
+      },
+      {
+        "id": "leave_it",
+        "text": "LEAVE IT, NOTES ARE SAFE",
+        "quality": "weak",
+        "effects": [{ "label": "The tin keeps shrinking", "happiness": -4 }],
+        "ncfe": [{ "item": "inflation", "value": 0 }],
+        "lesson": "Safe from thieves, not from inflation. Every year the same notes buy less."
+      }
+    ]
+  },
+  {
+    "id": "detour_unsold_stock",
+    "isDetour": true,
+    "pillar": "invest",
+    "difficulty": "hard",
+    "stage": 1,
+    "concept": "diversification",
+    "pressure": 55,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "UNSOLD STOCK",
+        "speaker": "Uncle",
+        "place": "charminar",
+        "text": "Day 3: your one item isn't selling. Uncle gives you ₹300 more to restock. What do you buy?"
+      }
+    },
+    "choices": [
+      {
+        "id": "mix",
+        "text": "ADD CAPS, WATER, UMBRELLAS",
+        "quality": "good",
+        "effects": [
+          { "label": "Mixed stock sold through the week", "wallet": 100, "happiness": 4 }
+        ],
+        "ncfe": [{ "item": "diversification", "value": 1 }],
+        "lesson": "Different items sell on different days. A mix doesn't fail all at once."
+      },
+      {
+        "id": "same_again",
+        "text": "MORE OF THE SAME ITEM",
+        "quality": "weak",
+        "effects": [{ "label": "Still unsold", "wallet": -100, "happiness": -6 }],
+        "ncfe": [
+          { "item": "diversification", "value": 0 },
+          { "item": "risk_return", "value": 0 }
+        ],
+        "lesson": "Doubling down on one bet doubles the risk. Spread it out."
+      }
+    ]
+  },
+  {
+    "id": "detour_scammer_pushes",
+    "isDetour": true,
+    "pillar": "safety",
+    "difficulty": "simple",
+    "stage": 1,
+    "concept": "never_share_otp_pin",
+    "pressure": 70,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "PUSHY CALLER",
+        "speaker": "Unknown number",
+        "place": "home",
+        "text": "'It's for your account safety! Read me the 6 digits now or your account gets blocked today!'"
+      }
+    },
+    "choices": [
+      {
+        "id": "hang_up",
+        "text": "HANG UP AND BLOCK",
+        "quality": "good",
+        "effects": [{ "label": "Blocked the number", "happiness": 3 }],
+        "scam": "spotted",
+        "ncfe": [{ "item": "takes_responsibility", "value": 1 }],
+        "lesson": "Hurry + fear + 'share the code' is always a scam. No bank ever needs your OTP."
+      },
+      {
+        "id": "read_digits",
+        "text": "READ OUT THE DIGITS",
+        "quality": "weak",
+        "effects": [{ "label": "₹300 taken from the account", "wallet": -300, "happiness": -15 }],
+        "scam": "fell",
+        "lesson": "Those 6 digits were the key. Never read an OTP to anyone, however urgent they sound."
+      }
+    ]
+  },
+  {
+    "id": "detour_vip_upgrade",
+    "isDetour": true,
+    "pillar": "safety",
+    "difficulty": "hard",
+    "stage": 1,
+    "concept": "too_good_to_be_true",
+    "pressure": 75,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "VIP UPGRADE",
+        "speaker": "Group admin",
+        "place": "home",
+        "text": "'Your ₹100 earned ₹300! To withdraw, unlock VIP for ₹500. Offer ends in 10 minutes!'"
+      }
+    },
+    "choices": [
+      {
+        "id": "pay_vip",
+        "text": "PAY ₹500 FOR VIP",
+        "quality": "weak",
+        "effects": [
+          { "label": "₹500 gone; withdrawal still 'pending'", "wallet": -500, "happiness": -15 }
+        ],
+        "scam": "fell",
+        "ncfe": [{ "item": "risk_return", "value": 0 }],
+        "lesson": "The 'earnings' were numbers on a screen. Each new fee is the scam asking for more."
+      },
+      {
+        "id": "report",
+        "text": "STOP, REPORT ON 1930",
+        "quality": "good",
+        "effects": [{ "label": "Reported; lost only the ₹100", "happiness": 2 }],
+        "scam": "spotted",
+        "ncfe": [{ "item": "takes_responsibility", "value": 1 }],
+        "lesson": "Stop at the first loss. Reporting at 1930 helps stop them reaching your friends."
+      }
+    ]
+  },
+  {
+    "id": "detour_rent_squeeze",
+    "isDetour": true,
+    "pillar": "budget",
+    "difficulty": "simple",
+    "stage": 2,
+    "concept": "needs_vs_wants",
+    "pressure": 60,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "RENT SQUEEZE",
+        "speaker": "Your wallet",
+        "place": "gachibowli",
+        "text": "Month two in the flat: rent, food and travel leave ₹2,000. A friend's wedding gift is due."
+      }
+    },
+    "choices": [
+      {
+        "id": "small_gift",
+        "text": "CUT WANTS, SMALL GIFT",
+        "quality": "good",
+        "effects": [{ "label": "₹500 gift; takeaways cut", "wallet": -500, "happiness": -3 }],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "considers_affordability", "value": 1 },
+          { "item": "keeps_budget", "value": 1 }
+        ],
+        "lesson": "When rent eats the month, wants are the only thing left to cut. Next lease, keep rent under a third."
+      },
+      {
+        "id": "gift_on_credit",
+        "text": "BIG GIFT ON CREDIT",
+        "quality": "weak",
+        "effects": [
+          { "label": "₹3,000 gift on credit", "happiness": 6 },
+          { "label": "Credit bill + interest", "wallet": -3500, "delayChapters": 1 }
+        ],
+        "attitude": "now",
+        "ncfe": [{ "item": "loan_interest", "value": 0 }],
+        "lesson": "Credit for a want when rent is already tight starts a spiral. ₹3,000 became ₹3,500."
+      }
+    ]
+  },
+  {
+    "id": "detour_card_minimum",
+    "isDetour": true,
+    "pillar": "save",
+    "difficulty": "medium",
+    "stage": 2,
+    "concept": "emergency_buffer",
+    "pressure": 65,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "BIKE REPAIR",
+        "speaker": "Mechanic",
+        "place": "home",
+        "text": "Your bike needs ₹6,000 of repairs. No savings. The card app says 'pay just ₹300 minimum due'."
+      }
+    },
+    "choices": [
+      {
+        "id": "pay_full",
+        "text": "PAY IT OFF, START SAVING",
+        "quality": "good",
+        "effects": [
+          { "label": "Paid the repair in full", "wallet": -6000, "happiness": -5 },
+          { "label": "Auto-save", "wallet": -2000, "savings": 2000, "delayChapters": 1 }
+        ],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "major_expense_no_borrow", "value": 1 },
+          { "item": "saves_actively", "value": 1 }
+        ],
+        "lesson": "A painful month, but no interest. A buffer would have made it painless."
+      },
+      {
+        "id": "minimum",
+        "text": "PAY ONLY THE MINIMUM",
+        "quality": "weak",
+        "effects": [
+          { "label": "Minimum paid", "wallet": -300, "happiness": 2 },
+          {
+            "label": "Card interest on the rest",
+            "wallet": -200,
+            "delayChapters": 1,
+            "repeat": { "everyChapters": 1, "times": 3 }
+          }
+        ],
+        "ncfe": [
+          { "item": "loan_interest", "value": 0 },
+          { "item": "pays_bills_on_time", "value": 0 }
+        ],
+        "lesson": "Paying only the minimum means interest of about 3–4% every month on the rest. Small payments, big total."
+      }
+    ]
+  },
+  {
+    "id": "detour_late_start",
+    "isDetour": true,
+    "pillar": "invest",
+    "difficulty": "simple",
+    "stage": 2,
+    "concept": "compounding",
+    "pressure": 50,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "THE HEAD START",
+        "speaker": "Friend",
+        "place": "bank",
+        "text": "A friend started saving for the same goal years before you. Same income, but her money has had far longer to grow."
+      }
+    },
+    "choices": [
+      {
+        "id": "start_small",
+        "text": "START ₹1,000 A MONTH NOW",
+        "quality": "good",
+        "effects": [
+          { "label": "Monthly saving started", "wallet": -1000, "savings": 1000 },
+          {
+            "label": "Monthly saving",
+            "wallet": -1000,
+            "savings": 1000,
+            "delayChapters": 1,
+            "repeat": { "everyChapters": 1, "times": 2 }
+          }
+        ],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "compound_interest", "value": 1 },
+          { "item": "long_term_goals", "value": 1 }
+        ],
+        "lesson": "Starting small now beats starting big later. Time does most of the work."
+      },
+      {
+        "id": "wait_raise",
+        "text": "WAIT FOR A RAISE FIRST",
+        "quality": "weak",
+        "effects": [{ "label": "Still waiting", "happiness": -2 }],
+        "attitude": "now",
+        "ncfe": [{ "item": "compound_interest", "value": 0 }],
+        "lesson": "Every year you wait is a year of growth you never get back."
+      }
+    ]
+  },
+  {
+    "id": "detour_safe_account",
+    "isDetour": true,
+    "pillar": "safety",
+    "difficulty": "hard",
+    "stage": 3,
+    "concept": "spot_fake_officials",
+    "pressure": 85,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "'SAFE ACCOUNT'",
+        "speaker": "'Police officer'",
+        "place": "home",
+        "text": "'Stay on camera. Move ₹50,000 to this government safe account for verification. You get it back in an hour.'"
+      }
+    },
+    "choices": [
+      {
+        "id": "transfer",
+        "text": "TRANSFER TO 'SAFE ACCOUNT'",
+        "quality": "weak",
+        "effects": [{ "label": "₹50,000 gone", "wallet": -50000, "happiness": -25 }],
+        "scam": "fell",
+        "ncfe": [{ "item": "takes_responsibility", "value": 0 }],
+        "lesson": "There is no 'safe account'. No real officer ever asks you to move money."
+      },
+      {
+        "id": "hang_up",
+        "text": "HANG UP, CALL 1930",
+        "quality": "good",
+        "effects": [{ "label": "Reported the call", "happiness": 5 }],
+        "scam": "spotted",
+        "ncfe": [{ "item": "takes_responsibility", "value": 1 }],
+        "lesson": "Hanging up is always allowed. Real police never ask for money on a video call."
+      }
+    ]
+  },
+  {
+    "id": "detour_chit_advance",
+    "isDetour": true,
+    "pillar": "safety",
+    "difficulty": "medium",
+    "stage": 3,
+    "concept": "too_good_to_be_true",
+    "pressure": 65,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "PAY IN ADVANCE?",
+        "speaker": "Chit organiser",
+        "place": "home",
+        "text": "'Pay three months in advance, ₹15,000, to lock your slot. The early ones get the pot first!'"
+      }
+    },
+    "choices": [
+      {
+        "id": "pay_advance",
+        "text": "PAY ₹15,000 IN ADVANCE",
+        "quality": "weak",
+        "effects": [
+          { "label": "₹15,000 handed over, no receipt", "wallet": -15000, "happiness": -8 }
+        ],
+        "scam": "fell",
+        "ncfe": [{ "item": "risk_return", "value": 0 }],
+        "lesson": "Pay-early pressure with no receipt is how chit frauds grow before they vanish."
+      },
+      {
+        "id": "ask_receipts",
+        "text": "ASK FOR RECEIPTS + RULES",
+        "quality": "good",
+        "effects": [{ "label": "No receipts, so you stepped out", "happiness": 3 }],
+        "scam": "spotted",
+        "ncfe": [{ "item": "compares_options", "value": 1 }],
+        "lesson": "Written rules and receipts protect you. No paper means no protection."
+      }
+    ]
   }
 ]

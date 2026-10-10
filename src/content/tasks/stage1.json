@@ -298,6 +298,7 @@
         "id": "first_shop",
         "text": "BUY AT THE FIRST SHOP",
         "quality": "weak",
+        "detourTaskId": "detour_compare_again",
         "effects": [
           {
             "label": "Festival money",
@@ -456,6 +457,7 @@
         "id": "leftover",
         "text": "SAVE WHATEVER IS LEFT",
         "quality": "weak",
+        "detourTaskId": "detour_nothing_left",
         "effects": [
           {
             "label": "Nothing was left to save",
@@ -476,6 +478,7 @@
         "id": "spend_now",
         "text": "SPEND NOW, SAVE NEXT MONTH",
         "quality": "weak",
+        "detourTaskId": "detour_nothing_left",
         "effects": [
           {
             "label": "Game top-up and snacks",
@@ -538,6 +541,7 @@
         "id": "lend_500",
         "text": "LEND ₹500",
         "quality": "weak",
+        "detourTaskId": "detour_broke_by_week3",
         "effects": [
           {
             "label": "Lent ₹500",
@@ -714,6 +718,7 @@
         "id": "ignore",
         "text": "IGNORE IT FOR NOW",
         "quality": "weak",
+        "detourTaskId": "detour_buffer_now",
         "effects": [
           {
             "label": "Problem ignored",
@@ -796,6 +801,7 @@
         "id": "next_year",
         "text": "WAIT FOR NEXT YEAR",
         "quality": "weak",
+        "detourTaskId": "detour_now_or_later",
         "effects": [
           {
             "label": "Waiting…",
@@ -909,6 +915,7 @@
         "id": "keep_tin",
         "text": "KEEP IT IN THE TIN BOX",
         "quality": "weak",
+        "detourTaskId": "detour_tin_shrinks",
         "effects": [
           {
             "label": "Same notes, less value",
@@ -928,6 +935,7 @@
         "id": "spend_now",
         "text": "SPEND IT BEFORE PRICES RISE",
         "quality": "weak",
+        "detourTaskId": "detour_buffer_now",
         "effects": [
           {
             "label": "Spent the tin money",
@@ -991,6 +999,7 @@
         "id": "all_umbrellas",
         "text": "ALL UMBRELLAS",
         "quality": "weak",
+        "detourTaskId": "detour_unsold_stock",
         "effects": [
           {
             "label": "No rain: umbrellas unsold",
@@ -1034,6 +1043,7 @@
         "id": "hot_tip",
         "text": "ALL ON A FRIEND'S 'HOT' TOY",
         "quality": "weak",
+        "detourTaskId": "detour_unsold_stock",
         "effects": [
           {
             "label": "The craze ended: toys unsold",
@@ -1110,6 +1120,7 @@
         "id": "ask",
         "text": "ASK WHAT IT'S FOR",
         "quality": "weak",
+        "detourTaskId": "detour_scammer_pushes",
         "effects": [
           {
             "label": "They kept pushing for an hour",
@@ -1322,6 +1333,7 @@
         "id": "test",
         "text": "DEPOSIT ₹100 TO TEST IT",
         "quality": "weak",
+        "detourTaskId": "detour_vip_upgrade",
         "effects": [
           {
             "label": "₹100 gone; now they want ₹1,000",

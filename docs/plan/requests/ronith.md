@@ -34,3 +34,10 @@ Ronith: change `Status:` lines only; never delete blocks.
 - What: `BattleScene.hint()` falls back to `tr('battle.hint', …)`, but in content `battle.hint` is the panel label ("Aunty's hint"); the generic hint text is `battle.hint_generic`. Use `battle.hint_generic` for the fallback (and `battle.hint` as a heading if you want one).
 - Why: on tasks with no `hint` on any choice, after two fails the hint panel just says "Aunty's hint" (seen in a scripted playthrough, Stage 1 "BUS PASS DUE").
 - Accept when: failing such a task twice shows "Slow down. Who gains if you choose fast?".
+
+### R-monish-03 · Use the Hyderabad backdrops in BattleScene (and TownMap thumbnails)
+- From: monish · To: ronith · At: 01:45 · Priority: P1
+- Status: OPEN
+- What: nine finished 480×270 pixel-art backdrops are in `team97_vanguard_context/08_hyderabad_backgrounds/1x/` with a platforms overlay. Full mapping table and 5-step wiring in `docs/plan/ronith.md` → "Hyderabad backdrops". Copy the **1×** PNGs to `public/assets/backdrops/`, preload them, and draw the one matching `framing.place` in the arena strip at scale 0.75 (360×202) instead of `grassField`; keep `grassField` as fallback. Then, if cheap, the same images at 0.25 as TownMap thumbnails.
+- Why: this is the single biggest visual upgrade available before the demo video; every battle currently sits on a procedural green field.
+- Accept when: the Charminar scam task renders on the Charminar backdrop at 360×640 with no console errors, `npm run build` precache grows by ≈170 KB not 500 KB, and `npm run check` is green.

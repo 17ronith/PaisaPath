@@ -42,6 +42,7 @@
         "id": "flat_now",
         "text": "TAKE THE ₹8,000 FLAT NOW",
         "quality": "weak",
+        "detourTaskId": "detour_rent_squeeze",
         "effects": [
           {
             "label": "Deposit + first month's rent",
@@ -338,6 +339,7 @@
         "id": "when_needed",
         "text": "I'LL SAVE WHEN I NEED TO",
         "quality": "weak",
+        "detourTaskId": "detour_card_minimum",
         "effects": [
           {
             "label": "No buffer yet",
@@ -363,6 +365,7 @@
         "id": "credit_card",
         "text": "A CREDIT CARD IS MY BUFFER",
         "quality": "weak",
+        "detourTaskId": "detour_card_minimum",
         "effects": [
           {
             "label": "Relying on credit",
@@ -599,6 +602,7 @@
         "id": "start_later",
         "text": "START AT 30, ENJOY NOW",
         "quality": "weak",
+        "detourTaskId": "detour_late_start",
         "effects": [
           {
             "label": "Spent on enjoying now",
