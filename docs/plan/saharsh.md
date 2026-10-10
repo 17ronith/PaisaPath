@@ -1,5 +1,7 @@
 # Saharsh — Engine (then mini-games)
 
+> **Inbox:** `docs/plan/requests/saharsh.md` — read it before every edit; OPEN P0/P1 items come before this checklist. To ask someone else for something, append to *their* inbox.
+
 **MINE:** `src/engine/` (everything), `src/minigames/` (Phase 2).
 **NOT MINE:** anything else. The engine imports **only** `src/shared`. No
 Phaser, no `window`, no content JSON (tests use inline fixtures in

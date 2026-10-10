@@ -1,5 +1,7 @@
 # Monish — Integrator, platform, deliverables
 
+> **Inbox:** `docs/plan/requests/monish.md` — read it before every edit; OPEN P0/P1 items come before this checklist. To ask someone else for something, append to *their* inbox.
+
 **MINE:** `src/shared/`, `src/app/`, `server/`, `public/ngo/`, root configs
 (`package.json`, `package-lock.json`, `vite.config.ts`, `tsconfig.json`,
 `index.html`, `.prettierrc`, `.eslintrc.cjs`, `.github/`), `docs/`,

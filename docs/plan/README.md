@@ -21,9 +21,9 @@ no more debating tonight; ship, then tune.
 
 **You only edit files inside the directories you own.** What you need from
 others arrives through the frozen interfaces in `CONTRACTS.md`. If the
-interface is missing something, post `CONTRACT: <what> — <why>` in the group
-chat; Monish adds it (additively) within 15 minutes. You never reach into
-someone else's folder.
+interface is missing something, drop a request in `docs/plan/requests/monish.md`
+(see `requests/README.md`); Monish adds it (additively) within 15 minutes. You
+never reach into someone else's folder — **you write to their inbox instead.**
 
 Four people, four non-overlapping territories, one contract. Everything else
 is detail.
@@ -189,7 +189,8 @@ Rules:
    `git checkout origin/main -- package-lock.json && npm install`.
 7. **Contract changes** (`src/shared/types.ts`, `schema.ts`) are **additive
    only**: new _optional_ fields, new enum values. Never rename, remove or make
-   something required. Post `CONTRACT:` in chat; Monish merges in ≤ 15 min.
+   something required. Put the request in `requests/monish.md` and ping
+   `REQ:` in chat; Monish merges in ≤ 15 min.
 8. **Red `main` = stop the line.** Whoever broke it fixes it before anything else.
 9. **03:50–04:05 and 10:15–11:00: only Monish pushes to `main`.**
 
@@ -210,8 +211,14 @@ exactly.
 
 Hard rules:
 - Only create or modify files inside the directories listed as MINE in
-  docs/plan/<name>.md. If a change is needed elsewhere, stop and tell me
-  exactly what to ask the owner for (one line, prefixed DEP: or CONTRACT:).
+  docs/plan/<name>.md. If a change is needed elsewhere, append a request
+  block to that owner's inbox, docs/plan/requests/<owner>.md (format in
+  docs/plan/requests/README.md), commit it with prefix `req:`, and tell me
+  the request id so I can ping them.
+- BEFORE EVERY EDIT: git pull --rebase origin main, then read
+  docs/plan/requests/<name>.md. Work any OPEN request in priority order
+  (P0 first) before continuing my checklist. Set its Status to DOING when
+  you start and DONE <HH:MM> <sha> when it is merged. Never delete blocks.
 - src/shared/types.ts and src/shared/schema.ts are frozen. Code against them;
   never edit them.
 - Before every push: npm run format && npm run check, then
@@ -223,9 +230,10 @@ Hard rules:
   text. Never ask the player for OTP/PIN/Aadhaar/phone/email.
 - The landmark "IIIT Hyderabad" must appear in code/content as
   "University campus" (double-blind rule).
-- When you finish a task from my file, tick its checkbox in that file
-  (docs/plan/<name>.md is the one file outside my area I may edit —
-  checkbox lines only).
+- When you finish a task from my file, tick its checkbox in that file.
+  Files outside my area I may edit: docs/plan/<name>.md (checkbox lines),
+  docs/plan/requests/<name>.md (status lines), and docs/plan/requests/<other>.md
+  (append-only).
 
 Start with the first unchecked task in docs/plan/<name>.md.
 ```
@@ -256,7 +264,8 @@ Start with the first unchecked task in docs/plan/<name>.md.
 
 See `docs/plan/TRACKING.md` for how to see what everyone is doing without asking. `./scripts/status.sh` is the 10-second version.
 
-- Group chat prefixes: `DEP:` `CONTRACT:` `BLOCKED:` `MERGED:` `CUT:`. Skimmable.
+- **Cross-owner requests live in `docs/plan/requests/<owner>.md`** (see its README). Chat is the ping: `REQ: R-ronith-03 → saharsh (P0)`.
+- Other chat prefixes: `BLOCKED:` `MERGED:` `CUT:`. Skimmable.
 - Two integration calls: **02:45** and **07:30**. 20 minutes max, on one laptop.
 - Phase 3 bugs → GitHub issues, assignee = directory owner, label `P0` if it
   breaks the demo path.

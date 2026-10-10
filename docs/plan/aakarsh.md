@@ -1,5 +1,7 @@
 # Aakarsh — Content (tasks, explainers, strings)
 
+> **Inbox:** `docs/plan/requests/aakarsh.md` — read it before every edit; OPEN P0/P1 items come before this checklist. To ask someone else for something, append to *their* inbox.
+
 **MINE:** `src/content/` (everything).
 **NOT MINE:** anything else. Your JSON must satisfy `src/shared/schema.ts`;
 you never edit the schema. If a field is missing, post `CONTRACT:`.

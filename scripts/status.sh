@@ -24,6 +24,15 @@ for p in monish ronith saharsh aakarsh; do
   printf '  %-8s %2s done / %2s open   next: %s\n' "$p" "$done_n" "$todo_n" "$next"
 done
 
+echo; echo "== open requests (docs/plan/requests) =="
+for p in monish ronith saharsh aakarsh; do
+  f=$(git show origin/main:docs/plan/requests/$p.md 2>/dev/null || true)
+  o=$(printf '%s' "$f" | grep -c "^- Status: OPEN" || true)
+  d=$(printf '%s' "$f" | grep -c "^- Status: DOING" || true)
+  p0=$(printf '%s' "$f" | grep -B2 "^- Status: OPEN" | grep -c "Priority: P0" || true)
+  printf '  %-8s open %-2s doing %-2s  (P0 open: %s)\n' "$p" "$o" "$d" "$p0"
+done
+
 REPO=$(git remote get-url origin | sed -E "s|.*github.com[:/]||; s|\.git$||")
 if command -v gh >/dev/null 2>&1; then
   echo; echo "== open PRs =="

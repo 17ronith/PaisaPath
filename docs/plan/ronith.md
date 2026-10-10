@@ -1,5 +1,7 @@
 # Ronith — Phaser client
 
+> **Inbox:** `docs/plan/requests/ronith.md` — read it before every edit; OPEN P0/P1 items come before this checklist. To ask someone else for something, append to *their* inbox.
+
 **MINE:** `src/game/` (everything), `public/assets/`.
 **NOT MINE:** anything else. You consume `Game`/`Step`/`Outcome` from the
 engine via `getSession().game`, `ContentPack` via `getSession().content`,
