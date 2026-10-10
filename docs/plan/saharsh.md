@@ -17,8 +17,8 @@ into M2.pdf at 03:30** — write tests as you go, not after.
 
 ## Before SKELETON IS UP (23:30 → 00:15)
 
-- [ ] Read CONTRACTS §1–2 twice. Read CONTEXT.md §2.5, 2.7–2.12.
-- [ ] Draft the module split on paper (below). Write the fixture content
+- [x] Read CONTRACTS §1–2 twice. Read CONTEXT.md §2.5, 2.7–2.12.
+- [x] Draft the module split on paper (below). Write the fixture content
       pack in your head: 4 pillars × 1 task for Stage 1, 1 detour, 1 event,
       1 explainer, personas, 5 quiz Qs.
 
@@ -26,19 +26,19 @@ into M2.pdf at 03:30** — write tests as you go, not after.
 
 Module split (one file each, one test file each):
 
-- [ ] `rng.ts` — xorshift32: `createRng(seed)` → `{ next(): number /*0..1*/, state }`,
+- [x] `rng.ts` — xorshift32: `createRng(seed)` → `{ next(): number /*0..1*/, state }`,
       `fromState(state)`. Test: same seed → same sequence; state round-trips.
-- [ ] `economy.ts` — `ECONOMY: EconomyParams` (5000/25000/60000;
+- [x] `economy.ts` — `ECONOMY: EconomyParams` (5000/25000/60000;
       pocketMoney/20000/50000), `scaleToCoins(real, stage, profile)`,
       `incomeCoins(stage)`, `incomeLabel(persona, stage)`.
       Tests: the M1 table — ₹200 bat → ₹200 coins at ₹5,000 pocket money,
       ₹400 at ₹2,500, ₹1,000 at ₹1,000; stage 2 ₹20,000 → 25,000.
-- [ ] `effects.ts` — `applyEffect(bars, effect, stage, profile) → bars`,
+- [x] `effects.ts` — `applyEffect(bars, effect, stage, profile) → bars`,
       `scheduleEffect(state, effect, sourceTaskId)`,
       `fireDue(state) → Effect[]` (handles `repeat`, `triggerEvent`, flags).
       Tests: delayChapters 2 fires at chapter+2 not before; EMI
       `everyChapters:1,times:3` fires exactly 3×; flags set/cleared.
-- [ ] `selector.ts` — `pickMainTask(state, content, rng)` per CONTRACTS §2.3
+- [x] `selector.ts` — `pickMainTask(state, content, rng)` per CONTRACTS §2.3
       (stage, !detour, unseen, flags, difficulty preference w/ fallback,
       pillar rotation, invest-gate, returning-mistake 50%).
       `pickEvent(state, content, rng)` (stage, flags, weight ×3 if banked).
@@ -46,9 +46,9 @@ Module split (one file each, one test file each):
       Tests: 4 chapters of Stage 1 cover 4 distinct pillars; invest never
       before budget+save+safety; banked concept returns when a matching task
       exists; empty-bucket fallback to any difficulty.
-- [ ] `bank.ts` — `bank(state, concept)`, `clear(state, concept)`, `isBanked`.
+- [x] `bank.ts` — `bank(state, concept)`, `clear(state, concept)`, `isBanked`.
       Tests: dedupe; clear moves to `learned`.
-- [ ] `game.ts` — the `Game` class implementing the chapter loop state
+- [x] `game.ts` — the `Game` class implementing the chapter loop state
       machine (CONTRACTS §2.2) with `phase` in `GameState`, idempotent
       `next()`, `choose()` → `Outcome` incl. restart/detour/bank/clear,
       `barsAtTaskStart` restore, `failCounts` + `hintsOn`, wallet<0 and
@@ -62,12 +62,12 @@ Module split (one file each, one test file each):
       rejoins; `next()` twice without answering returns equal steps;
       `loadGame(toJSON())` continues identically to the original (compare 10
       more steps).
-- [ ] `scoring.ts` v1 — `summary()`: perPillar, quizBefore/After,
+- [x] `scoring.ts` v1 — `summary()`: perPillar, quizBefore/After,
       learningGain, biggestMistake, detours/restarts; NCFE + safety can be
       zeros until Phase 2 **but the shape must be complete**.
-- [ ] `__fixtures__/pack.ts` — a minimal valid `ContentPack` built in TS (not
+- [x] `__fixtures__/pack.ts` — a minimal valid `ContentPack` built in TS (not
       JSON) so tests don't depend on Aakarsh.
-- [ ] `scripts/simulate.ts` (inside `src/engine/`, run with `tsx`) — plays a
+- [x] `scripts/simulate.ts` (inside `src/engine/`, run with `tsx`) — plays a
       seeded game with a policy (`always good` / `always worst` / `random`)
       and prints bars per chapter. Output table goes into M2.pdf as an
       "experiment". `npm run sim` → ask Monish to add the script (`DEP:`).
@@ -76,18 +76,18 @@ Module split (one file each, one test file each):
 
 ## Phase 2 (04:05 → 08:30) — nap 05:45–07:15
 
-- [ ] `invest.ts` — `allocate()` real; `yearlyReturn(asset, rng)` =
+- [x] `invest.ts` — `allocate()` real; `yearlyReturn(asset, rng)` =
       Normal(mean, vol) via Box–Muller, clipped [−60, +80]; `growPortfolio(
     portfolio, years, rng) → { after, yearlyReturns }`; stage_end at ch 4/7/10
       with 5/6/25 years; `projection()` for the epilogue incl. `ifNotInvested`
       (cashbox after 5%/yr inflation in real terms) and the mandatory
       `assumptionLine`. Tests: zero-vol asset grows exactly (1+r)^t; seeded
       returns reproducible; cashbox nominal unchanged.
-- [ ] `scoring.ts` v2 — NCFE items from `ncfe` evidence (mean ≥ 0.5 rule),
+- [x] `scoring.ts` v2 — NCFE items from `ncfe` evidence (mean ≥ 0.5 rule),
       attitude thresholds, `literate`, safety spotted/faced (CONTRACTS §2.4).
       Tests: a log with all-good choices on the fixture → literate true;
       all-bad → false; attitude bands at 19/20/39/40 %.
-- [ ] `whatif.ts` — `whatIf()` per CONTRACTS §2.5: replay from seed with the
+- [x] `whatif.ts` — `whatIf()` per CONTRACTS §2.5: replay from seed with the
       log's choice ids, substituting the best choice at `biggestMistake`.
       Test: result deterministic across two calls; altEnd ≥ actualEnd in
       wallet for a fixture where the mistake is a pure loss.
