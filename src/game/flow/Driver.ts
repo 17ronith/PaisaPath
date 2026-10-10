@@ -9,7 +9,7 @@ import type { Game, Step } from '@/shared/types';
 if (import.meta.env?.DEV) (globalThis as Record<string, unknown>).__lmSession = getSession;
 
 /** Scene keys that show the HUD overlay on top. */
-const WITH_HUD = new Set(['ChapterMap', 'Battle', 'MinigameOffer']);
+const WITH_HUD = new Set(['ChapterMap', 'TownMap', 'Battle', 'MinigameOffer']);
 
 /**
  * Informational steps have no answer method in the Game API. If the engine exposes
@@ -54,6 +54,14 @@ export function route(from: Phaser.Scene, step: Step): void {
       key = 'ChapterMap';
       break;
     case 'task':
+      // Main tasks go through the town first; detours and restarts go straight to the fight.
+      key =
+        from.scene.manager.keys['TownMap'] &&
+        !step.isDetour &&
+        !((game?.state.failCounts[step.task.id] ?? 0) > 0)
+          ? 'TownMap'
+          : 'Battle';
+      break;
     case 'event':
       key = 'Battle';
       break;

@@ -146,7 +146,7 @@ under the 6 MB per-file cap and fine for the Fast-3G numbers.
 
 ## Phase 2 (04:05 → 08:30) — nap 04:15–05:45, then build
 
-- [ ] `TownMapScene.ts` — Kenney tiles, 10 `places` from content at
+- [x] `TownMapScene.ts` — Kenney tiles, 10 `places` from content at
       normalised x/y, the current task's place blinks; tap → **instant travel**
       (avatar sprite jumps there, 300 ms tween, no walk anim) → `Battle`.
       Other places show a one-line tooltip.
