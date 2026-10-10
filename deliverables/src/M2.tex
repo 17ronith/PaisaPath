@@ -80,13 +80,13 @@ Reading: good play ends stable and literate; careless play detours 1--2 times an
 
 \textbf{Report pipeline:} a seeded game produced a PDF report emailed to a sandbox inbox with the guardian in CC; with no network the service stores the message locally and the app offers a download instead.
 
-\textbf{Play test:} unguided peer play of Stage~1 on a phone is scheduled for the 02:45 integration session; results (time to first battle, help requests, drop-off) go into the final report.
+\textbf{Play test (team, 02:15):} four players took the build from title to Stage~3 on a laptop in phone mode and on a phone, unguided. \textbf{24 issues logged} (6 blocking, 14 affecting the teaching or demo path, 4 polish), each with an owner. The findings that change the design: (i) the economy is too forgiving --- careless play still ends with a large balance, so weak and critical choices will cost more and stage incomes drop; (ii) several choices and mini-game items are ambiguous (a deodorant can be a need), so every task will be re-read against a pinned concept list and the needs-vs-wants game restricted to unarguable items; (iii) nobody understood the hearts without a label, and the quiz screen needs a heading; (iv) the 9:16 canvas letterboxes on modern phones; (v) the scam-spotting mini-game's 30-second limit is too short. Also wanted: step sounds and a real walk, better avatars offered by sex, a recognisable guide character, Hindi alongside Telugu, read-aloud options. All 24 are tracked in the repository (\texttt{docs/plan/PLAYTEST-01.md}); a second play test follows the fixes at 07:00.
 
 \section{Progress on Testing}
 \begin{tabularx}{\textwidth}{@{}>{\bfseries}p{3.0cm}Xp{2.3cm}@{}}
 \toprule
 Learning gain & Before/after quiz wired end to end; NCFE-aligned score (8 knowledge, 9 behaviour, 3 attitude) and safety score computed from tagged choices & in place \\
-Usability & Unguided peer play test of Stage~1 on a phone & 02:45 \\
+Usability & Team play test done (24 issues, owners assigned); second play test after fixes & 02:15 done; 07:00 next \\
 Engine correctness & 124 unit tests; scripted-player table above; save/resume round-trip; seeded what-if replay & done, repeating \\
 Devices \& network & Throttled timings and offline reload measured on the production build & done \\
 Language & Validator checks every Telugu key exists in English (158/159); Telugu onboarding screenshots & keys done; screenshots pending \\

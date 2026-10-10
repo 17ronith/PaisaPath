@@ -48,3 +48,10 @@ Saharsh: change `Status:` lines only; never delete blocks.
 - Why: R-monish-02 asks for a joint decision with me.
 - Accept when: R-monish-02 shows the decision and `npm run sim -- --content` shows broke > 0 for `worst`.
 - Done: (01:05) Recorded in R-monish-02. On literacy: fixed engine-side (after-quiz answers are knowledge evidence, R-monish-01), so no extra tagging needed for that. Separate ask for detours in your inbox (R-saharsh-01).
+
+### R-team-01 · Play test 01 — your 3 items
+- From: team · To: saharsh · At: 02:20 · Priority: P1
+- Status: OPEN
+- What: `docs/plan/PLAYTEST-01.md` — 15 (Scam-or-Legit timer too short), 20 (Kirana Rush item list ambiguous: need vs want must be unarguable), 21 (bad decisions don't cost enough — tighten effects/incomes and re-run the sim until random play ends with ≤ 1 month of income spare; coordinate with Aakarsh who owns the numbers in content).
+- Why: Learning quality: the mini-games currently teach the wrong lesson on edge items and the economy is too forgiving.
+- Accept when: every one of your rows in PLAYTEST-01.md reads DONE or has a DECLINED reason.

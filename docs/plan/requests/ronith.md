@@ -48,3 +48,10 @@ Ronith: change `Status:` lines only; never delete blocks.
 - What: supersedes the mapping in R-monish-03 (same wiring, bigger table). 20 backdrops in `team97_vanguard_context/08_hyderabad_backgrounds/1x/` now cover all 13 `places.json` ids directly (`10_home` … `18_campus`), plus `19_home_age60` for `EpilogueScene`, `20_office_lobby` for the Stage 1→2 transition, `09_hitec_city` for Stage 2→3. Full table + wiring in `docs/plan/ronith.md` → "Hyderabad backdrops". `home` alone is 40 of 123 framings — do that one first if you do nothing else.
 - Why: this turns every screen from a green rectangle into Hyderabad; it is the demo video.
 - Accept when: a battle at `home`, `kirana` and `charminar` each shows its own backdrop at 360×640; Epilogue shows the aged room; `npm run build` precache grows ≈370 KB; `npm run check` green.
+
+### R-team-01 · Play test 01 — your 17 items (6 are P0)
+- From: team · To: ronith · At: 02:20 · Priority: P0
+- Status: OPEN
+- What: `docs/plan/PLAYTEST-01.md` — items 8, 18, 7, 6, 13, 16 are P0 (letterbox, backdrops, Switch bug, quiz heading, hearts label, back-to-map). Then 1, 2, 3, 4, 5, 10, 14, 17, 23. Tick Status in that file as you go.
+- Why: The team played the build; these are what the judges will see first.
+- Accept when: every one of your rows in PLAYTEST-01.md reads DONE or has a DECLINED reason.

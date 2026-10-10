@@ -13,3 +13,10 @@ Monish: change `Status:` lines only; never delete blocks.
 
 ---
 
+
+### R-team-01 · Play test 01 — your 2 items
+- From: team · To: monish · At: 02:20 · Priority: P1
+- Status: OPEN
+- What: `docs/plan/PLAYTEST-01.md` — 24 (CONCEPTS.md with Aakarsh), 22b (TTS voiceover via Web Speech API, P2). Also: M2 play-test paragraph updated with these findings.
+- Why: Owner-of-record so the shared items don't fall through.
+- Accept when: every one of your rows in PLAYTEST-01.md reads DONE or has a DECLINED reason.

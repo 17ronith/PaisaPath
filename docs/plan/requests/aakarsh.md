@@ -60,3 +60,10 @@ Aakarsh: change `Status:` lines only; never delete blocks.
   worst   medium     13598.1   19040    12.3     7.7         0     6.7     3.6     1.2       0     100
   worst   hard         23438   17695     6.7     3.5         0     6.1     4.4     0.9       0     100
   ```
+
+### R-team-01 · Play test 01 — your 6 items
+- From: team · To: aakarsh · At: 02:20 · Priority: P1
+- Status: OPEN
+- What: `docs/plan/PLAYTEST-01.md` — 9 (framings weak), 20 (ambiguous choices), 21 (effects too mild), 22a (Hindi strings), 24 (CONCEPTS.md with Monish), 19 (scam-call event, P2). Start with 24: once the concept list is pinned, 9 and 20 become mechanical.
+- Why: Four players independently said the questions don't clearly teach the concept they're meant to.
+- Accept when: every one of your rows in PLAYTEST-01.md reads DONE or has a DECLINED reason.
