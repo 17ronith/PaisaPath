@@ -71,3 +71,10 @@ Ronith: change `Status:` lines only; never delete blocks.
 - What: `src/app/tts.ts` exports `speak(text, lang)`, `speakChoices(situation, options, lang)`, `stop()`, `ttsEnabled()`, `setTtsEnabled(on)`, `ttsSupported()`. Add (1) a 🔊 toggle in the HUD next to mute that calls `setTtsEnabled`, hidden when `!ttsSupported()`; (2) in `BattleScene`, after the framing text finishes typing: `speakChoices(framing.text, choices.map(c => c.text), session.lang)`; (3) in `QuizScene`: `speakChoices(q.text, q.options, session.lang)`; (4) `stop()` on scene shutdown. Import from `@/app/tts` (the lint rule allows `@/app/session` only — I'll widen it to `@/app/tts` in the same commit as this request).
 - Why: "voiceovers reading out the options in the selected language" — play-test item 22. Works offline with the device's own voices; silent where a Telugu voice is missing.
 - Accept when: with TTS on, an English battle reads the situation and numbered options; switching to Telugu either reads in Telugu or stays silent (never English voice on Telugu text).
+
+### R-monish-07 · Two one-line hooks: start the music, step blips in the walk
+- From: monish · To: ronith · At: 04:35 · Priority: P1
+- Status: OPEN
+- What: `src/game/music.ts` exports `startMusic()`, `stopMusic()`, `stepBlip(left)`. (1) In `TitleScene`, call `startMusic()` inside the START/CONTINUE tap handler (needs a user gesture; it is idempotent and already obeys your mute flag — the HUD ♪/× button now silences music too without changes). (2) In the walk you're adding for #1, call `stepBlip(frame % 2 === 0)` on each frame change. Nothing else to wire.
+- Why: PLAYTEST #12 and the sound half of #1, without touching `audio.ts`.
+- Accept when: music starts on START, mutes with the HUD button, and the avatar's steps tick.

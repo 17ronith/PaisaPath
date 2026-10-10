@@ -81,3 +81,10 @@ Aakarsh: change `Status:` lines only; never delete blocks.
 - What: branch `monish/for-aakarsh-hindi` (PR opened). Inside `src/content/`: `strings/hi.json` (159/159 keys), `strings/hi.content.json` (same 99 keys as Telugu), 2-line wiring in `index.ts`, and the "Hindi is partial" test replaced by "Hindi ≥ 90 % and overlay keys match Telugu". Also `docs/plan/drafts/missing-concept-tasks.json`: three ready-to-paste Stage 2/3 tasks for `risk_return`, `instant_loan_trap`, `fake_payment_proof` (all personas, real ₹) — see `drafts/README.md` for two things to adjust. **You review and merge**; it's your folder. Validator + 124 tests are green on the branch.
 - Why: PLAYTEST #22a and #24 were on your list; this clears them while you sleep.
 - Accept when: PR merged (or declined with reason) and the three tasks pasted/edited/rejected.
+
+### R-monish-07 · Three new string keys for the InfoPanel cards
+- From: monish · To: aakarsh · At: 04:35 · Priority: P2
+- Status: OPEN
+- What: add to `en.json` (+ `te.json`, `hi.json`): `info.card.money` "Money", `info.card.learning` "Learning", `info.card.minigames` "Mini-games". They fall back to English until then.
+- Why: InfoPanel redesign (PLAYTEST #11) uses them.
+- Accept when: `validate:content` shows te/hi still ≥ 99 % / 100 %.
