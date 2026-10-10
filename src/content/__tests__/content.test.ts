@@ -206,7 +206,71 @@ describe('localize / applyOverlay', () => {
     expect(JSON.stringify(localize(pack, 'en'))).toBe(JSON.stringify(pack));
     const te = localize(pack, 'te');
     expect(te.tasks).toHaveLength(pack.tasks.length);
-    const untranslated = Object.keys(OVERLAYS.te).length === 0;
-    if (untranslated) expect(JSON.stringify(te)).toBe(JSON.stringify(pack));
+    const untouched = (id: string) =>
+      JSON.stringify(te.tasks.find((t) => t.id === id)) ===
+      JSON.stringify(pack.tasks.find((t) => t.id === id));
+    expect(untouched('budget_hard_s3_01')).toBe(true);
+    expect(untouched('safety_medium_s1_01')).toBe(false);
+  });
+
+  it('Telugu fully covers the two demo tasks (every persona framing, choice and lesson) and onboarding', () => {
+    const te = localize(pack, 'te');
+    const telugu = /[ఀ-౿]/;
+    for (const id of ['budget_simple_s1_01', 'safety_medium_s1_01']) {
+      const t = te.tasks.find((x) => x.id === id)!;
+      for (const f of Object.values(t.framings)) expect(f!.text).toMatch(telugu);
+      for (const c of t.choices) {
+        expect(c.text, `${id}.${c.id}`).toMatch(telugu);
+        expect(c.lesson).toMatch(telugu);
+      }
+    }
+    for (const q of te.lifeQuestions) for (const o of q.options) expect(o.text).toMatch(/[ఀ-౿]|₹/);
+    for (const q of te.quiz) expect(q.text).toMatch(telugu);
+    for (const p of te.personas) expect(p.label).toMatch(telugu);
+  });
+});
+
+describe('strings', () => {
+  it('Telugu covers almost all UI strings; Hindi has title + buttons and falls back to English', () => {
+    const en = Object.keys(STRINGS.en);
+    expect(Object.keys(STRINGS.te).length / en.length).toBeGreaterThan(0.9);
+    expect(Object.keys(STRINGS.hi)).toContain('title');
+    expect(Object.keys(STRINGS.hi).every((k) => k === 'title' || k.startsWith('btn.'))).toBe(true);
+  });
+});
+
+describe('stages 2 and 3', () => {
+  const pack: ContentPack = loadContent();
+
+  it.each([2, 3] as const)(
+    'stage %i has 6 main tasks covering every pillar, all persona-framed',
+    (stage) => {
+      const tasks = pack.tasks.filter((t) => t.stage === stage && !t.isDetour);
+      expect(tasks).toHaveLength(6);
+      expect(new Set(tasks.map((t) => t.pillar)).size).toBe(4);
+      for (const t of tasks)
+        expect(Object.keys(t.framings).sort()).toEqual([
+          'default',
+          'earner',
+          'pocket_money',
+          'scholarship',
+        ]);
+    },
+  );
+
+  it('at least 6 delayed or repeating effects across the pack, and every concept returns in a later disguise', () => {
+    const choices = [...pack.tasks, ...pack.events].flatMap((o) => o.choices);
+    const delayed = choices
+      .flatMap((c) => c.effects)
+      .filter((e) => (e.delayChapters ?? 0) > 0 || e.repeat);
+    expect(delayed.length).toBeGreaterThanOrEqual(6);
+    // A Stage-1 mistake can only come back "in disguise" if a later task or an event shares its concept.
+    const later = new Set([
+      ...pack.tasks.filter((t) => t.stage > 1 || t.isDetour).map((t) => t.concept),
+      ...pack.events.flatMap((e) => (e.concept ? [e.concept] : [])),
+    ]);
+    const s1 = pack.tasks.filter((t) => t.stage === 1 && !t.isDetour).map((t) => t.concept);
+    const missing = s1.filter((c) => !later.has(c));
+    expect(missing).toEqual([]);
   });
 });
