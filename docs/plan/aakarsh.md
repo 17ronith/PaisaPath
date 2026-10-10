@@ -21,6 +21,7 @@ missions). Research: `team97_vanguard_context/06_claude_docs_exports/research_la
 ---
 
 ## Before SKELETON IS UP (23:30 → 00:15)
+
 - [ ] Read CONTRACTS §1 (content types) and §3 (file layout, canonical task,
       canonical explainer) twice. Read CONTEXT.md §2.3–2.10, §6.
 - [ ] In a local scratch markdown (not committed), outline the **12 Stage-1
@@ -60,7 +61,7 @@ missions). Research: `team97_vanguard_context/06_claude_docs_exports/research_la
       `lesson` lines, `ncfe` evidence, `attitude` on spend-now/later choices,
       `scam` on safety choices, `hint` on the trap choices, at least one
       **delayed** effect in 4 of the 12 (lend ₹500 → `triggerEvent:
-      friend_asks_again` in 2 chapters; no-cost EMI → `repeat`; skip saving
+    friend_asks_again` in 2 chapters; no-cost EMI → `repeat`; skip saving
       → flag `no_buffer` used by an emergency event). Suggested grid:
 
       | | simple | medium | hard |
@@ -119,11 +120,13 @@ missions). Research: `team97_vanguard_context/06_claude_docs_exports/research_la
 - [ ] Read every lesson line aloud once. Cut words. Name the concept.
 
 ## Phase 3 (08:30 → 11:00)
+
 - [ ] Cross-playtest Ronith's build as a "student": note every confusing
       framing; fix text (content-only changes are safe until 10:15).
 - [ ] Help Monish with slides 11:00–11:25 (you know the content best).
 
 ## Definition of done
+
 `validate:content` green with 24 main tasks, 8 detours, 12 events, 16
 explainers, 5 quiz Qs, en + te strings · every stage has ≥1 task per pillar ·
 at least 6 delayed/repeat effects across the pack · no `IIIT`, no brands ·

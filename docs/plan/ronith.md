@@ -17,6 +17,7 @@ block on art.
 ---
 
 ## Before SKELETON IS UP (23:30 → 00:15)
+
 - [ ] Download Kenney **Tiny Town** and **RPG Urban Pack** (CC0) to
       `public/assets/kenney/` (keep their licence txt). Pick: a 16×16
       character spritesheet for 4 avatars, a tile sheet for the town, 1 UI
@@ -128,11 +129,13 @@ Branch `ronith/scenes`. Merge to `main` at ~01:30 and ~02:40 minimum.
       campus" as the campus place label.
 
 ## Phase 3 (08:30 → 11:00)
+
 - [ ] Bug fixes from cross-playtests (Aakarsh and Saharsh play your build).
 - [ ] Record the demo screen capture (Chrome device mode 360×640, 2× zoom)
       following `docs/demo-script.md`. Use `?demo=1` save for the late game.
 - [ ] Final `npm run check` green on your last PR before **10:15**.
 
 ## Definition of done
+
 Every `Step.kind` has a screen · a full seeded run from Title to EndReport
 works with no console errors · 360×640 touch-friendly · `npm run check` green.

@@ -16,6 +16,7 @@ into M2.pdf at 03:30** — write tests as you go, not after.
 ---
 
 ## Before SKELETON IS UP (23:30 → 00:15)
+
 - [ ] Read CONTRACTS §1–2 twice. Read CONTEXT.md §2.5, 2.7–2.12.
 - [ ] Draft the module split on paper (below). Write the fixture content
       pack in your head: 4 pillars × 1 task for Stage 1, 1 detour, 1 event,
@@ -77,7 +78,7 @@ Module split (one file each, one test file each):
 
 - [ ] `invest.ts` — `allocate()` real; `yearlyReturn(asset, rng)` =
       Normal(mean, vol) via Box–Muller, clipped [−60, +80]; `growPortfolio(
-      portfolio, years, rng) → { after, yearlyReturns }`; stage_end at ch 4/7/10
+    portfolio, years, rng) → { after, yearlyReturns }`; stage_end at ch 4/7/10
       with 5/6/25 years; `projection()` for the epilogue incl. `ifNotInvested`
       (cashbox after 5%/yr inflation in real terms) and the mandatory
       `assumptionLine`. Tests: zero-vol asset grows exactly (1+r)^t; seeded
@@ -107,11 +108,13 @@ Module split (one file each, one test file each):
 - [ ] Hints: `hintsOn` after 2 fails — verify end-to-end with Ronith.
 
 ## Phase 3 (08:30 → 11:00)
+
 - [ ] Cross-playtest Ronith's build on a phone; file P0 issues.
 - [ ] Final test count + simulate table to Monish by 09:30.
 - [ ] Last PR green before **10:15**.
 
 ## Definition of done
+
 `Game` implements every method in CONTRACTS §1 · ≥ 35 tests by final ·
 seeded runs reproducible · `loadGame(toJSON())` resumes exactly ·
 `whatIf()` deterministic · two mini-games call `onDone` exactly once ·

@@ -1,26 +1,45 @@
 # Learning Money by Living It
 
-Megathon 2026 — Team 97
+Megathon X — Team 97
 
 ## Prerequisites
 
-_TBD_
+- Node.js 20+ and npm
+- A modern browser (Chrome recommended; use device mode at 360×640 for the phone layout)
 
 ## Setup
 
 ```bash
-# TBD
+npm install
+cd server && npm install && cd ..
 ```
 
 ## Run
 
 ```bash
-# TBD
+npm run dev          # game client at http://localhost:5173 (also on your LAN IP for phones)
+npm run server       # report service at http://localhost:8787
+```
+
+## Build and test
+
+```bash
+npm run build        # production build → dist/ (PWA, offline-capable)
+npm run preview      # serve the production build
+npm test             # engine unit tests (Vitest)
+npm run validate:content
+npm run check        # typecheck + lint + tests + content validation
 ```
 
 ## External resources
 
-_None yet. Links to externally hosted datasets or model weights go here._
+_None. All content and assets are in this repository._
+
+## Third-party assets and libraries
+
+- [Phaser 3](https://phaser.io/) — MIT
+- [Kenney Tiny Town](https://kenney.nl/assets/tiny-town) and [Kenney RPG Urban Pack](https://kenney.nl/assets/rpg-urban-pack) — CC0 (when used, under `public/assets/kenney/`)
+- Fonts under `public/assets/fonts/` carry their own licence files
 
 ## License
 

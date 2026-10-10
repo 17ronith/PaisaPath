@@ -3,14 +3,14 @@
 Megathon X · Team 97 · Monish · Ronith · Saharsh · Aakarsh
 Written 23:25 IST, Sat 10 Oct. **M2 at 04:00. Final at 11:00. Slides 11:30.**
 
-This folder is the single source of truth for *how* we build tonight.
+This folder is the single source of truth for _how_ we build tonight.
 Every Claude Code session reads, in order:
 
 1. `docs/plan/README.md` (this file) — rules, timeline, who owns what
 2. `docs/plan/CONTRACTS.md` — the frozen TypeScript interfaces + JSON shapes
 3. `docs/plan/<yourname>.md` — your checklist
 
-The *what* lives in `CONTEXT.md` §2 (authoritative design) and
+The _what_ lives in `CONTEXT.md` §2 (authoritative design) and
 `deliverables/M1.pdf`. This plan turns that into code ownership, interfaces
 and a clock. Where CONTEXT.md says **[OPEN]**, this plan **decides** (see §6) —
 no more debating tonight; ship, then tune.
@@ -32,17 +32,17 @@ is detail.
 
 ## 1. Stack (decided — do not relitigate)
 
-| Layer | Choice | Why |
-|---|---|---|
-| Language | **TypeScript** (strict) | The compiler enforces the contract between four people. It compiles to the "plain JS modules" M1 promised. |
-| Build | **Vite** + `vite-plugin-pwa` | Fast dev; offline-capable PWA for cheap Androids. |
-| Client | **Phaser 3** (3.80+) | As per M1. Portrait **360×640**, `Scale.FIT`, pixel-art (`pixelArt: true`). |
-| Tests | **Vitest** | Engine + content tests run headless in CI and give us numbers for M2. |
-| Validation | **zod** | Content JSON validated against the same types the engine uses. |
-| Report/email | **jsPDF** (client-side PDF) + tiny **Express** + **nodemailer → Ethereal** sandbox inbox | Proves "report emailed to facilitator" with a real inbox link, zero account setup. |
-| NGO dashboard | Static mock page with sample data (`public/ngo/`) | CONTEXT.md §2.13: a mock is acceptable. |
-| Art | **Kenney Tiny Town + RPG Urban Pack** (CC0), coloured boxes until art lands | CONTEXT.md §2.16. Credit in README. |
-| Format | **Prettier**, config committed | Identical formatting = no whitespace conflicts. |
+| Layer         | Choice                                                                                   | Why                                                                                                        |
+| ------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Language      | **TypeScript** (strict)                                                                  | The compiler enforces the contract between four people. It compiles to the "plain JS modules" M1 promised. |
+| Build         | **Vite** + `vite-plugin-pwa`                                                             | Fast dev; offline-capable PWA for cheap Androids.                                                          |
+| Client        | **Phaser 3** (3.80+)                                                                     | As per M1. Portrait **360×640**, `Scale.FIT`, pixel-art (`pixelArt: true`).                                |
+| Tests         | **Vitest**                                                                               | Engine + content tests run headless in CI and give us numbers for M2.                                      |
+| Validation    | **zod**                                                                                  | Content JSON validated against the same types the engine uses.                                             |
+| Report/email  | **jsPDF** (client-side PDF) + tiny **Express** + **nodemailer → Ethereal** sandbox inbox | Proves "report emailed to facilitator" with a real inbox link, zero account setup.                         |
+| NGO dashboard | Static mock page with sample data (`public/ngo/`)                                        | CONTEXT.md §2.13: a mock is acceptable.                                                                    |
+| Art           | **Kenney Tiny Town + RPG Urban Pack** (CC0), coloured boxes until art lands              | CONTEXT.md §2.16. Credit in README.                                                                        |
+| Format        | **Prettier**, config committed                                                           | Identical formatting = no whitespace conflicts.                                                            |
 
 Node 20+. npm. One root `package.json` with **all** deps pre-installed in
 Phase 0, plus `server/package.json`.
@@ -84,12 +84,12 @@ shared ← engine ← minigames ← game
 - `game`, `minigames` may import `engine`, `content`, `shared`.
 - `app` may import anything. `server` imports only `shared` types.
 
-| Person | Owns | Never touches |
-|---|---|---|
+| Person                                 | Owns                                                                                                      | Never touches                                                             |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | **Monish** (integrator + deliverables) | `src/shared`, `src/app`, `server/`, `public/ngo`, root configs, CI, `docs/`, `deliverables/`, `README.md` | `src/engine`, `src/game`, `src/content`, `src/minigames`, `public/assets` |
-| **Ronith** (client) | `src/game`, `public/assets` | everything else |
-| **Saharsh** (engine) | `src/engine`, `src/minigames` | everything else |
-| **Aakarsh** (content) | `src/content` | everything else |
+| **Ronith** (client)                    | `src/game`, `public/assets`                                                                               | everything else                                                           |
+| **Saharsh** (engine)                   | `src/engine`, `src/minigames`                                                                             | everything else                                                           |
+| **Aakarsh** (content)                  | `src/content`                                                                                             | everything else                                                           |
 
 `package.json`, `package-lock.json`, `vite.config.ts`, `tsconfig.json`,
 `index.html` are **Monish-only**. Need a dep? Post `DEP: <name> — <why>`.
@@ -99,23 +99,23 @@ Monish adds it on `main` in minutes; you `git pull --rebase origin main`.
 
 ## 3. The clock (IST, tonight)
 
-| Time | What | Who |
-|---|---|---|
-| **23:25–00:15** | **Phase 0 — skeleton.** Monish lands one commit on `main`: tooling, frozen contracts, stub engine, seed content, placeholder scenes, session, server `/health`, CI. Tag `v0-skeleton`. Everyone else: Node 20 installed, repo cloned, plan read, start drafting *in your own folder locally only* (content outlines in markdown, asset downloads). **Nobody pushes until "SKELETON IS UP".** | Monish |
-| **00:15–03:15** | **Phase 1 — Stage 1 playable.** Four parallel tracks (below). Merge to `main` every ~90 min minimum. | all |
-| **02:45** | **Integration call #1 (20 min).** Swap stub engine → real engine, seed content → real content. Play Stage 1 start-to-finish on one laptop. Fix only blockers. | all |
-| **03:15–03:50** | **M2 crunch.** Monish writes `deliverables/M2.pdf` from real numbers (test count, scaler table, load time). Everyone: last push to `main` by **03:40**. `main` must be green. | Monish writes; others push + playtest |
-| **03:50** | **Pre-deadline freeze.** No pushes to `main` 03:50–04:05 except Monish. | — |
-| **04:00** | **M2 DEADLINE.** | — |
-| **04:05–08:30** | **Phase 2 — full game.** Stages 2–3 (lighter), investing + epilogue, what-if, after-quiz, report PDF + email, mini-games, Telugu onboarding, dashboard mock, polish. | all |
-| **07:30** | **Integration call #2 (20 min).** Full 3-stage playthrough. Report lands in the Ethereal inbox. Decide cuts. | all |
-| **08:30** | **FEATURE FREEZE.** Only bug fixes after this. | — |
-| **08:30–10:00** | **Phase 3 — ship.** Demo video recorded (Ronith drives, Monish voiceover script), `final_report.pdf`, README (setup/run + asset credits), bug fixes from cross-playtesting. | all |
-| **10:15** | **CODE FREEZE.** Final `npm run check && npm run build` on `main`. Zip the repo (no `node_modules`). | Monish |
-| **10:45** | Final push verified on GitHub. Video on Drive, "Anyone with the link". Forms submitted. | Monish |
-| **11:00** | **FINAL DEADLINE.** | — |
-| **11:00–11:25** | Slides PDF (problem, approach, solution, results) — built from `final_report.pdf` content. | Monish + Aakarsh |
-| **11:30** | **SLIDES DEADLINE.** | — |
+| Time            | What                                                                                                                                                                                                                                                                                                                                                                                         | Who                                   |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| **23:25–00:15** | **Phase 0 — skeleton.** Monish lands one commit on `main`: tooling, frozen contracts, stub engine, seed content, placeholder scenes, session, server `/health`, CI. Tag `v0-skeleton`. Everyone else: Node 20 installed, repo cloned, plan read, start drafting _in your own folder locally only_ (content outlines in markdown, asset downloads). **Nobody pushes until "SKELETON IS UP".** | Monish                                |
+| **00:15–03:15** | **Phase 1 — Stage 1 playable.** Four parallel tracks (below). Merge to `main` every ~90 min minimum.                                                                                                                                                                                                                                                                                         | all                                   |
+| **02:45**       | **Integration call #1 (20 min).** Swap stub engine → real engine, seed content → real content. Play Stage 1 start-to-finish on one laptop. Fix only blockers.                                                                                                                                                                                                                                | all                                   |
+| **03:15–03:50** | **M2 crunch.** Monish writes `deliverables/M2.pdf` from real numbers (test count, scaler table, load time). Everyone: last push to `main` by **03:40**. `main` must be green.                                                                                                                                                                                                                | Monish writes; others push + playtest |
+| **03:50**       | **Pre-deadline freeze.** No pushes to `main` 03:50–04:05 except Monish.                                                                                                                                                                                                                                                                                                                      | —                                     |
+| **04:00**       | **M2 DEADLINE.**                                                                                                                                                                                                                                                                                                                                                                             | —                                     |
+| **04:05–08:30** | **Phase 2 — full game.** Stages 2–3 (lighter), investing + epilogue, what-if, after-quiz, report PDF + email, mini-games, Telugu onboarding, dashboard mock, polish.                                                                                                                                                                                                                         | all                                   |
+| **07:30**       | **Integration call #2 (20 min).** Full 3-stage playthrough. Report lands in the Ethereal inbox. Decide cuts.                                                                                                                                                                                                                                                                                 | all                                   |
+| **08:30**       | **FEATURE FREEZE.** Only bug fixes after this.                                                                                                                                                                                                                                                                                                                                               | —                                     |
+| **08:30–10:00** | **Phase 3 — ship.** Demo video recorded (Ronith drives, Monish voiceover script), `final_report.pdf`, README (setup/run + asset credits), bug fixes from cross-playtesting.                                                                                                                                                                                                                  | all                                   |
+| **10:15**       | **CODE FREEZE.** Final `npm run check && npm run build` on `main`. Zip the repo (no `node_modules`).                                                                                                                                                                                                                                                                                         | Monish                                |
+| **10:45**       | Final push verified on GitHub. Video on Drive, "Anyone with the link". Forms submitted.                                                                                                                                                                                                                                                                                                      | Monish                                |
+| **11:00**       | **FINAL DEADLINE.**                                                                                                                                                                                                                                                                                                                                                                          | —                                     |
+| **11:00–11:25** | Slides PDF (problem, approach, solution, results) — built from `final_report.pdf` content.                                                                                                                                                                                                                                                                                                   | Monish + Aakarsh                      |
+| **11:30**       | **SLIDES DEADLINE.**                                                                                                                                                                                                                                                                                                                                                                         | —                                     |
 
 Sleep: nobody sleeps before 04:00. After M2, two people nap 04:15–05:45
 (Aakarsh, Ronith), the other two nap 05:45–07:15 (Monish, Saharsh). A fresh
@@ -123,21 +123,21 @@ brain at 09:00 is worth more than one more feature at 05:00.
 
 ### Phase 1 tracks (00:15 → 03:15)
 
-| Person | Deliverable by 02:45 | Proof |
-|---|---|---|
-| **Saharsh** | Real engine behind the frozen API: state, economy scaler, chapter loop, task selector, consequence scheduler, mistake bank, restart/detour routing, decision log. **≥ 20 unit tests.** | `npm test` green; a 30-step seeded run prints bars going up and down |
-| **Aakarsh** | Validator with helpful errors; Stage 1 content complete: **12 tasks** (4 pillars × 3 difficulties) × 3 persona framings, 4 detours, 6 events, 8 explainers, 12 concepts, onboarding L1–L4 + K1–K5, personas, `strings/en.json` | `npm run validate:content` green |
-| **Ronith** | Boot/Preload → Title → Onboarding (lang, avatar+name, L1–L4, persona card + Switch) → Quiz → ChapterMap → **MoneyBattle** (the one generic screen) → Explainer player → HUD. Works against stub engine + seed content. | `npm run dev`, play 5 battles at 360×640 |
-| **Monish** | Phase 0, then: `storage.ts` (IndexedDB save/resume), PWA manifest + offline, `session.ts` real, `server/` `/api/report` → Ethereal, CI, GitHub Pages deploy, M2.pdf skeleton in LaTeX | Reload mid-game → resumes; `curl /api/report` returns an Ethereal preview URL |
+| Person      | Deliverable by 02:45                                                                                                                                                                                                           | Proof                                                                         |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| **Saharsh** | Real engine behind the frozen API: state, economy scaler, chapter loop, task selector, consequence scheduler, mistake bank, restart/detour routing, decision log. **≥ 20 unit tests.**                                         | `npm test` green; a 30-step seeded run prints bars going up and down          |
+| **Aakarsh** | Validator with helpful errors; Stage 1 content complete: **12 tasks** (4 pillars × 3 difficulties) × 3 persona framings, 4 detours, 6 events, 8 explainers, 12 concepts, onboarding L1–L4 + K1–K5, personas, `strings/en.json` | `npm run validate:content` green                                              |
+| **Ronith**  | Boot/Preload → Title → Onboarding (lang, avatar+name, L1–L4, persona card + Switch) → Quiz → ChapterMap → **MoneyBattle** (the one generic screen) → Explainer player → HUD. Works against stub engine + seed content.         | `npm run dev`, play 5 battles at 360×640                                      |
+| **Monish**  | Phase 0, then: `storage.ts` (IndexedDB save/resume), PWA manifest + offline, `session.ts` real, `server/` `/api/report` → Ethereal, CI, GitHub Pages deploy, M2.pdf skeleton in LaTeX                                          | Reload mid-game → resumes; `curl /api/report` returns an Ethereal preview URL |
 
 ### Phase 2 tracks (04:05 → 08:30)
 
-| Person | Deliverable |
-|---|---|
-| **Saharsh** | Investing sim (4 made-up assets, seeded returns, stage-jump compounding, epilogue projection), `whatIf()`, `summary()` with NCFE 20-item + safety score, hints-after-two-fails, 2 mini-game scenes in `src/minigames/`, balance pass with Aakarsh |
-| **Aakarsh** | Stage 2 + 3 content (6 tasks each × 3 framings), 4 more detours, 6 more events, remaining explainers, `assets.json` blurbs, `strings/te.json` for onboarding + HUD + battle chrome, Telugu for 2 Stage-1 tasks, content balance pass |
-| **Ronith** | TownMap (tap-to-travel, **instant travel**, no walk anim), StageTransition, Invest screen (allocation sliders), InfoPanel overlay, ReplayLibrary, Epilogue, WhatIf, EndReport screen, AfterQuiz reuse, Kenney tiles in, audio blips, mobile touch polish |
-| **Monish** | Report PDF (jsPDF) + "Email to facilitator" flow + Ethereal link shown in UI, NGO dashboard mock with sample batch data, DevTools slow-3G/4× CPU timing numbers, Lighthouse PWA pass, final_report.pdf draft, demo script, README |
+| Person      | Deliverable                                                                                                                                                                                                                                              |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Saharsh** | Investing sim (4 made-up assets, seeded returns, stage-jump compounding, epilogue projection), `whatIf()`, `summary()` with NCFE 20-item + safety score, hints-after-two-fails, 2 mini-game scenes in `src/minigames/`, balance pass with Aakarsh        |
+| **Aakarsh** | Stage 2 + 3 content (6 tasks each × 3 framings), 4 more detours, 6 more events, remaining explainers, `assets.json` blurbs, `strings/te.json` for onboarding + HUD + battle chrome, Telugu for 2 Stage-1 tasks, content balance pass                     |
+| **Ronith**  | TownMap (tap-to-travel, **instant travel**, no walk anim), StageTransition, Invest screen (allocation sliders), InfoPanel overlay, ReplayLibrary, Epilogue, WhatIf, EndReport screen, AfterQuiz reuse, Kenney tiles in, audio blips, mobile touch polish |
+| **Monish**  | Report PDF (jsPDF) + "Email to facilitator" flow + Ethereal link shown in UI, NGO dashboard mock with sample batch data, DevTools slow-3G/4× CPU timing numbers, Lighthouse PWA pass, final_report.pdf draft, demo script, README                        |
 
 ### Cut list (in this order, if behind at 07:30 call)
 
@@ -188,7 +188,7 @@ Rules:
    owner. **Conflict in `package-lock.json`** →
    `git checkout origin/main -- package-lock.json && npm install`.
 7. **Contract changes** (`src/shared/types.ts`, `schema.ts`) are **additive
-   only**: new *optional* fields, new enum values. Never rename, remove or make
+   only**: new _optional_ fields, new enum values. Never rename, remove or make
    something required. Post `CONTRACT:` in chat; Monish merges in ≤ 15 min.
 8. **Red `main` = stop the line.** Whoever broke it fixes it before anything else.
 9. **03:50–04:05 and 10:15–11:00: only Monish pushes to `main`.**
@@ -234,25 +234,27 @@ Start with the first unchecked task in docs/plan/<name>.md.
 
 ## 6. Decisions on CONTEXT.md's [OPEN] items (decided here, tune later)
 
-| # | Open item | Decision tonight |
-|---|---|---|
-| 1 | Economy formula / S | Proportional formula as in M1. **S = ₹5,000** coins/month in Stage 1. Monthly pocket money from L2 band midpoint × 4: `<100→₹200`, `100–300→₹800`, `300–700→₹2,000`, `>700→₹4,000`. Stage 2 income **₹25,000** (real ref ₹20,000); Stage 3 **₹60,000** (real ref ₹50,000). |
-| 2 | Happiness model | 0–100, start 70. Deltas authored per choice (−30…+15). Decays −3 at each chapter start. **0 → restart task.** Mini-games locked when happiness < 30 or wallet < 10% of monthly income. |
-| 3 | Mini-games | Two: **Kirana Rush** (needs-vs-wants sort, 30 s) and **Scam or Legit** (swipe messages, 30 s). Reward: side-gig framing, **+8% of monthly income coins** and **+10 happiness** on a win. Skippable. |
-| 4 | Task list | 12 Stage-1 tasks (one per pillar × difficulty), 6 each for Stages 2–3, in `src/content/tasks/`. Aakarsh writes; idea bank = CONTEXT.md §6.2 and §12.3. |
-| 5 | Chapters / stage, playtime | **Stage 1: 4 chapters · Stage 2: 3 · Stage 3: 3** = 10 chapters, 1 main task each + detours/events. Target 20–25 min. Persona carry-over to stages 2–3 is **framing text only** (Aakarsh writes a short "Years later…" line per persona per stage). |
-| 6 | Real prices | Use public/plausible numbers, label them "team estimate" in content `source` field. No student survey tonight. |
-| 7 | Second language | **Telugu** for onboarding + chrome + 2 tasks. Hindi file exists with English fallback (proves "add a file = add a language"). |
-| 8 | Guardian CC consent | Facilitator email typed by the **facilitator** on the report screen (not the student); guardian CC optional field. Shown as "consent collected at NGO enrolment" in the report footer. |
-| 9 | Dashboard / email | Dashboard = static mock with sample data. Email = real send to **Ethereal** sandbox, preview URL shown in the UI. |
-| 10 | Guide character / hints | **Guide "Aunty" yes**: one portrait, delivers lesson lines and hints. **Hints after two fails on the same task: yes** (engine sets `hintsOn`). |
-| 11 | Explainer animations | Data-driven: a tiny 6-op DSL in JSON (`text`, `bar`, `coins`, `grow`, `split`, `clear`) rendered by one Phaser scene with tweens. Translation = swap text. |
-| 12 | Roles / repo | This document. |
-| 13 | IIIT landmark | Content and code say **"University campus"**. |
+| #   | Open item                  | Decision tonight                                                                                                                                                                                                                                                           |
+| --- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Economy formula / S        | Proportional formula as in M1. **S = ₹5,000** coins/month in Stage 1. Monthly pocket money from L2 band midpoint × 4: `<100→₹200`, `100–300→₹800`, `300–700→₹2,000`, `>700→₹4,000`. Stage 2 income **₹25,000** (real ref ₹20,000); Stage 3 **₹60,000** (real ref ₹50,000). |
+| 2   | Happiness model            | 0–100, start 70. Deltas authored per choice (−30…+15). Decays −3 at each chapter start. **0 → restart task.** Mini-games locked when happiness < 30 or wallet < 10% of monthly income.                                                                                     |
+| 3   | Mini-games                 | Two: **Kirana Rush** (needs-vs-wants sort, 30 s) and **Scam or Legit** (swipe messages, 30 s). Reward: side-gig framing, **+8% of monthly income coins** and **+10 happiness** on a win. Skippable.                                                                        |
+| 4   | Task list                  | 12 Stage-1 tasks (one per pillar × difficulty), 6 each for Stages 2–3, in `src/content/tasks/`. Aakarsh writes; idea bank = CONTEXT.md §6.2 and §12.3.                                                                                                                     |
+| 5   | Chapters / stage, playtime | **Stage 1: 4 chapters · Stage 2: 3 · Stage 3: 3** = 10 chapters, 1 main task each + detours/events. Target 20–25 min. Persona carry-over to stages 2–3 is **framing text only** (Aakarsh writes a short "Years later…" line per persona per stage).                        |
+| 6   | Real prices                | Use public/plausible numbers, label them "team estimate" in content `source` field. No student survey tonight.                                                                                                                                                             |
+| 7   | Second language            | **Telugu** for onboarding + chrome + 2 tasks. Hindi file exists with English fallback (proves "add a file = add a language").                                                                                                                                              |
+| 8   | Guardian CC consent        | Facilitator email typed by the **facilitator** on the report screen (not the student); guardian CC optional field. Shown as "consent collected at NGO enrolment" in the report footer.                                                                                     |
+| 9   | Dashboard / email          | Dashboard = static mock with sample data. Email = real send to **Ethereal** sandbox, preview URL shown in the UI.                                                                                                                                                          |
+| 10  | Guide character / hints    | **Guide "Aunty" yes**: one portrait, delivers lesson lines and hints. **Hints after two fails on the same task: yes** (engine sets `hintsOn`).                                                                                                                             |
+| 11  | Explainer animations       | Data-driven: a tiny 6-op DSL in JSON (`text`, `bar`, `coins`, `grow`, `split`, `clear`) rendered by one Phaser scene with tweens. Translation = swap text.                                                                                                                 |
+| 12  | Roles / repo               | This document.                                                                                                                                                                                                                                                             |
+| 13  | IIIT landmark              | Content and code say **"University campus"**.                                                                                                                                                                                                                              |
 
 ---
 
 ## 7. Communication
+
+See `docs/plan/TRACKING.md` for how to see what everyone is doing without asking. `./scripts/status.sh` is the 10-second version.
 
 - Group chat prefixes: `DEP:` `CONTRACT:` `BLOCKED:` `MERGED:` `CUT:`. Skimmable.
 - Two integration calls: **02:45** and **07:30**. 20 minutes max, on one laptop.

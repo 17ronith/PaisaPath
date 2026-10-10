@@ -5,7 +5,7 @@
 `index.html`, `.prettierrc`, `.eslintrc.cjs`, `.github/`), `docs/`,
 `deliverables/`, `README.md`, `LICENSE`.
 **NOT MINE:** `src/engine`, `src/game`, `src/content`, `src/minigames`, `public/assets`.
-(Exception: Phase 0 creates the *seed* files inside everyone's folders once;
+(Exception: Phase 0 creates the _seed_ files inside everyone's folders once;
 after `v0-skeleton` you never touch them again.)
 
 You are also the only person allowed to push to `main` during
@@ -18,29 +18,29 @@ You are also the only person allowed to push to `main` during
 One branch `monish/skeleton`, several small commits (incremental history
 rule), rebase-merged to `main`, tagged `v0-skeleton`.
 
-- [ ] `npm create vite@latest . -- --template vanilla-ts` style root; set
+- [x] `npm create vite@latest . -- --template vanilla-ts` style root; set
       `"type": "module"`; Node 20 in `.nvmrc`.
-- [ ] Install **all** deps now so nobody else touches `package.json`:
+- [x] Install **all** deps now so nobody else touches `package.json`:
       `phaser vite vite-plugin-pwa typescript vitest zod tsx prettier eslint
-      @typescript-eslint/parser @typescript-eslint/eslint-plugin
-      eslint-plugin-import idb-keyval jspdf`.
+    @typescript-eslint/parser @typescript-eslint/eslint-plugin
+    eslint-plugin-import idb-keyval jspdf`.
       Server: `express cors nodemailer` + `@types/*`, `tsx`.
-- [ ] `tsconfig.json`: `strict`, `moduleResolution: bundler`, `resolveJsonModule`,
+- [x] `tsconfig.json`: `strict`, `moduleResolution: bundler`, `resolveJsonModule`,
       path alias `@/* → src/*`. `vite.config.ts`: alias, `base: './'`,
       `VitePWA({ registerType: 'autoUpdate', manifest: {...portrait, 360x640 icons} })`.
-- [ ] `.prettierrc` (`singleQuote, semi, printWidth 100, trailingComma all`),
+- [x] `.prettierrc` (`singleQuote, semi, printWidth 100, trailingComma all`),
       `.eslintrc.cjs` with `import/no-restricted-paths` enforcing the one-way
       import rule from README §2 (engine ↛ game/app/content/phaser; content ↛ engine/game).
-- [ ] `src/shared/types.ts` — **copy CONTRACTS.md §1 verbatim.**
-- [ ] `src/shared/schema.ts` — zod schemas mirroring every content type
+- [x] `src/shared/types.ts` — **copy CONTRACTS.md §1 verbatim.**
+- [x] `src/shared/schema.ts` — zod schemas mirroring every content type
       (`TaskSchema`, `ContentPackSchema`, …). Export `parseContentPack(json): ContentPack`.
-- [ ] `src/shared/i18n.ts` — `t()`, `setLang()`, `getLang()` per CONTRACTS §4.5.
-- [ ] `src/engine/index.ts` — **stub**: `createGame`/`loadGame`/`scaleToCoins`
+- [x] `src/shared/i18n.ts` — `t()`, `setLang()`, `getLang()` per CONTRACTS §4.5.
+- [x] `src/engine/index.ts` — **stub**: `createGame`/`loadGame`/`scaleToCoins`
       with a naïve implementation (cycles tasks of the stage in order, applies
       effects unscaled, no scheduler, `summary()` zeros). Must satisfy the
       `Game` type exactly. Header comment: `// STUB — Saharsh replaces internals, keeps exports.`
-- [ ] `src/engine/__tests__/stub.test.ts` — one test: `createGame(seed).next().kind === 'chapter_start'`.
-- [ ] `src/content/` — seed per CONTRACTS §3: `index.ts` (`loadContent`,
+- [x] `src/engine/__tests__/stub.test.ts` — one test: `createGame(seed).next().kind === 'chapter_start'`.
+- [x] `src/content/` — seed per CONTRACTS §3: `index.ts` (`loadContent`,
       `localize`), `validate.ts` (zod parse + the cross-ref checks, exits 1 on
       failure with a readable list), and minimal JSON: 3 personas, L1–L4 and
       K1–K5 **verbatim from CONTEXT.md §2.4**, 4 concepts, **3 tasks** (one of
@@ -48,19 +48,19 @@ rule), rebase-merged to `main`, tagged `v0-skeleton`.
       2 explainers (one is CONTRACTS §3.2), 2 minigame defs, 4 asset defs
       (CONTEXT §2.10 table), 10 places (`campus`, never iiit), `strings/en.json`
       with ~30 chrome keys, `strings/te.json` `{}`, `strings/hi.json` `{}`.
-- [ ] `src/minigames/index.ts` — `export const minigameScenes = {} as Record<...>`.
-- [ ] `src/game/scenes/index.ts` — imports `minigameScenes`, exports `scenes`
+- [x] `src/minigames/index.ts` — `export const minigameScenes = {} as Record<...>`.
+- [x] `src/game/scenes/index.ts` — imports `minigameScenes`, exports `scenes`
       with one `BootScene` that shows "SKELETON OK" text. `src/game/config.ts`
       with the Phaser config (360×640, `Scale.FIT`, `pixelArt`).
-- [ ] `src/app/main.ts` (creates `new Phaser.Game`), `src/app/session.ts`
+- [x] `src/app/main.ts` (creates `new Phaser.Game`), `src/app/session.ts`
       (in-memory `getSession()` satisfying CONTRACTS §4.1; `save()`/`resume()`
       no-ops for now), `index.html` (viewport, `user-scalable=no`, dark bg).
-- [ ] `server/` — `package.json`, `tsconfig.json`, `src/index.ts` with
+- [x] `server/` — `package.json`, `tsconfig.json`, `src/index.ts` with
       `GET /health`.
-- [ ] `.github/workflows/ci.yml` — on push/PR: `npm ci`, `npm run check`,
+- [x] `.github/workflows/ci.yml` — on push/PR: `npm ci`, `npm run check`,
       `npm run build`, `cd server && npm ci && npx tsc --noEmit`.
-- [ ] Root `package.json` scripts exactly as CONTRACTS §6.
-- [ ] `npm run check && npm run build` green locally. Commit, PR, rebase-merge,
+- [x] Root `package.json` scripts exactly as CONTRACTS §6.
+- [x] `npm run check && npm run build` green locally. Commit, PR, rebase-merge,
       `git tag v0-skeleton && git push --tags`. Post **"SKELETON IS UP"**.
 
 ---
@@ -144,6 +144,7 @@ rule), rebase-merged to `main`, tagged `v0-skeleton`.
       helps. Submit by 11:30.
 
 ## Definition of done
+
 `main` green at 03:55 and 10:45 · M2.pdf and final_report.pdf in
 `deliverables/` with Team 97 on top and zero names · README is setup-only
 with credits · reload resumes a game · report PDF downloads and an Ethereal
