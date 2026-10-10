@@ -40,6 +40,7 @@ _None. All content and assets are in this repository._
 - [Phaser 3](https://phaser.io/) — MIT
 - [Kenney Tiny Town](https://kenney.nl/assets/tiny-town) and [Kenney RPG Urban Pack](https://kenney.nl/assets/rpg-urban-pack) — CC0 (when used, under `public/assets/kenney/`)
 - Fonts under `public/assets/fonts/` carry their own licence files
+- Hyderabad battle backdrops (`public/assets/backdrops/`) — original pixel art by the team, generated with the script in `team97_vanguard_context/08_hyderabad_backgrounds/source/`
 
 ## License
 
