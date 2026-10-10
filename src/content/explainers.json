@@ -2,32 +2,370 @@
   {
     "id": "exp_needs_vs_wants",
     "concept": "needs_vs_wants",
-    "title": "Needs first, wants after",
-    "durationMs": 10000,
+    "title": "Needs first, then wants",
+    "durationMs": 13000,
     "steps": [
-      { "at": 0, "op": "text", "text": "Your month: ₹5,000", "slot": "top" },
+      {
+        "at": 0,
+        "op": "text",
+        "text": "Needs keep life running. Wants make it fun.",
+        "slot": "top"
+      },
       {
         "at": 800,
         "op": "split",
         "parts": [
-          { "label": "Needs", "pct": 60, "color": "#4caf50" },
-          { "label": "Wants", "pct": 25, "color": "#ff9800" },
-          { "label": "Save", "pct": 15, "color": "#2196f3" }
+          { "label": "Needs", "pct": 60, "color": "#4c9be8" },
+          { "label": "Wants", "pct": 25, "color": "#f2a541" },
+          { "label": "Savings", "pct": 15, "color": "#5cc87a" }
         ]
       },
       {
         "at": 4000,
         "op": "text",
-        "text": "A want bought first eats a need later.",
+        "text": "Needs: bus pass, food, recharge",
+        "slot": "mid",
+        "size": "sm"
+      },
+      {
+        "at": 6500,
+        "op": "text",
+        "text": "Wants: biryani, game top-ups, new shoes",
         "slot": "bottom",
+        "size": "sm"
+      },
+      { "at": 9000, "op": "clear" },
+      {
+        "at": 9300,
+        "op": "text",
+        "text": "Wants aren't bad. They come after needs, and they must fit.",
+        "slot": "mid",
+        "size": "md"
+      }
+    ]
+  },
+  {
+    "id": "exp_plan_the_month",
+    "concept": "plan_the_month",
+    "title": "Plan the month before it starts",
+    "durationMs": 13000,
+    "steps": [
+      { "at": 0, "op": "text", "text": "Day 1: give every rupee a job", "slot": "top" },
+      {
+        "at": 800,
+        "op": "bar",
+        "id": "pass",
+        "label": "Bus pass",
+        "from": 0,
+        "to": 30,
+        "slot": 0,
+        "color": "#4c9be8"
+      },
+      {
+        "at": 1600,
+        "op": "bar",
+        "id": "rech",
+        "label": "Recharge",
+        "from": 0,
+        "to": 20,
+        "slot": 1,
+        "color": "#4c9be8"
+      },
+      {
+        "at": 2400,
+        "op": "bar",
+        "id": "save",
+        "label": "Savings",
+        "from": 0,
+        "to": 15,
+        "slot": 2,
+        "color": "#5cc87a"
+      },
+      {
+        "at": 3200,
+        "op": "bar",
+        "id": "fun",
+        "label": "Fun",
+        "from": 0,
+        "to": 35,
+        "slot": 3,
+        "color": "#f2a541"
+      },
+      {
+        "at": 5500,
+        "op": "text",
+        "text": "Needs first. Then savings. Then fun, with a limit.",
+        "slot": "bottom",
+        "size": "sm"
+      },
+      { "at": 8800, "op": "clear" },
+      {
+        "at": 9100,
+        "op": "text",
+        "text": "No plan? ₹20 here, ₹50 there, and it's gone by week 3.",
+        "slot": "mid"
+      }
+    ]
+  },
+  {
+    "id": "exp_compare_before_buying",
+    "concept": "compare_before_buying",
+    "title": "Same thing, different prices",
+    "durationMs": 14000,
+    "steps": [
+      { "at": 0, "op": "text", "text": "Same kurta, three shops", "slot": "top" },
+      {
+        "at": 800,
+        "op": "bar",
+        "id": "s1",
+        "label": "Shop 1: ₹800",
+        "from": 0,
+        "to": 80,
+        "slot": 0,
+        "color": "#e8574c"
+      },
+      {
+        "at": 1800,
+        "op": "bar",
+        "id": "s2",
+        "label": "Shop 2: ₹650",
+        "from": 0,
+        "to": 65,
+        "slot": 1,
+        "color": "#f2a541"
+      },
+      {
+        "at": 2800,
+        "op": "bar",
+        "id": "s3",
+        "label": "Shop 3: ₹550",
+        "from": 0,
+        "to": 55,
+        "slot": 2,
+        "color": "#5cc87a"
+      },
+      {
+        "at": 5000,
+        "op": "text",
+        "text": "Ten minutes of comparing saved ₹250",
+        "slot": "bottom",
+        "size": "sm"
+      },
+      { "at": 8000, "op": "clear" },
+      {
+        "at": 8300,
+        "op": "text",
+        "text": "₹19 a day × 28 days = ₹532",
+        "slot": "mid",
+        "size": "lg"
+      },
+      {
+        "at": 10500,
+        "op": "text",
+        "text": "Divide to compare: price per day, per kilo, per use.",
+        "slot": "bottom",
+        "size": "sm"
+      }
+    ]
+  },
+  {
+    "id": "exp_cost_of_borrowing",
+    "concept": "cost_of_borrowing",
+    "title": "Borrowing costs extra",
+    "durationMs": 14000,
+    "steps": [
+      { "at": 0, "op": "text", "text": "Borrow ₹500, pay back ₹600", "slot": "top" },
+      { "at": 800, "op": "coins", "count": 5, "from": "outside", "to": "wallet" },
+      { "at": 3000, "op": "coins", "count": 6, "from": "wallet", "to": "outside" },
+      {
+        "at": 5500,
+        "op": "text",
+        "text": "The extra ₹100 is interest: 20% of ₹500",
+        "slot": "mid"
+      },
+      {
+        "at": 8000,
+        "op": "bar",
+        "id": "b",
+        "label": "Borrowed",
+        "from": 0,
+        "to": 50,
+        "slot": 0,
+        "color": "#4c9be8"
+      },
+      {
+        "at": 8500,
+        "op": "bar",
+        "id": "p",
+        "label": "Paid back",
+        "from": 0,
+        "to": 60,
+        "slot": 1,
+        "color": "#e8574c"
+      },
+      {
+        "at": 10800,
+        "op": "text",
+        "text": "Before you borrow, ask: how much more will I pay back?",
+        "slot": "bottom",
+        "size": "sm"
+      }
+    ]
+  },
+  {
+    "id": "exp_pay_yourself_first",
+    "concept": "pay_yourself_first",
+    "title": "Save first, spend after",
+    "durationMs": 12500,
+    "steps": [
+      { "at": 0, "op": "text", "text": "Money arrives", "slot": "top" },
+      { "at": 500, "op": "coins", "count": 10, "from": "outside", "to": "wallet" },
+      { "at": 2500, "op": "coins", "count": 2, "from": "wallet", "to": "savings" },
+      { "at": 4000, "op": "text", "text": "Save first, on day one", "slot": "mid" },
+      {
+        "at": 6500,
+        "op": "text",
+        "text": "Spend what's left, not save what's left.",
+        "slot": "bottom",
+        "size": "sm"
+      },
+      {
+        "at": 9000,
+        "op": "bar",
+        "id": "s",
+        "label": "Savings after 6 months",
+        "from": 0,
+        "to": 60,
+        "slot": 0,
+        "color": "#5cc87a"
+      }
+    ]
+  },
+  {
+    "id": "exp_emergency_buffer",
+    "concept": "emergency_buffer",
+    "title": "A buffer takes the hit",
+    "durationMs": 13000,
+    "steps": [
+      { "at": 0, "op": "text", "text": "Something breaks: ₹400", "slot": "top" },
+      {
+        "at": 1500,
+        "op": "bar",
+        "id": "nb",
+        "label": "Month money, no buffer",
+        "from": 100,
+        "to": 30,
+        "slot": 0,
+        "color": "#e8574c"
+      },
+      {
+        "at": 3500,
+        "op": "bar",
+        "id": "buf",
+        "label": "Buffer",
+        "from": 40,
+        "to": 0,
+        "slot": 1,
+        "color": "#5cc87a"
+      },
+      {
+        "at": 3500,
+        "op": "bar",
+        "id": "wb",
+        "label": "Month money, with buffer",
+        "from": 100,
+        "to": 100,
+        "slot": 2,
+        "color": "#4c9be8"
+      },
+      {
+        "at": 6000,
+        "op": "text",
+        "text": "The buffer takes the hit so your month doesn't",
+        "slot": "mid",
+        "size": "sm"
+      },
+      {
+        "at": 9000,
+        "op": "text",
+        "text": "No loan, no panic. Refill it slowly after.",
+        "slot": "bottom",
+        "size": "sm"
+      }
+    ]
+  },
+  {
+    "id": "exp_goal_jar",
+    "concept": "goal_jar",
+    "title": "Give your savings a name",
+    "durationMs": 12500,
+    "steps": [
+      { "at": 0, "op": "text", "text": "Jar: 'Earphones, ₹600'", "slot": "top" },
+      { "at": 800, "op": "coins", "count": 6, "from": "wallet", "to": "savings" },
+      {
+        "at": 1000,
+        "op": "bar",
+        "id": "jar",
+        "label": "Earphones jar",
+        "from": 0,
+        "to": 100,
+        "slot": 0,
+        "color": "#5cc87a"
+      },
+      { "at": 4000, "op": "text", "text": "₹100 a month × 6 months", "slot": "mid" },
+      {
+        "at": 6500,
+        "op": "text",
+        "text": "A named jar feels off-limits. That's why it works.",
+        "slot": "bottom",
+        "size": "sm"
+      },
+      { "at": 9500, "op": "clear" },
+      {
+        "at": 9800,
+        "op": "text",
+        "text": "Goal reached in 6 months, not 'someday'.",
+        "slot": "mid"
+      }
+    ]
+  },
+  {
+    "id": "exp_time_value",
+    "concept": "time_value",
+    "title": "Money now beats money later",
+    "durationMs": 13000,
+    "steps": [
+      { "at": 0, "op": "text", "text": "₹500 today vs ₹500 next year", "slot": "top" },
+      {
+        "at": 800,
+        "op": "grow",
+        "id": "today",
+        "label": "₹500 taken today",
+        "ratePct": 8,
+        "years": 1,
+        "principal": 500
+      },
+      {
+        "at": 4500,
+        "op": "text",
+        "text": "Today's ₹500 gets a year to grow",
+        "slot": "mid",
         "size": "sm"
       },
       {
         "at": 7000,
         "op": "text",
-        "text": "Needs → Save → Wants. In that order.",
-        "slot": "mid",
-        "size": "lg"
+        "text": "Next year's ₹500 also buys less: prices rise",
+        "slot": "bottom",
+        "size": "sm"
+      },
+      { "at": 9500, "op": "clear" },
+      {
+        "at": 9800,
+        "op": "text",
+        "text": "Assumes 8% a year. Real returns vary and can be negative.",
+        "slot": "bottom",
+        "size": "sm"
       }
     ]
   },
@@ -76,6 +414,338 @@
         "at": 12000,
         "op": "text",
         "text": "Assumes 8% a year. Real returns vary and can be negative.",
+        "slot": "bottom",
+        "size": "sm"
+      }
+    ]
+  },
+  {
+    "id": "exp_risk_return",
+    "concept": "risk_return",
+    "title": "Bigger reward, bigger risk",
+    "durationMs": 14500,
+    "steps": [
+      {
+        "at": 0,
+        "op": "text",
+        "text": "Bigger possible reward = bigger possible loss",
+        "slot": "top",
+        "size": "sm"
+      },
+      {
+        "at": 800,
+        "op": "bar",
+        "id": "banyan",
+        "label": "Banyan: steady",
+        "from": 0,
+        "to": 40,
+        "slot": 0,
+        "color": "#5cc87a"
+      },
+      {
+        "at": 1600,
+        "op": "bar",
+        "id": "chai",
+        "label": "Chai Stall: swings",
+        "from": 0,
+        "to": 70,
+        "slot": 1,
+        "color": "#f2a541"
+      },
+      {
+        "at": 2400,
+        "op": "bar",
+        "id": "mango",
+        "label": "Mango Orchard: good year",
+        "from": 0,
+        "to": 95,
+        "slot": 2,
+        "color": "#e8574c"
+      },
+      {
+        "at": 4800,
+        "op": "bar",
+        "id": "mango_bad",
+        "label": "Mango Orchard: bad monsoon",
+        "from": 95,
+        "to": 10,
+        "slot": 3,
+        "color": "#e8574c"
+      },
+      {
+        "at": 7200,
+        "op": "text",
+        "text": "Risk: things can turn out worse than you expected",
+        "slot": "mid",
+        "size": "sm"
+      },
+      {
+        "at": 10500,
+        "op": "text",
+        "text": "Assumes 8–14% a year on average. Real returns vary and can be negative.",
+        "slot": "bottom",
+        "size": "sm"
+      }
+    ]
+  },
+  {
+    "id": "exp_diversification",
+    "concept": "diversification",
+    "title": "Don't put it all on one stall",
+    "durationMs": 14000,
+    "steps": [
+      { "at": 0, "op": "text", "text": "Two Charminar vendors", "slot": "top" },
+      {
+        "at": 800,
+        "op": "split",
+        "parts": [{ "label": "Umbrellas only", "pct": 100, "color": "#4c9be8" }]
+      },
+      {
+        "at": 3200,
+        "op": "split",
+        "parts": [
+          { "label": "Umbrellas", "pct": 40, "color": "#4c9be8" },
+          { "label": "Caps", "pct": 30, "color": "#f2a541" },
+          { "label": "Water", "pct": 30, "color": "#5cc87a" }
+        ]
+      },
+      { "at": 5500, "op": "text", "text": "No rain? Caps and water still sell.", "slot": "mid" },
+      {
+        "at": 8000,
+        "op": "text",
+        "text": "Own things that don't fail at the same time.",
+        "slot": "bottom",
+        "size": "sm"
+      },
+      { "at": 10500, "op": "clear" },
+      {
+        "at": 10800,
+        "op": "text",
+        "text": "Assumes 8–14% a year on average. Real returns vary and can be negative.",
+        "slot": "bottom",
+        "size": "sm"
+      }
+    ]
+  },
+  {
+    "id": "exp_inflation",
+    "concept": "inflation",
+    "title": "Prices creep up",
+    "durationMs": 14000,
+    "steps": [
+      { "at": 0, "op": "text", "text": "Samosa: ₹10 → ₹12", "slot": "top" },
+      {
+        "at": 800,
+        "op": "bar",
+        "id": "now",
+        "label": "What ₹1,000 buys today",
+        "from": 0,
+        "to": 100,
+        "slot": 0,
+        "color": "#4c9be8"
+      },
+      {
+        "at": 2500,
+        "op": "bar",
+        "id": "later",
+        "label": "Same ₹1,000 in a tin, 5 years on",
+        "from": 100,
+        "to": 78,
+        "slot": 1,
+        "color": "#e8574c"
+      },
+      {
+        "at": 5000,
+        "op": "text",
+        "text": "Notes in a tin buy a little less every year",
+        "slot": "mid",
+        "size": "sm"
+      },
+      {
+        "at": 8000,
+        "op": "text",
+        "text": "Help savings grow at least as fast as prices.",
+        "slot": "bottom",
+        "size": "sm"
+      },
+      { "at": 10800, "op": "clear" },
+      {
+        "at": 11000,
+        "op": "text",
+        "text": "Assumes prices rise 5% a year. Real inflation varies.",
+        "slot": "bottom",
+        "size": "sm"
+      }
+    ]
+  },
+  {
+    "id": "exp_spot_fake_officials",
+    "concept": "spot_fake_officials",
+    "title": "Money in never needs money out",
+    "durationMs": 12000,
+    "steps": [
+      {
+        "at": 0,
+        "op": "text",
+        "text": "'Pay ₹500 now or lose your scholarship!'",
+        "slot": "top",
+        "size": "sm"
+      },
+      {
+        "at": 2500,
+        "op": "text",
+        "text": "Real offices don't call and demand instant payment",
+        "slot": "mid",
+        "size": "sm"
+      },
+      { "at": 5000, "op": "clear" },
+      {
+        "at": 5300,
+        "op": "text",
+        "text": "Money IN never needs money OUT",
+        "slot": "mid",
+        "size": "lg"
+      },
+      {
+        "at": 8500,
+        "op": "text",
+        "text": "Hang up. Check the official site or office yourself.",
+        "slot": "bottom",
+        "size": "sm"
+      }
+    ]
+  },
+  {
+    "id": "exp_never_share_otp_pin",
+    "concept": "never_share_otp_pin",
+    "title": "OTP and PIN are keys",
+    "durationMs": 11000,
+    "steps": [
+      {
+        "at": 0,
+        "op": "text",
+        "text": "Your OTP and PIN are keys to the account",
+        "slot": "top",
+        "size": "sm"
+      },
+      { "at": 1000, "op": "coins", "count": 5, "from": "wallet", "to": "outside" },
+      {
+        "at": 3500,
+        "op": "text",
+        "text": "Receiving money NEVER needs a PIN",
+        "slot": "mid",
+        "size": "lg"
+      },
+      {
+        "at": 7000,
+        "op": "text",
+        "text": "No bank, office or friend needs your OTP. Ever.",
+        "slot": "bottom",
+        "size": "sm"
+      }
+    ]
+  },
+  {
+    "id": "exp_too_good_to_be_true",
+    "concept": "too_good_to_be_true",
+    "title": "If it sounds too good…",
+    "durationMs": 13500,
+    "steps": [
+      { "at": 0, "op": "text", "text": "'Earn ₹5,000 a day from likes!'", "slot": "top" },
+      { "at": 1000, "op": "coins", "count": 1, "from": "outside", "to": "wallet" },
+      { "at": 3000, "op": "coins", "count": 5, "from": "wallet", "to": "outside" },
+      {
+        "at": 5500,
+        "op": "text",
+        "text": "A small payout first is the bait",
+        "slot": "mid",
+        "size": "sm"
+      },
+      { "at": 7800, "op": "clear" },
+      {
+        "at": 8000,
+        "op": "text",
+        "text": "Real jobs pay you. They never charge you.",
+        "slot": "mid",
+        "size": "lg"
+      },
+      {
+        "at": 10500,
+        "op": "text",
+        "text": "Report scams: call 1930",
+        "slot": "bottom",
+        "size": "sm"
+      }
+    ]
+  },
+  {
+    "id": "exp_instant_loan_trap",
+    "concept": "instant_loan_trap",
+    "title": "Instant loans, lasting trouble",
+    "durationMs": 12000,
+    "steps": [
+      { "at": 0, "op": "text", "text": "'₹400 in 5 minutes, no documents!'", "slot": "top" },
+      {
+        "at": 800,
+        "op": "bar",
+        "id": "b",
+        "label": "Borrowed",
+        "from": 0,
+        "to": 40,
+        "slot": 0,
+        "color": "#4c9be8"
+      },
+      {
+        "at": 2000,
+        "op": "bar",
+        "id": "p",
+        "label": "Paid back in one month",
+        "from": 0,
+        "to": 60,
+        "slot": 1,
+        "color": "#e8574c"
+      },
+      {
+        "at": 4500,
+        "op": "text",
+        "text": "Huge fees, and the app reads your contacts",
+        "slot": "mid",
+        "size": "sm"
+      },
+      {
+        "at": 8000,
+        "op": "text",
+        "text": "Ask family or a bank before any 'instant' loan",
+        "slot": "bottom",
+        "size": "sm"
+      }
+    ]
+  },
+  {
+    "id": "exp_fake_payment_proof",
+    "concept": "fake_payment_proof",
+    "title": "A screenshot is not money",
+    "durationMs": 10500,
+    "steps": [
+      {
+        "at": 0,
+        "op": "text",
+        "text": "'Payment successful ₹350' (screenshot)",
+        "slot": "top",
+        "size": "sm"
+      },
+      {
+        "at": 2000,
+        "op": "text",
+        "text": "A screenshot is a picture, not money",
+        "slot": "mid",
+        "size": "lg"
+      },
+      { "at": 5000, "op": "coins", "count": 3, "from": "wallet", "to": "outside" },
+      {
+        "at": 6500,
+        "op": "text",
+        "text": "Check your own app or bank SMS before handing anything over",
         "slot": "bottom",
         "size": "sm"
       }
