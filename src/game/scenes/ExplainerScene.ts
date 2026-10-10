@@ -71,7 +71,7 @@ export class ExplainerScene extends Phaser.Scene {
 
     const steps = [...ex.steps].sort((a, b) => a.at - b.at);
     steps.forEach((s, i) => this.time.delayedCall(s.at, () => this.run(s, steps, i, ex)));
-    this.time.delayedCall(3000, () => this.showButton(t('btn.skip'), 0x505878));
+    this.time.delayedCall(3000, () => this.showButton(tr('explainer.skip', 'SKIP'), 0x505878));
     this.time.delayedCall(ex.durationMs, () => this.showButton(t('btn.next'), COLOR.good));
   }
 

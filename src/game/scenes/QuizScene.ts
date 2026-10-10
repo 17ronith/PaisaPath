@@ -51,7 +51,7 @@ export class QuizScene extends Phaser.Scene {
         this,
         W / 2,
         300,
-        tr('quiz.no_marks', "Not a test. Pick what you think — there's no penalty."),
+        tr('quiz.before_intro', "Just pick what you think. There's no penalty for guessing."),
         'xs',
         COLOR.accent,
         { align: 'center', wordWrap: { width: W - 60 } },
@@ -105,7 +105,7 @@ export class QuizScene extends Phaser.Scene {
       const profile = finishProfile(this.draft, s.content.quiz, this.answers);
       s.startGame(profile);
       save();
-      const diffLabel = tr(`difficulty.${profile.difficulty}`, profile.difficulty);
+      const diffLabel = tr(`diff.${profile.difficulty}`, profile.difficulty);
       this.root.add(
         text(
           this,
@@ -139,7 +139,7 @@ export class QuizScene extends Phaser.Scene {
         this,
         W / 2,
         250,
-        tr('quiz.after_score', 'Before {before}/5 → After {after}/5', { before, after: score }),
+        `${tr('quiz.after_score', 'Your after score: {score}/5', { score })}\n${t('report.before_after', { before, after: score })}`,
         'md',
         COLOR.white,
         {

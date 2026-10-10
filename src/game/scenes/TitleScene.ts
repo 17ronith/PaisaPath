@@ -36,7 +36,7 @@ export class TitleScene extends Phaser.Scene {
       this,
       W / 2,
       H * 0.28,
-      tr('title.tagline', 'Learn money by living it.'),
+      tr('subtitle', 'Make choices. See consequences. Try again.'),
       'xs',
       COLOR.accent,
       {
@@ -51,7 +51,7 @@ export class TitleScene extends Phaser.Scene {
         this,
         W / 2 - 70 + i * 140,
         H * 0.7,
-        LANG_NAMES[l] ?? l,
+        tr(`lang.${l}`, LANG_NAMES[l] ?? l),
         () => {
           s.setLang(l);
           this.scene.restart();

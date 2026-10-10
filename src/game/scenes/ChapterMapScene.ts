@@ -134,17 +134,24 @@ export class ChapterMapScene extends Phaser.Scene {
     );
     const lines: string[] = [];
     if (st) {
-      lines.push(`+${rupees(st.incomeCoins)}  ${tr(`chapter.income.${persona}`, 'Money arrived')}`);
+      lines.push(
+        `+${rupees(st.incomeCoins)}  ${tr(stage > 1 ? 'chapter.income.salary' : `chapter.income.${persona}`, 'Money arrived')}`,
+      );
+      if (st.fired.length) lines.push(tr('chapter.fired', 'Things that came back this month'));
       for (const e of st.fired) lines.push(`• ${e.label}`);
       if (st.happinessDecay)
-        lines.push(`${tr('hud.happiness', 'HAPPY')} −${Math.abs(st.happinessDecay)}`);
+        lines.push(
+          tr('chapter.decay', 'Everyday stress: happiness −{n}', {
+            n: Math.abs(st.happinessDecay),
+          }),
+        );
     }
     panel.add(
       text(
         this,
         12,
         34,
-        lines.join('\n') || tr('map.tap_node', 'Tap the glowing stop to begin.'),
+        lines.join('\n') || tr('map.tap', 'Tap the glowing spot to continue'),
         'xs',
         COLOR.ink,
         {

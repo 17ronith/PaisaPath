@@ -42,7 +42,7 @@ export class StageEndScene extends Phaser.Scene {
       this,
       W / 2,
       110,
-      tr('stage_end.years', '{n} years later…', { n: st.yearsSkipped }),
+      tr('stage_end.years_later', '{n} years later…', { n: st.yearsSkipped }),
       'lg',
       COLOR.white,
       {

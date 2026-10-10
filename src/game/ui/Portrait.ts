@@ -7,7 +7,10 @@ import { COLOR, text } from './theme';
 /** Speaker words → NPC texture made in PreloadScene. First match wins. */
 const ROLES: [RegExp, string][] = [
   [/aunty|aunt/i, 'npc_aunty'],
-  [/caller|unknown|officer|agent|scam|recruiter|stranger|app/i, 'npc_shady'],
+  [
+    /caller|unknown|officer|agent|scam|recruiter|stranger|app|upi|sms|message|refund|link|lender/i,
+    'npc_shady',
+  ],
   [/shop|kirana|vendor|customer|owner|boss/i, 'npc_shop'],
   [/mom|mum|amma|dad|nanna|father|mother|parent|uncle|family/i, 'npc_parent'],
   [/friend|classmate|cousin|brother|sister/i, 'npc_friend'],

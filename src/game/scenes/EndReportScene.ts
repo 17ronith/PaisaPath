@@ -49,11 +49,8 @@ export class EndReportScene extends Phaser.Scene {
           `${tr(`pillar.${k}`, k.toUpperCase())}: ${sum.perPillar[k].good}/${sum.perPillar[k].total}`,
       ),
       '',
-      tr('report.fixed', 'Mistakes fixed: {n}', { n: sum.mistakesFixed.length }),
-      tr('report.detours', 'Detours: {n} · Restarts: {r}', {
-        n: sum.detoursTaken,
-        r: sum.restarts,
-      }),
+      `${tr('report.fixed', 'Mistakes fixed')}: ${sum.mistakesFixed.length}`,
+      `${tr('report.detours', 'Detours taken: {n}', { n: sum.detoursTaken })} · ${tr('report.restarts', 'Restarts: {n}', { n: sum.restarts })}`,
     ].filter((l, i, a) => !(l === '' && a[i - 1] === ''));
     p.add(
       text(this, 12, 14, lines.join('\n'), 'xs', COLOR.ink, {
