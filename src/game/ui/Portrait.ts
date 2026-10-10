@@ -1,37 +1,58 @@
-// Opponent / Aunty / avatar portrait. Uses the texture if loaded, otherwise a coloured
-// pixel block with the speaker's initial, so missing art never blocks a screen.
+// Character portrait: a framed card with a Kenney character sprite scaled by a whole number
+// (nearest-neighbour, so every art pixel stays square). The sprite is picked from the
+// framing's `portrait` key, else from the speaker's role.
 import Phaser from 'phaser';
 import { COLOR, text } from './theme';
 
-const PALETTE = [0xd06040, 0x4080c0, 0x60a050, 0x9060b0, 0xc09030, 0x408888];
+/** Speaker words → NPC texture made in PreloadScene. First match wins. */
+const ROLES: [RegExp, string][] = [
+  [/aunty|aunt/i, 'npc_aunty'],
+  [/caller|unknown|officer|agent|scam|recruiter|stranger|app/i, 'npc_shady'],
+  [/shop|kirana|vendor|customer|owner|boss/i, 'npc_shop'],
+  [/mom|mum|amma|dad|nanna|father|mother|parent|uncle|family/i, 'npc_parent'],
+  [/friend|classmate|cousin|brother|sister/i, 'npc_friend'],
+  [/bank|clerk|teacher|doctor|college/i, 'npc_clerk'],
+];
 
-function colourFor(key: string): number {
-  let h = 0;
-  for (const ch of key) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
-  return PALETTE[h % PALETTE.length];
+export function portraitKey(scene: Phaser.Scene, key: string | undefined, speaker: string): string {
+  if (key && scene.textures.exists(key)) return key;
+  const hit = ROLES.find(([re]) => re.test(speaker));
+  const k = hit ? hit[1] : 'npc_friend';
+  return scene.textures.exists(k) ? k : '';
 }
 
 export class Portrait extends Phaser.GameObjects.Container {
-  constructor(scene: Phaser.Scene, x: number, y: number, size: number, key: string, label = key) {
+  constructor(
+    scene: Phaser.Scene,
+    x: number,
+    y: number,
+    size: number,
+    key: string,
+    label = key,
+    framed = true,
+  ) {
     super(scene, x, y);
-    if (key && scene.textures.exists(key)) {
-      const img = scene.add.image(0, 0, key);
-      img.setScale(size / Math.max(img.width, img.height));
+    const tex = portraitKey(scene, key, label);
+    if (framed) {
+      const g = scene.add.graphics();
+      g.fillStyle(0x000000, 0.18).fillRoundedRect(-size / 2 + 2, -size / 2 + 3, size, size, 6);
+      g.fillStyle(COLOR.panelEdge, 1).fillRoundedRect(-size / 2, -size / 2, size, size, 6);
+      g.fillStyle(0xdfe8f0, 1).fillRoundedRect(-size / 2 + 2, -size / 2 + 2, size - 4, size - 4, 5);
+      g.fillStyle(0xc8d4e0, 1).fillRect(-size / 2 + 2, size / 6, size - 4, size / 3 - 2);
+      this.add(g);
+    }
+    if (tex) {
+      const img = scene.add.image(0, 0, tex);
+      // Largest whole-number scale that fits ~80% of the frame.
+      const scale = Math.max(1, Math.floor((size * 0.8) / Math.max(img.width, img.height)));
+      img.setScale(scale);
       this.add(img);
     } else {
-      const c = key === 'aunty' ? COLOR.aunty : colourFor(key || label);
-      const g = scene.add.graphics();
-      g.fillStyle(COLOR.panelEdge, 1).fillRect(-size / 2, -size / 2, size, size);
-      g.fillStyle(c, 1).fillRect(-size / 2 + 3, -size / 2 + 3, size - 6, size - 6);
-      // simple pixel face so it reads as a character, not a box
-      const u = Math.max(2, Math.round(size / 12));
-      g.fillStyle(0xf0c8a0, 1).fillRect(-3 * u, -4 * u, 6 * u, 6 * u);
-      g.fillStyle(COLOR.ink, 1)
-        .fillRect(-2 * u, -2 * u, u, u)
-        .fillRect(u, -2 * u, u, u);
-      this.add(g);
-      const initial = (label || '?').trim().charAt(0).toUpperCase();
-      this.add(text(scene, 0, size / 2 - 14, initial, 'sm', COLOR.white).setOrigin(0.5, 0));
+      this.add(
+        text(scene, 0, 0, (label || '?').trim().charAt(0).toUpperCase(), 'xl', COLOR.ink).setOrigin(
+          0.5,
+        ),
+      );
     }
     scene.add.existing(this);
   }
