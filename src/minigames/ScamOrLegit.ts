@@ -1,32 +1,29 @@
 // Scam or Legit? (30 s): 8 messages land on the phone one at a time. Swipe left / tap SCAM, or
 // swipe right / tap LEGIT. ≥ 6 of 8 = the side gig pays. Teaches spotting scams (safety pillar).
 import Phaser from 'phaser';
-import { SortGameScene, tr, type AnswerButton, type Palette } from './SortGameScene';
+import { PixelPanel } from '@/game/ui/PixelPanel';
+import { COLOR, text, tr } from '@/game/ui/theme';
+import { SortGameScene, type AnswerButton } from './SortGameScene';
 import { newScamRound, type MessageKind, type PhoneMessage } from './scamMessages';
 import type { SortRound, Verdict } from './sortRound';
 
 /** Drag further than this (px) to count as a swipe. */
 export const SWIPE_PX = 70;
+const SCREEN = 0xe8eef8;
+const BUBBLE_W = 264;
 
 export class ScamOrLegitScene extends SortGameScene<MessageKind, PhoneMessage> {
   protected readonly gameId = 'scam_or_legit' as const;
-  protected readonly palette: Palette = {
-    bg: 0x14182b,
-    panel: 0x252c4a,
-    text: '#eef1ff',
-    dim: '#9aa3c7',
-    good: '#8fe388',
-    bad: '#ff8a7a',
-  };
+  protected readonly arena = COLOR.bg;
   protected get answers(): [AnswerButton<MessageKind>, AnswerButton<MessageKind>] {
     return [
-      { answer: 'scam', label: tr('minigame.scam', '◀ SCAM'), color: 0xb83a3a, key: 'LEFT' },
-      { answer: 'legit', label: tr('minigame.legit', 'LEGIT ▶'), color: 0x2f7d4f, key: 'RIGHT' },
+      { answer: 'scam', label: tr('minigame.scam', '< SCAM'), fill: COLOR.bad, key: 'LEFT' },
+      { answer: 'legit', label: tr('minigame.legit', 'LEGIT >'), fill: COLOR.good, key: 'RIGHT' },
     ];
   }
 
   private bubble?: Phaser.GameObjects.Container;
-  private readonly bubbleW = 280;
+  private cy = 0;
 
   constructor() {
     super('scam_or_legit');
@@ -44,33 +41,40 @@ export class ScamOrLegitScene extends SortGameScene<MessageKind, PhoneMessage> {
     ];
   }
 
+  protected prompt(): string {
+    return tr('minigame.scam.prompt', 'Real message, or a trap? Check before you trust it.');
+  }
+
   create(): void {
     super.create();
-    // Phone frame behind the messages.
-    const cy = (this.playTop + this.playBottom) / 2;
-    const h = this.playBottom - this.playTop - 10;
-    this.add.rectangle(this.W / 2, cy, this.bubbleW + 30, h, 0x0b0e1a).setStrokeStyle(4, 0x5a6390);
-    this.add.rectangle(this.W / 2, this.playTop + 14, 60, 6, 0x5a6390);
+    // Phone: dark body, light screen, speaker slot.
+    const top = this.playTop;
+    const h = this.playBottom - this.playTop;
+    const pw = BUBBLE_W + 40;
+    const phone = new PixelPanel(this, (this.W - pw) / 2, top, pw, h, { fill: COLOR.ink });
+    phone.add([
+      this.add.rectangle(12, 26, pw - 24, h - 46, SCREEN).setOrigin(0),
+      this.add.rectangle(pw / 2, 13, 50, 6, COLOR.muted),
+      text(this, 18, 30, tr('minigame.scam.inbox', 'MESSAGES'), 'xs', COLOR.muted),
+    ]);
+    this.cy = top + 26 + (h - 46) / 2 + 8;
   }
 
   protected showItem(msg: PhoneMessage): void {
-    const p = this.palette;
-    const w = this.bubbleW - 16;
-    const sender = this.text(-w / 2 + 14, 0, msg.sender, 13, '#f2c14e').setFontStyle('bold');
-    const body = this.text(-w / 2 + 14, 0, msg.text, 15, p.text)
-      .setWordWrapWidth(w - 28)
-      .setLineSpacing(3);
-    const h = body.height + 56;
-    sender.setY(-h / 2 + 12);
-    body.setY(-h / 2 + 36);
-    const bg = this.add.rectangle(0, 0, w, h, p.panel).setStrokeStyle(2, 0x8a93c0);
+    const w = BUBBLE_W;
+    const sender = text(this, 12, 10, msg.sender.toUpperCase(), 'xs', COLOR.money);
+    const body = text(this, 12, 28, msg.text, 'sm', COLOR.ink, {
+      wordWrap: { width: w - 24, useAdvancedWrap: true },
+    });
+    const h = Math.round(body.height + 42);
+    const panel = new PixelPanel(this, -w / 2, -h / 2, w, h);
+    panel.add([sender, body]);
     const cx = this.W / 2;
-    const cy = (this.playTop + this.playBottom) / 2;
     const bubble = this.add
-      .container(cx, cy + 40, [bg, sender, body])
+      .container(cx, this.cy + 30, [panel])
       .setSize(w, h)
       .setAlpha(0);
-    this.tweens.add({ targets: bubble, y: cy, alpha: 1, duration: 180, ease: 'Quad.Out' });
+    this.tweens.add({ targets: bubble, y: this.cy, alpha: 1, duration: 180, ease: 'Quad.Out' });
 
     bubble.setInteractive({ draggable: true, useHandCursor: true });
     bubble.on('drag', (_p: Phaser.Input.Pointer, dragX: number) => {
@@ -93,19 +97,26 @@ export class ScamOrLegitScene extends SortGameScene<MessageKind, PhoneMessage> {
     this.bubble = undefined;
     if (!bubble) return;
     bubble.disableInteractive();
-    const dir = answered === 'scam' ? -1 : answered === 'legit' ? 1 : 0;
-    const stamp = this.text(0, 0, v.item.answer === 'scam' ? 'SCAM' : 'LEGIT', 30, '#ffffff')
+    const isScam = v.item.answer === 'scam';
+    const stamp = text(
+      this,
+      0,
+      0,
+      isScam ? tr('minigame.scam', 'SCAM') : tr('minigame.legit', 'LEGIT'),
+      'xl',
+      isScam ? COLOR.bad : COLOR.good,
+    )
       .setOrigin(0.5)
-      .setFontStyle('bold')
       .setAngle(-12)
-      .setColor(v.item.answer === 'scam' ? '#ff5d5d' : '#6fe07a');
+      .setStroke('#ffffff', 4);
     bubble.add(stamp);
+    const dir = answered === 'scam' ? -1 : answered === 'legit' ? 1 : 0;
     this.tweens.add({
       targets: bubble,
       x: bubble.x + dir * this.W,
       angle: dir * 25,
       alpha: dir === 0 ? 0 : 1,
-      delay: 450,
+      delay: 500,
       duration: 300,
       ease: 'Quad.In',
       onComplete: () => bubble.destroy(),

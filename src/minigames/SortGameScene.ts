@@ -1,12 +1,19 @@
-// Base scene for the two-button mini-games (Kirana Rush, Scam or Legit).
-// Flow: intro card (rules, TAP TO START) → items one at a time → feedback line after each tap
-// (clock paused so the "why" can be read) → result card → CONTINUE → onDone(won) → scene.stop().
-// Started with data { onDone }; onDone fires exactly once, including when the game is quit or the
-// scene is shut down from outside (then won = false, so the engine is never left waiting).
+// Base scene for the two-button mini-games (Kirana Rush, Scam or Legit), drawn with the game's
+// UI kit (src/game/ui: pixel font, palette, PixelPanel, Button, Bar, TextBox) so it looks like
+// the battle screens.
+// Flow: intro card (rules, START) → items one at a time → Aunty's "why" line after each tap
+// (clock paused so it can be read) → score card → CONTINUE → onDone(won) → scene.stop().
+// The offer screen then shows the pay. Started with data { onDone }; onDone fires exactly once,
+// including when the game is quit or the scene is shut down from outside (then won = false, so
+// the engine is never left waiting).
 import Phaser from 'phaser';
 import type { MiniGameDef } from '@/shared/types';
-import { t } from '@/shared/i18n';
 import { getSession } from '@/app/session';
+import { Bar } from '@/game/ui/Bar';
+import { Button } from '@/game/ui/Button';
+import { PixelPanel } from '@/game/ui/PixelPanel';
+import { TextBox } from '@/game/ui/TextBox';
+import { COLOR, text, tr } from '@/game/ui/theme';
 import { once, type OnDone, type SortItem, type SortRound, type Verdict } from './sortRound';
 
 export interface MiniGameData {
@@ -16,31 +23,17 @@ export interface MiniGameData {
 export interface AnswerButton<A extends string> {
   answer: A;
   label: string;
-  color: number;
+  fill: number;
   /** Keyboard shortcut for desktop demos. */
   key: 'LEFT' | 'RIGHT';
 }
 
-export interface Palette {
-  bg: number;
-  panel: number;
-  text: string;
-  dim: string;
-  good: string;
-  bad: string;
-}
-
 type Phase = 'intro' | 'play' | 'feedback' | 'result';
 
-export const FEEDBACK_MS = 1100;
-const FONT = 'monospace';
-
-/** i18n with an inline English fallback, so strings work before the content team adds keys. */
-export function tr(key: string, fallback: string, vars?: Record<string, string | number>): string {
-  const s = t(key, vars);
-  if (s !== key) return s;
-  return fallback.replace(/\{(\w+)\}/g, (_, k) => (vars && k in vars ? String(vars[k]) : `{${k}}`));
-}
+export const FEEDBACK_MS = 1300;
+const HEADER_H = 56;
+const BOX_H = 76;
+const BTN_H = 84;
 
 export abstract class SortGameScene<A extends string, T extends SortItem<A>> extends Phaser.Scene {
   protected round!: SortRound<A, T>;
@@ -48,24 +41,26 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
   protected done = once(undefined);
   protected W = 360;
   protected H = 640;
-  /** Vertical band the subclass draws items in. */
-  protected readonly playTop = 78;
-  protected readonly playBottom = 470;
+  /** Vertical band the subclass draws items in (set in create()). */
+  protected playTop = 0;
+  protected playBottom = 0;
 
-  private timerFill!: Phaser.GameObjects.Rectangle;
-  private timerWidth = 0;
+  private timer!: Bar;
   private scoreText!: Phaser.GameObjects.Text;
-  private feedbackText!: Phaser.GameObjects.Text;
-  private buttons: Phaser.GameObjects.Container[] = [];
+  private box!: TextBox;
+  private buttons: Button[] = [];
   private overlay?: Phaser.GameObjects.Container;
 
   protected abstract readonly gameId: MiniGameDef['id'];
-  protected abstract readonly palette: Palette;
+  /** Arena background colour. */
+  protected abstract readonly arena: number;
   /** Left and right buttons (read at create(), so labels follow the current language). */
   protected abstract readonly answers: [AnswerButton<A>, AnswerButton<A>];
   protected abstract makeRound(): SortRound<A, T>;
   /** One line per rule on the intro card. */
   protected abstract rules(): string[];
+  /** What Aunty says while the first item is up. */
+  protected abstract prompt(): string;
   /** Draw the live item. */
   protected abstract showItem(item: T, index: number): void;
   /** Animate the item away after it was answered or missed. */
@@ -73,14 +68,6 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
   /** Per-frame hook while playing; return true when the live item expired (e.g. fell off). */
   protected updateItem(_dtMs: number): boolean {
     return false;
-  }
-  /** Where the "why" line goes; override when the item area below is busy. */
-  protected feedbackY(): number {
-    return this.playBottom + 22;
-  }
-  /** Feedback prefix for a miss. */
-  protected missLine(): string {
-    return tr('minigame.too_slow', 'Too slow!');
   }
 
   init(data: MiniGameData): void {
@@ -94,31 +81,18 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
   create(): void {
     this.W = this.scale.width;
     this.H = this.scale.height;
+    this.playTop = 8 + HEADER_H + 8;
+    this.playBottom = this.H - 12 - BTN_H - 10 - BOX_H - 8;
     this.round = this.makeRound();
-    const p = this.palette;
-    this.add.rectangle(0, 0, this.W, this.H, p.bg).setOrigin(0).setInteractive(); // eat clicks
+    this.cameras.main.setBackgroundColor(this.arena);
+    // Swallow taps so nothing underneath (the paused offer screen) reacts.
+    this.add.zone(0, 0, this.W, this.H).setOrigin(0).setInteractive();
 
-    const def = this.def();
-    this.text(16, 16, def.title.toUpperCase(), 16, p.text).setFontStyle('bold');
-    const quit = this.text(this.W - 16, 14, '✕', 20, p.dim).setOrigin(1, 0);
-    quit.setPadding(8).setInteractive({ useHandCursor: true });
-    quit.on('pointerdown', () => this.finish(false));
-
-    // Timer track + fill, score on the right.
-    this.timerWidth = this.W - 110;
-    this.add.rectangle(16, 50, this.timerWidth, 10, p.panel).setOrigin(0, 0.5);
-    this.timerFill = this.add.rectangle(16, 50, this.timerWidth, 10, 0xf2c14e).setOrigin(0, 0.5);
-    this.scoreText = this.text(this.W - 16, 50, '', 14, p.text).setOrigin(1, 0.5);
-
-    this.feedbackText = this.text(this.W / 2, this.feedbackY(), '', 14, p.text)
-      .setOrigin(0.5)
-      .setAlign('center')
-      .setWordWrapWidth(this.W - 32)
-      .setDepth(10);
-
+    this.makeHeader(this.def());
+    this.box = new TextBox(this, 8, this.playBottom + 8, this.W - 16, BOX_H);
     this.makeButtons();
     this.refreshHud();
-    this.showIntro(def);
+    this.showIntro(this.def());
   }
 
   update(_time: number, delta: number): void {
@@ -137,7 +111,7 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
   private start(): void {
     this.overlay?.destroy();
     this.overlay = undefined;
-    this.phase = 'play';
+    this.say(this.prompt(), COLOR.muted);
     this.serve();
   }
 
@@ -147,7 +121,6 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
       this.showResult();
       return;
     }
-    this.feedbackText.setText('');
     this.setButtonsEnabled(true);
     this.showItem(item, this.round.position);
     this.phase = 'play';
@@ -167,9 +140,14 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
     this.phase = 'feedback';
     this.setButtonsEnabled(false);
     this.clearItem(v, a);
-    const p = this.palette;
-    const head = v.missed ? this.missLine() : v.correct ? '✓' : '✗';
-    this.feedbackText.setColor(v.correct ? p.good : p.bad).setText(`${head} ${v.item.why}`);
+    const head = v.missed
+      ? tr('minigame.too_slow', 'Too slow!')
+      : v.correct
+        ? tr('minigame.right', 'Right!')
+        : tr('minigame.wrong', 'Not quite.');
+    this.say(`${head} ${v.item.why}`, v.correct ? COLOR.good : COLOR.bad);
+    if (v.correct) this.cameras.main.flash(120, 120, 220, 120);
+    else this.cameras.main.shake(120, 0.006);
     this.refreshHud();
     this.time.delayedCall(FEEDBACK_MS, () => {
       if (this.phase !== 'feedback') return;
@@ -183,31 +161,31 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
     this.phase = 'result';
     this.setButtonsEnabled(false);
     const r = this.round;
-    const won = r.won;
-    const p = this.palette;
     const lines = [
       tr('minigame.score', '{correct} / {total} right', { correct: r.correct, total: r.total }),
-      won
-        ? tr('minigame.win', 'Side gig done. You got paid!')
-        : tr('minigame.lose', 'Needed {pass}. No pay this time.', { pass: r.opts.passCount }),
+      r.won
+        ? tr('minigame.hit_target', 'You hit the target of {pass}!', { pass: r.opts.passCount })
+        : tr('minigame.missed_target', 'You needed {pass}. Next shift!', {
+            pass: r.opts.passCount,
+          }),
     ];
-    if (r.timeUp && r.verdicts.length < r.total) lines.push(tr('minigame.time_up', 'Time up!'));
+    if (r.timeUp && r.verdicts.length < r.total) lines.unshift(tr('minigame.time_up', 'Time up!'));
     this.overlay = this.card(
-      won ? tr('minigame.paid', '★ PAID ★') : tr('minigame.unpaid', 'NOT THIS TIME'),
+      r.won ? tr('minigame.shift_done', 'SHIFT DONE!') : tr('minigame.shift_over', 'SHIFT OVER'),
       lines,
       tr('btn.continue', 'CONTINUE'),
-      () => this.finish(won),
-      won ? p.good : p.bad,
+      () => this.finish(r.won),
+      r.won ? COLOR.good : COLOR.bad,
     );
   }
 
   private showIntro(def: MiniGameDef): void {
     this.overlay = this.card(
-      def.title,
+      def.title.toUpperCase(),
       [def.blurb, '', ...this.rules()],
       tr('btn.start', 'START'),
       () => this.start(),
-      this.palette.text,
+      COLOR.aunty,
     );
   }
 
@@ -218,14 +196,14 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
     this.scene.stop();
   }
 
-  // ---- UI helpers -------------------------------------------------------------
+  // ---- UI -------------------------------------------------------------------
 
   private def(): MiniGameDef {
     try {
       const d = getSession().content.minigames.find((m) => m.id === this.gameId);
       if (d) return d;
     } catch {
-      /* no session (e.g. scene previewed standalone) */
+      /* no session (scene previewed standalone) */
     }
     return {
       id: this.gameId,
@@ -236,42 +214,56 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
     };
   }
 
-  protected text(
-    x: number,
-    y: number,
-    s: string,
-    size: number,
-    color: string,
-  ): Phaser.GameObjects.Text {
-    return this.add.text(x, y, s, {
-      fontFamily: FONT,
-      fontSize: `${size}px`,
-      color,
-      resolution: 2,
+  private makeHeader(def: MiniGameDef): void {
+    const W = this.W;
+    const quitW = 48;
+    const panelW = W - 24 - quitW;
+    const head = new PixelPanel(this, 8, 8, panelW, HEADER_H);
+    head.add(text(this, 10, 9, def.title.toUpperCase(), 'xs', COLOR.ink));
+    this.scoreText = text(this, panelW - 10, 9, '', 'xs', COLOR.money).setOrigin(1, 0);
+    this.timer = new Bar(
+      this,
+      10,
+      26,
+      {
+        label: tr('minigame.time', 'TIME'),
+        max: this.round.opts.timeLimitMs / 1000,
+        color: COLOR.warn,
+        width: panelW - 20,
+        format: (v) => tr('minigame.time_left', '{n}s', { n: Math.ceil(v) }),
+      },
+      this.round.opts.timeLimitMs / 1000,
+    );
+    head.add([this.scoreText, this.timer]);
+    new Button(this, W - 8 - quitW / 2, 8 + HEADER_H / 2 - 1, 'X', () => this.finish(false), {
+      width: quitW,
+      height: HEADER_H - 3,
+      fill: COLOR.muted,
     });
+  }
+
+  protected say(line: string, color: number): void {
+    void this.box.say(line, tr('aunty.name', 'Aunty'), color);
+    this.box.complete();
   }
 
   private refreshHud(): void {
     const r = this.round;
-    this.timerFill.width = this.timerWidth * (r.remainingMs / r.opts.timeLimitMs);
-    this.timerFill.fillColor = r.remainingMs < 8000 ? 0xe4572e : 0xf2c14e;
-    this.scoreText.setText(`✓ ${r.correct}/${r.total}`);
+    this.timer.setValue(r.remainingMs / 1000, false);
+    this.scoreText.setText(`${r.correct}/${r.total}`);
   }
 
   private makeButtons(): void {
     const gap = 12;
-    const w = (this.W - 32 - gap) / 2;
-    const h = 92;
-    const y = this.H - h / 2 - 28;
+    const w = (this.W - 16 - gap) / 2;
+    const y = this.H - 12 - BTN_H / 2;
     this.answers.forEach((a, i) => {
-      const x = 16 + w / 2 + i * (w + gap);
-      const bg = this.add.rectangle(0, 0, w, h, a.color).setStrokeStyle(3, 0xffffff, 0.9);
-      const label = this.text(0, 0, a.label, 22, '#ffffff').setOrigin(0.5).setFontStyle('bold');
-      const btn = this.add.container(x, y, [bg, label]).setSize(w, h);
-      btn.setInteractive({ useHandCursor: true });
-      btn.on('pointerdown', () => {
-        this.tweens.add({ targets: btn, scale: 0.94, duration: 60, yoyo: true });
-        this.choose(a.answer);
+      const x = 8 + w / 2 + i * (w + gap);
+      const btn = new Button(this, x, y, a.label, () => this.choose(a.answer), {
+        width: w,
+        height: BTN_H,
+        size: 'lg',
+        fill: a.fill,
       });
       this.input.keyboard?.on(`keydown-${a.key}`, () => this.choose(a.answer));
       this.buttons.push(btn);
@@ -279,7 +271,7 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
   }
 
   private setButtonsEnabled(on: boolean): void {
-    for (const b of this.buttons) b.setAlpha(on ? 1 : 0.45);
+    for (const b of this.buttons) b.setEnabled(on);
   }
 
   /** A centred modal card with a title, body lines and one big button. */
@@ -288,34 +280,27 @@ export abstract class SortGameScene<A extends string, T extends SortItem<A>> ext
     lines: string[],
     cta: string,
     onTap: () => void,
-    titleColor: string,
+    titleColor: number,
   ): Phaser.GameObjects.Container {
-    const p = this.palette;
     const w = this.W - 40;
-    const shade = this.add.rectangle(0, 0, this.W, this.H, 0x000000, 0.6).setOrigin(0);
+    const shade = this.add.rectangle(0, 0, this.W, this.H, COLOR.ink, 0.55).setOrigin(0);
     shade.setInteractive();
-    const body = this.text(0, 0, lines.join('\n'), 14, p.text)
-      .setAlign('center')
-      .setWordWrapWidth(w - 32)
-      .setLineSpacing(4)
-      .setOrigin(0.5, 0);
-    const h = body.height + 150;
-    const panel = this.add.rectangle(0, 0, w, h, p.panel).setStrokeStyle(3, 0xffffff, 0.8);
-    const head = this.text(0, -h / 2 + 18, title, 20, titleColor)
-      .setOrigin(0.5, 0)
-      .setFontStyle('bold');
-    body.setY(-h / 2 + 56);
-    const btnBg = this.add
-      .rectangle(0, h / 2 - 40, w - 60, 52, 0x3a7d44)
-      .setStrokeStyle(2, 0xffffff);
-    const btnLabel = this.text(0, h / 2 - 40, cta, 18, '#ffffff')
-      .setOrigin(0.5)
-      .setFontStyle('bold');
-    const box = this.add.container(this.W / 2, this.H / 2, [panel, head, body, btnBg, btnLabel]);
-    btnBg.setInteractive({ useHandCursor: true }).once('pointerdown', onTap);
-    const wrap = this.add.container(0, 0, [shade, box]).setDepth(100);
-    box.setScale(0.9);
-    this.tweens.add({ targets: box, scale: 1, duration: 140, ease: 'Back.Out' });
+    const body = text(this, w / 2, 52, lines.join('\n'), 'xs', COLOR.ink, {
+      align: 'center',
+      wordWrap: { width: w - 32, useAdvancedWrap: true },
+    }).setOrigin(0.5, 0);
+    const h = body.height + 140;
+    const y = Math.round((this.H - h) / 2);
+    const panel = new PixelPanel(this, 20, y, w, h);
+    panel.add([text(this, w / 2, 20, title, 'md', titleColor).setOrigin(0.5, 0), body]);
+    const btn = new Button(this, this.W / 2, y + h - 44, cta, onTap, {
+      width: w - 48,
+      fill: COLOR.good,
+    });
+    const wrap = this.add.container(0, 0, [shade, panel, btn]).setDepth(100);
+    panel.setAlpha(0);
+    btn.setAlpha(0);
+    this.tweens.add({ targets: [panel, btn], alpha: 1, duration: 160 });
     return wrap;
   }
 }
