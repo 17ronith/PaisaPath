@@ -27,6 +27,19 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,png,json,woff2,wav,mp3}'],
         maximumFileSizeToCacheInBytes: 6 * 1024 * 1024,
+        navigateFallback: 'index.html',
+        navigateFallbackDenylist: [/^\/api\//, /^\/ngo\//],
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) =>
+              url.pathname.startsWith('/assets/') || url.pathname.startsWith('/icons/'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'game-assets',
+              expiration: { maxEntries: 500, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            },
+          },
+        ],
       },
     }),
   ],
