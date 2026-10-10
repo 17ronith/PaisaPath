@@ -1,0 +1,74 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[a4paper,top=1.25cm,bottom=1.3cm,left=1.55cm,right=1.55cm]{geometry}
+\usepackage{fontspec}
+\setmainfont{Inter}[Scale=0.93]
+\newfontfamily\rupeefont{DejaVu Sans}
+\newcommand{\rs}{{\rupeefont ₹}}
+\usepackage{xcolor,graphicx,tabularx,booktabs,enumitem,titlesec,array,amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+\usepackage[hidelinks]{hyperref}
+\definecolor{ink}{HTML}{1B2130}
+\definecolor{acc}{HTML}{2F62D6}
+\definecolor{accsoft}{HTML}{E8EEFC}
+\definecolor{gold}{HTML}{C99A1E}
+\definecolor{muted}{HTML}{5A6273}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2.5pt}
+\linespread{1.04}
+\titleformat{\section}{\normalsize\bfseries\color{acc}}{\thesection.}{0.45em}{}
+\titlespacing*{\section}{0pt}{6pt}{2.5pt}
+\titleformat{\subsection}{\small\bfseries}{\thesubsection}{0.4em}{}
+\titlespacing*{\subsection}{0pt}{4pt}{1.5pt}
+\setlist{nosep,leftmargin=1.1em,itemsep=1.2pt}
+\pagestyle{empty}
+\begin{document}
+
+% ---------- header ----------
+\begin{minipage}[t]{0.70\textwidth}
+{\LARGE\bfseries Learning Money by Living It}\\[1pt]
+{\color{muted}A pixel-art life simulation that teaches financial literacy by letting students live it}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.28\textwidth}\raggedleft
+{\bfseries Team No.: 97}\\[1pt]
+{\small\color{muted}Final report}
+\end{minipage}
+
+\vspace{3pt}
+{\color{acc}\rule{\textwidth}{1.2pt}}
+\vspace{-2pt}
+
+\section{Solution}
+\textbf{[2--3 sentences: what it is, who it is for, the two design claims.]}
+
+\section{Approach}
+\subsection{Player journey} \textbf{[pipeline figure or 6-step list]}
+\subsection{How teaching works} \textbf{[situation → choice → consequence → abstract animation → mistake bank → returns in disguise]}
+\subsection{Architecture} \textbf{[client / engine / content / services; one generic battle screen driven by JSON]}
+\subsection{Guardrail and privacy} \textbf{[no real products; assumptions labelled; nickname-only; never asks OTP/PIN/Aadhaar; NGO join codes]}
+
+\section{Features}
+\begin{itemize}
+  \item \textbf{[Onboarding: language, avatar + typed name, 4 life questions → persona (switchable), 5-question difficulty quiz = ``before'' score]}
+  \item \textbf{[Three life stages, 10 monthly chapters, chapter map with detours and restarts, town map]}
+  \item \textbf{[Money battles: N tasks × 3 persona framings; delayed and repeating consequences; hints after two fails]}
+  \item \textbf{[Abstract explainer animations (N) + replay library; info button]}
+  \item \textbf{[Mistake bank: returns in disguise, ``learned'' badges]}
+  \item \textbf{[Mini-games (2), locked while bars are low]}
+  \item \textbf{[Investing with four made-up assets; stage jumps show compounding; epilogue at 60 with assumption labels]}
+  \item \textbf{[``What if'': biggest mistake replayed the other way (in-game only)]}
+  \item \textbf{[After-quiz → learning gain; NCFE-aligned score + safety score; PDF report emailed to facilitator, guardian CC]}
+  \item \textbf{[NGO dashboard (mock); Telugu strings; PWA offline; low-end phone layout]}
+\end{itemize}
+
+\section{Results}
+\begin{itemize}
+  \item \textbf{[Engine: N unit tests; seeded simulation table (3 policies)]}
+  \item \textbf{[Content: N tasks, N framings, N explainers, N events; validator]}
+  \item \textbf{[Play tests: N peers; time to first battle; help requests; learning gain observed]}
+  \item \textbf{[Device: load time on Slow 3G + 4× CPU; offline run; bundle size]}
+  \item \textbf{[Report pipeline: sandbox inbox screenshot reference]}
+  \item \textbf{[Limitations + next steps: real-student price survey, Bhashini translation, NGO pilot]}
+\end{itemize}
+\end{document}

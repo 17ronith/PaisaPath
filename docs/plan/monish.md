@@ -121,7 +121,7 @@ rule), rebase-merged to `main`, tagged `v0-skeleton`.
 - [ ] Perf: DevTools slow 3G + 4× CPU on `npm run preview` build → record
       load time; Lighthouse PWA installable. Numbers go in final report.
 - [ ] 07:30 integration call: you drive. Decide cuts from README §3 cut list.
-- [ ] `deliverables/final_report.tex` draft (≤ 3 pages: solution, approach,
+- [x] `deliverables/final_report.tex` draft (≤ 3 pages: solution, approach,
       features, results). Reuse M2 numbers; add final test count, content
       counts, playtest results, perf.
 - [ ] `README.md` rewrite — **setup/run only** (Node 20, `npm i`, `npm run dev`,
