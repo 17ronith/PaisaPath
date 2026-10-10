@@ -1,43 +1,508 @@
 [
   {
-    "id": "invest_medium_s3_01",
-    "pillar": "invest",
-    "difficulty": "medium",
+    "id": "budget_hard_s3_01",
+    "pillar": "budget",
+    "difficulty": "hard",
     "stage": 3,
-    "concept": "compounding",
-    "pressure": 45,
+    "concept": "cost_of_borrowing",
+    "pressure": 85,
     "source": "team estimate",
     "framings": {
       "default": {
-        "title": "THE RAISE",
-        "speaker": "Aunty",
-        "place": "bank",
-        "text": "Salary went up by ₹10,000. Spend the raise, or move ₹5,000 a month into Banyan Savings?"
+        "title": "BUY OR RENT?",
+        "speaker": "Property agent",
+        "place": "gachibowli",
+        "intro": "You earn ₹50,000 a month. Rent now: ₹12,000.",
+        "text": "'₹40 lakh flat! Home-loan EMI just ₹35,000 a month for 20 years. Book today, prices go up tomorrow!'"
+      },
+      "pocket_money": {
+        "title": "BUY OR RENT?",
+        "speaker": "Property agent",
+        "place": "gachibowli",
+        "intro": "You earn ₹50,000. Your parents want 'our own house' before they retire.",
+        "text": "'₹40 lakh flat, EMI ₹35,000 a month for 20 years. Your parents will be so proud. Book today!'"
+      },
+      "scholarship": {
+        "title": "BUY OR RENT?",
+        "speaker": "Property agent",
+        "place": "gachibowli",
+        "intro": "You earn ₹50,000. Relatives keep asking when you'll 'settle down' in your own flat.",
+        "text": "'₹40 lakh, EMI ₹35,000 a month for 20 years. Only two flats left on this floor!'"
+      },
+      "earner": {
+        "title": "BUY OR RENT?",
+        "speaker": "Property agent",
+        "place": "gachibowli",
+        "intro": "You earn ₹50,000 and still send money home every month.",
+        "text": "'₹40 lakh flat, EMI just ₹35,000 a month for 20 years. Prices only go up!'"
       }
     },
     "choices": [
       {
-        "id": "spend",
-        "text": "ENJOY THE RAISE",
+        "id": "big_emi",
+        "text": "TAKE THE ₹35,000 EMI",
         "quality": "weak",
-        "effects": [{ "label": "Lifestyle up", "wallet": -5000, "happiness": 10 }],
-        "lesson": "Fun now. But the banyan only grows from roots you plant.",
+        "effects": [
+          { "label": "Booking amount", "wallet": -30000, "happiness": 12, "setFlag": "home_loan" },
+          {
+            "label": "Home-loan EMI",
+            "wallet": -35000,
+            "delayChapters": 1,
+            "repeat": { "everyChapters": 1, "times": 2 }
+          }
+        ],
+        "detourTaskId": "detour_emi_squeeze",
         "attitude": "now",
-        "ncfe": [{ "item": "saves_actively", "value": 0 }]
+        "ncfe": [
+          { "item": "considers_affordability", "value": 0 },
+          { "item": "loan_interest", "value": 0 }
+        ],
+        "lesson": "An EMI that eats 70% of income leaves nothing for food, shocks or savings. Over 20 years you'd repay about ₹84 lakh.",
+        "hint": "₹35,000 of ₹50,000, every month, for 20 years?"
       },
       {
-        "id": "invest",
-        "text": "BANYAN ₹5,000",
+        "id": "rent_save",
+        "text": "KEEP RENTING, SAVE MORE",
         "quality": "good",
         "effects": [
-          { "label": "Into Banyan Savings", "wallet": -5000, "savings": 5000, "happiness": 3 }
+          { "label": "Saving for a bigger down payment", "wallet": -10000, "savings": 10000 },
+          {
+            "label": "Down-payment fund",
+            "wallet": -10000,
+            "savings": 10000,
+            "delayChapters": 1,
+            "repeat": { "everyChapters": 1, "times": 2 }
+          }
         ],
-        "lesson": "₹5,000 a month for 25 years at 8% is a very big tree. (Assumption, not a promise.)",
         "attitude": "later",
         "ncfe": [
+          { "item": "considers_affordability", "value": 1 },
+          { "item": "loan_interest", "value": 1 },
+          { "item": "long_term_goals", "value": 1 }
+        ],
+        "lesson": "Keep EMIs under about a third of income. A bigger down payment means a smaller loan and far less interest."
+      },
+      {
+        "id": "smaller_flat",
+        "text": "SMALLER FLAT, ₹15,000 EMI",
+        "quality": "ok",
+        "effects": [
+          { "label": "Down payment", "wallet": -30000, "happiness": 6 },
+          {
+            "label": "Home-loan EMI",
+            "wallet": -15000,
+            "delayChapters": 1,
+            "repeat": { "everyChapters": 1, "times": 2 }
+          }
+        ],
+        "ncfe": [
+          { "item": "compares_options", "value": 1 },
+          { "item": "considers_affordability", "value": 1 }
+        ],
+        "lesson": "An EMI at 30% of income is manageable. Comparing options found a home that fits the month."
+      }
+    ]
+  },
+  {
+    "id": "safety_hard_s3_01",
+    "pillar": "safety",
+    "difficulty": "hard",
+    "stage": 3,
+    "concept": "spot_fake_officials",
+    "pressure": 95,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "DIGITAL ARREST",
+        "speaker": "'Police officer'",
+        "place": "home",
+        "text": "Video call: a man in uniform says a parcel in your name had drugs. 'Pay ₹50,000 to clear your name or be arrested now!'"
+      },
+      "pocket_money": {
+        "title": "DIGITAL ARREST",
+        "speaker": "'Police officer'",
+        "place": "home",
+        "text": "A video call to Dad's phone: 'Your child's ID was used for a crime. Pay ₹50,000 now or we arrest them!'"
+      },
+      "scholarship": {
+        "title": "DIGITAL ARREST",
+        "speaker": "'Police officer'",
+        "place": "home",
+        "text": "A uniformed man on video: 'Your bank account was used for fraud. Pay ₹50,000 to verify or face arrest!'"
+      },
+      "earner": {
+        "title": "DIGITAL ARREST",
+        "speaker": "'Police officer'",
+        "place": "home",
+        "text": "Video call: 'A parcel in your name had drugs. Stay on camera, tell nobody, pay ₹50,000 now!'"
+      }
+    },
+    "choices": [
+      {
+        "id": "pay",
+        "text": "PAY ₹50,000 TO CLEAR IT",
+        "quality": "critical",
+        "effects": [{ "label": "₹50,000 gone", "wallet": -50000, "happiness": -30 }],
+        "scam": "fell",
+        "ncfe": [{ "item": "takes_responsibility", "value": 0 }],
+        "lesson": "There is no such thing as 'digital arrest'. Real police never demand money on a video call.",
+        "hint": "Do real police arrest people over a video call?"
+      },
+      {
+        "id": "stay_on",
+        "text": "STAY ON CALL, EXPLAIN",
+        "quality": "weak",
+        "effects": [{ "label": "Two hours of threats", "happiness": -15 }],
+        "lesson": "Staying on the call lets them build fear. Hang up. You don't have to prove anything to a caller.",
+        "hint": "Who benefits if you stay on the call?"
+      },
+      {
+        "id": "report",
+        "text": "HANG UP, CALL 1930",
+        "quality": "good",
+        "effects": [{ "label": "Reported the scam", "happiness": 5 }],
+        "scam": "spotted",
+        "ncfe": [{ "item": "takes_responsibility", "value": 1 }],
+        "lesson": "Hang up, then call 1930 or walk into a police station yourself. Real police never 'arrest' you on video."
+      },
+      {
+        "id": "tell_family",
+        "text": "HANG UP, TELL FAMILY",
+        "quality": "ok",
+        "effects": [{ "label": "Family calmed you down", "happiness": 2 }],
+        "scam": "spotted",
+        "lesson": "Right move. Fear is their weapon, and talking to someone you trust breaks it."
+      }
+    ]
+  },
+  {
+    "id": "invest_hard_s3_01",
+    "pillar": "invest",
+    "difficulty": "hard",
+    "stage": 3,
+    "concept": "diversification",
+    "pressure": 75,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "SPREAD IT?",
+        "speaker": "Aunty",
+        "place": "bank",
+        "intro": "All four assets are made up. Returns vary and can be negative.",
+        "text": "A ₹20,000 bonus to invest. Weather experts warn of a bad monsoon, but they're often wrong. Where does it go?"
+      },
+      "pocket_money": {
+        "title": "SPREAD IT?",
+        "speaker": "Aunty",
+        "place": "bank",
+        "intro": "All four assets are made up. Returns vary and can be negative.",
+        "text": "Your first ₹20,000 bonus. A friend swears Mango Orchard 'always wins'. The radio warns of a weak monsoon."
+      },
+      "scholarship": {
+        "title": "SPREAD IT?",
+        "speaker": "Aunty",
+        "place": "bank",
+        "intro": "All four assets are made up. Returns vary and can be negative.",
+        "text": "A ₹20,000 bonus. Last year Mango Orchard grew fastest; this year forecasts say weak rains. Where does it go?"
+      },
+      "earner": {
+        "title": "SPREAD IT?",
+        "speaker": "Aunty",
+        "place": "bank",
+        "intro": "All four assets are made up. Returns vary and can be negative.",
+        "text": "A ₹20,000 bonus. At the shop everyone talks about Mango Orchard. The monsoon looks shaky. Where does it go?"
+      }
+    },
+    "choices": [
+      {
+        "id": "all_mango",
+        "text": "ALL IN MANGO ORCHARD",
+        "quality": "weak",
+        "effects": [
+          { "label": "Bonus", "wallet": 20000 },
+          {
+            "label": "Bad monsoon: Mango Orchard fell 40%",
+            "wallet": -20000,
+            "savings": 12000,
+            "happiness": -12
+          }
+        ],
+        "detourTaskId": "detour_all_in_one_basket",
+        "ncfe": [
+          { "item": "diversification", "value": 0 },
+          { "item": "risk_return", "value": 0 }
+        ],
+        "lesson": "One bet, one bad year, and 40% was gone. Big swings both ways: that's the risk you took.",
+        "hint": "What happens to a mango orchard in a bad monsoon?"
+      },
+      {
+        "id": "spread",
+        "text": "SPREAD ACROSS ALL FOUR",
+        "quality": "good",
+        "effects": [
+          { "label": "Bonus", "wallet": 20000 },
+          {
+            "label": "Mango fell, the other three held up",
+            "wallet": -20000,
+            "savings": 20400,
+            "happiness": 4
+          }
+        ],
+        "ncfe": [
+          { "item": "diversification", "value": 1 },
+          { "item": "risk_return", "value": 1 }
+        ],
+        "lesson": "Mango fell, but Banyan and Chai held up. Owning things that don't fail together is diversification."
+      },
+      {
+        "id": "cash",
+        "text": "KEEP IT ALL AS CASH",
+        "quality": "ok",
+        "effects": [
+          { "label": "Bonus", "wallet": 20000 },
+          { "label": "Kept as cash", "wallet": -20000, "savings": 20000 }
+        ],
+        "ncfe": [{ "item": "inflation", "value": 0 }],
+        "lesson": "No loss this year, but cash shrinks to inflation every year. Spreading wisely beats hiding."
+      }
+    ]
+  },
+  {
+    "id": "save_medium_s3_01",
+    "pillar": "save",
+    "difficulty": "medium",
+    "stage": 3,
+    "concept": "emergency_buffer",
+    "pressure": 65,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "HEALTH COVER",
+        "speaker": "Insurance agent",
+        "place": "clinic",
+        "text": "Family health cover: about ₹1,500 a month. 'One hospital stay can cost ₹2 lakh.' Your buffer is ₹60,000."
+      },
+      "pocket_money": {
+        "title": "HEALTH COVER",
+        "speaker": "Clinic receptionist",
+        "place": "clinic",
+        "text": "Your parents are getting older. A family health cover costs about ₹1,500 a month. Your buffer: ₹60,000."
+      },
+      "scholarship": {
+        "title": "HEALTH COVER",
+        "speaker": "Insurance agent",
+        "place": "clinic",
+        "text": "A cousin's surgery cost ₹2 lakh last year. Health cover: about ₹1,500 a month. Your buffer: ₹60,000."
+      },
+      "earner": {
+        "title": "HEALTH COVER",
+        "speaker": "Insurance agent",
+        "place": "clinic",
+        "text": "Dad's knee needs surgery someday. Family cover: about ₹1,500 a month. Your buffer: ₹60,000."
+      }
+    },
+    "choices": [
+      {
+        "id": "compare",
+        "text": "COMPARE PLANS, THEN BUY",
+        "quality": "good",
+        "effects": [
+          { "label": "Health cover premium", "wallet": -1300, "setFlag": "has_insurance" },
+          {
+            "label": "Health cover premium",
+            "wallet": -1300,
+            "delayChapters": 1,
+            "repeat": { "everyChapters": 1, "times": 2 }
+          }
+        ],
+        "ncfe": [
+          { "item": "compares_options", "value": 1 },
+          { "item": "major_expense_no_borrow", "value": 1 }
+        ],
+        "lesson": "Insurance turns a huge, rare cost into a small, regular one. Comparing found the same cover for less."
+      },
+      {
+        "id": "buy_first",
+        "text": "BUY THE FIRST ONE OFFERED",
+        "quality": "ok",
+        "effects": [
+          { "label": "Health cover premium", "wallet": -1500, "setFlag": "has_insurance" },
+          {
+            "label": "Health cover premium",
+            "wallet": -1500,
+            "delayChapters": 1,
+            "repeat": { "everyChapters": 1, "times": 2 }
+          }
+        ],
+        "ncfe": [
+          { "item": "major_expense_no_borrow", "value": 1 },
+          { "item": "compares_options", "value": 0 }
+        ],
+        "lesson": "Covered, good. Comparing two or three plans first usually finds the same cover cheaper."
+      },
+      {
+        "id": "self_insure",
+        "text": "MY BUFFER IS ENOUGH",
+        "quality": "weak",
+        "effects": [{ "label": "No health cover", "happiness": 2 }],
+        "ncfe": [{ "item": "major_expense_no_borrow", "value": 0 }],
+        "lesson": "A buffer covers a broken phone, not a hospital stay. Some risks are too big to carry alone.",
+        "hint": "₹60,000 against a ₹2 lakh hospital bill?"
+      }
+    ]
+  },
+  {
+    "id": "safety_medium_s3_01",
+    "pillar": "safety",
+    "difficulty": "medium",
+    "stage": 3,
+    "concept": "too_good_to_be_true",
+    "pressure": 70,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "CHIT FUND",
+        "speaker": "Neighbour",
+        "place": "home",
+        "text": "'My chit: ₹5,000 a month, 20 members. Not registered, but I promise 30% extra!' Everyone's joining."
+      },
+      "pocket_money": {
+        "title": "CHIT FUND",
+        "speaker": "Mom's friend",
+        "place": "home",
+        "text": "Mom's friend runs a chit: '₹5,000 a month, 30% extra, guaranteed. Registration is just paperwork.'"
+      },
+      "scholarship": {
+        "title": "CHIT FUND",
+        "speaker": "Neighbour",
+        "place": "home",
+        "text": "'Join my chit! ₹5,000 a month, 30% extra. No registration needed, we're all family here.'"
+      },
+      "earner": {
+        "title": "CHIT FUND",
+        "speaker": "Shop owner",
+        "place": "kirana",
+        "text": "Your old boss runs a chit for shopkeepers: '₹5,000 a month, 30% extra. Not registered, but trust me.'"
+      }
+    },
+    "choices": [
+      {
+        "id": "join",
+        "text": "JOIN, EVERYONE IS",
+        "quality": "weak",
+        "effects": [
+          { "label": "Chit contribution", "wallet": -5000, "setFlag": "sketchy_chit" },
+          {
+            "label": "The organiser vanished with the pot",
+            "wallet": -5000,
+            "happiness": -20,
+            "delayChapters": 1
+          }
+        ],
+        "scam": "fell",
+        "ncfe": [{ "item": "risk_return", "value": 0 }],
+        "lesson": "Unregistered + promised high returns + 'everyone's joining' is a classic trap. When it collapses, nobody can help.",
+        "hint": "Who checks on an unregistered organiser?"
+      },
+      {
+        "id": "check",
+        "text": "ASK IF IT'S REGISTERED",
+        "quality": "good",
+        "effects": [{ "label": "Not registered, so you said no", "happiness": 4 }],
+        "scam": "spotted",
+        "ncfe": [
+          { "item": "compares_options", "value": 1 },
+          { "item": "risk_return", "value": 1 }
+        ],
+        "lesson": "Registered chit funds have written rules and someone who checks on them. No registration means no protection."
+      },
+      {
+        "id": "banyan",
+        "text": "SAVE IN BANYAN INSTEAD",
+        "quality": "ok",
+        "effects": [{ "label": "Saved in Banyan Savings", "wallet": -5000, "savings": 5000 }],
+        "scam": "spotted",
+        "ncfe": [{ "item": "saves_actively", "value": 1 }],
+        "lesson": "Safe and steady. Boring beats vanishing."
+      }
+    ]
+  },
+  {
+    "id": "save_simple_s3_01",
+    "pillar": "save",
+    "difficulty": "simple",
+    "stage": 3,
+    "concept": "goal_jar",
+    "pressure": 45,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "CHILD'S FUTURE",
+        "speaker": "Your child",
+        "place": "home",
+        "text": "Your 3-year-old: 'I'll be a doctor!' College is about 15 years away. Start a fund now, or later?"
+      },
+      "pocket_money": {
+        "title": "CHILD'S FUTURE",
+        "speaker": "Your child",
+        "place": "home",
+        "text": "Your child wants to be a doctor. You remember how your parents scrambled for fees. College is 15 years away."
+      },
+      "scholarship": {
+        "title": "CHILD'S FUTURE",
+        "speaker": "Your child",
+        "place": "home",
+        "text": "Your child wants to be a doctor. A scholarship might help, or might not. College is 15 years away."
+      },
+      "earner": {
+        "title": "CHILD'S FUTURE",
+        "speaker": "Your child",
+        "place": "home",
+        "text": "You worked through college. Your child won't have to, if you plan. College is 15 years away."
+      }
+    },
+    "choices": [
+      {
+        "id": "named_fund",
+        "text": "NAMED FUND: ₹3,000/MONTH",
+        "quality": "good",
+        "effects": [
+          { "label": "Education fund", "wallet": -3000, "savings": 3000 },
+          {
+            "label": "Education fund",
+            "wallet": -3000,
+            "savings": 3000,
+            "delayChapters": 1,
+            "repeat": { "everyChapters": 1, "times": 2 }
+          }
+        ],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "long_term_goals", "value": 1 },
           { "item": "saves_actively", "value": 1 },
           { "item": "compound_interest", "value": 1 }
-        ]
+        ],
+        "lesson": "A named goal with a date, started early: 15 years of growth does the heavy lifting."
+      },
+      {
+        "id": "later",
+        "text": "START WHEN THEY'RE 15",
+        "quality": "weak",
+        "effects": [{ "label": "Nothing saved yet", "happiness": 3 }],
+        "attitude": "now",
+        "ncfe": [{ "item": "long_term_goals", "value": 0 }],
+        "lesson": "Starting 12 years late means saving many times more each month for the same goal. Goals need time.",
+        "hint": "How much a month if you only have 3 years?"
+      },
+      {
+        "id": "gold",
+        "text": "BUY GOLD JEWELLERY FOR IT",
+        "quality": "ok",
+        "effects": [
+          { "label": "Gold jewellery (₹1,500 making charges)", "wallet": -15000, "savings": 13500 }
+        ],
+        "ncfe": [{ "item": "long_term_goals", "value": 1 }],
+        "lesson": "Gold's price moves up and down, and jewellery has making charges. Not wrong, but a named, growing fund is clearer."
       }
     ]
   }
