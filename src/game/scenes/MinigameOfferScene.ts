@@ -6,6 +6,7 @@ import { rupees, t } from '@/shared/i18n';
 import { minigameScenes } from '@/minigames';
 import type { Effect, Step } from '@/shared/types';
 import { advance, save } from '../flow/Driver';
+import { play } from '../audio';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
@@ -112,6 +113,7 @@ export class MinigameOfferScene extends Phaser.Scene {
   private showResult(won: boolean, effects: Effect[], earned: number): void {
     const { width: W, height: H } = VIEW;
     this.children.removeAll(true);
+    if (won) play('coin');
     const msg = won
       ? tr('minigame.won', 'Well played! You earned {amount}.', { amount: rupees(earned) })
       : tr('minigame.lost', 'Rough shift. No pay this time.');

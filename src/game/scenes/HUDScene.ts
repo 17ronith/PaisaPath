@@ -4,6 +4,7 @@ import Phaser from 'phaser';
 import { getSession } from '@/app/session';
 import { rupees, t } from '@/shared/i18n';
 import { heartsFor } from '../logic/display';
+import { isMuted, setMuted } from '../audio';
 import { Button } from '../ui/Button';
 import { COLOR, text } from '../ui/theme';
 import { VIEW } from '../view';
@@ -35,7 +36,18 @@ export class HUDScene extends Phaser.Scene {
         .setScale(2),
     );
     this.wallet = text(this, 8, 29, '', 'xs', COLOR.white).setOrigin(0, 0.5);
-    this.stage = text(this, 152, 20, '', 'xs', COLOR.accent).setOrigin(0.5);
+    this.stage = text(this, 140, 20, '', 'xs', COLOR.accent).setOrigin(0.5);
+    const mute = new Button(
+      this,
+      193,
+      20,
+      isMuted() ? '×' : '♪',
+      () => {
+        setMuted(!isMuted());
+        mute.setCaption(isMuted() ? '×' : '♪');
+      },
+      { width: 34, height: 32, size: 'md', fill: 0x505878 },
+    );
     new Button(this, W - 120, 20, t('btn.info'), () => this.openOverlay('InfoPanel'), {
       width: 58,
       height: 32,

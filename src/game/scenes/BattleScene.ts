@@ -7,6 +7,7 @@ import { getSession } from '@/app/session';
 import { rupees, t } from '@/shared/i18n';
 import type { Choice, Effect, Outcome, Step } from '@/shared/types';
 import { advance, save } from '../flow/Driver';
+import { play } from '../audio';
 import { Bar } from '../ui/Bar';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
@@ -200,8 +201,13 @@ export class BattleScene extends Phaser.Scene {
       this.happy.setValue(o.after.happiness),
       this.pressure.setValue(o.pressureAfter),
     ]);
-    if (o.quality === 'good') this.cameras.main.flash(200, 120, 220, 120);
-    else if (o.quality !== 'ok') this.cameras.main.shake(200, 0.008);
+    if (o.quality === 'good') {
+      this.cameras.main.flash(200, 120, 220, 120);
+      play('good');
+    } else if (o.quality !== 'ok') {
+      this.cameras.main.shake(200, 0.008);
+      play('bad');
+    }
 
     const auntyLine = o.lesson;
     void this.box.say(auntyLine, tr('guide.name', 'Aunty'), COLOR.aunty);

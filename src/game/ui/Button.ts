@@ -1,6 +1,7 @@
 // Big touch target (≥ 56px tall by default) built from Kenney 9-slice button frames, with a
 // real pressed frame. The caller's fill colour picks the frame colour.
 import Phaser from 'phaser';
+import { play } from '../audio';
 import { COLOR, text, type TextSize } from './theme';
 
 export interface ButtonOpts {
@@ -69,7 +70,8 @@ export class Button extends Phaser.GameObjects.Container {
       opts.textColor ?? (dark ? COLOR.ink : COLOR.white),
       {
         align: left ? 'left' : 'center',
-        wordWrap: { width: w - 24, useAdvancedWrap: true },
+        // Icon-sized buttons don't wrap (Phaser throws if the wrap width is under one glyph).
+        ...(w > 60 ? { wordWrap: { width: w - 24, useAdvancedWrap: true } } : {}),
       },
     ).setOrigin(left ? 0 : 0.5, 0.5);
     if (!dark) this.label.setShadow(0, 1, 'rgba(0,0,0,0.35)', 0, false, true);
@@ -81,6 +83,7 @@ export class Button extends Phaser.GameObjects.Container {
     this.on('pointerup', () => {
       if (!this.enabled) return;
       this.press(false);
+      play('select');
       onClick();
     });
     scene.add.existing(this);

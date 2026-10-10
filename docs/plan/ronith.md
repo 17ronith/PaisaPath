@@ -154,7 +154,7 @@ under the 6 MB per-file cap and fine for the Fast-3G numbers.
       `content.assets` with blurb + "typical year ±x%"; slider or +/- buttons
       per asset; sum ≤ savings; "Assumptions, not promises" footer;
       `game.allocate(alloc)`.
-- [ ] `StageEndScene.ts` — "n years later…" with persona `stageIntro`, then
+- [x] `StageEndScene.ts` — "n years later…" with persona `stageIntro`, then
       portfolio before → after bars from `step`, yearly returns as a tiny
       sparkline per asset, income rescale note.
 - [x] `EpilogueScene.ts` — age 60: `projection.perAsset` bars vs
@@ -176,7 +176,7 @@ under the 6 MB per-file cap and fine for the Fast-3G numbers.
 - [x] `MinigameOfferScene.ts` — launch `minigameScenes[id]` with `onDone`;
       locked state shows the `lockReason`; skip button. On done: show
       reward effects.
-- [ ] Audio: 4 blips (select, good, bad, coin) via tiny WAVs; mute toggle in HUD.
+- [x] Audio: 4 blips (select, good, bad, coin) via tiny WAVs; mute toggle in HUD.
 - [ ] Touch polish: nothing smaller than 48 px; text ≥ 12 px pixel font;
       colours readable on cheap screens (test with DevTools "vision deficiency").
 - [x] Replace rectangles with Kenney art where it's cheap. Keep "University
