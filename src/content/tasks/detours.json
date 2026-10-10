@@ -21,9 +21,19 @@
         "id": "say_no",
         "text": "SAY NO, STAY HOME",
         "quality": "good",
-        "effects": [{ "label": "Missed the match", "happiness": -15 }],
+        "effects": [
+          {
+            "label": "Missed the match",
+            "happiness": -15
+          }
+        ],
         "attitude": "later",
-        "ncfe": [{ "item": "considers_affordability", "value": 1 }],
+        "ncfe": [
+          {
+            "item": "considers_affordability",
+            "value": 1
+          }
+        ],
         "lesson": "Last night's ₹300 cost you today's match. That's the real price of an impulse buy."
       },
       {
@@ -31,11 +41,23 @@
         "text": "BORROW ₹100 FOR IT",
         "quality": "weak",
         "effects": [
-          { "label": "Borrowed for the match", "happiness": 5 },
-          { "label": "Repaid your friend", "wallet": -100, "delayChapters": 1 }
+          {
+            "label": "Borrowed for the match",
+            "happiness": 5
+          },
+          {
+            "label": "Repaid your friend",
+            "wallet": -100,
+            "delayChapters": 1
+          }
         ],
         "attitude": "now",
-        "ncfe": [{ "item": "considers_affordability", "value": 0 }],
+        "ncfe": [
+          {
+            "item": "considers_affordability",
+            "value": 0
+          }
+        ],
         "lesson": "Borrowing for a want moves the hole to next month. It doesn't fill it."
       }
     ]
@@ -62,7 +84,13 @@
         "id": "pay_anyway",
         "text": "PAY, LIKE THE COUSIN DID",
         "quality": "weak",
-        "effects": [{ "label": "Paid ₹500 to a scammer", "wallet": -500, "happiness": -15 }],
+        "effects": [
+          {
+            "label": "Paid ₹500 to a scammer",
+            "wallet": -500,
+            "happiness": -15
+          }
+        ],
         "scam": "fell",
         "lesson": "One cousin's story isn't proof. Real offices never collect fees on a call."
       },
@@ -70,9 +98,19 @@
         "id": "check_site",
         "text": "CHECK THE OFFICIAL SITE",
         "quality": "good",
-        "effects": [{ "label": "Verified: it was a scam", "happiness": 5 }],
+        "effects": [
+          {
+            "label": "Verified: it was a scam",
+            "happiness": 5
+          }
+        ],
         "scam": "spotted",
-        "ncfe": [{ "item": "compares_options", "value": 1 }],
+        "ncfe": [
+          {
+            "item": "compares_options",
+            "value": 1
+          }
+        ],
         "lesson": "Friends guess; the official site knows. You checked, and it was a scam."
       }
     ]
@@ -99,11 +137,22 @@
         "id": "week_plan",
         "text": "MAKE A WEEK-BY-WEEK PLAN",
         "quality": "good",
-        "effects": [{ "label": "Cut snacks, walked twice", "happiness": -4 }],
+        "effects": [
+          {
+            "label": "Cut snacks, walked twice",
+            "happiness": -4
+          }
+        ],
         "attitude": "later",
         "ncfe": [
-          { "item": "keeps_budget", "value": 1 },
-          { "item": "watches_finances", "value": 1 }
+          {
+            "item": "keeps_budget",
+            "value": 1
+          },
+          {
+            "item": "watches_finances",
+            "value": 1
+          }
         ],
         "lesson": "A weekly plan stretches what's left. Next month, plan before you spend, not after."
       },
@@ -112,10 +161,22 @@
         "text": "BORROW TILL NEXT MONTH",
         "quality": "weak",
         "effects": [
-          { "label": "Borrowed ₹100", "happiness": -2 },
-          { "label": "Repaid ₹100 from next month", "wallet": -100, "delayChapters": 1 }
+          {
+            "label": "Borrowed ₹100",
+            "happiness": -2
+          },
+          {
+            "label": "Repaid ₹100 from next month",
+            "wallet": -100,
+            "delayChapters": 1
+          }
         ],
-        "ncfe": [{ "item": "keeps_budget", "value": 0 }],
+        "ncfe": [
+          {
+            "item": "keeps_budget",
+            "value": 0
+          }
+        ],
         "lesson": "Borrowing moves the hole to next month, so it starts short before it begins."
       }
     ]
@@ -143,7 +204,10 @@
         "text": "TAKE THE APP LOAN",
         "quality": "weak",
         "effects": [
-          { "label": "Loan app: ₹400 now", "happiness": -3 },
+          {
+            "label": "Loan app: ₹400 now",
+            "happiness": -3
+          },
           {
             "label": "Repaid ₹600 + threat calls to your contacts",
             "wallet": -600,
@@ -152,16 +216,31 @@
           }
         ],
         "scam": "fell",
-        "ncfe": [{ "item": "loan_interest", "value": 0 }],
+        "ncfe": [
+          {
+            "item": "loan_interest",
+            "value": 0
+          }
+        ],
         "lesson": "Instant-loan apps charge huge fees and harass your contacts. ₹400 became ₹600 in a month."
       },
       {
         "id": "family_plan",
         "text": "SAY NO, TALK TO FAMILY",
         "quality": "good",
-        "effects": [{ "label": "Family helped you make a repayment plan", "happiness": -2 }],
+        "effects": [
+          {
+            "label": "Family helped you make a repayment plan",
+            "happiness": -2
+          }
+        ],
         "scam": "spotted",
-        "ncfe": [{ "item": "loan_interest", "value": 1 }],
+        "ncfe": [
+          {
+            "item": "loan_interest",
+            "value": 1
+          }
+        ],
         "lesson": "An app that wants your contacts for a 'no-document' loan is a trap. Ask people you trust first."
       }
     ]
@@ -188,21 +267,284 @@
         "id": "cut_wants",
         "text": "CUT WANTS, PAY THE PASS",
         "quality": "good",
-        "effects": [{ "label": "No snacks this week; pass paid", "happiness": -5 }],
+        "effects": [
+          {
+            "label": "No snacks this week; pass paid",
+            "happiness": -5
+          }
+        ],
         "attitude": "later",
-        "ncfe": [{ "item": "pays_bills_on_time", "value": 1 }],
+        "ncfe": [
+          {
+            "item": "pays_bills_on_time",
+            "value": 1
+          }
+        ],
         "lesson": "Bills first, wants wait. The pass is far cheaper than daily tickets."
       },
       {
         "id": "daily_tickets",
         "text": "PAY DAILY TICKETS",
         "quality": "weak",
-        "effects": [{ "label": "Daily tickets cost more", "wallet": -80, "happiness": -3 }],
+        "effects": [
+          {
+            "label": "Daily tickets cost more",
+            "wallet": -80,
+            "happiness": -3
+          }
+        ],
         "ncfe": [
-          { "item": "compares_options", "value": 0 },
-          { "item": "pays_bills_on_time", "value": 0 }
+          {
+            "item": "compares_options",
+            "value": 0
+          },
+          {
+            "item": "pays_bills_on_time",
+            "value": 0
+          }
         ],
         "lesson": "Skipping the pass cost more in daily tickets. A missed due date usually costs extra."
+      }
+    ]
+  },
+  {
+    "id": "detour_emi_squeeze",
+    "isDetour": true,
+    "pillar": "budget",
+    "difficulty": "medium",
+    "stage": 2,
+    "concept": "cost_of_borrowing",
+    "pressure": 60,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "EMI SQUEEZE",
+        "speaker": "Bank SMS",
+        "place": "home",
+        "text": "'EMI debited.' Month-end, rent is due, and the wallet is thin. Friends want to go out this weekend."
+      }
+    },
+    "choices": [
+      {
+        "id": "cut_wants",
+        "text": "CUT WANTS, PAY ON TIME",
+        "quality": "good",
+        "effects": [
+          {
+            "label": "Tight month, EMI paid on time",
+            "happiness": -6
+          }
+        ],
+        "ncfe": [
+          {
+            "item": "pays_bills_on_time",
+            "value": 1
+          }
+        ],
+        "lesson": "Missing an EMI adds late fees and hurts your credit record. Cut wants until it's paid off."
+      },
+      {
+        "id": "skip_emi",
+        "text": "SKIP THIS MONTH'S EMI",
+        "quality": "weak",
+        "effects": [
+          {
+            "label": "Late fee + extra interest",
+            "wallet": -750,
+            "happiness": -8
+          }
+        ],
+        "ncfe": [
+          {
+            "item": "pays_bills_on_time",
+            "value": 0
+          }
+        ],
+        "lesson": "A missed EMI costs a late fee plus interest, and a bad credit record follows you for years."
+      }
+    ]
+  },
+  {
+    "id": "detour_scam_recovery",
+    "isDetour": true,
+    "pillar": "safety",
+    "difficulty": "medium",
+    "stage": 2,
+    "concept": "too_good_to_be_true",
+    "pressure": 70,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "WITHDRAWAL 'TAX'",
+        "speaker": "Investment app",
+        "place": "home",
+        "text": "The app shows ₹1,800 'profit'. To withdraw, it says you must first pay a ₹2,000 'tax'."
+      }
+    },
+    "choices": [
+      {
+        "id": "pay_tax",
+        "text": "PAY THE 'TAX'",
+        "quality": "weak",
+        "effects": [
+          {
+            "label": "₹2,000 more gone",
+            "wallet": -2000,
+            "happiness": -15
+          }
+        ],
+        "scam": "fell",
+        "lesson": "There's no withdrawal 'tax'. Every new fee is the scam asking for more."
+      },
+      {
+        "id": "report",
+        "text": "STOP, REPORT ON 1930",
+        "quality": "good",
+        "effects": [
+          {
+            "label": "Reported; stopped the losses",
+            "happiness": 3
+          }
+        ],
+        "scam": "spotted",
+        "ncfe": [
+          {
+            "item": "takes_responsibility",
+            "value": 1
+          }
+        ],
+        "lesson": "Stop paying the moment they ask for more. Report it at 1930; quick reports can freeze scam accounts."
+      }
+    ]
+  },
+  {
+    "id": "detour_all_in_one_basket",
+    "isDetour": true,
+    "pillar": "invest",
+    "difficulty": "hard",
+    "stage": 3,
+    "concept": "diversification",
+    "pressure": 65,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "PANIC SELL?",
+        "speaker": "Your gut",
+        "place": "bank",
+        "text": "Mango Orchard fell 40%. Friends say 'sell everything before it falls more!' What now?"
+      }
+    },
+    "choices": [
+      {
+        "id": "panic",
+        "text": "SELL EVERYTHING NOW",
+        "quality": "weak",
+        "effects": [
+          {
+            "label": "Sold at the bottom",
+            "happiness": -10
+          }
+        ],
+        "ncfe": [
+          {
+            "item": "risk_return",
+            "value": 0
+          }
+        ],
+        "lesson": "Selling in panic locks in the loss. Plan your spread before the storm, not during it."
+      },
+      {
+        "id": "rebalance",
+        "text": "SPREAD IT ACROSS ALL FOUR",
+        "quality": "good",
+        "effects": [
+          {
+            "label": "Spread out for next year",
+            "happiness": 2
+          }
+        ],
+        "ncfe": [
+          {
+            "item": "diversification",
+            "value": 1
+          }
+        ],
+        "lesson": "Spread out now, one bad harvest can't sink you next time. That's diversification."
+      }
+    ]
+  },
+  {
+    "id": "detour_family_loan_unpaid",
+    "isDetour": true,
+    "pillar": "save",
+    "difficulty": "hard",
+    "stage": 2,
+    "concept": "pay_yourself_first",
+    "pressure": 70,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "NOT REPAID",
+        "speaker": "Uncle",
+        "place": "home",
+        "text": "Three months on, the ₹10,000 hasn't come back, and now your own rent is due."
+      }
+    },
+    "choices": [
+      {
+        "id": "ask_plan",
+        "text": "ASK KINDLY, WITH A PLAN",
+        "quality": "good",
+        "effects": [
+          {
+            "label": "Agreed: ₹2,000 a month back",
+            "wallet": 2000,
+            "happiness": 2
+          },
+          {
+            "label": "Repayment instalment",
+            "wallet": 2000,
+            "delayChapters": 1,
+            "repeat": {
+              "everyChapters": 1,
+              "times": 2
+            }
+          }
+        ],
+        "ncfe": [
+          {
+            "item": "takes_responsibility",
+            "value": 1
+          }
+        ],
+        "lesson": "A kind, specific repayment plan protects both your savings and the relationship."
+      },
+      {
+        "id": "borrow_rent",
+        "text": "BORROW TO COVER RENT",
+        "quality": "weak",
+        "effects": [
+          {
+            "label": "Borrowed for rent",
+            "happiness": -6
+          },
+          {
+            "label": "Repaid the rent loan + interest",
+            "wallet": -5500,
+            "delayChapters": 1
+          }
+        ],
+        "ncfe": [
+          {
+            "item": "loan_interest",
+            "value": 0
+          },
+          {
+            "item": "major_expense_no_borrow",
+            "value": 0
+          }
+        ],
+        "lesson": "Now you're borrowing because you lent. Save first; lend only what you can lose."
       }
     ]
   }
