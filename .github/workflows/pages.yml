@@ -1,7 +1,7 @@
 name: pages
+# Manual only: enable Pages (Settings → Pages → Source: GitHub Actions) then run this workflow.
+# Live deployment is not required by the rules; the in-person demo runs from `npm run preview`.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
