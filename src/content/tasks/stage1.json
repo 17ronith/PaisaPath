@@ -5,49 +5,263 @@
     "difficulty": "simple",
     "stage": 1,
     "concept": "needs_vs_wants",
-    "pressure": 55,
+    "pressure": 45,
     "source": "team estimate",
     "framings": {
       "default": {
-        "title": "HUNGRY",
-        "speaker": "You",
-        "place": "home",
-        "text": "It's 9 pm. Swiggy biryani is ₹500. There's bread and a ₹20 chips packet at home. Friends said turf cricket tomorrow — ₹150 each."
+        "title": "FOOD CRAVING",
+        "speaker": "Food app",
+        "place": "canteen",
+        "intro": "After college. Turf cricket with friends tomorrow: ₹100 each.",
+        "text": "A food app pings: 'Biryani ₹300, here in 20 min!' The shop next door has chips for ₹20."
+      },
+      "pocket_money": {
+        "title": "FOOD CRAVING",
+        "speaker": "Friend",
+        "place": "canteen",
+        "intro": "Mom gave this month's money yesterday. Turf cricket tomorrow: ₹100 each.",
+        "text": "Your friend scrolls a food app: 'Biryani ₹300, let's order!' Chips at the canteen cost ₹20."
+      },
+      "scholarship": {
+        "title": "FOOD CRAVING",
+        "speaker": "Classmates",
+        "place": "canteen",
+        "intro": "The allowance just landed. Turf cricket with the class tomorrow: ₹100 each.",
+        "text": "'Allowance day! Order ₹300 biryani on the food app to celebrate!' Chips at the canteen: ₹20."
       },
       "earner": {
-        "title": "HUNGRY",
-        "speaker": "You",
+        "title": "FOOD CRAVING",
+        "speaker": "Food app",
         "place": "kirana",
-        "text": "Shift just ended. Swiggy biryani is ₹500, or the ₹20 chips from the shop. Friends said turf cricket tomorrow — ₹150 each."
+        "intro": "Payday at the shop. Turf cricket tomorrow: ₹100 each.",
+        "text": "Tired after your shift. The food app flashes 'Biryani ₹300, free delivery!' Chips at your shop: ₹20."
       }
     },
     "choices": [
       {
-        "id": "swiggy",
-        "text": "ORDER ₹500",
+        "id": "order",
+        "text": "ORDER THE ₹300 BIRYANI",
         "quality": "weak",
-        "effects": [{ "label": "Biryani", "wallet": -500, "happiness": 12 }],
+        "effects": [{ "label": "Biryani ordered", "wallet": -300, "happiness": 12 }],
         "detourTaskId": "detour_turf_no_money",
-        "lesson": "Felt great tonight. Tomorrow's turf match just got expensive.",
         "attitude": "now",
         "ncfe": [{ "item": "considers_affordability", "value": 0 }],
-        "hint": "What did you want more — biryani tonight or turf tomorrow?"
+        "lesson": "Tasty today, but the money for tomorrow's match is gone. A want only works if it fits the month.",
+        "hint": "What else did you want to do this week?"
       },
       {
         "id": "chips",
-        "text": "CHIPS ₹20",
+        "text": "BUY ₹20 CHIPS",
         "quality": "good",
-        "effects": [{ "label": "Chips", "wallet": -20, "happiness": 2 }],
-        "lesson": "A need met for ₹20. The ₹480 you kept is tomorrow's fun.",
+        "effects": [{ "label": "Chips", "wallet": -20, "happiness": 4 }],
         "attitude": "later",
-        "ncfe": [{ "item": "considers_affordability", "value": 1 }]
+        "ncfe": [
+          { "item": "considers_affordability", "value": 1 },
+          { "item": "keeps_budget", "value": 1 }
+        ],
+        "lesson": "A small want that fits, and tomorrow's match is still on. That's needs vs wants done right."
       },
       {
-        "id": "nothing",
-        "text": "SLEEP HUNGRY",
+        "id": "split",
+        "text": "SPLIT ONE PLATE: ₹150",
         "quality": "ok",
-        "effects": [{ "label": "Skipped", "happiness": -4 }],
-        "lesson": "Saved money, lost a little mood. A ₹20 need was worth meeting."
+        "effects": [{ "label": "Shared a plate", "wallet": -150, "happiness": 8 }],
+        "attitude": "now",
+        "lesson": "Sharing halved the cost. Still ₹150 on a want, so check it leaves room for the match."
+      },
+      {
+        "id": "skip",
+        "text": "SKIP FOOD, SAVE IT ALL",
+        "quality": "ok",
+        "effects": [{ "label": "Hungry evening", "happiness": -6 }],
+        "attitude": "later",
+        "lesson": "Saving matters, but food is a need. Skip the wants, not the needs."
+      }
+    ]
+  },
+  {
+    "id": "budget_medium_s1_01",
+    "pillar": "budget",
+    "difficulty": "medium",
+    "stage": 1,
+    "concept": "plan_the_month",
+    "pressure": 60,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "MONTH PLAN",
+        "speaker": "Your wallet",
+        "place": "home",
+        "intro": "Day 1 of the month.",
+        "text": "Bus pass due on the 5th, a phone recharge, and a friend's birthday treat on the 10th. What comes first?"
+      },
+      "pocket_money": {
+        "title": "MONTH PLAN",
+        "speaker": "Your wallet",
+        "place": "home",
+        "intro": "Mom hands over this month's money.",
+        "text": "Bus pass due on the 5th, data running out, and Sana's birthday treat on the 10th. What comes first?"
+      },
+      "scholarship": {
+        "title": "MONTH PLAN",
+        "speaker": "Your wallet",
+        "place": "home",
+        "intro": "The allowance has to stretch till next term.",
+        "text": "Bus pass due on the 5th, a recharge, and Imran's birthday treat on the 10th. What comes first?"
+      },
+      "earner": {
+        "title": "MONTH PLAN",
+        "speaker": "Your wallet",
+        "place": "home",
+        "intro": "Wages are in. Part already went home.",
+        "text": "The rest covers your bus pass on the 5th, a recharge, and Kiran's birthday treat on the 10th. What comes first?"
+      }
+    },
+    "choices": [
+      {
+        "id": "plan",
+        "text": "BILLS FIRST, ₹100 FOR FUN",
+        "quality": "good",
+        "effects": [
+          { "label": "Bills paid on time, ₹100 birthday gift", "wallet": -100, "happiness": 4 }
+        ],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "keeps_budget", "value": 1 },
+          { "item": "pays_bills_on_time", "value": 1 }
+        ],
+        "lesson": "Needs first, then a set amount for fun. Planning didn't cancel the party; it made room for it."
+      },
+      {
+        "id": "birthday_first",
+        "text": "BIRTHDAY TREAT FIRST",
+        "quality": "weak",
+        "effects": [
+          { "label": "Big birthday treat", "wallet": -250, "happiness": 8 },
+          { "label": "Bus pass late fee", "wallet": -50, "happiness": -8, "delayChapters": 1 }
+        ],
+        "detourTaskId": "detour_overspent_bus_pass_due",
+        "attitude": "now",
+        "ncfe": [
+          { "item": "pays_bills_on_time", "value": 0 },
+          { "item": "keeps_budget", "value": 0 }
+        ],
+        "lesson": "Fun first left the bus pass short. When bills are paid late, they usually cost extra.",
+        "hint": "What's due on the 5th?"
+      },
+      {
+        "id": "no_plan",
+        "text": "NO PLAN, SEE WHAT HAPPENS",
+        "quality": "weak",
+        "effects": [{ "label": "Small spends added up", "wallet": -200, "happiness": 5 }],
+        "detourTaskId": "detour_broke_by_week3",
+        "attitude": "now",
+        "ncfe": [
+          { "item": "keeps_budget", "value": 0 },
+          { "item": "watches_finances", "value": 0 }
+        ],
+        "lesson": "With no plan, ₹20 here and ₹50 there are gone by week 3.",
+        "hint": "Which of these can't wait?"
+      },
+      {
+        "id": "skip_bday",
+        "text": "SKIP THE BIRTHDAY",
+        "quality": "ok",
+        "effects": [{ "label": "Missed the party", "happiness": -10 }],
+        "attitude": "later",
+        "ncfe": [{ "item": "pays_bills_on_time", "value": 1 }],
+        "lesson": "Bills are safe, but you didn't need to miss out. A plan can include a small fun budget."
+      }
+    ]
+  },
+  {
+    "id": "budget_hard_s1_01",
+    "pillar": "budget",
+    "difficulty": "hard",
+    "stage": 1,
+    "concept": "compare_before_buying",
+    "pressure": 75,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "FESTIVAL SALE",
+        "speaker": "Shopkeeper",
+        "place": "charminar",
+        "intro": "Festival week at Laad Bazaar. You have ₹1,000 of festival money for new clothes.",
+        "text": "The first shop: 'Kurta ₹800, last piece, today only!' Three more shops are down the lane."
+      },
+      "pocket_money": {
+        "title": "FESTIVAL SALE",
+        "speaker": "Shopkeeper",
+        "place": "charminar",
+        "intro": "Sankranti: relatives gave you ₹1,000 for new clothes.",
+        "text": "First shop at Laad Bazaar: 'Shirt ₹800, last piece, today only!' Three more shops are down the lane."
+      },
+      "scholarship": {
+        "title": "FESTIVAL SALE",
+        "speaker": "Shopkeeper",
+        "place": "charminar",
+        "intro": "Eid is coming. Family set aside ₹1,000 for your new clothes.",
+        "text": "'Kurta ₹800, final price, last piece!' says the first shop near Charminar. Three more shops are down the lane."
+      },
+      "earner": {
+        "title": "FESTIVAL SALE",
+        "speaker": "Shopkeeper",
+        "place": "charminar",
+        "intro": "Diwali: the shop owner gave you a ₹1,000 bonus for new clothes.",
+        "text": "First shop: 'Shirt ₹800, today only!' The lane behind Charminar has three more shops."
+      }
+    },
+    "choices": [
+      {
+        "id": "first_shop",
+        "text": "BUY AT THE FIRST SHOP",
+        "quality": "weak",
+        "effects": [
+          { "label": "Festival money", "wallet": 1000 },
+          { "label": "Paid ₹800 at the first shop", "wallet": -800, "happiness": 6 }
+        ],
+        "ncfe": [{ "item": "compares_options", "value": 0 }],
+        "lesson": "'Last piece, today only' is a sales trick. Two shops down, the same style was ₹550.",
+        "hint": "How many shops did you check?"
+      },
+      {
+        "id": "compare",
+        "text": "CHECK 3 SHOPS FIRST",
+        "quality": "good",
+        "effects": [
+          { "label": "Festival money", "wallet": 1000 },
+          { "label": "Same style for ₹550 after comparing", "wallet": -550, "happiness": 8 }
+        ],
+        "attitude": "later",
+        "ncfe": [{ "item": "compares_options", "value": 1 }],
+        "lesson": "Ten minutes of comparing saved ₹250. That's compare before buying."
+      },
+      {
+        "id": "sale_spree",
+        "text": "BUY 3 ON 'SALE': ₹1,200",
+        "quality": "weak",
+        "effects": [
+          { "label": "Festival money", "wallet": 1000 },
+          { "label": "Sale spree", "wallet": -1200, "happiness": 10 },
+          { "label": "Two outfits you never wear", "happiness": -8, "delayChapters": 1 }
+        ],
+        "detourTaskId": "detour_broke_by_week3",
+        "attitude": "now",
+        "ncfe": [{ "item": "considers_affordability", "value": 0 }],
+        "lesson": "A 'deal' on things you don't need isn't saving. You spent more than you had.",
+        "hint": "Did you need three?"
+      },
+      {
+        "id": "save_all",
+        "text": "SKIP CLOTHES, SAVE IT",
+        "quality": "ok",
+        "effects": [
+          { "label": "Festival money saved", "savings": 1000 },
+          { "label": "No new clothes for the festival", "happiness": -8 }
+        ],
+        "attitude": "later",
+        "lesson": "Saving is safe, but festivals matter too. Compare, buy smart, and save the difference."
       }
     ]
   },
@@ -56,48 +270,542 @@
     "pillar": "save",
     "difficulty": "simple",
     "stage": 1,
-    "concept": "pay_yourself_first",
+    "concept": "goal_jar",
     "pressure": 40,
     "source": "team estimate",
     "framings": {
       "default": {
-        "title": "MONTH START",
-        "speaker": "Aunty",
+        "title": "SAVING GOAL",
+        "speaker": "Your wish list",
         "place": "home",
-        "text": "Money just came in. Do you put some aside now, or 'whatever is left' at month end?"
+        "text": "You really want new earphones: ₹600. This month's money is in your hand. What now?"
+      },
+      "pocket_money": {
+        "title": "SAVING GOAL",
+        "speaker": "Your wish list",
+        "place": "home",
+        "text": "Your old earphones broke. New ones cost ₹600. This month's money just came from home."
       },
       "scholarship": {
-        "title": "ALLOWANCE IN",
-        "speaker": "Aunty",
-        "place": "bank",
-        "text": "The ePASS lump sum just landed in your account. All of it. Put some aside now, or 'whatever is left' later?"
+        "title": "SAVING GOAL",
+        "speaker": "Notice board",
+        "place": "college",
+        "text": "An exam fee of ₹600 is due in three months. The allowance just landed in your account."
       },
       "earner": {
-        "title": "PAYDAY",
-        "speaker": "Aunty",
+        "title": "SAVING GOAL",
+        "speaker": "Your wish list",
         "place": "kirana",
-        "text": "Sunday cash in hand. Part goes home. Of the rest: set some aside now, or 'whatever is left' later?"
+        "text": "A second-hand cycle (₹3,000) would make deliveries faster. This week's pay is in your hand."
       }
     },
     "choices": [
       {
-        "id": "jar",
-        "text": "JAR ₹200 NOW",
+        "id": "named_jar",
+        "text": "₹100 INTO A NAMED JAR",
         "quality": "good",
-        "effects": [{ "label": "Into the jar", "wallet": -200, "savings": 200, "happiness": 3 }],
-        "lesson": "Pay yourself first. 'Whatever is left' is usually nothing.",
+        "effects": [
+          { "label": "₹100 into your goal jar", "wallet": -100, "savings": 100, "happiness": 3 }
+        ],
         "attitude": "later",
-        "ncfe": [{ "item": "saves_actively", "value": 1 }]
+        "ncfe": [
+          { "item": "saves_actively", "value": 1 },
+          { "item": "long_term_goals", "value": 1 }
+        ],
+        "lesson": "A jar with a name feels off-limits. ₹100 a month, and the goal stops being a dream."
       },
       {
-        "id": "later",
-        "text": "SAVE AT MONTH END",
+        "id": "leftover",
+        "text": "SAVE WHATEVER IS LEFT",
         "quality": "weak",
-        "effects": [{ "label": "Nothing saved", "setFlag": "no_buffer" }],
-        "lesson": "Month end comes. The leftover is ₹0. It always is.",
-        "attitude": "now",
+        "effects": [
+          { "label": "Nothing was left to save", "happiness": -2, "setFlag": "no_buffer" }
+        ],
         "ncfe": [{ "item": "saves_actively", "value": 0 }],
-        "hint": "When is money easiest to save — day 1 or day 30?"
+        "lesson": "'Whatever is left' is usually nothing. Save at the start of the month, not the end.",
+        "hint": "When is there ever money 'left'?"
+      },
+      {
+        "id": "spend_now",
+        "text": "SPEND NOW, SAVE NEXT MONTH",
+        "quality": "weak",
+        "effects": [
+          {
+            "label": "Game top-up and snacks",
+            "wallet": -100,
+            "happiness": 6,
+            "setFlag": "no_buffer"
+          }
+        ],
+        "attitude": "now",
+        "ncfe": [
+          { "item": "saves_actively", "value": 0 },
+          { "item": "long_term_goals", "value": 0 }
+        ],
+        "lesson": "'Next month' keeps moving. Without a named goal, the money finds something else."
+      }
+    ]
+  },
+  {
+    "id": "save_medium_s1_01",
+    "pillar": "save",
+    "difficulty": "medium",
+    "stage": 1,
+    "concept": "pay_yourself_first",
+    "pressure": 60,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "FRIEND IN NEED?",
+        "speaker": "Friend",
+        "place": "college",
+        "text": "'Lend me ₹500? I'll return it Monday, promise.' You haven't set aside your savings yet this month."
+      },
+      "pocket_money": {
+        "title": "FRIEND IN NEED?",
+        "speaker": "Imran",
+        "place": "college",
+        "text": "'Your money came from home, na? Lend me ₹500, I'll return it Monday!' You haven't saved anything yet."
+      },
+      "scholarship": {
+        "title": "FRIEND IN NEED?",
+        "speaker": "Classmate",
+        "place": "college",
+        "text": "'Allowance came, na? Lend me ₹500 till Monday!' This month's savings aren't set aside yet."
+      },
+      "earner": {
+        "title": "FRIEND IN NEED?",
+        "speaker": "Co-worker",
+        "place": "kirana",
+        "text": "'Lend me ₹500 from your pay? Monday, pakka.' You haven't put away your savings yet."
+      }
+    },
+    "choices": [
+      {
+        "id": "lend_500",
+        "text": "LEND ₹500",
+        "quality": "weak",
+        "effects": [
+          { "label": "Lent ₹500", "wallet": -500, "setFlag": "lent_friend" },
+          {
+            "label": "Friend hasn't paid you back",
+            "happiness": -5,
+            "delayChapters": 2,
+            "triggerEvent": "friend_asks_again"
+          }
+        ],
+        "ncfe": [
+          { "item": "saves_actively", "value": 0 },
+          { "item": "considers_affordability", "value": 0 }
+        ],
+        "lesson": "You lent before you saved. Now your plan depends on someone else's 'Monday'.",
+        "hint": "What happens to your savings if Monday never comes?"
+      },
+      {
+        "id": "save_then_lend",
+        "text": "SAVE FIRST, LEND ₹50",
+        "quality": "good",
+        "effects": [
+          { "label": "Savings set aside first", "wallet": -100, "savings": 100 },
+          { "label": "Lent ₹50 you can spare", "wallet": -50 }
+        ],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "saves_actively", "value": 1 },
+          { "item": "considers_affordability", "value": 1 }
+        ],
+        "lesson": "Save first, then lend only what you could live without. That's paying yourself first."
+      },
+      {
+        "id": "say_no",
+        "text": "SAY NO, KINDLY",
+        "quality": "ok",
+        "effects": [{ "label": "Awkward moment", "happiness": -4 }],
+        "attitude": "later",
+        "lesson": "Your savings are safe. Saying no kindly is a skill. Next time, lend only what you can spare."
+      }
+    ]
+  },
+  {
+    "id": "save_hard_s1_01",
+    "pillar": "save",
+    "difficulty": "hard",
+    "stage": 1,
+    "concept": "emergency_buffer",
+    "pressure": 80,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "EMERGENCY!",
+        "speaker": "Bad luck",
+        "place": "home",
+        "text": "Something breaks and it costs ₹400 right now. Your next money is weeks away."
+      },
+      "pocket_money": {
+        "title": "CRACKED SCREEN",
+        "speaker": "Your phone",
+        "place": "mobile_shop",
+        "text": "Your phone slips and the screen cracks. Cheapest fix at the mobile shop: ₹400. Next money is weeks away."
+      },
+      "scholarship": {
+        "title": "TRIP FEE DUE",
+        "speaker": "Class teacher",
+        "place": "college",
+        "text": "College trip fee: ₹400, due Friday. The next allowance is two months away."
+      },
+      "earner": {
+        "title": "WORK STOPPED",
+        "speaker": "Dad",
+        "place": "home",
+        "text": "Dad's work stopped for two weeks. Home needs ₹400 from you for groceries, today."
+      }
+    },
+    "choices": [
+      {
+        "id": "use_savings",
+        "text": "USE MY SAVINGS JAR",
+        "quality": "good",
+        "effects": [{ "label": "Paid from savings", "savings": -400, "happiness": -3 }],
+        "ncfe": [{ "item": "major_expense_no_borrow", "value": 1 }],
+        "lesson": "This is exactly what an emergency buffer is for. No loan, no panic. Refill it next month."
+      },
+      {
+        "id": "borrow",
+        "text": "BORROW FROM A FRIEND",
+        "quality": "weak",
+        "effects": [
+          { "label": "Borrowed ₹400", "happiness": -5 },
+          {
+            "label": "Repaid ₹400 + ₹50 'thanks'",
+            "wallet": -450,
+            "happiness": -5,
+            "delayChapters": 1
+          }
+        ],
+        "detourTaskId": "detour_no_buffer_borrow",
+        "ncfe": [
+          { "item": "major_expense_no_borrow", "value": 0 },
+          { "item": "loan_interest", "value": 0 }
+        ],
+        "lesson": "Borrowing filled the gap, but next month starts ₹450 short. A buffer would have cost nothing extra.",
+        "hint": "Is there money set aside for exactly this?"
+      },
+      {
+        "id": "this_month",
+        "text": "PAY FROM THIS MONTH'S MONEY",
+        "quality": "ok",
+        "effects": [{ "label": "Paid from this month's money", "wallet": -400, "happiness": -8 }],
+        "ncfe": [{ "item": "major_expense_no_borrow", "value": 1 }],
+        "lesson": "No debt, good. But now the whole month is tight. A buffer stops one shock from wrecking a month."
+      },
+      {
+        "id": "ignore",
+        "text": "IGNORE IT FOR NOW",
+        "quality": "weak",
+        "effects": [
+          { "label": "Problem ignored", "happiness": -12 },
+          {
+            "label": "It got worse and cost more",
+            "wallet": -150,
+            "happiness": -5,
+            "delayChapters": 1
+          }
+        ],
+        "ncfe": [{ "item": "takes_responsibility", "value": 0 }],
+        "lesson": "Ignoring a problem doesn't make it free. It usually costs more later.",
+        "hint": "Will this be cheaper next month?"
+      }
+    ]
+  },
+  {
+    "id": "invest_simple_s1_01",
+    "pillar": "invest",
+    "difficulty": "simple",
+    "stage": 1,
+    "concept": "time_value",
+    "pressure": 40,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "NOW OR LATER?",
+        "speaker": "Uncle",
+        "place": "home",
+        "text": "Your uncle smiles: 'I'll give you ₹500. Do you want it today, or the same ₹500 next year?'"
+      },
+      "pocket_money": {
+        "title": "NOW OR LATER?",
+        "speaker": "Uncle",
+        "place": "home",
+        "text": "Uncle visits for Sankranti: 'Here's ₹500 for you. Today, or the same ₹500 next year?'"
+      },
+      "scholarship": {
+        "title": "NOW OR LATER?",
+        "speaker": "Aunt",
+        "place": "home",
+        "text": "Your aunt: 'Great exam results! ₹500 for you. Today, or the same ₹500 next year?'"
+      },
+      "earner": {
+        "title": "NOW OR LATER?",
+        "speaker": "Shop owner",
+        "place": "kirana",
+        "text": "Shop owner: 'Good work this year. ₹500 bonus: take it now, or the same ₹500 next year?'"
+      }
+    },
+    "choices": [
+      {
+        "id": "today_save",
+        "text": "TAKE IT TODAY, SAVE IT",
+        "quality": "good",
+        "effects": [{ "label": "₹500 into your savings", "savings": 500, "happiness": 4 }],
+        "attitude": "later",
+        "ncfe": [{ "item": "time_value", "value": 1 }],
+        "lesson": "Money today beats the same money later: it can start growing now, before prices rise."
+      },
+      {
+        "id": "next_year",
+        "text": "WAIT FOR NEXT YEAR",
+        "quality": "weak",
+        "effects": [
+          { "label": "Waiting…", "happiness": -2 },
+          {
+            "label": "Uncle's ₹500 arrived, but it buys less now",
+            "savings": 500,
+            "delayChapters": 3
+          }
+        ],
+        "ncfe": [{ "item": "time_value", "value": 0 }],
+        "lesson": "Same ₹500, a year later: no growth, and it buys less. That's the time value of money.",
+        "hint": "Will ₹500 buy the same things next year?"
+      },
+      {
+        "id": "today_spend",
+        "text": "TAKE IT, SPEND IT ALL",
+        "quality": "ok",
+        "effects": [{ "label": "₹500 of treats", "happiness": 10 }],
+        "attitude": "now",
+        "ncfe": [{ "item": "time_value", "value": 1 }],
+        "lesson": "Taking it today was right. Spending all of it was a choice; part of it could have started growing."
+      }
+    ]
+  },
+  {
+    "id": "invest_medium_s1_01",
+    "pillar": "invest",
+    "difficulty": "medium",
+    "stage": 1,
+    "concept": "inflation",
+    "pressure": 60,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "PRICES RISING",
+        "speaker": "Canteen anna",
+        "place": "canteen",
+        "text": "'Samosa is ₹12 now, not ₹10.' Your ₹1,000 savings sits in a tin box at home, earning nothing."
+      },
+      "pocket_money": {
+        "title": "PRICES RISING",
+        "speaker": "Canteen anna",
+        "place": "canteen",
+        "intro": "Mom says you can open a student account together at the bank branch.",
+        "text": "'Samosa is ₹12 now, not ₹10.' The ₹1,000 you saved sits in a tin box at home."
+      },
+      "scholarship": {
+        "title": "PRICES RISING",
+        "speaker": "Bus conductor",
+        "place": "bus_stop",
+        "text": "'Fare went up again!' The ₹1,000 of allowance you held back sits as cash in your room."
+      },
+      "earner": {
+        "title": "PRICES RISING",
+        "speaker": "Shop owner",
+        "place": "kirana",
+        "text": "Rice and oil went up again this month. Your ₹1,000 savings sits in a tin under the counter."
+      }
+    },
+    "choices": [
+      {
+        "id": "banyan",
+        "text": "MOVE IT TO BANYAN SAVINGS",
+        "quality": "good",
+        "effects": [
+          { "label": "Moved to Banyan Savings", "happiness": 2 },
+          { "label": "First interest credited", "savings": 20, "delayChapters": 2 }
+        ],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "inflation", "value": 1 },
+          { "item": "simple_interest", "value": 1 },
+          { "item": "saves_actively", "value": 1 }
+        ],
+        "lesson": "Prices rise every year. Money that grows can keep up; money in a tin quietly shrinks."
+      },
+      {
+        "id": "keep_tin",
+        "text": "KEEP IT IN THE TIN BOX",
+        "quality": "weak",
+        "effects": [{ "label": "Same notes, less value", "happiness": -3 }],
+        "ncfe": [{ "item": "inflation", "value": 0 }],
+        "lesson": "The notes are safe, but inflation eats what they can buy. ₹1,000 buys less every year.",
+        "hint": "Samosas went from ₹10 to ₹12. What happens to your ₹1,000?"
+      },
+      {
+        "id": "spend_now",
+        "text": "SPEND IT BEFORE PRICES RISE",
+        "quality": "weak",
+        "effects": [
+          { "label": "Spent the tin money", "happiness": 8 },
+          {
+            "label": "Nothing saved for later",
+            "happiness": -8,
+            "delayChapters": 2,
+            "setFlag": "no_buffer"
+          }
+        ],
+        "attitude": "now",
+        "ncfe": [{ "item": "inflation", "value": 0 }],
+        "lesson": "Inflation is a reason to make savings grow, not to spend them all."
+      }
+    ]
+  },
+  {
+    "id": "invest_hard_s1_01",
+    "pillar": "invest",
+    "difficulty": "hard",
+    "stage": 1,
+    "concept": "diversification",
+    "pressure": 80,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "STALL WEEK",
+        "speaker": "Uncle",
+        "place": "charminar",
+        "text": "Uncle's Charminar stall is yours for a week, with ₹1,000 for stock. Rain or shine? Nobody knows."
+      },
+      "pocket_money": {
+        "title": "STALL WEEK",
+        "speaker": "Uncle",
+        "place": "charminar",
+        "intro": "Bonalu week, right in the monsoon.",
+        "text": "Uncle lets you run his Charminar stall with ₹1,000 for stock. Will it rain? The forecast is a guess."
+      },
+      "scholarship": {
+        "title": "STALL WEEK",
+        "speaker": "Aunt",
+        "place": "charminar",
+        "text": "Holiday week: your aunt lets you stock her stall near Charminar with ₹1,000. Rain or sun? Nobody knows."
+      },
+      "earner": {
+        "title": "STALL WEEK",
+        "speaker": "Shop owner",
+        "place": "charminar",
+        "text": "Your shop owner opens a festival stall at Laad Bazaar and lets you pick ₹1,000 of stock. Rain or shine?"
+      }
+    },
+    "choices": [
+      {
+        "id": "all_umbrellas",
+        "text": "ALL UMBRELLAS",
+        "quality": "weak",
+        "effects": [{ "label": "No rain: umbrellas unsold", "wallet": -200, "happiness": -8 }],
+        "ncfe": [
+          { "item": "diversification", "value": 0 },
+          { "item": "risk_return", "value": 0 }
+        ],
+        "lesson": "Everything on one bet: when the weather didn't play along, nothing sold.",
+        "hint": "What sells if it doesn't rain?"
+      },
+      {
+        "id": "mix",
+        "text": "MIX: UMBRELLAS, CAPS, WATER",
+        "quality": "good",
+        "effects": [{ "label": "Something sold every day", "wallet": 150, "happiness": 6 }],
+        "ncfe": [{ "item": "diversification", "value": 1 }],
+        "lesson": "Umbrellas sold on rainy days, caps and water on sunny ones. Owning things that don't fail together: that's diversification."
+      },
+      {
+        "id": "hot_tip",
+        "text": "ALL ON A FRIEND'S 'HOT' TOY",
+        "quality": "weak",
+        "effects": [{ "label": "The craze ended: toys unsold", "wallet": -350, "happiness": -10 }],
+        "ncfe": [
+          { "item": "risk_return", "value": 0 },
+          { "item": "diversification", "value": 0 }
+        ],
+        "lesson": "A 'sure thing' tip is still one bet. Big hopes, big risk.",
+        "hint": "What if the tip is wrong?"
+      }
+    ]
+  },
+  {
+    "id": "safety_simple_s1_01",
+    "pillar": "safety",
+    "difficulty": "simple",
+    "stage": 1,
+    "concept": "never_share_otp_pin",
+    "pressure": 55,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "OTP REQUEST",
+        "speaker": "Unknown number",
+        "place": "home",
+        "text": "'I sent my OTP to your number by mistake. Please share it back, urgent!'"
+      },
+      "pocket_money": {
+        "title": "OTP REQUEST",
+        "speaker": "Unknown number",
+        "place": "home",
+        "text": "Mom's phone buzzes: 'I sent my OTP to this number by mistake. Please share it, very urgent!'"
+      },
+      "scholarship": {
+        "title": "COLLECT REQUEST",
+        "speaker": "UPI request",
+        "place": "college",
+        "text": "A UPI request pops up: 'Receive ₹2,000 scholarship bonus. Enter your PIN to accept.'"
+      },
+      "earner": {
+        "title": "PIN TO RECEIVE?",
+        "speaker": "Customer",
+        "place": "kirana",
+        "text": "A customer: 'I'm sending ₹500 for the groceries. Just approve the request with your PIN.'"
+      }
+    },
+    "choices": [
+      {
+        "id": "share",
+        "text": "SHARE THE CODE / ENTER PIN",
+        "quality": "critical",
+        "effects": [{ "label": "₹500 taken from the account", "wallet": -500, "happiness": -20 }],
+        "scam": "fell",
+        "lesson": "An OTP or PIN is a key to the account. Whoever has it can take money out. That ₹500 is gone.",
+        "hint": "Do you ever need a PIN to RECEIVE money?"
+      },
+      {
+        "id": "ask",
+        "text": "ASK WHAT IT'S FOR",
+        "quality": "weak",
+        "effects": [{ "label": "They kept pushing for an hour", "happiness": -6 }],
+        "lesson": "Talking to a scammer gives them time to pressure you. You don't owe them an answer.",
+        "hint": "Do you need to know their story?"
+      },
+      {
+        "id": "decline",
+        "text": "DECLINE AND BLOCK",
+        "quality": "good",
+        "effects": [{ "label": "Blocked the number", "happiness": 4 }],
+        "scam": "spotted",
+        "ncfe": [{ "item": "takes_responsibility", "value": 1 }],
+        "lesson": "You never need a PIN or OTP to receive money, only to send it. Never share either."
+      },
+      {
+        "id": "tell_family",
+        "text": "TELL FAMILY, THEN DECLINE",
+        "quality": "ok",
+        "effects": [{ "label": "Checked with family", "happiness": 2 }],
+        "scam": "spotted",
+        "lesson": "Good instinct to check. And the answer is always the same: never share an OTP or PIN."
       }
     ]
   },
@@ -117,10 +825,10 @@
         "text": "I'm from the scholarship office. Pay ₹500 now or your money is cancelled!"
       },
       "pocket_money": {
-        "title": "SCAM TEXT",
-        "speaker": "Unknown number",
+        "title": "SCAM CALL",
+        "speaker": "'Electricity office'",
         "place": "home",
-        "text": "Mom's phone buzzes: 'OTP 448213 sent by mistake. Please share it back urgently.'"
+        "text": "A caller on Mom's phone: 'Your bill is unpaid. Pay ₹500 on this link now or power is cut tonight!'"
       },
       "scholarship": {
         "title": "SCAM CALL",
@@ -129,10 +837,10 @@
         "text": "Your allowance is approved! Pay a ₹500 processing fee now or it lapses today."
       },
       "earner": {
-        "title": "FAKE PAYMENT",
-        "speaker": "Customer",
+        "title": "SCAM CALL",
+        "speaker": "'Bank officer'",
         "place": "kirana",
-        "text": "He shows a 'Payment successful ₹500' screenshot and grabs the bag. Your phone hasn't pinged."
+        "text": "'Your UPI will be blocked today! Pay a ₹500 KYC fee on this link to keep it active.'"
       }
     },
     "choices": [
@@ -143,8 +851,8 @@
         "effects": [{ "label": "Paid the scammer", "wallet": -500, "happiness": -25 }],
         "scam": "fell",
         "ncfe": [{ "item": "risk_return", "value": 0 }],
-        "lesson": "Real offices never ask you to pay to receive money. That ₹500 is gone.",
-        "hint": "Who asks for money to GIVE you money?"
+        "lesson": "Real offices never demand instant payment on a call or a link. That ₹500 is gone.",
+        "hint": "Would a real office rush you on a phone call?"
       },
       {
         "id": "friend",
@@ -161,11 +869,11 @@
         "quality": "ok",
         "effects": [{ "label": "Safe", "happiness": 0 }],
         "scam": "spotted",
-        "lesson": "Safe. Even safer: check the portal so you know for sure."
+        "lesson": "Safe. Even safer: check the official site so you know for sure."
       },
       {
         "id": "portal",
-        "text": "CHECK PORTAL",
+        "text": "CHECK THE OFFICIAL SITE",
         "quality": "good",
         "effects": [{ "label": "Verified yourself", "happiness": 5 }],
         "scam": "spotted",
@@ -175,41 +883,83 @@
     ]
   },
   {
-    "id": "invest_simple_s1_01",
-    "pillar": "invest",
-    "difficulty": "simple",
+    "id": "safety_hard_s1_01",
+    "pillar": "safety",
+    "difficulty": "hard",
     "stage": 1,
-    "concept": "time_value",
-    "pressure": 30,
+    "concept": "too_good_to_be_true",
+    "pressure": 85,
     "source": "team estimate",
     "framings": {
       "default": {
-        "title": "UNCLE'S OFFER",
-        "speaker": "Uncle",
+        "title": "EASY MONEY JOB",
+        "speaker": "Group admin",
+        "place": "gachibowli",
+        "text": "'Like 3 videos, earn ₹150!' It paid once. Now: 'Deposit ₹500 to unlock VIP tasks: ₹5,000 a day!'"
+      },
+      "pocket_money": {
+        "title": "EASY MONEY JOB",
+        "speaker": "Group admin",
         "place": "home",
-        "text": "Beta, I can give you ₹1,000 today, or ₹1,000 next Sankranti. Your choice."
+        "text": "A chat group paid you ₹150 for liking videos. Now: 'Pay ₹500 to unlock VIP tasks, earn ₹5,000 a day!'"
+      },
+      "scholarship": {
+        "title": "EASY MONEY JOB",
+        "speaker": "Group admin",
+        "place": "college",
+        "text": "'Part-time job for students!' It paid ₹150 for likes. Now: 'Deposit ₹500 for VIP tasks, ₹5,000 a day!'"
+      },
+      "earner": {
+        "title": "EASY MONEY JOB",
+        "speaker": "'Recruiter'",
+        "place": "gachibowli",
+        "text": "'Rate shops online, earn ₹5,000 a day!' The first ₹150 really came. Now they want ₹500 'to unlock'."
       }
     },
     "choices": [
       {
-        "id": "now",
-        "text": "TODAY",
-        "quality": "good",
-        "effects": [{ "label": "Gift received", "wallet": 1000, "happiness": 6 }],
-        "lesson": "Money today can be saved, used, or grown. Money later is just a promise.",
-        "ncfe": [{ "item": "time_value", "value": 1 }]
+        "id": "deposit",
+        "text": "DEPOSIT ₹500",
+        "quality": "critical",
+        "effects": [
+          { "label": "₹500 deposited. The group vanished.", "wallet": -500, "happiness": -20 }
+        ],
+        "scam": "fell",
+        "ncfe": [{ "item": "risk_return", "value": 0 }],
+        "lesson": "The first ₹150 was bait. No real job asks you to pay to work. ₹5,000 a day for likes is too good to be true.",
+        "hint": "Why would a real job need YOUR money first?"
       },
       {
-        "id": "later",
-        "text": "NEXT YEAR",
+        "id": "test",
+        "text": "DEPOSIT ₹100 TO TEST IT",
         "quality": "weak",
         "effects": [
-          { "label": "Waiting", "happiness": -2 },
-          { "label": "Uncle's gift arrives", "wallet": 1000, "delayChapters": 3 }
+          { "label": "₹100 gone; now they want ₹1,000", "wallet": -100, "happiness": -10 }
         ],
-        "lesson": "Same ₹1,000, but a year of prices rising and a year of no growth.",
-        "ncfe": [{ "item": "time_value", "value": 0 }],
-        "hint": "Which ₹1,000 can start growing sooner?"
+        "scam": "fell",
+        "ncfe": [{ "item": "risk_return", "value": 0 }],
+        "lesson": "Testing a scam with 'a little' money is still paying a scammer. They always ask for more.",
+        "hint": "Is a small payment to a scammer safe?"
+      },
+      {
+        "id": "leave",
+        "text": "LEAVE THE GROUP",
+        "quality": "ok",
+        "effects": [{ "label": "Left the group", "happiness": 2 }],
+        "scam": "spotted",
+        "lesson": "Safe. Reporting it too helps stop them reaching your friends."
+      },
+      {
+        "id": "report",
+        "text": "LEAVE + REPORT ON 1930",
+        "quality": "good",
+        "effects": [{ "label": "Reported to the cyber helpline", "happiness": 5 }],
+        "scam": "spotted",
+        "ncfe": [
+          { "item": "takes_responsibility", "value": 1 },
+          { "item": "risk_return", "value": 1 }
+        ],
+        "lesson": "Real jobs pay you; they never charge you. 1930, the national cyber-fraud helpline, can now warn others."
       }
     ]
   }
