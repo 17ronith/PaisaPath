@@ -24,10 +24,11 @@ for p in monish ronith saharsh aakarsh; do
   printf '  %-8s %2s done / %2s open   next: %s\n' "$p" "$done_n" "$todo_n" "$next"
 done
 
+REPO=$(git remote get-url origin | sed -E "s|.*github.com[:/]||; s|\.git$||")
 if command -v gh >/dev/null 2>&1; then
   echo; echo "== open PRs =="
-  gh pr list --limit 20 --json number,title,author,headRefName,statusCheckRollup \
+  gh pr list -R "$REPO" --limit 20 --json number,title,author,headRefName,statusCheckRollup \
     --template '{{range .}}  #{{.number}} {{.title}} ({{.author.login}} · {{.headRefName}}){{"\n"}}{{end}}' 2>/dev/null || echo "  (gh not authenticated)"
   echo; echo "== last CI runs on main =="
-  gh run list --branch main --limit 3 2>/dev/null || true
+  gh run list -R "$REPO" --branch main --limit 4 2>/dev/null || true
 fi

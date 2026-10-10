@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Facilitator dashboard</title>
+<style>
+  :root { --bg:#1b1b2f; --panel:#262640; --ink:#f3f3f7; --muted:#9a9ab5; --acc:#6fd6c0; --warn:#ffb347; --bad:#ff6b6b; --good:#7bd88f; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family: ui-monospace, "Courier New", monospace; font-size:14px; }
+  header { padding:16px 20px; border-bottom:2px solid #3a3a5c; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; }
+  header h1 { margin:0; font-size:16px; letter-spacing:.5px; }
+  header .code { background:var(--panel); padding:6px 10px; border:2px solid var(--acc); color:var(--acc); }
+  main { padding:16px 20px; max-width:1100px; margin:0 auto; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap:12px; margin-bottom:20px; }
+  .tile { background:var(--panel); padding:14px; border:2px solid #3a3a5c; }
+  .tile .k { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:1px; }
+  .tile .v { font-size:28px; margin-top:4px; }
+  .tile .d { color:var(--muted); font-size:11px; margin-top:4px; }
+  h2 { font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin:22px 0 8px; }
+  table { width:100%; border-collapse:collapse; background:var(--panel); }
+  th, td { padding:9px 10px; text-align:left; border-bottom:1px solid #3a3a5c; }
+  th { color:var(--muted); font-weight:normal; font-size:11px; text-transform:uppercase; }
+  .bar { height:10px; background:#3a3a5c; position:relative; }
+  .bar > i { position:absolute; left:0; top:0; bottom:0; background:var(--acc); }
+  .pill { display:inline-block; padding:2px 7px; font-size:11px; border:1px solid currentColor; }
+  .warn { color:var(--warn); } .bad { color:var(--bad); } .good { color:var(--good); }
+  .row { display:flex; gap:10px; align-items:center; margin:6px 0; }
+  .row .lbl { width:220px; }
+  .row .bar { flex:1; }
+  .row .n { width:40px; text-align:right; color:var(--muted); }
+  button { background:var(--acc); color:#102; border:0; padding:10px 14px; font-family:inherit; font-size:13px; cursor:pointer; }
+  footer { color:var(--muted); font-size:11px; padding:20px; text-align:center; }
+  .note { background:#2c2c48; border-left:4px solid var(--warn); padding:10px 12px; font-size:12px; color:#ddd; margin-bottom:16px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Facilitator dashboard · Learning Money by Living It</h1>
+  <div>Batch join code <span class="code">HYD-097</span></div>
+</header>
+<main>
+  <div class="note">Mock with sample data for the demo. Students join with the batch code and a nickname only; no phone, email or real name is ever collected. The sponsor sees aggregates, never individual students.</div>
+
+  <div class="grid">
+    <div class="tile"><div class="k">Students joined</div><div class="v">48</div><div class="d">3 centres</div></div>
+    <div class="tile"><div class="k">Active this week</div><div class="v">41</div><div class="d">7 not seen in 7 days</div></div>
+    <div class="tile"><div class="k">Finished all 3 stages</div><div class="v">19</div><div class="d">median 26 min</div></div>
+    <div class="tile"><div class="k">Quiz before → after</div><div class="v">2.1 → 3.9</div><div class="d">out of 5 · gain +1.8</div></div>
+    <div class="tile"><div class="k">NCFE-literate (in-game)</div><div class="v">58%</div><div class="d">reference: 27% of adults</div></div>
+    <div class="tile"><div class="k">Scams spotted</div><div class="v">81%</div><div class="d">of scams faced</div></div>
+  </div>
+
+  <h2>Per centre</h2>
+  <table>
+    <thead><tr><th>Centre</th><th>Joined</th><th>Active</th><th>Finished</th><th>Before → after</th><th>Literate</th><th>Flag</th></tr></thead>
+    <tbody>
+      <tr><td>Old City centre</td><td>18</td><td>16</td><td>8</td><td>1.9 → 3.8</td><td>56%</td><td></td></tr>
+      <tr><td>Lakeside centre</td><td>15</td><td>14</td><td>7</td><td>2.3 → 4.1</td><td>67%</td><td></td></tr>
+      <tr><td>Hi-tech corridor centre</td><td>15</td><td>11</td><td>4</td><td>2.0 → 3.7</td><td>47%</td><td><span class="pill warn">4 inactive</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Most common open mistakes (concepts still in mistake banks)</h2>
+  <div class="row"><div class="lbl">Compounding</div><div class="bar"><i style="width:62%"></i></div><div class="n">62%</div></div>
+  <div class="row"><div class="lbl">Compare before buying</div><div class="bar"><i style="width:54%"></i></div><div class="n">54%</div></div>
+  <div class="row"><div class="lbl">Emergency buffer</div><div class="bar"><i style="width:41%"></i></div><div class="n">41%</div></div>
+  <div class="row"><div class="lbl">Money now vs later</div><div class="bar"><i style="width:37%"></i></div><div class="n">37%</div></div>
+  <div class="row"><div class="lbl">Instant-loan trap</div><div class="bar"><i style="width:22%"></i></div><div class="n">22%</div></div>
+  <div class="note" style="margin-top:12px">These are the four items Indian adults score worst on in NCFE-FLIS 2019 (compound interest 6%, comparing options 9%, major expense without borrowing 45%, time value 46%). The game puts extra weight on them.</div>
+
+  <h2>Students who may need help</h2>
+  <table>
+    <thead><tr><th>Nickname</th><th>Centre</th><th>Stage</th><th>Restarts</th><th>Open mistakes</th><th>Last seen</th></tr></thead>
+    <tbody>
+      <tr><td>cricketfan7</td><td>Old City</td><td>1</td><td class="bad">4</td><td>3</td><td>2 d ago</td></tr>
+      <tr><td>starlight</td><td>Hi-tech corridor</td><td>2</td><td class="warn">2</td><td>4</td><td>9 d ago</td></tr>
+      <tr><td>biryani_boss</td><td>Lakeside</td><td>1</td><td>1</td><td>2</td><td>8 d ago</td></tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top:20px"><button onclick="alert('CSV export: batch-level aggregates only (no nicknames). This is a mock.')">Export CSV for sponsor (aggregates only)</button></p>
+</main>
+<footer>In-game scores are an NCFE-aligned proxy, not a certification. Simulations are assumptions, not promises.</footer>
+</body>
+</html>

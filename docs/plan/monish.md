@@ -107,7 +107,7 @@ rule), rebase-merged to `main`, tagged `v0-skeleton`.
 
 ## Phase 2 (04:05 → 08:30) — nap 05:45–07:15
 
-- [ ] `public/ngo/index.html` — static dashboard mock: batch code `HYD-097`,
+- [x] `public/ngo/index.html` — static dashboard mock: batch code `HYD-097`,
       3 centres, joined/active/finished, avg before→after, % NCFE-literate,
       top-5 banked concepts bar list, "Export CSV (Vanguard sees aggregates
       only)" button. Plain HTML/CSS, same pixel font as the game. Link from
