@@ -14,6 +14,7 @@ import { MinigameOfferScene } from './MinigameOfferScene';
 import { InvestScene } from './InvestScene';
 import { StageEndScene } from './StageEndScene';
 import { EpilogueScene } from './EpilogueScene';
+import { WhatIfScene } from './WhatIfScene';
 import { EndReportScene } from './EndReportScene';
 import { HUDScene } from './HUDScene';
 import { ExplainerScene } from './ExplainerScene';
@@ -30,6 +31,7 @@ export const scenes: (typeof Phaser.Scene)[] = [
   InvestScene,
   StageEndScene,
   EpilogueScene,
+  WhatIfScene,
   EndReportScene,
   HUDScene,
   ExplainerScene,

@@ -1,5 +1,5 @@
-// Age 60. Phase 1: totals + the assumption line in bold. Phase 2: per-asset bars vs
-// "if not invested", then WhatIf.
+// Age 60: what each made-up asset grew into, next to the "kept in a cash box" path, with the
+// engine's assumption line in full. NEXT → WhatIf (in-game only), which then proceeds.
 import Phaser from 'phaser';
 import { getSession } from '@/app/session';
 import { rupees, t } from '@/shared/i18n';
@@ -11,6 +11,20 @@ import { COLOR, text, tr } from '../ui/theme';
 import { VIEW } from '../view';
 
 type Epilogue = Extract<Step, { kind: 'epilogue' }>;
+
+const ASSET_COLOURS: Record<string, number> = {
+  cashbox: 0x9aa0aa,
+  banyan: COLOR.good,
+  chai: COLOR.warn,
+  mango: 0xf07830,
+};
+
+interface Row {
+  label: string;
+  sub?: string;
+  value: number;
+  color: number;
+}
 
 export class EpilogueScene extends Phaser.Scene {
   private step!: Epilogue;
@@ -33,32 +47,76 @@ export class EpilogueScene extends Phaser.Scene {
     const pr = this.step.projection;
     this.cameras.main.setBackgroundColor(COLOR.bg);
     this.cameras.main.fadeIn(800);
-    text(this, W / 2, 90, t('epilogue.title'), 'md', COLOR.white, {
+    text(this, W / 2, 40, t('epilogue.title'), 'lg', COLOR.white, {
       align: 'center',
       wordWrap: { width: W - 40 },
     }).setOrigin(0.5);
     this.add
-      .image(W / 2, 180, game.state.profile.avatar)
-      .setScale(5)
+      .image(W / 2, 128, game.state.profile.avatar)
+      .setOrigin(0.5, 1)
+      .setScale(4)
       .setTint(0xd8d8d8);
 
-    const p = new PixelPanel(this, 20, 250, W - 40, 200);
-    const rows: [string, string][] = [
-      [tr('epilogue.savings', 'Savings'), rupees(pr.savingsFinal)],
-      [tr('epilogue.invested', 'Invested'), rupees(pr.totalInvested)],
-      [tr('epilogue.became', 'Became'), rupees(pr.totalFinal)],
-      [tr('epilogue.not_invested', 'If it had stayed in a cash box'), rupees(pr.ifNotInvested)],
+    const rows: Row[] = [
+      ...pr.perAsset
+        .filter((a) => a.invested > 0)
+        .map((a) => ({
+          label: a.asset.name,
+          sub: `${tr('epilogue.invested', 'What you put in')}: ${rupees(a.invested)}`,
+          value: a.finalValue,
+          color: ASSET_COLOURS[a.asset.id] ?? COLOR.money,
+        })),
     ];
-    rows.forEach(([k, v], i) => {
-      p.add(text(this, 12, 14 + i * 28, k, 'xs', COLOR.muted));
-      p.add(text(this, W - 52, 14 + i * 28, v, 'sm', COLOR.ink).setOrigin(1, 0));
+    if (pr.totalInvested > 0)
+      rows.push({
+        label: tr('epilogue.not_invested', 'If it had stayed in a cash box'),
+        value: pr.ifNotInvested,
+        color: 0x9aa0aa,
+      });
+    rows.push({
+      label: tr('epilogue.savings', 'Savings'),
+      value: pr.savingsFinal,
+      color: COLOR.money,
     });
-    p.add(
-      text(this, 12, 130, pr.assumptionLine, 'xs', COLOR.ink, {
-        fontStyle: 'bold',
-        wordWrap: { width: W - 64, useAdvancedWrap: true },
-      }),
-    );
-    new Button(this, W / 2, 570, t('btn.next'), () => proceed(this), { fill: COLOR.good });
+
+    const max = Math.max(1, ...rows.map((r) => r.value));
+    const rowH = 46;
+    const panelH = 20 + rows.length * rowH + (pr.totalInvested > 0 ? 30 : 0);
+    const p = new PixelPanel(this, 14, 146, W - 28, panelH);
+    const barW = W - 60;
+    rows.forEach((r, i) => {
+      const y = 12 + i * rowH;
+      p.add(text(this, 12, y, r.label, 'sm', COLOR.ink));
+      p.add(text(this, W - 40, y, rupees(r.value), 'sm', COLOR.ink).setOrigin(1, 0));
+      if (r.sub) p.add(text(this, 12, y + 17, r.sub, 'xs', COLOR.muted));
+      const fill = this.add.rectangle(12, y + 38, 0, 6, r.color).setOrigin(0, 0.5);
+      p.add([this.add.rectangle(12, y + 38, barW, 6, 0xd8d4c8).setOrigin(0, 0.5), fill]);
+      this.tweens.add({
+        targets: fill,
+        width: (barW * r.value) / max,
+        duration: 900,
+        delay: 200 + i * 180,
+        ease: 'Cubic.easeOut',
+      });
+    });
+    if (pr.totalInvested > 0)
+      p.add(
+        text(
+          this,
+          12,
+          panelH - 26,
+          `${tr('epilogue.became', 'What it became')}: ${rupees(pr.totalFinal)}`,
+          'sm',
+          COLOR.good,
+        ),
+      );
+
+    text(this, 20, 146 + panelH + 12, pr.assumptionLine, 'xs', COLOR.accent, {
+      wordWrap: { width: W - 40, useAdvancedWrap: true },
+    });
+
+    new Button(this, W / 2, 596, t('btn.next'), () => this.scene.start('WhatIf'), {
+      fill: COLOR.good,
+    });
   }
 }
