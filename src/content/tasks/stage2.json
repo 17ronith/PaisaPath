@@ -1,55 +1,515 @@
 [
   {
-    "id": "budget_medium_s2_01",
+    "id": "budget_simple_s2_01",
     "pillar": "budget",
-    "difficulty": "medium",
+    "difficulty": "simple",
     "stage": 2,
     "concept": "needs_vs_wants",
     "pressure": 50,
     "source": "team estimate",
     "framings": {
       "default": {
-        "title": "FIRST RENT",
-        "speaker": "Broker",
+        "title": "MOVE OUT?",
+        "speaker": "Office friend",
         "place": "gachibowli",
-        "text": "Solo 1BHK near the office: ₹12,000. Sharing with two colleagues: ₹6,000. Salary is ₹20,000."
+        "intro": "First salary: ₹20,000 a month.",
+        "text": "'Share a flat near office? ₹8,000 rent each.' Living at home: ₹3,000 to family and a long bus ride."
+      },
+      "pocket_money": {
+        "title": "MOVE OUT?",
+        "speaker": "Colleague",
+        "place": "gachibowli",
+        "intro": "First job in Gachibowli: ₹20,000 a month.",
+        "text": "A colleague offers a room nearby for ₹8,000. Home is a 90-minute bus ride; Mom asks ₹3,000 a month."
+      },
+      "scholarship": {
+        "title": "MOVE OUT?",
+        "speaker": "Old classmates",
+        "place": "gachibowli",
+        "intro": "Your first salary: ₹20,000 a month.",
+        "text": "Friends from college want a flat together: ₹8,000 each. At home, you'd give ₹3,000 and commute."
+      },
+      "earner": {
+        "title": "MOVE OUT?",
+        "speaker": "Co-worker",
+        "place": "gachibowli",
+        "intro": "Full-time at last: ₹20,000 a month.",
+        "text": "A flat near work is ₹8,000. Home needs your ₹3,000 and a long ride every day."
       }
     },
     "choices": [
       {
-        "id": "solo",
-        "text": "SOLO FLAT",
+        "id": "flat_now",
+        "text": "TAKE THE ₹8,000 FLAT NOW",
         "quality": "weak",
         "effects": [
+          { "label": "Deposit + first month's rent", "wallet": -12000, "happiness": 10 },
           {
             "label": "Rent",
-            "wallet": -12000,
-            "happiness": 8,
+            "wallet": -8000,
+            "delayChapters": 1,
             "repeat": { "everyChapters": 1, "times": 2 }
           }
         ],
-        "lesson": "60% of salary on rent leaves nothing for an emergency or a goal.",
         "attitude": "now",
-        "ncfe": [{ "item": "considers_affordability", "value": 0 }]
+        "ncfe": [{ "item": "considers_affordability", "value": 0 }],
+        "lesson": "Freedom feels great, but ₹8,000 of ₹20,000 on rent leaves little for saving or shocks. Rent should fit the month, not eat it.",
+        "hint": "What's left after rent, food and travel?"
       },
       {
-        "id": "share",
-        "text": "SHARE",
+        "id": "stay_save",
+        "text": "STAY HOME, SAVE ₹5,000/MO",
         "quality": "good",
         "effects": [
+          { "label": "₹3,000 to home", "wallet": -3000, "happiness": -2 },
+          { "label": "Saved the difference", "wallet": -5000, "savings": 5000 },
           {
-            "label": "Rent",
-            "wallet": -6000,
-            "happiness": 2,
+            "label": "Monthly saving",
+            "wallet": -5000,
+            "savings": 5000,
+            "delayChapters": 1,
             "repeat": { "everyChapters": 1, "times": 2 }
           }
         ],
-        "lesson": "30% on rent. Room to save, room to breathe.",
         "attitude": "later",
         "ncfe": [
+          { "item": "saves_actively", "value": 1 },
           { "item": "considers_affordability", "value": 1 },
-          { "item": "keeps_budget", "value": 1 }
-        ]
+          { "item": "long_term_goals", "value": 1 }
+        ],
+        "lesson": "The ride costs time, but ₹5,000 a month builds your buffer fast. Move when rent fits, not before."
+      },
+      {
+        "id": "cheaper_room",
+        "text": "FIND A ₹4,000 SHARED ROOM",
+        "quality": "ok",
+        "effects": [
+          { "label": "Deposit + first month's rent", "wallet": -8000, "happiness": 6 },
+          {
+            "label": "Rent",
+            "wallet": -4000,
+            "delayChapters": 1,
+            "repeat": { "everyChapters": 1, "times": 2 }
+          }
+        ],
+        "ncfe": [
+          { "item": "compares_options", "value": 1 },
+          { "item": "considers_affordability", "value": 1 }
+        ],
+        "lesson": "Comparing found a cheaper room. Rent at a fifth of your salary still leaves room to save."
+      }
+    ]
+  },
+  {
+    "id": "budget_medium_s2_01",
+    "pillar": "budget",
+    "difficulty": "medium",
+    "stage": 2,
+    "concept": "cost_of_borrowing",
+    "pressure": 65,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "NO-COST EMI",
+        "speaker": "Phone shop",
+        "place": "mobile_shop",
+        "text": "'New ₹24,000 phone on no-cost EMI! Only ₹2,000 a month.' Fine print: ₹999 processing fee. Your phone works fine."
+      },
+      "pocket_money": {
+        "title": "NO-COST EMI",
+        "speaker": "Phone shop",
+        "place": "mobile_shop",
+        "text": "Everyone at office has the new phone. Shop: '₹2,000 a month, no-cost EMI!' Fine print: ₹999 fee."
+      },
+      "scholarship": {
+        "title": "NO-COST EMI",
+        "speaker": "Cousin",
+        "place": "mobile_shop",
+        "text": "Your cousin: 'EMI phones pay for themselves!' Shop: '₹2,000 a month, no-cost!' Fine print: ₹999 fee."
+      },
+      "earner": {
+        "title": "NO-COST EMI",
+        "speaker": "Phone shop",
+        "place": "mobile_shop",
+        "text": "Your old phone is scratched but works. Shop: 'New one for ₹2,000 a month, no-cost EMI!' Fine print: ₹999 fee."
+      }
+    },
+    "choices": [
+      {
+        "id": "sign_emi",
+        "text": "SIGN THE EMI",
+        "quality": "weak",
+        "effects": [
+          { "label": "Processing fee", "wallet": -999, "happiness": 12, "setFlag": "emi_phone" },
+          {
+            "label": "Phone EMI deducted",
+            "wallet": -2000,
+            "delayChapters": 1,
+            "repeat": { "everyChapters": 1, "times": 5 }
+          }
+        ],
+        "detourTaskId": "detour_emi_squeeze",
+        "attitude": "now",
+        "ncfe": [
+          { "item": "loan_interest", "value": 0 },
+          { "item": "considers_affordability", "value": 0 }
+        ],
+        "lesson": "'No-cost' still cost ₹999, and ₹2,000 leaves every month for a year. An EMI is a loan, and it follows you.",
+        "hint": "If it's 'no-cost', what is the ₹999 for?"
+      },
+      {
+        "id": "save_buy",
+        "text": "SAVE ₹4,000/MO, BUY LATER",
+        "quality": "good",
+        "effects": [{ "label": "Phone fund started", "wallet": -4000, "savings": 4000 }],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "loan_interest", "value": 1 },
+          { "item": "saves_actively", "value": 1 }
+        ],
+        "lesson": "Six months of saving buys it outright: no fee, no EMI, no monthly hook."
+      },
+      {
+        "id": "keep_old",
+        "text": "KEEP MY WORKING PHONE",
+        "quality": "ok",
+        "effects": [{ "label": "Kept the old phone", "happiness": -4 }],
+        "attitude": "later",
+        "ncfe": [{ "item": "considers_affordability", "value": 1 }],
+        "lesson": "Needs, not wants: your phone works. The best EMI is the one you never needed."
+      }
+    ]
+  },
+  {
+    "id": "save_medium_s2_01",
+    "pillar": "save",
+    "difficulty": "medium",
+    "stage": 2,
+    "concept": "emergency_buffer",
+    "pressure": 60,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "SAFETY NET",
+        "speaker": "Aunty",
+        "place": "bank",
+        "text": "Salary: ₹20,000. Aunty asks: 'If your job stopped tomorrow, how many months could you manage?'"
+      },
+      "pocket_money": {
+        "title": "SAFETY NET",
+        "speaker": "Mom",
+        "place": "home",
+        "text": "Mom asks: 'If your job stops, can you manage?' You have no savings yet. Salary: ₹20,000."
+      },
+      "scholarship": {
+        "title": "SAFETY NET",
+        "speaker": "Aunty",
+        "place": "bank",
+        "text": "You remember waiting months for the allowance. Now salary comes monthly. How big a cushion do you need?"
+      },
+      "earner": {
+        "title": "SAFETY NET",
+        "speaker": "Aunty",
+        "place": "bank",
+        "text": "You remember weeks when shop pay just stopped. Now there's a salary. Time to build a real cushion?"
+      }
+    },
+    "choices": [
+      {
+        "id": "auto_save",
+        "text": "AUTO-SAVE ₹3,000 A MONTH",
+        "quality": "good",
+        "effects": [
+          { "label": "Auto-save set up", "wallet": -3000, "savings": 3000 },
+          {
+            "label": "Auto-save",
+            "wallet": -3000,
+            "savings": 3000,
+            "delayChapters": 1,
+            "repeat": { "everyChapters": 1, "times": 2 }
+          }
+        ],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "saves_actively", "value": 1 },
+          { "item": "major_expense_no_borrow", "value": 1 },
+          { "item": "long_term_goals", "value": 1 }
+        ],
+        "lesson": "Aim for 3–6 months of expenses, built bit by bit, automatically. That's an emergency buffer."
+      },
+      {
+        "id": "when_needed",
+        "text": "I'LL SAVE WHEN I NEED TO",
+        "quality": "weak",
+        "effects": [{ "label": "No buffer yet", "happiness": 2, "setFlag": "no_buffer" }],
+        "attitude": "now",
+        "ncfe": [
+          { "item": "saves_actively", "value": 0 },
+          { "item": "major_expense_no_borrow", "value": 0 }
+        ],
+        "lesson": "Emergencies don't give notice. By the time you 'need to', it's too late to save.",
+        "hint": "Do emergencies send a warning first?"
+      },
+      {
+        "id": "credit_card",
+        "text": "A CREDIT CARD IS MY BUFFER",
+        "quality": "weak",
+        "effects": [{ "label": "Relying on credit", "happiness": 1, "setFlag": "no_buffer" }],
+        "ncfe": [
+          { "item": "major_expense_no_borrow", "value": 0 },
+          { "item": "loan_interest", "value": 0 }
+        ],
+        "lesson": "A card isn't a buffer; it's a loan with high interest. Savings are a buffer.",
+        "hint": "What does a card charge if you can't repay in full?"
+      },
+      {
+        "id": "one_month",
+        "text": "SAVE ONE MONTH, THEN STOP",
+        "quality": "ok",
+        "effects": [{ "label": "One month saved", "wallet": -5000, "savings": 5000 }],
+        "ncfe": [{ "item": "saves_actively", "value": 1 }],
+        "lesson": "A start! But one month is thin. Keep going until you have 3–6 months."
+      }
+    ]
+  },
+  {
+    "id": "save_hard_s2_01",
+    "pillar": "save",
+    "difficulty": "hard",
+    "stage": 2,
+    "concept": "pay_yourself_first",
+    "pressure": 80,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "FAMILY LOAN",
+        "speaker": "Uncle",
+        "place": "home",
+        "text": "'Lend me ₹10,000 for my shop, beta. Three months, I'll return it.' That's half your salary and most of your savings."
+      },
+      "pocket_money": {
+        "title": "FAMILY LOAN",
+        "speaker": "Uncle",
+        "place": "home",
+        "text": "The uncle who gave you Sankranti money: 'Lend me ₹10,000 for three months?' It's most of your savings."
+      },
+      "scholarship": {
+        "title": "FAMILY LOAN",
+        "speaker": "Relative",
+        "place": "home",
+        "text": "The relative who helped with your ePASS papers asks for ₹10,000 'for three months'. It's most of your savings."
+      },
+      "earner": {
+        "title": "FAMILY LOAN",
+        "speaker": "Old shop owner",
+        "place": "kirana",
+        "text": "The man who gave you your first job asks to borrow ₹10,000 for three months. It's most of your savings."
+      }
+    },
+    "choices": [
+      {
+        "id": "lend_all",
+        "text": "LEND ALL ₹10,000",
+        "quality": "weak",
+        "effects": [
+          { "label": "Lent ₹10,000", "wallet": -10000, "happiness": 5, "setFlag": "no_buffer" },
+          { "label": "'Next month, pakka.' Not repaid", "happiness": -10, "delayChapters": 2 }
+        ],
+        "detourTaskId": "detour_family_loan_unpaid",
+        "ncfe": [
+          { "item": "saves_actively", "value": 0 },
+          { "item": "considers_affordability", "value": 0 }
+        ],
+        "lesson": "Your buffer is now someone else's promise. Lend only what you could afford never to see again.",
+        "hint": "What if your own emergency comes before the money returns?"
+      },
+      {
+        "id": "gift",
+        "text": "GIVE ₹2,000 AS A GIFT",
+        "quality": "good",
+        "effects": [{ "label": "Gave ₹2,000, no strings", "wallet": -2000, "happiness": 4 }],
+        "ncfe": [
+          { "item": "considers_affordability", "value": 1 },
+          { "item": "saves_actively", "value": 1 }
+        ],
+        "lesson": "Help with what you can afford to lose, and call it a gift. Your savings, and the relationship, stay safe."
+      },
+      {
+        "id": "written",
+        "text": "LEND ₹5,000, IN WRITING",
+        "quality": "ok",
+        "effects": [
+          { "label": "Lent ₹5,000 with a written note", "wallet": -5000 },
+          { "label": "₹5,000 returned on time", "wallet": 5000, "delayChapters": 3 }
+        ],
+        "ncfe": [{ "item": "takes_responsibility", "value": 1 }],
+        "lesson": "A smaller amount, written down with a date, is fair to both of you. Still, lend only what you can wait for."
+      }
+    ]
+  },
+  {
+    "id": "invest_simple_s2_01",
+    "pillar": "invest",
+    "difficulty": "simple",
+    "stage": 2,
+    "concept": "compounding",
+    "pressure": 45,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "START EARLY?",
+        "speaker": "Bank clerk",
+        "place": "bank",
+        "intro": "Banyan Savings is made up. Assumes 8% a year; real returns vary.",
+        "text": "'Put ₹2,000 a month in Banyan Savings. Starting at 23 instead of 33 makes a huge difference.'"
+      },
+      "pocket_money": {
+        "title": "START EARLY?",
+        "speaker": "Bank clerk",
+        "place": "bank",
+        "intro": "Banyan Savings is made up. Assumes 8% a year; real returns vary.",
+        "text": "You open your first own account. The clerk: '₹2,000 a month in Banyan Savings, starting now?'"
+      },
+      "scholarship": {
+        "title": "START EARLY?",
+        "speaker": "Bank clerk",
+        "place": "bank",
+        "intro": "Banyan Savings is made up. Assumes 8% a year; real returns vary.",
+        "text": "The same branch where your allowance landed: 'Your salary's here now. ₹2,000 a month into Banyan?'"
+      },
+      "earner": {
+        "title": "START EARLY?",
+        "speaker": "Bank clerk",
+        "place": "bank",
+        "intro": "Banyan Savings is made up. Assumes 8% a year; real returns vary.",
+        "text": "For years every rupee went out as soon as it came. The clerk: 'Start ₹2,000 a month in Banyan?'"
+      }
+    },
+    "choices": [
+      {
+        "id": "start_now",
+        "text": "START ₹2,000 A MONTH NOW",
+        "quality": "good",
+        "effects": [
+          { "label": "Monthly saving into Banyan", "wallet": -2000, "savings": 2000 },
+          {
+            "label": "Monthly saving into Banyan",
+            "wallet": -2000,
+            "savings": 2000,
+            "delayChapters": 1,
+            "repeat": { "everyChapters": 1, "times": 2 }
+          }
+        ],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "compound_interest", "value": 1 },
+          { "item": "saves_actively", "value": 1 },
+          { "item": "long_term_goals", "value": 1 }
+        ],
+        "lesson": "Starting 10 years earlier roughly doubles the result: growth on growth needs time. That's compounding."
+      },
+      {
+        "id": "start_later",
+        "text": "START AT 30, ENJOY NOW",
+        "quality": "weak",
+        "effects": [{ "label": "Spent on enjoying now", "happiness": 8 }],
+        "attitude": "now",
+        "ncfe": [{ "item": "compound_interest", "value": 0 }],
+        "lesson": "Waiting 10 years loses more than 10 years of saving; it loses the growth on that growth.",
+        "hint": "Which grows more: 35 years of growth, or 25?"
+      },
+      {
+        "id": "cash_box",
+        "text": "SAVE IT IN A CASH BOX",
+        "quality": "ok",
+        "effects": [{ "label": "Saved in a cash box", "wallet": -2000, "savings": 2000 }],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "saves_actively", "value": 1 },
+          { "item": "inflation", "value": 0 }
+        ],
+        "lesson": "Saving is great! But a cash box never grows, and inflation shrinks it. Let savings compound."
+      }
+    ]
+  },
+  {
+    "id": "safety_medium_s2_01",
+    "pillar": "safety",
+    "difficulty": "medium",
+    "stage": 2,
+    "concept": "too_good_to_be_true",
+    "pressure": 80,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "DOUBLE MONEY",
+        "speaker": "Chat group",
+        "place": "gachibowli",
+        "text": "Screenshots everywhere: 'Invest ₹10,000, get ₹20,000 in 6 months! Guaranteed! Only 3 slots left!'"
+      },
+      "pocket_money": {
+        "title": "DOUBLE MONEY",
+        "speaker": "Cousin",
+        "place": "home",
+        "text": "Your cousin adds you to an 'investment club': '₹10,000 becomes ₹20,000 in 6 months, guaranteed!'"
+      },
+      "scholarship": {
+        "title": "DOUBLE MONEY",
+        "speaker": "Old classmate",
+        "place": "campus",
+        "text": "An old classmate: 'I doubled my money in 6 months! Join with ₹10,000, only 3 slots left!'"
+      },
+      "earner": {
+        "title": "DOUBLE MONEY",
+        "speaker": "Regular customer",
+        "place": "kirana",
+        "text": "A regular customer: 'My scheme doubles ₹10,000 in 6 months. Guaranteed. Only for people I trust.'"
+      }
+    },
+    "choices": [
+      {
+        "id": "invest",
+        "text": "INVEST ₹10,000",
+        "quality": "critical",
+        "effects": [
+          { "label": "₹10,000 sent. Group deleted.", "wallet": -10000, "happiness": -25 }
+        ],
+        "scam": "fell",
+        "ncfe": [{ "item": "risk_return", "value": 0 }],
+        "lesson": "Guaranteed + double + hurry = scam. Real investments can't promise returns, and nothing honest doubles in 6 months.",
+        "hint": "Can anything real be guaranteed AND double in 6 months?"
+      },
+      {
+        "id": "try_small",
+        "text": "TRY ₹1,000 FIRST",
+        "quality": "weak",
+        "effects": [
+          { "label": "₹1,000 'grew' on screen; can't withdraw", "wallet": -1000, "happiness": -10 }
+        ],
+        "detourTaskId": "detour_scam_recovery",
+        "scam": "fell",
+        "ncfe": [{ "item": "risk_return", "value": 0 }],
+        "lesson": "Fake apps show fake profits so you send more. If you can't withdraw it, it was never real."
+      },
+      {
+        "id": "ask_regulator",
+        "text": "ASK: WHO REGULATES THIS?",
+        "quality": "good",
+        "effects": [{ "label": "No answer. You left the group.", "happiness": 5 }],
+        "scam": "spotted",
+        "ncfe": [
+          { "item": "risk_return", "value": 1 },
+          { "item": "compares_options", "value": 1 }
+        ],
+        "lesson": "Real investments are registered and never 'guarantee' doubling. No straight answer means walk away."
+      },
+      {
+        "id": "ignore",
+        "text": "MUTE THE GROUP",
+        "quality": "ok",
+        "effects": [{ "label": "Muted the group", "happiness": 2 }],
+        "scam": "spotted",
+        "lesson": "Safe. Next time warn the others too; these groups target whole families."
       }
     ]
   }
