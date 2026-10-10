@@ -14,14 +14,15 @@ import {
 } from '../logic/onboarding';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
-import { COLOR, FONT_BODY, text, tr } from '../ui/theme';
+import { COLOR, text, tr } from '../ui/theme';
+import { disposeInput, htmlInput } from '../ui/HtmlInput';
 import { VIEW } from '../view';
 
 type StepId = 'avatar' | 'name' | LifeQuestion['id'] | 'persona';
 
 export class OnboardingScene extends Phaser.Scene {
   private root!: Phaser.GameObjects.Container;
-  private nameInput?: Phaser.GameObjects.DOMElement;
+  private nameInput?: HTMLInputElement;
   private avatar: string = AVATARS[0];
   private nickname = '';
   private answers: LifeAnswers = {};
@@ -53,7 +54,7 @@ export class OnboardingScene extends Phaser.Scene {
   }
 
   private clearInput(): void {
-    this.nameInput?.destroy();
+    disposeInput(this.nameInput);
     this.nameInput = undefined;
   }
 
@@ -130,26 +131,15 @@ export class OnboardingScene extends Phaser.Scene {
         },
       ).setOrigin(0.5),
     );
-    const el = document.createElement('input');
-    el.type = 'text';
-    el.maxLength = NAME_MAX;
-    el.autocomplete = 'off';
-    el.spellcheck = false;
-    el.value = this.nickname;
-    el.setAttribute('aria-label', t('onboard.name'));
-    Object.assign(el.style, {
-      width: '240px',
-      height: '44px',
-      fontFamily: FONT_BODY,
-      fontSize: '14px',
-      textAlign: 'center',
-      border: '3px solid #9fd3c7',
-      background: '#f8f8f0',
-      color: '#202028',
-      outline: 'none',
-      borderRadius: '0',
+    const el = htmlInput(this, W / 2, 280, {
+      width: 240,
+      height: 46,
+      maxLength: NAME_MAX,
+      value: this.nickname,
+      placeholder: tr('onboard.name_placeholder', 'Nickname'),
+      label: t('onboard.name'),
     });
-    this.nameInput = this.add.dom(W / 2, 280, el);
+    this.nameInput = el;
     const next = new Button(this, W / 2, 570, t('btn.next'), () => {
       const name = sanitizeName(el.value);
       if (!name) {
