@@ -3,6 +3,7 @@
 // a balance table: final bars, detours, restarts, lowest happiness, chapters spent broke.
 // --content uses the real JSON in src/content (read from disk; the engine never imports content),
 // otherwise the engine fixture pack. --trace prints bars per chapter for seed 1.
+// Ends with the balance targets from docs/plan/saharsh.md (PASS/FAIL per policy × difficulty).
 import { readFileSync } from 'node:fs';
 import type { ContentPack, Difficulty, Game } from '@/shared/types';
 import { parseContentPack } from '@/shared/schema';
@@ -83,10 +84,30 @@ console.log(
 console.log(
   'policy  difficulty   wallet  savings    happy  minHappy  portfolio  detours restarts  broke  literate%  done%',
 );
+interface Row {
+  policy: Policy;
+  difficulty: Difficulty;
+  detours: number;
+  restarts: number;
+  minHappy: number;
+  broke: number;
+  done: number;
+}
+const rows: Row[] = [];
+
 for (const policy of policies) {
   for (const difficulty of difficulties) {
     const runs = Array.from({ length: seeds }, (_, i) => play(policy, difficulty, i + 1));
     const sums = runs.map((r) => r.game.summary());
+    rows.push({
+      policy,
+      difficulty,
+      detours: avg(sums.map((s) => s.detoursTaken)),
+      restarts: avg(sums.map((s) => s.restarts)),
+      minHappy: avg(runs.map((r) => r.minHappiness)),
+      broke: avg(runs.map((r) => r.brokeChapters)),
+      done: avg(runs.map((r) => (r.game.state.phase === 'done' ? 1 : 0))),
+    });
     console.log(
       `${policy.padEnd(7)} ${difficulty.padEnd(10)}` +
         fmt(avg(sums.map((s) => s.finalBars.wallet))) +
@@ -104,3 +125,28 @@ for (const policy of policies) {
     if (trace) console.log(play(policy, difficulty, 1).rows.join('\n'));
   }
 }
+
+// Balance targets (docs/plan/saharsh.md, Phase 2): `good` finishes stable, `random` detours 2–4
+// times, `worst` restarts at least once and still finishes.
+const TARGETS: Record<Policy, { what: string; ok: (r: Row) => boolean }> = {
+  good: {
+    what: 'finishes stable (all done, 0 restarts, never broke, happiness ≥ 30)',
+    ok: (r) => r.done === 1 && r.restarts === 0 && r.broke === 0 && r.minHappy >= 30,
+  },
+  random: { what: 'detours 2–4 times on average', ok: (r) => r.detours >= 2 && r.detours <= 4 },
+  worst: {
+    what: 'restarts ≥ 1 and still finishes (winnable)',
+    ok: (r) => r.restarts >= 1 && r.done === 1,
+  },
+};
+console.log('\nbalance targets');
+let failed = 0;
+for (const r of rows) {
+  const t = TARGETS[r.policy];
+  const ok = t.ok(r);
+  if (!ok) failed += 1;
+  console.log(
+    `  ${ok ? 'PASS' : 'FAIL'}  ${r.policy.padEnd(7)} ${r.difficulty.padEnd(7)} ${t.what}`,
+  );
+}
+console.log(failed ? `  ${failed} target(s) missed` : '  all targets met');
