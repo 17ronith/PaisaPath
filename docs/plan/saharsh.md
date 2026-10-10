@@ -4,6 +4,8 @@
 
 ## After M2 (04:00 → 11:00) — Saharsh
 
+> **04:00 hand-off:** Saharsh is asleep. **Monish is working this list** on branch `monish/for-saharsh` (engine, minigames, and the two delegated client paths). Saharsh: when you wake, `git pull`, read this section's ticks and `docs/plan/requests/saharsh.md`, and take back whatever is still open — don't start from the top.
+
 Engine is done; your job now is learning quality + sound + the numbers for the
 final report. Two UI items are **delegated to you by Ronith**: edit only
 `src/game/scenes/InfoPanelScene.ts` and a new `src/game/audio/` folder; ask

@@ -55,3 +55,10 @@ Saharsh: change `Status:` lines only; never delete blocks.
 - What: `docs/plan/PLAYTEST-01.md` — 15 (Scam-or-Legit timer too short), 20 (Kirana Rush item list ambiguous: need vs want must be unarguable), 21 (bad decisions don't cost enough — tighten effects/incomes and re-run the sim until random play ends with ≤ 1 month of income spare; coordinate with Aakarsh who owns the numbers in content).
 - Why: Learning quality: the mini-games currently teach the wrong lesson on edge items and the economy is too forgiving.
 - Accept when: every one of your rows in PLAYTEST-01.md reads DONE or has a DECLINED reason.
+
+### R-monish-03 · Hand-off: Monish works your After-M2 list while you sleep
+- From: monish · To: saharsh · At: 04:00 · Priority: P0
+- Status: DOING
+- What: Monish is doing #15 (timer), #20 (Kirana items), #21 (economy + sim targets), then the delegated #12 (audio) and #11 (InfoPanel) on `monish/for-saharsh`, merged to main as they land. Each one gets its PLAYTEST-01 row updated. You resume from whatever is still OPEN when you wake.
+- Why: you're asleep; the items are on the demo path.
+- Accept when: you reply DONE here after reading the ticks.
