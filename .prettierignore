@@ -9,3 +9,4 @@ CONTEXT.md
 *.pdf
 package-lock.json
 .claude
+public/ngo

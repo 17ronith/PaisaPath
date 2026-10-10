@@ -10,7 +10,6 @@ export default defineConfig({
   plugins: [
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['assets/**/*'],
       manifest: {
         name: 'Learning Money by Living It',
         short_name: 'Money Life',
