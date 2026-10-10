@@ -1,0 +1,87 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[a4paper,top=1.25cm,bottom=1.3cm,left=1.55cm,right=1.55cm]{geometry}
+\usepackage{fontspec}
+\setmainfont{Inter}[Scale=0.93]
+\newfontfamily\rupeefont{DejaVu Sans}
+\newcommand{\rs}{{\rupeefont ₹}}
+\usepackage{xcolor,graphicx,tabularx,booktabs,enumitem,titlesec,array,amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+\usepackage[hidelinks]{hyperref}
+\definecolor{ink}{HTML}{1B2130}
+\definecolor{acc}{HTML}{2F62D6}
+\definecolor{accsoft}{HTML}{E8EEFC}
+\definecolor{gold}{HTML}{C99A1E}
+\definecolor{muted}{HTML}{5A6273}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2.5pt}
+\linespread{1.04}
+\titleformat{\section}{\normalsize\bfseries\color{acc}}{\thesection.}{0.45em}{}
+\titlespacing*{\section}{0pt}{6pt}{2.5pt}
+\titleformat{\subsection}{\small\bfseries}{\thesubsection}{0.4em}{}
+\titlespacing*{\subsection}{0pt}{4pt}{1.5pt}
+\setlist{nosep,leftmargin=1.1em,itemsep=1.2pt}
+\pagestyle{empty}
+\begin{document}
+
+% ---------- header ----------
+\begin{minipage}[t]{0.70\textwidth}
+{\LARGE\bfseries Learning Money by Living It}\\[1pt]
+{\color{muted}A pixel-art life simulation that teaches financial literacy by letting students live it}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.28\textwidth}\raggedleft
+{\bfseries Team No.: 97}\\[1pt]
+{\small\color{muted}M2 --- Progress report}
+\end{minipage}
+
+\vspace{3pt}
+{\color{acc}\rule{\textwidth}{1.2pt}}
+\vspace{-2pt}
+
+{\small\textbf{Status at 03:30, 11 Oct:} Stage 1 of the game is playable end to end on a phone-sized browser; the game engine is unit-tested; the content pack validates against its schema; the report service emails a PDF to a sandbox inbox. Code is on \texttt{main}.}
+
+\section{Current Approach and Changes Since M1}
+\textbf{Unchanged:} the three-stage life simulation, money-battle screen, teach-after-the-choice loop with abstract animations, mistake bank, persona framing, difficulty buckets, before/after quiz, emailed report, NGO join codes, guardrail.
+
+\textbf{Decided since M1} (M1 left these open):
+\begin{itemize}
+  \item \textbf{Economy.} Everyone starts with $S=\rs5{,}000$ in-game per month in Stage~1; in-game price $=$ real price $\times S / $ monthly pocket money (band midpoints \rs200, \rs800, \rs2{,}000, \rs4{,}000 from the indirect weekly-spend question). Stages 2--3 use fixed reference incomes (\rs20{,}000 and \rs50{,}000 real $\to$ \rs25{,}000 and \rs60{,}000 in-game).
+  \item \textbf{Time.} Ten monthly chapters: 4 (Intermediate) $+$ 3 (first salary) $+$ 3 (earning more), then the epilogue at 60. Stage jumps skip 5, 6 and 25 years so compounding is visible.
+  \item \textbf{Happiness.} 0--100, starts at 70, decays 3 per chapter; choices move it $-30$ to $+15$; zero restarts the task; below 30 locks mini-games.
+  \item \textbf{Mini-games.} Two, skippable: \emph{Kirana Rush} (sort needs from wants) and \emph{Scam or Legit} (swipe fake messages). A win pays 8\% of monthly income as a ``side gig'' and $+10$ happiness.
+  \item \textbf{Hints and guide.} A guide character delivers lesson lines; hints switch on after two failures of the same task.
+  \item \textbf{Second language.} Telugu for onboarding, HUD and two tasks; a Hindi file proves ``add a language $=$ add a file''.
+  \item \textbf{Stack.} TypeScript + Phaser~3 + Vite (PWA, offline), Vitest, zod schema validation, a small Node report service (nodemailer $\to$ sandbox inbox), static NGO dashboard mock.
+\end{itemize}
+
+\section{Experiments Run So Far and Results}
+\begin{itemize}
+  \item \textbf{Economy scaler check.} \rs200 cricket bat $\to$ \rs200 / \rs400 / \rs1{,}000 in-game for students with \rs5{,}000 / \rs2{,}500 / \rs1{,}000 monthly pocket money (same share of their money as in real life). Unit-tested.
+  \item \textbf{Seeded simulations.} Three policies (\emph{always good}, \emph{random}, \emph{always worst}) over 10 chapters on the Stage~1 content, same seed: \textbf{[TABLE: wallet/happiness at chapter 4, detours, restarts per policy]}. The ``always worst'' run restarts on the scam task and ends broke; ``always good'' ends solvent with the mistake bank empty.
+  \item \textbf{Engine unit tests.} \textbf{[N]} tests, all passing: RNG reproducibility, scaler, delayed/repeating effects, task selection (pillar rotation, invest gate, returning mistakes), restart/detour routing, save/resume round-trip.
+  \item \textbf{Content validation.} \textbf{[N]} main tasks, \textbf{[N]} detours, \textbf{[N]} persona framings, \textbf{[N]} explainer animations, \textbf{[N]} random events; every cross-reference (concept, explainer, detour, place, event) resolves; double-blind string check passes.
+  \item \textbf{Play test.} \textbf{[N]} peers played Stage~1 unguided on a phone: time to first battle \textbf{[s]}, help requests \textbf{[n]}, \textbf{[notes]}.
+  \item \textbf{Device/network.} Production build on Chrome ``Slow 3G'' + 4$\times$ CPU throttle: first battle in \textbf{[s]}; full offline reload works via the service worker.
+  \item \textbf{Report pipeline.} A seeded game produced a PDF report that was emailed to a sandbox inbox with the guardian in CC; a no-network fallback stores the message locally.
+\end{itemize}
+
+\section{Progress on Testing}
+\begin{tabularx}{\textwidth}{@{}>{\bfseries}p{3.0cm}Xp{2.2cm}@{}}
+\toprule
+Learning gain & Before/after quiz implemented end to end; NCFE-aligned scoring (8 knowledge, 9 behaviour, 3 attitude) and safety score computed from tagged choices & \textbf{[status]} \\
+Usability & Unguided peer play tests of Stage~1 & \textbf{[status]} \\
+Engine correctness & Unit tests + seeded simulations + save/resume round-trip & \textbf{[status]} \\
+Devices \& network & Throttled-Chrome timing, offline play-through & \textbf{[status]} \\
+Language & Validator checks every Telugu key exists in English; Telugu onboarding screenshots & \textbf{[status]} \\
+Report \& privacy & Sandbox inbox send; nickname-only state; no OTP/PIN/Aadhaar ever requested & \textbf{[status]} \\
+\bottomrule
+\end{tabularx}
+
+\section{Plan for the Remaining Time}
+\begin{itemize}
+  \item \textbf{04:00--08:30.} Stages 2--3 content; investing screen with four made-up assets and the epilogue projection; ``what if'' replay of the biggest mistake; after-quiz and end report; both mini-games; Telugu onboarding; NGO dashboard mock; throttled-device numbers.
+  \item \textbf{08:30 feature freeze.} Cross play tests, bug fixes, demo video, final report, README with asset credits.
+  \item \textbf{Cut list, in order:} second mini-game; Telugu beyond onboarding; Stage~3 depth; town map (chapter map goes straight to the battle); live email (download only); what-if screen (text comparison).
+\end{itemize}
+\end{document}

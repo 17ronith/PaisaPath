@@ -67,28 +67,28 @@ rule), rebase-merged to `main`, tagged `v0-skeleton`.
 
 ## Phase 1 (00:15 → 03:15)
 
-- [ ] `src/app/storage.ts` — `idb-keyval` wrappers: `saveState(GameState)`,
+- [x] `src/app/storage.ts` — `idb-keyval` wrappers: `saveState(GameState)`,
       `loadState()`, `clear()`, plus `saveProfileDraft` for mid-onboarding.
-- [ ] `session.ts` real: `startGame` seeds from `Date.now()`, `save()` after
+- [x] `session.ts` real: `startGame` seeds from `Date.now()`, `save()` after
       every `choose()` (Ronith calls it), `resume()` → `loadGame`. `setLang`
       re-localizes and persists in `localStorage`.
-- [ ] PWA: manifest icons (any 192/512 PNG placeholder), `navigateFallback`,
+- [x] PWA: manifest icons (any 192/512 PNG placeholder), `navigateFallback`,
       runtime caching of `/assets/**`. Verify offline reload in DevTools.
-- [ ] `server/src/index.ts` — `POST /api/report`: `nodemailer.createTestAccount()`
+- [x] `server/src/index.ts` — `POST /api/report`: `nodemailer.createTestAccount()`
       once at boot, send mail with PDF attachment, return
       `{ previewUrl: nodemailer.getTestMessageUrl(info) }`. CORS.
-- [ ] `src/app/report.ts` — `buildReportPdf(report: Report): Blob` with jsPDF:
+- [x] `src/app/report.ts` — `buildReportPdf(report: Report): Blob` with jsPDF:
       Team-neutral header (nickname, date), before/after quiz, NCFE k/b/a +
       literate flag + "27% national reference", safety x/y, per-pillar table,
       mistakes fixed, assumption footer. **No what-if.** Then `sendReport()` in
       session: POST base64; on network error return `previewUrl: null`.
-- [ ] GitHub Pages deploy workflow (`gh-pages` branch via `actions/deploy-pages`)
+- [x] GitHub Pages deploy workflow (`gh-pages` branch via `actions/deploy-pages`)
       — nice-to-have; skip if > 20 min.
 - [ ] Review PRs touching `src/shared/` and merge `DEP:`/`CONTRACT:` requests
       within 15 min. Keep a running list of contract additions in
       `docs/plan/CHANGELOG.md`.
 - [ ] 02:45 integration call: you drive. Merge order: content → engine → game → app.
-- [ ] `deliverables/M2.tex` skeleton from `team97_vanguard_context/03_submissions/M1/M1.tex`
+- [x] `deliverables/M2.tex` skeleton from `team97_vanguard_context/03_submissions/M1/M1.tex`
       (same preamble, "M2 — Progress", Team No. 97, no names).
 
 ## M2 crunch (03:15 → 03:55)
