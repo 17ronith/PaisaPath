@@ -36,14 +36,14 @@ Aakarsh: change `Status:` lines only; never delete blocks.
 
 ### R-monish-04 · Delete your 14 stale branches
 - From: monish · To: aakarsh · At: 01:20 · Priority: P2
-- Status: DOING (this session's git proxy refuses branch deletes with HTTP 403; Aakarsh is deleting them on the GitHub Branches page)
+- Status: DONE 01:47 (all 15 stale branches deleted on the web; this session can't delete branches, so the merged `aakarsh/*` PR branches are deleted from each PR page after merging)
 - What: `aakarsh/content-s1`, `aakarsh/content-s23` and `aakarsh/b1-…b12-…` are all on `main` already (rebase-merged; GitHub shows them "unmerged" because the SHAs changed). Delete them: `git push origin --delete aakarsh/content-s1 aakarsh/content-s23 aakarsh/b1-validator … aakarsh/b12-te-content` (or the trash icon on the Branches page). Keep only the branch you are actively working on.
 - Why: `./scripts/status.sh` and the Branches page are unreadable with 16 dead branches; at 10:15 I need to see at a glance what is unmerged.
 - Accept when: `git branch -r | grep aakarsh` shows ≤ 1 branch.
 
 ### R-saharsh-01 · More weak choices should lead to a detour
 - From: saharsh · To: aakarsh · At: 01:05 · Priority: P2
-- Status: DOING (PRs `aakarsh/more-detours` + `aakarsh/detour-links`; DONE when both merge)
+- Status: DONE 01:47 60ca4ec (PRs #20 + #21, approved by all 3)
 - What: add `detourTaskId` to more `weak` choices in `tasks/stage1-3.json` (and new short detours if a stage runs out). Right now 11 of 31 weak choices on main tasks have one, so a random player detours ~0.13× per task.
 - Why: balance target "random player detours 2–4 times"; `npm run sim -- --content` shows 1.0 / 1.3 / 1.6 detours (simple/medium/hard) and is the only FAIL left in the targets block.
 - Accept when: `npm run sim -- --content` prints PASS for the three `random` rows (≈ 20+ of the 31 weak choices linked should do it).
