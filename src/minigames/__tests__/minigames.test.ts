@@ -138,10 +138,10 @@ const BRANDS =
 const FORBIDDEN = /IIIT|Paisa Path/i;
 
 describe('Kirana Rush', () => {
-  it('pass mark is 70% of 10 items in 30 s', () => {
+  it('pass mark is 70% of 10 items in 45 s (PLAYTEST-01 #15)', () => {
     expect(KIRANA_ITEMS).toBe(10);
     expect(KIRANA_PASS).toBe(7);
-    expect(KIRANA_TIME_MS).toBe(30_000);
+    expect(KIRANA_TIME_MS).toBe(45_000);
   });
 
   it('pool: unique names, positive prices, enough of each kind for a balanced round', () => {

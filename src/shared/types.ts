@@ -329,6 +329,7 @@ export type Step =
       chapter: number;
       stage: Stage;
       incomeCoins: number;
+      livingCostCoins?: number;
       fired: Effect[];
       happinessDecay: number;
     }

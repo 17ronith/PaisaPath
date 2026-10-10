@@ -31,3 +31,14 @@ describe('economy scaler (M1 formula)', () => {
     expect(incomeLabel('pocket_money', 2)).toBe('Salary credited');
   });
 });
+
+describe('living costs (PLAYTEST-01 #21)', () => {
+  it('stage 1 has none; stages 2–3 take a fixed share of income at chapter start', async () => {
+    const { livingCostCoins, LIVING_COST_SHARE } = await import('../economy');
+    expect(livingCostCoins(1)).toBe(0);
+    expect(livingCostCoins(2)).toBe(Math.round(25000 * LIVING_COST_SHARE[2]));
+    expect(livingCostCoins(3)).toBe(Math.round(60000 * LIVING_COST_SHARE[3]));
+    expect(LIVING_COST_SHARE[2]).toBeGreaterThan(0.4);
+    expect(LIVING_COST_SHARE[3]).toBeGreaterThan(0.4);
+  });
+});

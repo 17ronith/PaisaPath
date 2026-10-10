@@ -10,6 +10,7 @@ import { parseContentPack } from '@/shared/schema';
 import { autoplay, type Policy } from '../autoplay';
 import { createGame } from '../game';
 import { portfolioTotal } from '../invest';
+import { incomeCoins } from '../economy';
 import { fixturePack, fixtureProfile } from '../__fixtures__/pack';
 
 const args = process.argv.slice(2);
@@ -93,6 +94,7 @@ interface Row {
   broke: number;
   literate: number;
   done: number;
+  wallet: number;
 }
 const rows: Row[] = [];
 
@@ -104,6 +106,7 @@ for (const policy of policies) {
       policy,
       difficulty,
       detours: avg(sums.map((s) => s.detoursTaken)),
+      wallet: avg(sums.map((s) => s.finalBars.wallet)),
       restarts: avg(sums.map((s) => s.restarts)),
       minHappy: avg(runs.map((r) => r.minHappiness)),
       broke: avg(runs.map((r) => r.brokeChapters)),
@@ -130,19 +133,25 @@ for (const policy of policies) {
 
 // Balance targets (docs/plan/saharsh.md, Phase 2): `good` finishes stable, `random` detours 2–4
 // times, `worst` restarts at least once and still finishes.
+// PLAYTEST-01 #21 (04:10): careless play must not end rich. Random play ends with at most one
+// month of Stage-3 income spare; worst play goes broke in at least half the runs.
 const TARGETS: Record<Policy, { what: string; ok: (r: Row) => boolean }> = {
   good: {
     what: 'finishes stable (all done, 0 restarts, never broke, happiness ≥ 30), ≥ 90% literate',
     ok: (r) =>
       r.done === 1 && r.restarts === 0 && r.broke === 0 && r.minHappy >= 30 && r.literate >= 0.9,
   },
-  random: { what: 'detours 2–4 times on average', ok: (r) => r.detours >= 2 && r.detours <= 4 },
+  random: {
+    what: 'detours 1–4 times; ends with ≤ 1 month of Stage-3 income spare',
+    ok: (r) => r.detours >= 1 && r.detours <= 4 && r.wallet <= incomeCoins(3),
+  },
   worst: {
-    what: 'restarts ≥ 1 and still finishes (winnable)',
-    ok: (r) => r.restarts >= 1 && r.done === 1,
+    what: 'restarts ≥ 1, goes broke (≥ 0.5 chapters avg; ≥ 0.3 on simple), still finishes (winnable)',
+    ok: (r) =>
+      r.restarts >= 1 && r.broke >= (r.difficulty === 'simple' ? 0.3 : 0.5) && r.done === 1,
   },
 };
-console.log('\nbalance targets');
+
 let failed = 0;
 for (const r of rows) {
   const t = TARGETS[r.policy];

@@ -344,7 +344,7 @@ export type Step =
       kind: 'chapter_start';
       chapter: number;
       stage: Stage;
-      incomeCoins: number;
+      incomeCoins: number; livingCostCoins?: number;
       fired: Effect[];
       happinessDecay: number;
     }

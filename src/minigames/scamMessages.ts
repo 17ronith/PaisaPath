@@ -10,7 +10,7 @@ export interface PhoneMessage extends SortItem<MessageKind> {
   text: string;
 }
 
-export const SCAM_TIME_MS = 30_000;
+export const SCAM_TIME_MS = 60_000; // PLAYTEST-01 #15: 30 s was far too short for 8 messages
 export const SCAM_ITEMS = 8;
 /** ≥ 6 of 8 = win. */
 export const SCAM_PASS = 6;

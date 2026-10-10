@@ -36,6 +36,7 @@ import {
   LAST_CHAPTER,
   STAGE_END_YEARS,
   incomeCoins,
+  livingCostCoins,
   realRef,
   stageOfChapter,
 } from './economy';
@@ -140,15 +141,20 @@ export class EngineGame implements Game {
     s.stage = stageOfChapter(s.chapter);
     const income = incomeCoins(s.stage);
     s.bars.wallet += income;
+    const living = livingCostCoins(s.stage);
+    s.bars.wallet -= living;
     const decay = Math.min(HAPPINESS_DECAY, s.bars.happiness);
     s.bars.happiness -= decay;
     const fired = fireDue(s);
+    if (living > 0)
+      fired.unshift({ label: `Rent, food and travel: −₹${living.toLocaleString('en-IN')}` });
     s.phase = INVEST_CHAPTERS.includes(s.chapter) && s.bars.savings > 0 ? 'invest' : 'main_task';
     return {
       kind: 'chapter_start',
       chapter: s.chapter,
       stage: s.stage,
       incomeCoins: income,
+      livingCostCoins: living,
       fired,
       happinessDecay: decay,
     };

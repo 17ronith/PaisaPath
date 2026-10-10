@@ -10,7 +10,7 @@ export interface KiranaItem extends SortItem<Basket> {
   icon: string;
 }
 
-export const KIRANA_TIME_MS = 30_000;
+export const KIRANA_TIME_MS = 45_000; // PLAYTEST-01 #15: room to read each card
 export const KIRANA_ITEMS = 10;
 /** ≥ 70% correct = win. */
 export const KIRANA_PASS = Math.ceil(KIRANA_ITEMS * 0.7);
@@ -18,7 +18,37 @@ export const KIRANA_PASS = Math.ceil(KIRANA_ITEMS * 0.7);
 export const FALL_MS_START = 3400;
 export const FALL_MS_END = 2200;
 
+// PLAYTEST-01 #20: only items where need-vs-want is unarguable for a Hyderabad household.
+// A deodorant, a phone cover or a snack for a hungry kid can be argued either way — they are out.
 export const KIRANA_POOL: readonly KiranaItem[] = [
+  {
+    name: 'Bus pass (month)',
+    price: 300,
+    icon: '🚌',
+    answer: 'need',
+    why: 'Gets you to college every day.',
+  },
+  {
+    name: 'Phone recharge',
+    price: 239,
+    icon: '📱',
+    answer: 'need',
+    why: 'No recharge, no calls, no online class.',
+  },
+  {
+    name: 'Game top-up',
+    price: 100,
+    icon: '🎮',
+    answer: 'want',
+    why: 'Diamonds in a game buy nothing at home.',
+  },
+  {
+    name: 'Second earphones',
+    price: 400,
+    icon: '🎧',
+    answer: 'want',
+    why: 'The first pair still works.',
+  },
   {
     name: 'Rice 5kg',
     price: 300,
@@ -79,14 +109,6 @@ export const KIRANA_POOL: readonly KiranaItem[] = [
     answer: 'want',
     why: 'Fun today, gone in 5 minutes.',
   },
-  {
-    name: 'Fancy phone cover',
-    price: 250,
-    icon: '📱',
-    answer: 'want',
-    why: 'The old cover still works.',
-  },
-  { name: 'Body spray', price: 199, icon: '💨', answer: 'want', why: 'Soap already did the job.' },
 ];
 
 /** How long item `i` (0-based) takes to fall: linear from FALL_MS_START to FALL_MS_END. */

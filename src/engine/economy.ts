@@ -21,6 +21,17 @@ export function realRef(stage: Stage, profile: Profile): number {
   return stage === 1 ? Math.max(1, profile.pocketMoneyMonthly) : ECONOMY.stageRealRef[stage];
 }
 
+/**
+ * PLAYTEST-01 #21: stages 2–3 had no recurring costs, so any play ended rich. Rent, food and
+ * travel now leave the wallet at every chapter start as a share of income (Stage 1 has none:
+ * pocket money has no fixed costs; the bus pass and recharge are tasks).
+ */
+export const LIVING_COST_SHARE: Record<Stage, number> = { 1: 0, 2: 0.55, 3: 0.6 };
+
+export function livingCostCoins(stage: Stage): number {
+  return Math.round(incomeCoins(stage) * LIVING_COST_SHARE[stage]);
+}
+
 export function incomeCoins(stage: Stage): number {
   return ECONOMY.stageIncomeCoins[stage];
 }
