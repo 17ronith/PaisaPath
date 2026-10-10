@@ -20,6 +20,41 @@ missions). Research: `team97_vanguard_context/06_claude_docs_exports/research_la
 
 ---
 
+## Review gate — nobody builds on unreviewed content
+
+**Rule:** your content is not done until **Monish, Ronith and Saharsh have
+each checked it.** Until then nobody builds on it: Ronith and Saharsh keep
+working against whatever content is already on `main`.
+This overrides README §4 "merge it yourself" for every PR touching `src/content/`.
+
+**How it works**
+
+1. Ship in small batches: **≤ 4 tasks per PR** (or one file such as
+   `explainers.json` or `strings/te.json`). Small PRs get reviewed fast.
+2. `npm run validate:content` green → open the PR → post
+   `REVIEW: content <batch> — <PR link>` in the group chat.
+3. Each reviewer checks **their angle** (table below) and approves on GitHub,
+   or comments with the exact spot and fix:
+   `tasks/stage1.json#save_medium_s1_01 › choices[1].lesson — names no concept`.
+4. Reviewers **never edit `src/content/`** (ownership rule). You make every fix.
+5. **3 approvals → you rebase-merge** and post `MERGED: content <batch>`.
+6. Reviewers answer within **15 minutes** of the `REVIEW:` post, so the gate
+   never stalls the clock.
+
+**What each reviewer checks**
+
+| Reviewer    | Angle         | Checks                                                                                                                                                                                                                                                         |
+| ----------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Monish**  | Design + rules | Matches CONTEXT.md §2 and plan §6 · no real brands, tickers or products · no "buy X" advice · every projection carries the assumption line · never asks the player for OTP/PIN/Aadhaar · "University campus", never "IIIT" · no team/member/college names |
+| **Ronith**  | Screen fit    | Framing text fits the text box in ≤ 2 lines at 360×640 (check in `npm run dev`) · each choice label fits one move button · every string key his scenes use exists · explainers use only the 6 DSL ops and play in `ExplainerScene`                        |
+| **Saharsh** | Numbers       | Effects in range (happiness −30…+15 per choice) · real-₹ prices plausible after scaling · every `detourTaskId`, `triggerEvent` and flag points to something that exists · exactly one `good` choice per task · `npm run sim` has no dead ends              |
+| **All 3**   | Student test  | Read 2 framings aloud as a 16-year-old in a Hyderabad junior college: does it feel real? Does the lesson name the concept in plain words? Is any jargon left undefined?                                                                                 |
+
+**Timing:** the integration call is at 02:45, so the Phase 1 batches must be
+**in review by ~01:15 and ~02:20**, not merged at the last minute.
+
+---
+
 ## Before SKELETON IS UP (23:30 → 00:15)
 
 - [ ] Read CONTRACTS §1 (content types) and §3 (file layout, canonical task,
@@ -28,7 +63,7 @@ missions). Research: `team97_vanguard_context/06_claude_docs_exports/research_la
       tasks**: one per pillar × difficulty. For each: the decision, the good
       choice, the trap, the concept id, which persona framings differ most.
 
-## Phase 1 (00:15 → 02:45) — branch `aakarsh/content-s1`, merge ~01:30 and ~02:40
+## Phase 1 (00:15 → 02:45) — branch `aakarsh/content-s1`, in review by ~01:15 and ~02:20 (review gate above)
 
 - [ ] `validate.ts` — Monish's Phase 0 version runs zod + basic cross-refs.
       Extend with every check in CONTRACTS §3 and make failures readable:
@@ -94,7 +129,8 @@ missions). Research: `team97_vanguard_context/06_claude_docs_exports/research_la
       prompts, end report labels.
 - [ ] `index.ts` `localize()` — apply `strings/<lang>.content.json` overlay by
       dotted path; missing → English.
-- [ ] `validate:content` green. Merge. Post `MERGED: content s1`.
+- [ ] `validate:content` green → **review gate passed (Monish ✓ Ronith ✓
+      Saharsh ✓)** → merge. Post `MERGED: content s1`.
 
 ## Phase 2 (04:05 → 08:30) — nap 04:15–05:45, then build
 
@@ -114,6 +150,9 @@ missions). Research: `team97_vanguard_context/06_claude_docs_exports/research_la
       `strings/te.content.json` — Telugu overlay for the canonical scam task
       and the Swiggy-vs-chips task (framings + choices + lessons).
       `strings/hi.json` — title + buttons only (proves fallback).
+- [ ] Every Phase 2 batch (Stage 2, Stage 3, detours/events, explainers,
+      Telugu) goes through the **review gate** before merge. Nobody builds on
+      it until all 3 have approved.
 - [ ] Balance pass with Saharsh (06:30): adjust effects/pressure from his
       simulation table. Goal: always-good ends happy and solvent; random
       detours 2–4×; always-worst restarts ≥ 1 but can finish.
@@ -130,4 +169,5 @@ missions). Research: `team97_vanguard_context/06_claude_docs_exports/research_la
 `validate:content` green with 24 main tasks, 8 detours, 12 events, 16
 explainers, 5 quiz Qs, en + te strings · every stage has ≥1 task per pillar ·
 at least 6 delayed/repeat effects across the pack · no `IIIT`, no brands ·
-every projection text carries the assumption line.
+every projection text carries the assumption line · **every content PR
+approved by Monish, Ronith and Saharsh before merge.**
