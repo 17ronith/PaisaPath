@@ -19,6 +19,6 @@ Late-game beats use `?demo=1` (seeded save at Stage 3). Keep every beat ≤ 25 s
 
 ## Recording checklist
 - [ ] Fresh profile (`session.reset()` or clear site data) so beat 1 starts clean.
-- [ ] Beat 3 must land on a **scam task at `home` or `charminar`** — if the selector gives something else, restart; seed 97 in `?demo=1` is deterministic but the fresh game isn't. (Ronith: a `?seed=97` query param would make beat 3 reproducible — 5 lines in `session.startGame`.)
+- [ ] Beat 3 must land on a **scam task at `home` or `charminar`** — if the selector gives something else, restart; seed 97 in `?demo=1` is deterministic but the fresh game isn't. Use **`?seed=97`** on the URL for beats 1–5: a fresh game with that seed always serves the same tasks (`session.ts`). Try a few seeds beforehand and note the one whose first battle is the scam call.
 - [ ] Mute browser; voiceover is separate. Keep the cursor off the canvas between taps.
 - [ ] Export 1080p MP4, ≤ 4:00. Upload to Drive → Anyone with the link → open in incognito.

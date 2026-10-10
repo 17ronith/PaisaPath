@@ -55,7 +55,11 @@ export function getSession(): Session {
       if (s.game) s.game = loadGame(s.content, s.game.toJSON()); // re-bind to localized content
     },
     startGame(profile, seed) {
-      s.game = createGame(s.content, profile, seed ?? Date.now() % 2147483647);
+      // `?seed=97` makes a fresh game reproducible (demo recording, bug reports).
+      const urlSeed = Number(new URLSearchParams(globalThis.location?.search ?? '').get('seed'));
+      const chosen =
+        seed ?? (Number.isFinite(urlSeed) && urlSeed > 0 ? urlSeed : Date.now() % 2147483647);
+      s.game = createGame(s.content, profile, chosen);
       void clearProfileDraft();
       void s.save();
       return s.game;
