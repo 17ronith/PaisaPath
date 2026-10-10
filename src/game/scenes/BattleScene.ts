@@ -10,15 +10,25 @@ import { advance, save } from '../flow/Driver';
 import { Bar } from '../ui/Bar';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
-import { Portrait } from '../ui/Portrait';
+import { Portrait, portraitKey } from '../ui/Portrait';
+import { grassField } from '../ui/Backdrop';
 import { TextBox } from '../ui/TextBox';
 import { COLOR, text, tr } from '../ui/theme';
+import { VIEW } from '../view';
 
 type BattleStep = Extract<Step, { kind: 'task' } | { kind: 'event' }>;
 
 /** Monthly income per stage (README §6) — only used to size the wallet bar. */
 const STAGE_INCOME = { 1: 5000, 2: 25000, 3: 60000 } as const;
 const EVENT_PRESSURE = 50;
+const ARENA_BOTTOM = 284;
+
+/** Dirt platform under a fighter: dark rim, lighter top. */
+function platform(scene: Phaser.Scene, x: number, y: number, w: number): void {
+  scene.add.ellipse(x, y + 2, w, w * 0.24, 0x8a6a40, 0.9);
+  scene.add.ellipse(x, y, w - 6, w * 0.2, 0xd8b070);
+  scene.add.ellipse(x - w * 0.08, y - 2, w * 0.6, w * 0.08, 0xe8c888, 0.8);
+}
 const LV = { simple: 'EASY', medium: 'MED', hard: 'HARD' } as const;
 
 export class BattleScene extends Phaser.Scene {
@@ -46,20 +56,22 @@ export class BattleScene extends Phaser.Scene {
       advance(this);
       return;
     }
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     const framing = this.step.framing;
     const isTask = this.step.kind === 'task';
     const task = isTask ? (this.step as Extract<Step, { kind: 'task' }>).task : null;
     const bars = game.state.bars;
 
-    // Arena
-    this.cameras.main.setBackgroundColor(COLOR.bgBattle);
-    this.add.ellipse(290, 150, 130, 30, COLOR.ground);
-    this.add.ellipse(80, 268, 140, 30, COLOR.ground);
+    // Arena: grass field with two dirt platforms, like the DS battle screen.
+    this.cameras.main.setBackgroundColor(COLOR.bg);
+    grassField(this, 0, 40, W, ARENA_BOTTOM - 40, 2, 3);
+    this.add.rectangle(0, ARENA_BOTTOM - 2, W, 3, COLOR.panelEdge).setOrigin(0, 0);
+    platform(this, 284, 150, 124);
+    platform(this, 86, 266, 140);
 
     // Opponent panel
-    const opp = new PixelPanel(this, 12, 48, 206, 66);
-    const lv = task ? tr(`battle.lv.${task.difficulty}`, LV[task.difficulty]) : '';
+    const opp = new PixelPanel(this, 10, 50, 208, 66, { variant: 'blue' });
+    const lv = task ? tr(`battle.level.${task.difficulty}`, LV[task.difficulty]) : '';
     opp.add(text(this, 10, 10, framing.title, 'sm', COLOR.ink, { wordWrap: { width: 150 } }));
     if (lv)
       opp.add(text(this, 196, 10, `${t('battle.lv')} ${lv}`, 'xs', COLOR.muted).setOrigin(1, 0));
@@ -71,7 +83,9 @@ export class BattleScene extends Phaser.Scene {
       task?.pressure ?? EVENT_PRESSURE,
     );
     opp.add(this.pressure);
-    new Portrait(this, 290, 108, 76, framing.portrait ?? '', framing.speaker);
+    const oppKey = portraitKey(this, framing.portrait, framing.speaker);
+    if (oppKey) this.add.image(284, 152, oppKey).setOrigin(0.5, 1).setScale(5);
+    else new Portrait(this, 284, 110, 76, framing.portrait ?? '', framing.speaker);
 
     // Badges
     if (task && this.step.kind === 'task' && this.step.returning)
@@ -80,8 +94,10 @@ export class BattleScene extends Phaser.Scene {
       this.badge(tr('battle.detour', 'DETOUR'), COLOR.muted, 128, 12);
 
     // Player
-    this.add.image(80, 236, game.state.profile.avatar).setScale(5);
-    const me = new PixelPanel(this, 150, 166, 198, 106);
+    const avatar = game.state.profile.avatar;
+    const back = this.textures.exists(`${avatar}_back`) ? `${avatar}_back` : avatar;
+    this.add.image(86, 270, back).setOrigin(0.5, 1).setScale(6);
+    const me = new PixelPanel(this, 152, 170, 198, 104, { variant: 'blue' });
     me.add(text(this, 10, 8, t('battle.you'), 'sm', COLOR.ink));
     me.add(
       text(this, 188, 10, t('hud.stage', { n: game.state.stage }), 'xs', COLOR.muted).setOrigin(
@@ -131,18 +147,22 @@ export class BattleScene extends Phaser.Scene {
   }
 
   private hint(choices: Choice[]): void {
-    const h =
+    // battle.hint is the panel's heading ("Aunty's hint"); the body is the task's own hint,
+    // or the generic nudge when the task has none.
+    const body =
       choices.find((c) => c.hint)?.hint ??
-      tr('battle.hint', 'Think: what will you need later this month?');
-    const W = this.scale.width;
-    const p = new PixelPanel(this, 12, 120, W - 140, 40, { fill: 0xfbe8f2, edge: COLOR.aunty });
-    p.add(
-      text(this, 8, 6, h, 'xs', COLOR.ink, { wordWrap: { width: W - 160, useAdvancedWrap: true } }),
-    );
+      tr('battle.hint_generic', 'Slow down. Who gains if you choose fast?');
+    const W = VIEW.width;
+    const heading = text(this, 10, 7, tr('battle.hint', "Aunty's hint"), 'xs', COLOR.aunty);
+    const msg = text(this, 10, 7 + heading.height, body, 'xs', COLOR.ink, {
+      wordWrap: { width: W - 164, useAdvancedWrap: true },
+    });
+    const p = new PixelPanel(this, 10, 122, W - 144, msg.y + msg.height + 9, { variant: 'red' });
+    p.add([heading, msg]);
   }
 
   private showMoves(choices: Choice[]): void {
-    const W = this.scale.width;
+    const W = VIEW.width;
     const cols = choices.length === 1 ? 1 : 2;
     const bw = cols === 1 ? W - 24 : (W - 36) / 2;
     choices.forEach((c, i) => {
@@ -184,13 +204,13 @@ export class BattleScene extends Phaser.Scene {
     else if (o.quality !== 'ok') this.cameras.main.shake(200, 0.008);
 
     const auntyLine = o.lesson;
-    void this.box.say(auntyLine, tr('aunty.name', 'Aunty'), COLOR.aunty);
+    void this.box.say(auntyLine, tr('guide.name', 'Aunty'), COLOR.aunty);
     this.results(o);
 
     if (o.critical) this.restartFlash();
     else if (o.clearedConcept) this.badge(t('battle.learned'), COLOR.good, 128);
 
-    const W = this.scale.width;
+    const W = VIEW.width;
     new Button(this, W / 2, 600, t('btn.next'), () => this.toExplainer(o.explainerId), {
       fill: o.critical ? COLOR.bad : COLOR.good,
       height: 52,
@@ -198,18 +218,18 @@ export class BattleScene extends Phaser.Scene {
   }
 
   private results(o: Outcome): void {
-    const W = this.scale.width;
+    const W = VIEW.width;
     const lines: string[] = [];
     for (const e of o.firedNow) lines.push(`• ${e.label}${this.deltaText(e)}`);
     for (const e of o.scheduled) lines.push(`• ${e.label} ${t('battle.later')}`);
     if (o.bankedConcept) lines.push(`• ${tr('battle.banked', 'Added to "still learning"')}`);
     if (!lines.length) return;
-    const p = new PixelPanel(this, 12, 424, W - 24, 140, { shadow: false });
-    p.add(
-      text(this, 10, 10, lines.slice(0, 6).join('\n'), 'xs', COLOR.ink, {
-        wordWrap: { width: W - 48, useAdvancedWrap: true },
-      }),
-    );
+    const body = text(this, 12, 10, lines.slice(0, 6).join('\n'), 'xs', COLOR.ink, {
+      wordWrap: { width: W - 48, useAdvancedWrap: true },
+    });
+    const h = Math.min(150, Math.max(40, body.height + 22));
+    const p = new PixelPanel(this, 12, 424, W - 24, h, { variant: 'card' });
+    p.add(body);
   }
 
   private deltaText(e: Effect): string {
@@ -219,7 +239,7 @@ export class BattleScene extends Phaser.Scene {
   }
 
   private restartFlash(): void {
-    const { width: W, height: H } = this.scale;
+    const { width: W, height: H } = VIEW;
     this.cameras.main.flash(300, 220, 40, 40);
     const r = this.add.rectangle(W / 2, H * 0.36, W, 56, COLOR.bad).setAlpha(0.92);
     const tx = text(this, W / 2, H * 0.36, t('battle.restart'), 'xl', COLOR.white).setOrigin(0.5);

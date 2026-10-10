@@ -8,6 +8,7 @@ import { proceed } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { VIEW } from '../view';
 
 type Epilogue = Extract<Step, { kind: 'epilogue' }>;
 
@@ -28,7 +29,7 @@ export class EpilogueScene extends Phaser.Scene {
       proceed(this);
       return;
     }
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     const pr = this.step.projection;
     this.cameras.main.setBackgroundColor(COLOR.bg);
     this.cameras.main.fadeIn(800);
@@ -46,7 +47,7 @@ export class EpilogueScene extends Phaser.Scene {
       [tr('epilogue.savings', 'Savings'), rupees(pr.savingsFinal)],
       [tr('epilogue.invested', 'Invested'), rupees(pr.totalInvested)],
       [tr('epilogue.became', 'Became'), rupees(pr.totalFinal)],
-      [tr('epilogue.if_not', 'If kept in a cash box'), rupees(pr.ifNotInvested)],
+      [tr('epilogue.not_invested', 'If it had stayed in a cash box'), rupees(pr.ifNotInvested)],
     ];
     rows.forEach(([k, v], i) => {
       p.add(text(this, 12, 14 + i * 28, k, 'xs', COLOR.muted));

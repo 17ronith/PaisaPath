@@ -1,14 +1,63 @@
-// Loads the pixel font and generates placeholder textures (avatars) until Kenney art lands.
+// Loads fonts + Kenney art (CC0), marks pixel art as NEAREST so it stays crisp under the
+// RES× camera, and builds named character textures (avatars, NPCs) from sheet frames.
+// Anything missing falls back to code-drawn placeholders, so a bad path never blocks play.
 import Phaser from 'phaser';
 import { AVATARS } from '../logic/onboarding';
+import { PANEL_KEYS } from '../ui/PixelPanel';
 import { COLOR, text } from '../ui/theme';
+import { VIEW } from '../view';
 
-const FONT_FILES = [
-  'assets/fonts/PressStart2P-latin.woff2',
-  'assets/fonts/PressStart2P-latin-ext.woff2',
+const K = 'assets/kenney/';
+const UI = `${K}pixel-ui-pack/9-Slice/`;
+
+const FONTS: [family: string, file: string, weight: string][] = [
+  ['PressStart2P', 'assets/fonts/PressStart2P-latin.woff2', '400'],
+  ['PressStart2P', 'assets/fonts/PressStart2P-latin-ext.woff2', '400'],
+  ['Jersey10', 'assets/fonts/Jersey10-latin.woff2', '400'],
+  ['Jersey10', 'assets/fonts/Jersey10-latin-ext.woff2', '400'],
 ];
 
-/** 16×16 placeholder avatars: [skin, hair, shirt, trousers]. */
+/** 16×16 sheets, packed (no spacing). */
+export const SHEETS = {
+  urban: `${K}rpg-urban-pack/Tilemap/tilemap_packed.png`,
+  town: `${K}tiny-town/Tilemap/tilemap_packed.png`,
+  dungeon: `${K}tiny-dungeon/Tilemap/tilemap_packed.png`,
+} as const;
+
+const NINE_SLICES: Record<string, string> = {
+  [PANEL_KEYS.paper]: `${UI}Ancient/white.png`,
+  [PANEL_KEYS.card]: `${UI}Colored/grey.png`,
+  [PANEL_KEYS.blue]: `${UI}Outline/blue.png`,
+  [PANEL_KEYS.red]: `${UI}Outline/red.png`,
+  [PANEL_KEYS.green]: `${UI}Outline/green.png`,
+  [PANEL_KEYS.dark]: `${UI}space.png`,
+  btn_blue: `${UI}Colored/blue.png`,
+  btn_blue_pressed: `${UI}Colored/blue_pressed.png`,
+  btn_green: `${UI}Colored/green.png`,
+  btn_green_pressed: `${UI}Colored/green_pressed.png`,
+  btn_red: `${UI}Colored/red.png`,
+  btn_red_pressed: `${UI}Colored/red_pressed.png`,
+  btn_yellow: `${UI}Colored/yellow.png`,
+  btn_yellow_pressed: `${UI}Colored/yellow_pressed.png`,
+  btn_grey: `${UI}Colored/grey.png`,
+  btn_grey_pressed: `${UI}Colored/grey_pressed.png`,
+};
+
+/** Front-facing standing frames. Urban: 27 cols; dungeon: 12 cols. */
+const CHARACTERS: [key: string, sheet: keyof typeof SHEETS, frame: number][] = [
+  [AVATARS[0], 'urban', 24], // green tee
+  [AVATARS[1], 'urban', 105], // red top, long hair
+  [AVATARS[2], 'urban', 429], // headband, dark hair
+  [AVATARS[3], 'urban', 348], // grey tee
+  ['npc_aunty', 'dungeon', 100],
+  ['npc_shady', 'dungeon', 112],
+  ['npc_shop', 'urban', 267],
+  ['npc_parent', 'dungeon', 98],
+  ['npc_friend', 'urban', 186],
+  ['npc_clerk', 'dungeon', 99],
+];
+
+/** Placeholder avatars if the sheet fails to load: [skin, hair, shirt, trousers]. */
 const AVATAR_COLOURS: [number, number, number, number][] = [
   [0xf0c8a0, 0x302018, 0xd04848, 0x283860],
   [0xd8a878, 0x181010, 0x48a058, 0x404040],
@@ -19,10 +68,9 @@ const AVATAR_COLOURS: [number, number, number, number][] = [
 async function loadFonts(): Promise<void> {
   if (typeof FontFace === 'undefined' || !document.fonts) return;
   await Promise.all(
-    FONT_FILES.map(async (file) => {
+    FONTS.map(async ([family, file, weight]) => {
       const url = new URL(file, document.baseURI).href;
-      const face = new FontFace('PressStart2P', `url(${url})`);
-      document.fonts.add(await face.load());
+      document.fonts.add(await new FontFace(family, `url(${url})`, { weight }).load());
     }),
   ).catch((e) => console.warn('font load failed, using fallback', e));
 }
@@ -33,7 +81,7 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   preload(): void {
-    const { width, height } = this.scale;
+    const { width, height } = VIEW;
     const barW = 220;
     this.add
       .rectangle(width / 2, height / 2, barW + 4, 14, COLOR.panelEdge)
@@ -42,30 +90,54 @@ export class PreloadScene extends Phaser.Scene {
       .rectangle(width / 2 - barW / 2, height / 2, 0, 10, COLOR.accent)
       .setOrigin(0, 0.5);
     this.load.on('progress', (p: number) => (fill.width = barW * p));
-    // Kenney sheets and SFX get queued here once they are in public/assets/.
+    this.load.on('loaderror', (f: Phaser.Loader.File) => console.warn('asset missing:', f.src));
+
+    for (const [key, url] of Object.entries(SHEETS))
+      this.load.spritesheet(key, url, { frameWidth: 16, frameHeight: 16 });
+    for (const [key, url] of Object.entries(NINE_SLICES)) this.load.image(key, url);
   }
 
   async create(): Promise<void> {
-    AVATAR_COLOURS.forEach((c, i) => this.makeAvatar(AVATARS[i], c));
+    for (const key of [...Object.keys(SHEETS), ...Object.keys(NINE_SLICES)])
+      if (this.textures.exists(key))
+        this.textures.get(key).setFilter(Phaser.Textures.FilterMode.NEAREST);
+
+    for (const [key, sheet, frame] of CHARACTERS) this.characterFromSheet(key, sheet, frame);
+    // Urban sheet: the column after the front frame is the back view (Pokémon-style player).
+    for (const [key, sheet, frame] of CHARACTERS.filter(([k]) => k.startsWith('avatar_')))
+      this.characterFromSheet(`${key}_back`, sheet, frame + 1);
+    AVATAR_COLOURS.forEach((c, i) => this.placeholderAvatar(AVATARS[i], c));
+
     await loadFonts();
-    // Warm the font so the first real text renders in it, not the fallback.
+    // Warm both faces so the first real text renders in them, not the fallback.
     text(this, -100, -100, '₹0', 'xs').destroy();
+    text(this, -100, -100, 'A', 'lg').destroy();
     this.scene.start('Title');
   }
 
-  private makeAvatar(
+  private characterFromSheet(key: string, sheet: string, frame: number): void {
+    if (this.textures.exists(key) || !this.textures.exists(sheet)) return;
+    const ct = this.textures.createCanvas(key, 16, 16);
+    if (!ct) return;
+    ct.drawFrame(sheet, frame, 0, 0);
+    ct.refresh();
+    ct.setFilter(Phaser.Textures.FilterMode.NEAREST);
+  }
+
+  private placeholderAvatar(
     key: string,
     [skin, hair, shirt, legs]: [number, number, number, number],
   ): void {
     if (this.textures.exists(key)) return;
     const g = this.make.graphics({ x: 0, y: 0 }, false);
-    g.fillStyle(hair).fillRect(5, 1, 6, 3); // hair
-    g.fillStyle(skin).fillRect(5, 3, 6, 5); // face
-    g.fillStyle(0x202028).fillRect(6, 5, 1, 1).fillRect(9, 5, 1, 1); // eyes
-    g.fillStyle(shirt).fillRect(4, 8, 8, 5); // shirt
-    g.fillStyle(skin).fillRect(3, 9, 1, 3).fillRect(12, 9, 1, 3); // arms
-    g.fillStyle(legs).fillRect(5, 13, 2, 3).fillRect(9, 13, 2, 3); // legs
+    g.fillStyle(hair).fillRect(5, 1, 6, 3);
+    g.fillStyle(skin).fillRect(5, 3, 6, 5);
+    g.fillStyle(0x202028).fillRect(6, 5, 1, 1).fillRect(9, 5, 1, 1);
+    g.fillStyle(shirt).fillRect(4, 8, 8, 5);
+    g.fillStyle(skin).fillRect(3, 9, 1, 3).fillRect(12, 9, 1, 3);
+    g.fillStyle(legs).fillRect(5, 13, 2, 3).fillRect(9, 13, 2, 3);
     g.generateTexture(key, 16, 16);
     g.destroy();
+    this.textures.get(key).setFilter(Phaser.Textures.FilterMode.NEAREST);
   }
 }

@@ -2,13 +2,14 @@
 // Saharsh's scene from src/minigames when it exists (data { onDone(won) }).
 import Phaser from 'phaser';
 import { getSession } from '@/app/session';
-import { t } from '@/shared/i18n';
+import { rupees, t } from '@/shared/i18n';
 import { minigameScenes } from '@/minigames';
 import type { Effect, Step } from '@/shared/types';
 import { advance, save } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { VIEW } from '../view';
 
 type Offer = Extract<Step, { kind: 'minigame_offer' }>;
 
@@ -29,15 +30,19 @@ export class MinigameOfferScene extends Phaser.Scene {
       advance(this);
       return;
     }
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     const { minigame, locked, lockReason } = this.step;
     this.cameras.main.setBackgroundColor(COLOR.bg);
     const p = new PixelPanel(this, 20, 90, W - 40, 300);
     p.add(
-      text(this, (W - 40) / 2, 24, tr('minigame.title', 'SIDE GIG!'), 'md', COLOR.aunty).setOrigin(
-        0.5,
-        0,
-      ),
+      text(
+        this,
+        (W - 40) / 2,
+        24,
+        tr('minigame.offer', 'A side gig is free right now!'),
+        'md',
+        COLOR.aunty,
+      ).setOrigin(0.5, 0),
     );
     p.add(
       text(this, (W - 40) / 2, 60, minigame.title, 'sm', COLOR.ink, { align: 'center' }).setOrigin(
@@ -68,7 +73,7 @@ export class MinigameOfferScene extends Phaser.Scene {
         }),
       );
     } else if (scene) {
-      new Button(this, W / 2, 460, tr('minigame.play', 'PLAY'), () => this.play(), {
+      new Button(this, W / 2, 460, t('btn.play'), () => this.play(), {
         fill: COLOR.good,
       });
     } else {
@@ -94,20 +99,21 @@ export class MinigameOfferScene extends Phaser.Scene {
     this.scene.pause();
     this.scene.launch(id, {
       onDone: (won: boolean) => {
+        const before = game.state.bars.wallet;
         const effects: Effect[] = game.playMinigame(id, won);
         save();
         this.scene.resume();
-        this.showResult(won, effects);
+        this.showResult(won, effects, game.state.bars.wallet - before);
       },
     });
     this.scene.bringToTop(id);
   }
 
-  private showResult(won: boolean, effects: Effect[]): void {
-    const { width: W, height: H } = this.scale;
+  private showResult(won: boolean, effects: Effect[], earned: number): void {
+    const { width: W, height: H } = VIEW;
     this.children.removeAll(true);
     const msg = won
-      ? tr('minigame.won', 'Shift done. You got paid!')
+      ? tr('minigame.won', 'Well played! You earned {amount}.', { amount: rupees(earned) })
       : tr('minigame.lost', 'Rough shift. No pay this time.');
     text(this, W / 2, H * 0.35, msg, 'md', won ? COLOR.good : COLOR.warn, {
       align: 'center',

@@ -1,4 +1,5 @@
-// Big touch target (≥ 56px tall by default) with press feedback. Text wraps inside.
+// Big touch target (≥ 56px tall by default) built from Kenney 9-slice button frames, with a
+// real pressed frame. The caller's fill colour picks the frame colour.
 import Phaser from 'phaser';
 import { COLOR, text, type TextSize } from './theme';
 
@@ -11,12 +12,32 @@ export interface ButtonOpts {
   align?: 'center' | 'left';
 }
 
+type Skin = 'blue' | 'green' | 'red' | 'yellow' | 'grey';
+const SLICE = 8;
+/** Kenney's button frames carry a 4px bottom bevel; pressing drops the label onto it. */
+const PRESS_DROP = 2;
+
+function skinFor(fill: number | undefined): Skin {
+  switch (fill) {
+    case COLOR.good:
+      return 'green';
+    case COLOR.bad:
+      return 'red';
+    case COLOR.warn:
+      return 'yellow';
+    case 0x505878:
+      return 'grey';
+    default:
+      return 'blue';
+  }
+}
+
 export class Button extends Phaser.GameObjects.Container {
-  private bg: Phaser.GameObjects.Rectangle;
-  private edge: Phaser.GameObjects.Rectangle;
+  private bg: Phaser.GameObjects.NineSlice | Phaser.GameObjects.Rectangle;
   private label: Phaser.GameObjects.Text;
-  private fillColor: number;
+  private skin: Skin;
   private enabled = true;
+  private labelY = 0;
 
   constructor(
     scene: Phaser.Scene,
@@ -29,43 +50,49 @@ export class Button extends Phaser.GameObjects.Container {
     super(scene, x, y);
     const w = opts.width ?? 280;
     const h = opts.height ?? 56;
-    this.fillColor = opts.fill ?? COLOR.button;
-    this.edge = scene.add.rectangle(0, 3, w, h, COLOR.panelEdge);
-    this.bg = scene.add.rectangle(0, 0, w, h, this.fillColor).setStrokeStyle(2, COLOR.panelEdge);
+    this.skin = skinFor(opts.fill);
+    const key = `btn_${this.skin}`;
+    this.bg = scene.textures.exists(key)
+      ? scene.add.nineslice(0, 0, key, undefined, w, h, SLICE, SLICE, SLICE, SLICE)
+      : scene.add
+          .rectangle(0, 0, w, h, opts.fill ?? COLOR.button)
+          .setStrokeStyle(2, COLOR.panelEdge);
+    const dark = this.skin === 'grey' || this.skin === 'yellow';
     const left = opts.align === 'left';
+    this.labelY = -1;
     this.label = text(
       scene,
-      left ? -w / 2 + 12 : 0,
-      0,
+      left ? -w / 2 + 14 : 0,
+      this.labelY,
       caption,
-      opts.size ?? 'sm',
-      opts.textColor ?? COLOR.white,
+      opts.size ?? 'md',
+      opts.textColor ?? (dark ? COLOR.ink : COLOR.white),
       {
         align: left ? 'left' : 'center',
-        wordWrap: { width: w - 20, useAdvancedWrap: true },
+        wordWrap: { width: w - 24, useAdvancedWrap: true },
       },
     ).setOrigin(left ? 0 : 0.5, 0.5);
-    this.add([this.edge, this.bg, this.label]);
-    this.setSize(w, h + 3);
+    if (!dark) this.label.setShadow(0, 1, 'rgba(0,0,0,0.35)', 0, false, true);
+    this.add([this.bg, this.label]);
+    this.setSize(w, h);
     this.setInteractive({ useHandCursor: true });
-    this.on('pointerdown', () => {
-      if (!this.enabled) return;
-      this.bg.fillColor = COLOR.buttonDown;
-      this.bg.y = 2;
-      this.label.y = 2;
-    });
-    const release = (): void => {
-      this.bg.fillColor = this.fillColor;
-      this.bg.y = 0;
-      this.label.y = 0;
-    };
-    this.on('pointerout', release);
+    this.on('pointerdown', () => this.enabled && this.press(true));
+    this.on('pointerout', () => this.press(false));
     this.on('pointerup', () => {
       if (!this.enabled) return;
-      release();
+      this.press(false);
       onClick();
     });
     scene.add.existing(this);
+  }
+
+  private press(down: boolean): void {
+    const key = `btn_${this.skin}${down ? '_pressed' : ''}`;
+    if (this.bg instanceof Phaser.GameObjects.NineSlice && this.scene.textures.exists(key))
+      this.bg.setTexture(key);
+    else if (this.bg instanceof Phaser.GameObjects.Rectangle)
+      this.bg.setFillStyle(down ? COLOR.buttonDown : COLOR.button);
+    this.label.y = this.labelY + (down ? PRESS_DROP : 0);
   }
 
   setEnabled(on: boolean): this {
@@ -80,8 +107,8 @@ export class Button extends Phaser.GameObjects.Container {
   }
 
   setFill(color: number): this {
-    this.fillColor = color;
-    this.bg.fillColor = color;
+    this.skin = skinFor(color);
+    this.press(false);
     return this;
   }
 }

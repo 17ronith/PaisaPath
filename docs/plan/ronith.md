@@ -20,12 +20,12 @@ block on art.
 
 ## Before SKELETON IS UP (23:30 → 00:15)
 
-- [ ] Download Kenney **Tiny Town** and **RPG Urban Pack** (CC0) to
+- [x] Download Kenney **Tiny Town** and **RPG Urban Pack** (CC0) to
       `public/assets/kenney/` (keep their licence txt). Pick: a 16×16
       character spritesheet for 4 avatars, a tile sheet for the town, 1 UI
       9-slice panel. Pick a pixel font (e.g. "Press Start 2P", OFL) →
       `public/assets/fonts/`.
-- [ ] Sketch the Battle layout on paper from
+- [x] Sketch the Battle layout on paper from
       `team97_vanguard_context/04_reference_images/mock_money_battle_screen.png`:
       opponent panel top-left (title · LV · pressure bar), opponent portrait
       top-right, player panel mid-right (YOU · STAGE n · wallet bar · happiness
@@ -121,13 +121,13 @@ Branch `ronith/scenes`. Merge to `main` at ~01:30 and ~02:40 minimum.
       mini-game lock status, portfolio.
 - [ ] `ReplayLibraryScene.ts` — grid of `seenExplainers` by pillar; tap →
       `Explainer`.
-- [ ] `MinigameOfferScene.ts` — launch `minigameScenes[id]` with `onDone`;
+- [x] `MinigameOfferScene.ts` — launch `minigameScenes[id]` with `onDone`;
       locked state shows the `lockReason`; skip button. On done: show
       reward effects.
 - [ ] Audio: 4 blips (select, good, bad, coin) via tiny WAVs; mute toggle in HUD.
 - [ ] Touch polish: nothing smaller than 48 px; text ≥ 12 px pixel font;
       colours readable on cheap screens (test with DevTools "vision deficiency").
-- [ ] Replace rectangles with Kenney art where it's cheap. Keep "University
+- [x] Replace rectangles with Kenney art where it's cheap. Keep "University
       campus" as the campus place label.
 
 ## Phase 3 (08:30 → 11:00)

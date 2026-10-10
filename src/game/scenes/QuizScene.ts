@@ -8,6 +8,7 @@ import { finishProfile, type ProfileDraft } from '../logic/onboarding';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { VIEW } from '../view';
 
 interface QuizData {
   mode: 'before' | 'after';
@@ -37,7 +38,7 @@ export class QuizScene extends Phaser.Scene {
   }
 
   private intro(): void {
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     const title = this.mode === 'before' ? t('quiz.before_title') : t('quiz.after_title');
     this.root.add(
       text(this, W / 2, 220, title, 'md', COLOR.white, {
@@ -50,7 +51,7 @@ export class QuizScene extends Phaser.Scene {
         this,
         W / 2,
         300,
-        tr('quiz.no_marks', "Not a test. Pick what you think — there's no penalty."),
+        tr('quiz.before_intro', "Just pick what you think. There's no penalty for guessing."),
         'xs',
         COLOR.accent,
         { align: 'center', wordWrap: { width: W - 60 } },
@@ -63,7 +64,7 @@ export class QuizScene extends Phaser.Scene {
     const quiz = getSession().content.quiz;
     if (i >= quiz.length) return this.finish();
     const q = quiz[i];
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     this.root.removeAll(true);
     this.root.add(
       text(this, W / 2, 36, `${i + 1} / ${quiz.length}`, 'sm', COLOR.accent).setOrigin(0.5),
@@ -94,7 +95,7 @@ export class QuizScene extends Phaser.Scene {
 
   private finish(): void {
     const s = getSession();
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     this.root.removeAll(true);
     if (this.mode === 'before') {
       if (!this.draft) {
@@ -104,7 +105,7 @@ export class QuizScene extends Phaser.Scene {
       const profile = finishProfile(this.draft, s.content.quiz, this.answers);
       s.startGame(profile);
       save();
-      const diffLabel = tr(`difficulty.${profile.difficulty}`, profile.difficulty);
+      const diffLabel = tr(`diff.${profile.difficulty}`, profile.difficulty);
       this.root.add(
         text(
           this,
@@ -138,7 +139,7 @@ export class QuizScene extends Phaser.Scene {
         this,
         W / 2,
         250,
-        tr('quiz.after_score', 'Before {before}/5 → After {after}/5', { before, after: score }),
+        `${tr('quiz.after_score', 'Your after score: {score}/5', { score })}\n${t('report.before_after', { before, after: score })}`,
         'md',
         COLOR.white,
         {

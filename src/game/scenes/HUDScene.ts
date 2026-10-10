@@ -6,6 +6,7 @@ import { rupees, t } from '@/shared/i18n';
 import { heartsFor } from '../logic/display';
 import { Button } from '../ui/Button';
 import { COLOR, text } from '../ui/theme';
+import { VIEW } from '../view';
 
 export const HUD_HEIGHT = 40;
 
@@ -22,7 +23,7 @@ export class HUDScene extends Phaser.Scene {
   }
 
   create(): void {
-    const W = this.scale.width;
+    const W = VIEW.width;
     this.makeHeart('heart_full', 0xe04848);
     this.makeHeart('heart_empty', 0x505870);
     this.add.rectangle(0, 0, W, HUD_HEIGHT, COLOR.bg, 0.92).setOrigin(0, 0);
