@@ -17,6 +17,8 @@ import { EpilogueScene } from './EpilogueScene';
 import { WhatIfScene } from './WhatIfScene';
 import { EndReportScene } from './EndReportScene';
 import { HUDScene } from './HUDScene';
+import { InfoPanelScene } from './InfoPanelScene';
+import { ReplayLibraryScene } from './ReplayLibraryScene';
 import { ExplainerScene } from './ExplainerScene';
 
 export const scenes: (typeof Phaser.Scene)[] = [
@@ -34,6 +36,8 @@ export const scenes: (typeof Phaser.Scene)[] = [
   WhatIfScene,
   EndReportScene,
   HUDScene,
+  InfoPanelScene,
+  ReplayLibraryScene,
   ExplainerScene,
   ...(Object.values(minigameScenes) as (typeof Phaser.Scene)[]),
 ];

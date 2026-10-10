@@ -168,10 +168,10 @@ under the 6 MB per-file cap and fine for the Fast-3G numbers.
       (DOM input for facilitator email + optional guardian CC →
       `session.sendReport`, show preview URL), "Facilitator view" (opens
       `/ngo/`), "Play again".
-- [ ] `InfoPanelScene.ts` — overlay from `game.status()`: bars, stage,
+- [x] `InfoPanelScene.ts` — overlay from `game.status()`: bars, stage,
       commitments (EMI rows), lent out, mistake bank chips, learned chips,
       mini-game lock status, portfolio.
-- [ ] `ReplayLibraryScene.ts` — grid of `seenExplainers` by pillar; tap →
+- [x] `ReplayLibraryScene.ts` — grid of `seenExplainers` by pillar; tap →
       `Explainer`.
 - [x] `MinigameOfferScene.ts` — launch `minigameScenes[id]` with `onDone`;
       locked state shows the `lockReason`; skip button. On done: show
