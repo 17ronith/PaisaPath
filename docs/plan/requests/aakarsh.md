@@ -40,3 +40,10 @@ Aakarsh: change `Status:` lines only; never delete blocks.
 - What: `aakarsh/content-s1`, `aakarsh/content-s23` and `aakarsh/b1-…b12-…` are all on `main` already (rebase-merged; GitHub shows them "unmerged" because the SHAs changed). Delete them: `git push origin --delete aakarsh/content-s1 aakarsh/content-s23 aakarsh/b1-validator … aakarsh/b12-te-content` (or the trash icon on the Branches page). Keep only the branch you are actively working on.
 - Why: `./scripts/status.sh` and the Branches page are unreadable with 16 dead branches; at 10:15 I need to see at a glance what is unmerged.
 - Accept when: `git branch -r | grep aakarsh` shows ≤ 1 branch.
+
+### R-saharsh-01 · More weak choices should lead to a detour
+- From: saharsh · To: aakarsh · At: 01:05 · Priority: P2
+- Status: OPEN
+- What: add `detourTaskId` to more `weak` choices in `tasks/stage1-3.json` (and new short detours if a stage runs out). Right now 11 of 31 weak choices on main tasks have one, so a random player detours ~0.13× per task.
+- Why: balance target "random player detours 2–4 times"; `npm run sim -- --content` shows 1.0 / 1.3 / 1.6 detours (simple/medium/hard) and is the only FAIL left in the targets block.
+- Accept when: `npm run sim -- --content` prints PASS for the three `random` rows (≈ 20+ of the 31 weak choices linked should do it).
