@@ -134,18 +134,18 @@ This overrides README §4 "merge it yourself" for every PR touching `src/content
 
 ## Phase 2 (04:05 → 08:30) — nap 04:15–05:45, then build
 
-- [ ] `tasks/stage2.json` — 6 tasks (first salary, ~22–24): rent vs home,
+- [x] `tasks/stage2.json` — 6 tasks (first salary, ~22–24): rent vs home,
       first EMI phone, emergency fund target, SIP-style monthly into Banyan
       (made-up), "double in 6 months" WhatsApp group, family asks for a
       loan. 3 persona framings each (use `stageIntro` tone).
-- [ ] `tasks/stage3.json` — 6 tasks (~30): home loan vs rent maths, "digital
+- [x] `tasks/stage3.json` — 6 tasks (~30): home loan vs rent maths, "digital
       arrest" call, diversification across 4 assets before a bad-weather
       year, insurance vs self-insure, chit fund with a sketchy organiser,
       kid's education goal. 3 framings each.
-- [ ] 4 more detours, 6 more events for stages 2–3 (EMI pressure, salary
+- [x] 4 more detours, 6 more events for stages 2–3 (EMI pressure, salary
       delayed, medical bill, bonus, market bad year, scam follow-up).
-- [ ] Remaining explainers so **every concept has one** (16 total).
-- [ ] `strings/te.json` — Telugu for: title, all onboarding prompts, L1–L4,
+- [x] Remaining explainers so **every concept has one** (16 total).
+- [x] `strings/te.json` — Telugu for: title, all onboarding prompts, L1–L4,
       K1–K5 (with options), HUD + battle chrome, end-report labels.
       `strings/te.content.json` — Telugu overlay for the canonical scam task
       and the Swiggy-vs-chips task (framings + choices + lessons).
