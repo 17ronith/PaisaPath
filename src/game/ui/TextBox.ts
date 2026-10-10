@@ -18,10 +18,9 @@ export class TextBox extends PixelPanel {
     this.bodyText = text(scene, 12, 26, '', 'sm', COLOR.ink, {
       wordWrap: { width: w - 24, useAdvancedWrap: true },
     });
-    this.add([this.speaker, this.bodyText]);
-    this.setSize(w, h);
-    this.setInteractive(new Phaser.Geom.Rectangle(0, 0, w, h), Phaser.Geom.Rectangle.Contains);
-    this.on('pointerup', () => this.complete());
+    const hit = scene.add.zone(0, 0, w, h).setOrigin(0, 0).setInteractive();
+    hit.on('pointerup', () => this.complete());
+    this.add([hit, this.speaker, this.bodyText]);
   }
 
   get typing(): boolean {
