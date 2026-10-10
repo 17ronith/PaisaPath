@@ -57,19 +57,19 @@ This overrides README §4 "merge it yourself" for every PR touching `src/content
 
 ## Before SKELETON IS UP (23:30 → 00:15)
 
-- [ ] Read CONTRACTS §1 (content types) and §3 (file layout, canonical task,
+- [x] Read CONTRACTS §1 (content types) and §3 (file layout, canonical task,
       canonical explainer) twice. Read CONTEXT.md §2.3–2.10, §6.
-- [ ] In a local scratch markdown (not committed), outline the **12 Stage-1
+- [x] In a local scratch markdown (not committed), outline the **12 Stage-1
       tasks**: one per pillar × difficulty. For each: the decision, the good
       choice, the trap, the concept id, which persona framings differ most.
 
 ## Phase 1 (00:15 → 02:45) — branch `aakarsh/content-s1`, in review by ~01:15 and ~02:20 (review gate above)
 
-- [ ] `validate.ts` — Monish's Phase 0 version runs zod + basic cross-refs.
+- [x] `validate.ts` — Monish's Phase 0 version runs zod + basic cross-refs.
       Extend with every check in CONTRACTS §3 and make failures readable:
       `tasks/stage1.json#budget_simple_s1_01 › choices[2].detourTaskId → 'x' not found`.
       Add a summary line: `OK · 12 tasks · 36 framings · 8 explainers · 6 events · en 120 keys · te 80 keys (67%)`.
-- [ ] `concepts.json` — 12 concepts with `pillar`, `name`, `explainerId`,
+- [x] `concepts.json` — 12 concepts with `pillar`, `name`, `explainerId`,
       `ncfe[]`:
       budget: `needs_vs_wants`, `plan_the_month`, `compare_before_buying`;
       save: `pay_yourself_first`, `emergency_buffer`, `goal_jar`;
@@ -77,20 +77,20 @@ This overrides README §4 "merge it yourself" for every PR touching `src/content
       `inflation`; safety: `spot_fake_officials`, `never_share_otp_pin`,
       `too_good_to_be_true`, `instant_loan_trap`, `fake_payment_proof`.
       (That's 16 — fine; the schema doesn't cap it.)
-- [ ] `personas.json` — 3 personas per CONTEXT §2.3: `label`, `blurb` (card
+- [x] `personas.json` — 3 personas per CONTEXT §2.3: `label`, `blurb` (card
       text, 2 lines), `stageIntro[1..3]` ("Years later…" one-liners),
       `defaultFlags` (`has_bank_account`, `upi_family`, …).
-- [ ] `onboarding.json` — L1–L4 and K1–K5 **verbatim from CONTEXT.md §2.4**,
+- [x] `onboarding.json` — L1–L4 and K1–K5 **verbatim from CONTEXT.md §2.4**,
       with L1 options mapping to personas, L2 options to
       `pocketMoneyMonthly` 200/800/2000/4000, L3/L4 to flags.
-- [ ] `places.json` — home, college, canteen, charminar, durgam_cheruvu,
+- [x] `places.json` — home, college, canteen, charminar, durgam_cheruvu,
       gachibowli, campus ("University campus"), bank, kirana, bus_stop,
       clinic, mobile_shop, turf. Normalised x/y spread over the map.
-- [ ] `assets.json` — cashbox (0%, 0), banyan (8%, 2), chai (10%, 12),
+- [x] `assets.json` — cashbox (0%, 0), banyan (8%, 2), chai (10%, 12),
       mango (14%, 30); blurbs from CONTEXT §2.10 + §6.1 analogies.
-- [ ] `minigames.json` — kirana_rush, scam_or_legit; `rewardWalletPct: 8`,
+- [x] `minigames.json` — kirana_rush, scam_or_legit; `rewardWalletPct: 8`,
       `rewardHappiness: 10`.
-- [ ] **`tasks/stage1.json` — 12 tasks**, each with `default` + all 3 persona
+- [x] **`tasks/stage1.json` — 12 tasks**, each with `default` + all 3 persona
       framings (so 48 framings; `default` can equal `pocket_money`), 3–4
       choices with exactly one `good`, `quality` spread, real-₹ effects,
       `lesson` lines, `ncfe` evidence, `attitude` on spend-now/later choices,
@@ -106,28 +106,28 @@ This overrides README §4 "merge it yourself" for every PR touching `src/content
       | invest | ₹1,000 now or ₹1,000 next year | cash box vs Banyan Savings (inflation) | Charminar stall: one item vs mixed stock |
       | safety | "OTP sent by mistake" / fake ePASS fee / fake payment screenshot (canonical) | "enter PIN to receive money" collect request | Telegram "like videos, earn ₹5,000/day" → loan app |
 
-- [ ] `tasks/detours.json` — 4 detours (`isDetour: true`), 2 choices each,
+- [x] `tasks/detours.json` — 4 detours (`isDetour: true`), 2 choices each,
       referenced by the weak choices above: `detour_friend_bad_advice`,
       `detour_broke_by_week3`, `detour_no_buffer_borrow`,
       `detour_overspent_bus_pass_due`.
-- [ ] `events.json` — 6 Stage-1 events: `friend_asks_again` (concept
+- [x] `events.json` — 6 Stage-1 events: `friend_asks_again` (concept
       `pay_yourself_first`), cousin's wedding gift, phone recharge expired,
       quiz prize ₹200, surprise canteen price hike (inflation), refund
       collect-request scam (concept `never_share_otp_pin`, disguise).
-- [ ] `explainers.json` — 8 explainers using the 6-op DSL, 10–16 s each:
+- [x] `explainers.json` — 8 explainers using the 6-op DSL, 10–16 s each:
       needs_vs_wants (split), plan_the_month (bars), pay_yourself_first
       (coins wallet→savings first), emergency_buffer (bar drops, buffer
       absorbs), time_value (two coins, one grows), compounding (CONTRACTS
       §3.2, banyan), spot_fake_officials (text beats: "money IN never needs
       money OUT"), never_share_otp_pin (text beats). Every invest explainer
       ends with the assumption line.
-- [ ] `strings/en.json` — all UI chrome keys Ronith uses (coordinate: he
+- [x] `strings/en.json` — all UI chrome keys Ronith uses (coordinate: he
       posts keys he needs in chat; you add them). Start with: title,
       buttons (start, continue, next, skip, switch, confirm, info, replay,
       download, email), HUD labels (wallet, happiness, stage, month), battle
       chrome (lv, pressure, you, learned, restart, returning), onboarding
       prompts, end report labels.
-- [ ] `index.ts` `localize()` — apply `strings/<lang>.content.json` overlay by
+- [x] `index.ts` `localize()` — apply `strings/<lang>.content.json` overlay by
       dotted path; missing → English.
 - [ ] `validate:content` green → **review gate passed (Monish ✓ Ronith ✓
       Saharsh ✓)** → merge. Post `MERGED: content s1`.
