@@ -9,12 +9,14 @@ import { proceed } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { VIEW } from '../view';
+import { grassField } from '../ui/Backdrop';
 
 type ChapterStart = Extract<Step, { kind: 'chapter_start' }>;
 
 const CHAPTERS = 10;
 const STAGE_RANGES: Record<Stage, [number, number]> = { 1: [1, 4], 2: [5, 7], 3: [8, 10] };
-const BAND_COLOURS: Record<Stage, number> = { 1: 0x24304a, 2: 0x2a3a3a, 3: 0x3a2f44 };
+const BAND_COLOURS: Record<Stage, number> = { 1: 0x000000, 2: 0x203060, 3: 0x402060 };
 const MAP_TOP = 56;
 const MAP_BOTTOM = 420;
 /** Path runs right of centre so stage labels fit on the left. */
@@ -32,7 +34,7 @@ export class ChapterMapScene extends Phaser.Scene {
   }
 
   private nodePos(ch: number): { x: number; y: number } {
-    const W = this.scale.width;
+    const W = VIEW.width;
     const span = (MAP_BOTTOM - MAP_TOP - 20) / (CHAPTERS - 1);
     const y = MAP_BOTTOM - 10 - (ch - 1) * span;
     const x = PATH_X(W) + (ch % 2 === 0 ? 50 : -50) * (ch % 4 < 2 ? 1 : 0.4);
@@ -45,32 +47,34 @@ export class ChapterMapScene extends Phaser.Scene {
       this.scene.start('Title');
       return;
     }
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     this.cameras.main.setBackgroundColor(COLOR.bg);
     const current = this.step?.chapter ?? game.state.chapter;
 
-    // Stage bands
+    // Grass under everything, each life stage tinted (later stages = later in the day).
+    const mapTop = this.nodePos(CHAPTERS).y - 18;
+    grassField(this, 0, mapTop, W, this.nodePos(1).y + 18 - mapTop, 2, 5);
     const g = this.add.graphics();
     ([1, 2, 3] as Stage[]).forEach((st) => {
       const [a, b] = STAGE_RANGES[st];
       const top = this.nodePos(b).y - 18;
       const bottom = this.nodePos(a).y + 18;
-      g.fillStyle(BAND_COLOURS[st]).fillRect(0, top, W, bottom - top);
-      text(
-        this,
-        8,
-        top + 6,
-        tr(`stage.${st}`, `Stage ${st}`).toUpperCase(),
-        'xs',
-        COLOR.accent,
-      ).setAlpha(0.8);
+      g.fillStyle(BAND_COLOURS[st], st === 1 ? 0 : 0.35).fillRect(0, top, W, bottom - top);
+      g.fillStyle(COLOR.panelEdge, 0.9).fillRect(0, top, W, 2);
+      const label = tr(`stage.${st}`, `Stage ${st}`).toUpperCase();
+      const tag = text(this, 14, top + 9, label, 'xs', COLOR.white);
+      this.add
+        .rectangle(8, top + 7, tag.width + 12, tag.height + 4, COLOR.panelEdge, 0.75)
+        .setOrigin(0, 0);
+      tag.setDepth(1);
     });
 
-    // Path
+    // Path: a dirt trail, walked part lit up.
     for (let ch = 1; ch < CHAPTERS; ch++) {
       const p = this.nodePos(ch);
       const q = this.nodePos(ch + 1);
-      g.lineStyle(4, ch < current ? 0x4fa3ff : 0x50607a).lineBetween(p.x, p.y, q.x, q.y);
+      g.lineStyle(9, 0x6a4a28, 1).lineBetween(p.x, p.y, q.x, q.y);
+      g.lineStyle(5, ch < current ? 0xf0d080 : 0xc8a068, 1).lineBetween(p.x, p.y, q.x, q.y);
     }
 
     // Detours taken, as dashed side nodes off the chapter where they happened
@@ -98,7 +102,7 @@ export class ChapterMapScene extends Phaser.Scene {
       const done = ch < current;
       const isNow = ch === current;
       const node = this.add
-        .circle(x, y, isNow ? 14 : 11, done ? 0x4fa3ff : isNow ? COLOR.warn : 0x303850)
+        .circle(x, y, isNow ? 14 : 11, done ? COLOR.good : isNow ? COLOR.warn : 0xe8e0d0)
         .setStrokeStyle(3, isNow ? COLOR.white : COLOR.panelEdge);
       text(this, x, y, String(ch), 'xs', done || isNow ? COLOR.ink : COLOR.muted).setOrigin(0.5);
       if (isNow) {
@@ -114,7 +118,7 @@ export class ChapterMapScene extends Phaser.Scene {
   }
 
   private card(chapter: number, persona: string): void {
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     const st = this.step;
     const panel = new PixelPanel(this, 12, 432, W - 24, 140);
     const stage = (st?.stage ?? getSession().game?.state.stage ?? 1) as Stage;

@@ -8,6 +8,7 @@ import { proceed } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { VIEW } from '../view';
 
 type StageEnd = Extract<Step, { kind: 'stage_end' }>;
 const total = (p: Portfolio): number => Object.values(p).reduce<number>((a, b) => a + (b ?? 0), 0);
@@ -30,7 +31,7 @@ export class StageEndScene extends Phaser.Scene {
       proceed(this);
       return;
     }
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     this.cameras.main.setBackgroundColor(COLOR.bg);
     this.cameras.main.fadeIn(600);
     const st = this.step;

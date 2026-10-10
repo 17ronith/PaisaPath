@@ -7,6 +7,7 @@ import type { Summary } from '@/shared/types';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { VIEW } from '../view';
 
 export class EndReportScene extends Phaser.Scene {
   private summary?: Summary;
@@ -22,7 +23,7 @@ export class EndReportScene extends Phaser.Scene {
   create(): void {
     const s = getSession();
     const sum = this.summary ?? s.game?.summary();
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     this.cameras.main.setBackgroundColor(COLOR.bg);
     if (this.scene.isActive('HUD')) this.scene.stop('HUD');
     text(this, W / 2, 50, t('report.title'), 'md', COLOR.white).setOrigin(0.5);

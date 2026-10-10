@@ -8,6 +8,7 @@ import type { Explainer, ExplainerStep } from '@/shared/types';
 import { growSeries, splitWidths, timeUntilNext } from '../logic/display';
 import { Button } from '../ui/Button';
 import { COLOR, text, tr, type TextSize } from '../ui/theme';
+import { VIEW } from '../view';
 
 interface ExplainerData {
   explainerId: string;
@@ -58,7 +59,7 @@ export class ExplainerScene extends Phaser.Scene {
       this.finish();
       return;
     }
-    const { width: W, height: H } = this.scale;
+    const { width: W, height: H } = VIEW;
     // Opaque backdrop that also swallows taps meant for the scene underneath.
     this.add.rectangle(0, 0, W, H, COLOR.bg).setOrigin(0, 0).setInteractive();
     this.add.rectangle(0, 0, W, 4, COLOR.accent).setOrigin(0, 0);
@@ -76,7 +77,7 @@ export class ExplainerScene extends Phaser.Scene {
 
   private showButton(caption: string, fill: number): void {
     if (this.done) return;
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     this.button?.destroy();
     this.button = new Button(this, W / 2, 600, caption, () => this.finish(), { fill, height: 52 });
   }
@@ -111,7 +112,7 @@ export class ExplainerScene extends Phaser.Scene {
   }
 
   private opText(s: Op<'text'>): void {
-    const W = this.scale.width;
+    const W = VIEW.width;
     const slot = s.slot ?? 'mid';
     this.slots[slot]?.destroy();
     const tx = text(this, W / 2, SLOT_Y[slot], s.text, SIZE[s.size ?? 'md'], COLOR.white, {

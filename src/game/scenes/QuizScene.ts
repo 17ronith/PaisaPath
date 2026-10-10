@@ -8,6 +8,7 @@ import { finishProfile, type ProfileDraft } from '../logic/onboarding';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { VIEW } from '../view';
 
 interface QuizData {
   mode: 'before' | 'after';
@@ -37,7 +38,7 @@ export class QuizScene extends Phaser.Scene {
   }
 
   private intro(): void {
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     const title = this.mode === 'before' ? t('quiz.before_title') : t('quiz.after_title');
     this.root.add(
       text(this, W / 2, 220, title, 'md', COLOR.white, {
@@ -63,7 +64,7 @@ export class QuizScene extends Phaser.Scene {
     const quiz = getSession().content.quiz;
     if (i >= quiz.length) return this.finish();
     const q = quiz[i];
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     this.root.removeAll(true);
     this.root.add(
       text(this, W / 2, 36, `${i + 1} / ${quiz.length}`, 'sm', COLOR.accent).setOrigin(0.5),
@@ -94,7 +95,7 @@ export class QuizScene extends Phaser.Scene {
 
   private finish(): void {
     const s = getSession();
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     this.root.removeAll(true);
     if (this.mode === 'before') {
       if (!this.draft) {

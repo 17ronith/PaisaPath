@@ -8,6 +8,7 @@ import { proceed } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { VIEW } from '../view';
 
 type Epilogue = Extract<Step, { kind: 'epilogue' }>;
 
@@ -28,7 +29,7 @@ export class EpilogueScene extends Phaser.Scene {
       proceed(this);
       return;
     }
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     const pr = this.step.projection;
     this.cameras.main.setBackgroundColor(COLOR.bg);
     this.cameras.main.fadeIn(800);

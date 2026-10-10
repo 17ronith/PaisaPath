@@ -9,6 +9,7 @@ import { advance, save } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { VIEW } from '../view';
 
 type Offer = Extract<Step, { kind: 'minigame_offer' }>;
 
@@ -29,7 +30,7 @@ export class MinigameOfferScene extends Phaser.Scene {
       advance(this);
       return;
     }
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     const { minigame, locked, lockReason } = this.step;
     this.cameras.main.setBackgroundColor(COLOR.bg);
     const p = new PixelPanel(this, 20, 90, W - 40, 300);
@@ -104,7 +105,7 @@ export class MinigameOfferScene extends Phaser.Scene {
   }
 
   private showResult(won: boolean, effects: Effect[]): void {
-    const { width: W, height: H } = this.scale;
+    const { width: W, height: H } = VIEW;
     this.children.removeAll(true);
     const msg = won
       ? tr('minigame.won', 'Shift done. You got paid!')

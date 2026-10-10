@@ -14,7 +14,8 @@ import {
 } from '../logic/onboarding';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
-import { COLOR, FONT, text, tr } from '../ui/theme';
+import { COLOR, FONT_BODY, text, tr } from '../ui/theme';
+import { VIEW } from '../view';
 
 type StepId = 'avatar' | 'name' | LifeQuestion['id'] | 'persona';
 
@@ -72,7 +73,7 @@ export class OnboardingScene extends Phaser.Scene {
   }
 
   private progressDots(i: number, n: number): void {
-    const W = this.scale.width;
+    const W = VIEW.width;
     for (let k = 0; k < n; k++) {
       const x = W / 2 - ((n - 1) * 14) / 2 + k * 14;
       this.root.add(this.add.rectangle(x, 40, 8, 8, k <= i ? COLOR.accent : 0x404060));
@@ -80,7 +81,7 @@ export class OnboardingScene extends Phaser.Scene {
   }
 
   private heading(str: string, y = 100): void {
-    const W = this.scale.width;
+    const W = VIEW.width;
     this.root.add(
       text(this, W / 2, y, str, 'md', COLOR.white, {
         align: 'center',
@@ -90,7 +91,7 @@ export class OnboardingScene extends Phaser.Scene {
   }
 
   private showAvatar(): void {
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     this.heading(t('onboard.pick_avatar'));
     const frames: Phaser.GameObjects.Rectangle[] = [];
     AVATARS.forEach((key, i) => {
@@ -112,7 +113,7 @@ export class OnboardingScene extends Phaser.Scene {
   }
 
   private showName(): void {
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     this.heading(t('onboard.name'));
     this.root.add(this.add.image(W / 2, 200, this.avatar).setScale(5));
     this.root.add(
@@ -139,7 +140,7 @@ export class OnboardingScene extends Phaser.Scene {
     Object.assign(el.style, {
       width: '240px',
       height: '44px',
-      fontFamily: FONT,
+      fontFamily: FONT_BODY,
       fontSize: '14px',
       textAlign: 'center',
       border: '3px solid #9fd3c7',
@@ -173,7 +174,7 @@ export class OnboardingScene extends Phaser.Scene {
   }
 
   private showLife(id: LifeQuestion['id']): void {
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     const q = getSession().content.lifeQuestions.find((x) => x.id === id);
     if (!q) return this.go(1, id);
     this.heading(q.text, 130);
@@ -205,7 +206,7 @@ export class OnboardingScene extends Phaser.Scene {
   }
 
   private showPersona(firstTime = true): void {
-    const { width: W } = this.scale;
+    const { width: W } = VIEW;
     const s = getSession();
     if (firstTime) this.persona = this.draft().persona;
     const p = s.content.personas.find((x) => x.id === this.persona) ?? s.content.personas[0];
