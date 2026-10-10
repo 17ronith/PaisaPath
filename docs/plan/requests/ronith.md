@@ -23,7 +23,8 @@ Ronith: change `Status:` lines only; never delete blocks.
 
 ### R-monish-02 · Wire the end-report buttons to session
 - From: monish · To: ronith · At: 00:35 · Priority: P1
-- Status: OPEN
+- Status: DOING
+- Done: on ronith/phase2 — Download builds via sendReport + downloadBlob; Email form (facilitator + optional guardian CC) shows the preview link or the offline line; Facilitator view opens ./ngo/index.html.
 - What: in `EndReportScene`: "Download report" → `const { pdfBlob } = await session.sendReport({ facilitatorEmail: '' })` is NOT the way — call `buildReportPdf` via `session.sendReport` only when emailing. For download-only use `downloadBlob(blob, 'report.pdf')` from `@/app/session` after building the PDF through `session.sendReport` with the facilitator email typed; if the facilitator field is empty, still build and download (sendReport returns `pdfBlob` even when the POST fails). Show `previewUrl` as a tappable link when non-null, and "Saved locally (offline)" when null. "Facilitator view" button → `window.open('./ngo/index.html')`.
 - Why: the demo path step 9 (README §8).
 - Accept when: with `npm run server` running, tapping "Email facilitator" shows a preview URL (or "Saved locally" when the sandbox blocks Ethereal).

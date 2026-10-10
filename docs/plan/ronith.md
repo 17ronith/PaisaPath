@@ -150,19 +150,19 @@ under the 6 MB per-file cap and fine for the Fast-3G numbers.
       normalised x/y, the current task's place blinks; tap → **instant travel**
       (avatar sprite jumps there, 300 ms tween, no walk anim) → `Battle`.
       Other places show a one-line tooltip.
-- [ ] `InvestScene.ts` — savings coins shown; 4 asset cards from
+- [x] `InvestScene.ts` — savings coins shown; 4 asset cards from
       `content.assets` with blurb + "typical year ±x%"; slider or +/- buttons
       per asset; sum ≤ savings; "Assumptions, not promises" footer;
       `game.allocate(alloc)`.
 - [ ] `StageEndScene.ts` — "n years later…" with persona `stageIntro`, then
       portfolio before → after bars from `step`, yearly returns as a tiny
       sparkline per asset, income rescale note.
-- [ ] `EpilogueScene.ts` — age 60: `projection.perAsset` bars vs
+- [x] `EpilogueScene.ts` — age 60: `projection.perAsset` bars vs
       `ifNotInvested`, `assumptionLine` in bold. Then `WhatIf`.
-- [ ] `WhatIfScene.ts` — `game.whatIf()`: the biggest-mistake framing text,
+- [x] `WhatIfScene.ts` — `game.whatIf()`: the biggest-mistake framing text,
       "You chose: X" vs "If you had chosen: Y", two bar sets side by side.
       "Not sent to anyone — this is just for you."
-- [ ] `EndReportScene.ts` — `summary()`: before→after quiz with learning
+- [x] `EndReportScene.ts` — `summary()`: before→after quiz with learning
       gain, NCFE k/8 b/9 a/5 + literate, safety spotted/faced, pillar table,
       mistakes fixed, detours. Buttons: "Download report", "Email facilitator"
       (DOM input for facilitator email + optional guardian CC →
