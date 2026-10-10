@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { LogEntry, NcfeItem } from '@/shared/types';
-import { attitudeBand, NCFE_BEHAVIOUR, NCFE_KNOWLEDGE, summarize } from '../scoring';
+import { attitudeBand, NCFE_BEHAVIOUR, NCFE_KNOWLEDGE, quizEvidence, summarize } from '../scoring';
 import { choice, pack, state, task } from '../__fixtures__/builders';
 
 const ITEMS: NcfeItem[] = [...NCFE_KNOWLEDGE, ...NCFE_BEHAVIOUR];
@@ -58,6 +58,70 @@ describe('NCFE-aligned score', () => {
     expect(items.division).toBe(1); // mean 0.5
     expect(items.time_value).toBe(0);
     expect(items.inflation).toBeNull();
+  });
+
+  it('after-quiz answers are knowledge evidence for the items their concept tests', () => {
+    const quizContent = pack({
+      ...content,
+      concepts: [
+        ...content.concepts,
+        {
+          id: 'cost_of_borrowing',
+          pillar: 'budget',
+          name: 'Cost of borrowing',
+          explainerId: 'exp_a',
+          // the behaviour tag must be ignored for a quiz
+          ncfe: ['loan_interest', 'simple_interest', 'considers_affordability'],
+        },
+      ],
+      quiz: [
+        {
+          id: 'K1',
+          concept: 'cost_of_borrowing',
+          pillar: 'budget',
+          text: 'q',
+          options: ['a', 'b'],
+          answer: 0,
+        },
+        {
+          id: 'K2',
+          concept: 'inflation',
+          pillar: 'invest',
+          text: 'q',
+          options: ['a', 'b'],
+          answer: 1,
+        },
+      ],
+    });
+    const s = state();
+    expect(summarize(s, quizContent, null).ncfe.items.loan_interest).toBeNull(); // mid-game
+    s.quizAfterAnswers = [0, 0]; // K1 right, K2 wrong
+    const { items } = summarize(s, quizContent, null).ncfe;
+    expect(items).toMatchObject({ loan_interest: 1, simple_interest: 1, inflation: 0 });
+    expect(items.considers_affordability).toBeNull();
+    expect(quizEvidence(quizContent, undefined)).toEqual([]);
+  });
+
+  it('quiz evidence pools with gameplay evidence under the ≥ 0.5 mean rule', () => {
+    const quizContent = pack({
+      ...content,
+      quiz: [
+        {
+          id: 'K1',
+          concept: 'division',
+          pillar: 'budget',
+          text: 'q',
+          options: ['a', 'b'],
+          answer: 0,
+        },
+      ],
+    });
+    const s = state();
+    s.log = [entry('t0', 'good')]; // t0 evidences division = 1
+    s.quizAfterAnswers = [1]; // wrong → 0; mean 0.5 → still 1
+    expect(summarize(s, quizContent, null).ncfe.items.division).toBe(1);
+    s.log = [entry('t0', 'bad')];
+    expect(summarize(s, quizContent, null).ncfe.items.division).toBe(0);
   });
 
   it('attitude bands at 19 / 20 / 39 / 40 / 80 %', () => {

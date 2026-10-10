@@ -73,8 +73,8 @@ Module split (one file each, one test file each):
       seeded game with a policy (`always good` / `always worst` / `random`)
       and prints bars per chapter. Output table goes into M2.pdf as an
       "experiment". `npm run sim` → ask Monish to add the script (`DEP:`).
-- [ ] **≥ 20 tests green.** `npm run check`. Merge. Post `MERGED: engine v1`.
-- [ ] 02:45 call: swap stub → real with Ronith's Driver; fix mismatches.
+- [x] **≥ 20 tests green.** `npm run check`. Merge. Post `MERGED: engine v1`.
+- [x] 02:45 call: swap stub → real with Ronith's Driver; fix mismatches.
 
 ## Phase 2 (04:05 → 08:30) — nap 05:45–07:15
 
@@ -98,16 +98,16 @@ Module split (one file each, one test file each):
       deltas and the lock thresholds so `always good` finishes stable,
       `random` detours 2–4 times, `always worst` restarts at least once
       without being unwinnable. Report numbers to Monish for final_report.
-- [ ] `src/minigames/KiranaRush.ts` — 30 s: items fall/appear with price +
+- [x] `src/minigames/KiranaRush.ts` — 30 s: items fall/appear with price +
       "need/want" implied; player taps NEED or WANT; ≥ 70% correct = win.
       Data from a small inline list (10 items). Starts with
       `{ onDone }`, calls it once, stops itself. Big buttons.
-- [ ] `src/minigames/ScamOrLegit.ts` — 30 s: 8 messages (UPI collect
+- [x] `src/minigames/ScamOrLegit.ts` — 30 s: 8 messages (UPI collect
       request, "OTP by mistake", real bank SMS, scholarship portal notice,
       "like videos earn ₹5,000/day"…); swipe/tap LEGIT or SCAM; ≥ 6/8 = win.
       No real brand names.
-- [ ] `src/minigames/index.ts` exports both under their `MiniGameDef['id']`.
-- [ ] Hints: `hintsOn` after 2 fails — verify end-to-end with Ronith.
+- [x] `src/minigames/index.ts` exports both under their `MiniGameDef['id']`.
+- [x] Hints: `hintsOn` after 2 fails — verify end-to-end with Ronith.
 
 ## Phase 3 (08:30 → 11:00)
 

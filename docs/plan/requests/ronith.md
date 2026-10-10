@@ -26,3 +26,10 @@ Ronith: change `Status:` lines only; never delete blocks.
 - What: in `EndReportScene`: "Download report" → `const { pdfBlob } = await session.sendReport({ facilitatorEmail: '' })` is NOT the way — call `buildReportPdf` via `session.sendReport` only when emailing. For download-only use `downloadBlob(blob, 'report.pdf')` from `@/app/session` after building the PDF through `session.sendReport` with the facilitator email typed; if the facilitator field is empty, still build and download (sendReport returns `pdfBlob` even when the POST fails). Show `previewUrl` as a tappable link when non-null, and "Saved locally (offline)" when null. "Facilitator view" button → `window.open('./ngo/index.html')`.
 - Why: the demo path step 9 (README §8).
 - Accept when: with `npm run server` running, tapping "Email facilitator" shows a preview URL (or "Saved locally" when the sandbox blocks Ethereal).
+
+### R-saharsh-01 · Hint fallback shows the label "Aunty's hint" instead of a hint
+- From: saharsh · To: ronith · At: 01:05 · Priority: P2
+- Status: OPEN
+- What: `BattleScene.hint()` falls back to `tr('battle.hint', …)`, but in content `battle.hint` is the panel label ("Aunty's hint"); the generic hint text is `battle.hint_generic`. Use `battle.hint_generic` for the fallback (and `battle.hint` as a heading if you want one).
+- Why: on tasks with no `hint` on any choice, after two fails the hint panel just says "Aunty's hint" (seen in a scripted playthrough, Stage 1 "BUS PASS DUE").
+- Accept when: failing such a task twice shows "Slow down. Who gains if you choose fast?".
