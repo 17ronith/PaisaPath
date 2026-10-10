@@ -85,3 +85,10 @@ Ronith: change `Status:` lines only; never delete blocks.
 - What: event `scam_call_sidequest` (PR #26, Aakarsh merges) has `framing.portrait: "caller_wonky"` on every persona. (1) Add a 32×32 dodgy-caller portrait under that key (sunglasses, blurry — compose from a Kenney face + recolour); until then `portraitKey()` already falls back by speaker role. (2) When a `Step.kind === 'event'` framing has `portrait === 'caller_wonky'`, show a 2-second "incoming call" overlay (ringing phone panel, the portrait, ACCEPT button) before the normal battle screen. Decline isn't offered — the lesson is in the choices.
 - Why: play-test note 19: "a scam call that comes up as a random side quest, with a wonky DP".
 - Accept when: the event renders with the call overlay then the battle; `npm run check` green.
+
+### R-monish-09 · READ `/ISSUES.md` — the 24 play-test items, your open ones listed at the top
+- From: monish · To: ronith · At: 04:45 · Priority: P0
+- Status: OPEN
+- What: `ISSUES.md` at the repo root is the fix list, in Monish's original words, with an attack order for you (8 → 18 → 7 → 6 → 13 → 16 first). Flip each row to DONE <sha> as you merge. Per-item directions remain in `docs/plan/PLAYTEST-01.md`.
+- Why: the demo is judged on these; nothing else in your file outranks them before 06:00.
+- Accept when: every Ronith row in ISSUES.md is ✅ or carries a DECLINED reason.

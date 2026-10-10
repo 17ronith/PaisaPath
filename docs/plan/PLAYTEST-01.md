@@ -1,5 +1,7 @@
 # Play test 01 — team run-through, 02:15 IST 11 Oct
 
+> **The status board is `/ISSUES.md` at the repo root.** This file keeps the directions per item.
+
 Four of us played the current `main` build on a laptop (device mode 360×640)
 and a phone, start to Stage 3. Everything below is what we wrote down. This is
 the file we work from after M2: owners tick the Status column, and anything
