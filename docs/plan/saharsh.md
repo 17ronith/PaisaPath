@@ -93,7 +93,7 @@ Module split (one file each, one test file each):
       log's choice ids, substituting the best choice at `biggestMistake`.
       Test: result deterministic across two calls; altEnd ≥ actualEnd in
       wallet for a fixture where the mistake is a pure loss.
-- [ ] Balance pass with Aakarsh (06:30): run `simulate.ts` on the real
+- [x] Balance pass with Aakarsh (06:30): run `simulate.ts` on the real
       content with the 3 policies × 3 difficulties; tune pressure, happiness
       deltas and the lock thresholds so `always good` finishes stable,
       `random` detours 2–4 times, `always worst` restarts at least once
