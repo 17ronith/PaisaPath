@@ -7,17 +7,52 @@
     "ncfe": ["considers_affordability", "keeps_budget"]
   },
   {
+    "id": "plan_the_month",
+    "pillar": "budget",
+    "name": "Plan the month",
+    "explainerId": "exp_plan_the_month",
+    "ncfe": ["keeps_budget", "pays_bills_on_time", "watches_finances"]
+  },
+  {
+    "id": "compare_before_buying",
+    "pillar": "budget",
+    "name": "Compare before buying",
+    "explainerId": "exp_compare_before_buying",
+    "ncfe": ["compares_options", "division"]
+  },
+  {
+    "id": "cost_of_borrowing",
+    "pillar": "budget",
+    "name": "Borrowing costs extra",
+    "explainerId": "exp_cost_of_borrowing",
+    "ncfe": ["loan_interest", "simple_interest", "considers_affordability"]
+  },
+  {
     "id": "pay_yourself_first",
     "pillar": "save",
-    "name": "Pay yourself first",
-    "explainerId": "exp_needs_vs_wants",
-    "ncfe": ["saves_actively", "keeps_budget"]
+    "name": "Save first, spend after",
+    "explainerId": "exp_pay_yourself_first",
+    "ncfe": ["saves_actively", "takes_responsibility"]
+  },
+  {
+    "id": "emergency_buffer",
+    "pillar": "save",
+    "name": "Emergency buffer",
+    "explainerId": "exp_emergency_buffer",
+    "ncfe": ["major_expense_no_borrow", "saves_actively"]
+  },
+  {
+    "id": "goal_jar",
+    "pillar": "save",
+    "name": "Named savings goal",
+    "explainerId": "exp_goal_jar",
+    "ncfe": ["long_term_goals", "saves_actively"]
   },
   {
     "id": "time_value",
     "pillar": "invest",
     "name": "Money now vs money later",
-    "explainerId": "exp_compounding",
+    "explainerId": "exp_time_value",
     "ncfe": ["time_value"]
   },
   {
@@ -25,13 +60,61 @@
     "pillar": "invest",
     "name": "Compounding",
     "explainerId": "exp_compounding",
-    "ncfe": ["compound_interest"]
+    "ncfe": ["compound_interest", "simple_interest"]
+  },
+  {
+    "id": "risk_return",
+    "pillar": "invest",
+    "name": "Risk and return",
+    "explainerId": "exp_risk_return",
+    "ncfe": ["risk_return"]
+  },
+  {
+    "id": "diversification",
+    "pillar": "invest",
+    "name": "Diversification",
+    "explainerId": "exp_diversification",
+    "ncfe": ["diversification"]
+  },
+  {
+    "id": "inflation",
+    "pillar": "invest",
+    "name": "Inflation",
+    "explainerId": "exp_inflation",
+    "ncfe": ["inflation"]
   },
   {
     "id": "spot_fake_officials",
     "pillar": "safety",
     "name": "Spot fake officials",
-    "explainerId": "exp_needs_vs_wants",
-    "ncfe": ["compares_options"]
+    "explainerId": "exp_spot_fake_officials",
+    "ncfe": ["takes_responsibility"]
+  },
+  {
+    "id": "never_share_otp_pin",
+    "pillar": "safety",
+    "name": "Never share OTP or PIN",
+    "explainerId": "exp_never_share_otp_pin"
+  },
+  {
+    "id": "too_good_to_be_true",
+    "pillar": "safety",
+    "name": "Too good to be true",
+    "explainerId": "exp_too_good_to_be_true",
+    "ncfe": ["risk_return"]
+  },
+  {
+    "id": "instant_loan_trap",
+    "pillar": "safety",
+    "name": "Instant-loan trap",
+    "explainerId": "exp_instant_loan_trap",
+    "ncfe": ["loan_interest"]
+  },
+  {
+    "id": "fake_payment_proof",
+    "pillar": "safety",
+    "name": "Fake payment proof",
+    "explainerId": "exp_fake_payment_proof",
+    "ncfe": ["watches_finances"]
   }
 ]

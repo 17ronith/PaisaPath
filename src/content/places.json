@@ -1,15 +1,27 @@
 [
-  { "id": "home", "name": "Home", "x": 0.18, "y": 0.78 },
-  { "id": "college", "name": "Junior college", "x": 0.42, "y": 0.62 },
-  { "id": "canteen", "name": "Canteen", "x": 0.5, "y": 0.68 },
-  { "id": "charminar", "name": "Charminar", "x": 0.72, "y": 0.84 },
-  { "id": "durgam_cheruvu", "name": "Durgam Cheruvu", "x": 0.3, "y": 0.3 },
-  { "id": "gachibowli", "name": "Gachibowli towers", "x": 0.8, "y": 0.22 },
-  { "id": "campus", "name": "University campus", "x": 0.6, "y": 0.18 },
-  { "id": "bank", "name": "Bank", "x": 0.55, "y": 0.45 },
-  { "id": "kirana", "name": "Kirana store", "x": 0.25, "y": 0.55 },
-  { "id": "bus_stop", "name": "Bus stop", "x": 0.35, "y": 0.85 },
-  { "id": "clinic", "name": "Clinic", "x": 0.68, "y": 0.55 },
-  { "id": "mobile_shop", "name": "Mobile shop", "x": 0.82, "y": 0.66 },
-  { "id": "turf", "name": "Turf ground", "x": 0.15, "y": 0.15 }
+  { "id": "home", "name": "Home", "x": 0.18, "y": 0.86, "icon": "place_home" },
+  { "id": "college", "name": "Junior college", "x": 0.5, "y": 0.72, "icon": "place_college" },
+  { "id": "canteen", "name": "College canteen", "x": 0.66, "y": 0.78, "icon": "place_canteen" },
+  { "id": "bus_stop", "name": "Bus stop", "x": 0.36, "y": 0.62, "icon": "place_bus_stop" },
+  { "id": "kirana", "name": "Kirana shop", "x": 0.14, "y": 0.6, "icon": "place_kirana" },
+  { "id": "mobile_shop", "name": "Mobile shop", "x": 0.84, "y": 0.62, "icon": "place_mobile_shop" },
+  { "id": "bank", "name": "Bank branch", "x": 0.58, "y": 0.5, "icon": "place_bank" },
+  { "id": "clinic", "name": "Clinic", "x": 0.28, "y": 0.42, "icon": "place_clinic" },
+  { "id": "turf", "name": "Turf ground", "x": 0.84, "y": 0.42, "icon": "place_turf" },
+  {
+    "id": "charminar",
+    "name": "Charminar & Laad Bazaar",
+    "x": 0.16,
+    "y": 0.22,
+    "icon": "place_charminar"
+  },
+  {
+    "id": "durgam_cheruvu",
+    "name": "Durgam Cheruvu lake",
+    "x": 0.5,
+    "y": 0.28,
+    "icon": "place_lake"
+  },
+  { "id": "gachibowli", "name": "Gachibowli towers", "x": 0.82, "y": 0.18, "icon": "place_towers" },
+  { "id": "campus", "name": "University campus", "x": 0.5, "y": 0.08, "icon": "place_campus" }
 ]

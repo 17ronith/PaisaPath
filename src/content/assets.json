@@ -2,15 +2,15 @@
   {
     "id": "cashbox",
     "name": "Cash box at home",
-    "blurb": "Safe in the cupboard. Earns nothing — and every year prices creep up, so it quietly buys less.",
+    "blurb": "Safe from swings, but it never grows. Prices rise every year, so the same notes buy a little less each time.",
     "meanYearlyPct": 0,
     "volatilityPct": 0,
-    "teaches": "time_value"
+    "teaches": "inflation"
   },
   {
     "id": "banyan",
     "name": "Banyan Savings",
-    "blurb": "Slow and steady, like the Pillalamarri banyan: roots become trunks, trunks grow branches.",
+    "blurb": "Slow and steady, like the Pillalamarri banyan dropping new roots: growth that makes more growth. Made up for this game; assumes about 8% a year, and real returns vary.",
     "meanYearlyPct": 8,
     "volatilityPct": 2,
     "teaches": "compounding"
@@ -18,17 +18,17 @@
   {
     "id": "chai",
     "name": "Chai Stall Fund",
-    "blurb": "Good months and slow months. Over years it usually grows, but it wobbles.",
+    "blurb": "Some years the stall is packed, some years it's quiet. Can grow more than Banyan, but it swings. Made up for this game; assumes about 10% a year, and real returns vary and can be negative.",
     "meanYearlyPct": 10,
     "volatilityPct": 12,
-    "teaches": "time_value"
+    "teaches": "risk_return"
   },
   {
     "id": "mango",
     "name": "Mango Orchard Co.",
-    "blurb": "Great harvests and terrible ones. Big swings both ways. Never put everything here.",
+    "blurb": "A great harvest can pay big. A bad monsoon can wipe out a year. Big swings both ways. Made up for this game; assumes about 14% a year, and real returns vary and can be very negative.",
     "meanYearlyPct": 14,
     "volatilityPct": 30,
-    "teaches": "time_value"
+    "teaches": "diversification"
   }
 ]

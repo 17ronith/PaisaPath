@@ -2,14 +2,14 @@
   {
     "id": "kirana_rush",
     "title": "Kirana Rush",
-    "blurb": "Rush hour at the shop. Sort what the family NEEDS from what they just WANT.",
+    "blurb": "Rush hour at the kirana: a side gig that pays. Sort each item a customer picks: NEED or WANT. 30 seconds.",
     "rewardWalletPct": 8,
     "rewardHappiness": 10
   },
   {
     "id": "scam_or_legit",
     "title": "Scam or Legit?",
-    "blurb": "Messages are flooding your phone. Swipe the fakes away before they get you.",
+    "blurb": "Help an aunty sort her phone messages, a small paid favour. Tap SCAM or LEGIT. Get 6 of 8 right in 30 seconds.",
     "rewardWalletPct": 8,
     "rewardHappiness": 10
   }

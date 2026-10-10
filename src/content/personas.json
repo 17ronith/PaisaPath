@@ -2,22 +2,22 @@
   {
     "id": "pocket_money",
     "label": "Pocket money",
-    "blurb": "Your parents give you money each month — sometimes late. No bank account yet; you use the family phone for UPI.",
+    "blurb": "Your family gives you money each month, sometimes late. No bank account yet; you use the family phone for UPI.",
     "stageIntro": {
-      "1": "Intermediate, second year. Pocket money arrives when it arrives.",
-      "2": "Five years later: your first job. Your parents still ask what you're saving.",
-      "3": "Six more years: a raise, a family of your own, and bigger decisions."
+      "1": "Intermediate, second year. Money comes from home, a little at a time, and it has to last.",
+      "2": "Five years later… your first salary lands in your own account. Home still asks what you're saving.",
+      "3": "Six more years… a raise, a family of your own, and bigger decisions."
     },
     "defaultFlags": ["upi_family"]
   },
   {
     "id": "scholarship",
     "label": "Scholarship",
-    "blurb": "Your ePASS allowance lands in your own bank account as a lump sum, plus a little from family. You share a phone.",
+    "blurb": "Your ePASS allowance lands in your own bank account as one lump, plus a little from family. The phone at home is shared.",
     "stageIntro": {
-      "1": "Intermediate, second year. The allowance just landed — all of it at once.",
-      "2": "Five years later: first salary, your own phone, and relatives with expectations.",
-      "3": "Six more years: a raise, EMIs on offer everywhere, and a goal that matters."
+      "1": "Intermediate, second year. The allowance just landed, all at once, and it has to last for months.",
+      "2": "Five years later… a monthly salary. No more waiting for the allowance, and relatives with expectations.",
+      "3": "Six more years… a raise, EMI offers everywhere, and younger cousins asking how you made it."
     },
     "defaultFlags": ["has_bank_account", "upi_shared"]
   },
@@ -26,10 +26,10 @@
     "label": "Earner",
     "blurb": "You work evenings at a shop. Pay is weekly and uneven, and part of it goes home. Own phone, own UPI.",
     "stageIntro": {
-      "1": "Intermediate, second year. Shifts after college, cash on Sundays.",
-      "2": "Five years later: a steady salary for the first time. Home still counts on you.",
-      "3": "Six more years: a raise, and the question of what all this work was for."
+      "1": "Intermediate, second year. College by day, shifts by evening, and part of every pay goes home.",
+      "2": "Five years later… a steady salary for the first time. Home still counts on you.",
+      "3": "Six more years… you earn more, and so do the people trying to take it from you."
     },
-    "defaultFlags": ["upi_own", "sends_money_home"]
+    "defaultFlags": ["has_bank_account", "upi_own", "sends_money_home"]
   }
 ]
