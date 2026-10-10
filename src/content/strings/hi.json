@@ -1,1 +1,19 @@
-{}
+{
+  "title": "जीकर सीखो पैसे की बातें",
+  "btn.start": "शुरू करो",
+  "btn.continue": "जारी रखो",
+  "btn.next": "आगे",
+  "btn.skip": "छोड़ो",
+  "btn.switch": "मैं नहीं? बदलो",
+  "btn.confirm": "पक्का करो",
+  "btn.info": "जानकारी",
+  "btn.replay": "फिर देखो",
+  "btn.download": "रिपोर्ट डाउनलोड करो",
+  "btn.email": "फैसिलिटेटर को ईमेल",
+  "btn.play_again": "फिर से खेलो",
+  "btn.back": "पीछे",
+  "btn.close": "बंद करो",
+  "btn.ok": "ठीक है",
+  "btn.play": "खेलो",
+  "btn.retry": "फिर कोशिश करो"
+}
