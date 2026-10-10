@@ -1,0 +1,235 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>M1 Approach</title>
+<style>
+@font-face{font-family:"Pixel";src:url("node_modules/@fontsource/press-start-2p/files/press-start-2p-latin-400-normal.woff2") format("woff2");}
+@page{size:A4;margin:11mm 12mm 10mm 12mm;}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#1b2130;--muted:#5a6273;--accent:#2f62d6;--accent-soft:#e8eefc;--gold:#c99a1e;--panel:#fbf7ea;--red:#c8392f;--green:#2f9e5b;--rule:#d9dce3}
+body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);font-size:8.7pt;line-height:1.38}
+.px{font-family:"Pixel",monospace;letter-spacing:.02em}
+.topbar{display:flex;justify-content:space-between;align-items:center;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);padding:5px 9px;margin-bottom:7px}
+.topbar .px{font-size:7.5pt;white-space:nowrap}
+.topbar .ps{flex:1;text-align:center;padding:0 10px}
+.team{background:var(--gold);color:#fff;padding:3px 6px;border:2px solid var(--ink)}
+.ps{font-size:7.6pt;color:var(--muted)}
+h1{font-family:"Pixel",monospace;font-size:17pt;letter-spacing:.03em;margin:4px 0 3px}
+.tag{font-size:10pt;color:var(--muted);margin-bottom:8px}
+h2{font-family:"Pixel",monospace;font-size:8pt;color:var(--accent);margin:9px 0 5px;display:flex;align-items:center;gap:6px}
+h2::before{content:"";width:7px;height:7px;background:var(--accent);display:inline-block}
+ul{padding-left:13px}
+li{margin:1.5px 0}
+b{font-weight:650}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.abstract{background:var(--accent-soft);border-left:4px solid var(--accent);padding:6px 9px}
+/* pipeline */
+.pipe{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:2px}
+.step{border:2px solid var(--ink);background:#fff;padding:5px 6px;position:relative;box-shadow:2px 2px 0 var(--ink);min-height:84px}
+.step:not(:last-child)::after{content:"▶";position:absolute;right:-11px;top:34%;font-size:8pt;color:var(--accent)}
+.step .n{font-family:"Pixel",monospace;font-size:6.5pt;color:var(--accent);display:block;margin-bottom:3px}
+.step .t{font-weight:700;font-size:8.4pt;display:block;margin-bottom:2px}
+.step .d{font-size:7.5pt;color:var(--muted);line-height:1.3;display:block}
+.step.hi{background:var(--accent-soft)}
+/* battle mock */
+.battle{border:3px solid var(--ink);background:linear-gradient(#eef3e6 0 62%,#f7f4e8 62%);position:relative;padding-bottom:6px;image-rendering:pixelated;margin-top:2px}
+.foe{position:absolute;left:10px;top:9px;width:170px;background:var(--panel);border:2px solid var(--ink);box-shadow:3px 3px 0 #8a8f99;padding:5px 7px}
+.me{position:absolute;right:10px;top:74px;width:176px;background:var(--panel);border:2px solid var(--ink);box-shadow:3px 3px 0 #8a8f99;padding:5px 7px}
+.row{display:flex;justify-content:space-between;font-family:"Pixel",monospace;font-size:6.6pt}
+.bar{height:6px;border:1.5px solid var(--ink);background:#fff;margin-top:4px;position:relative}
+.bar i{position:absolute;left:0;top:0;bottom:0}
+.lbl{font-family:"Pixel",monospace;font-size:5.4pt;color:var(--muted);margin-top:4px}
+.sprite{position:absolute;font-family:"Pixel",monospace}
+.phone{right:44px;top:12px;width:38px;height:54px;background:#3a4152;border:3px solid var(--ink);}
+.phone::after{content:"!";position:absolute;left:11px;top:9px;color:#ffd84a;font-size:15pt}
+.kid{left:40px;top:86px;width:34px;height:42px;background:#d58b5b;border:3px solid var(--ink);border-radius:2px}
+.kid::before{content:"";position:absolute;left:-3px;top:-14px;width:34px;height:14px;background:#2b2b35;border:3px solid var(--ink)}
+.scene{position:relative;height:150px}
+.text{position:relative;margin:0 6px;height:62px;background:#25344d;border:3px solid var(--gold);color:#fff;display:grid;grid-template-columns:1.25fr 1fr;gap:6px;padding:5px 7px}
+.text .say{font-family:"Pixel",monospace;font-size:6pt;line-height:1.6}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:3px 6px;font-family:"Pixel",monospace;font-size:5.6pt;align-content:center;background:#fff;color:var(--ink);padding:4px 6px;border:2px solid var(--ink)}
+.opts span::before{content:"▸ ";color:var(--accent)}
+.cap{font-size:7.3pt;color:var(--muted);margin-top:4px}
+/* page 2 */
+.page2{break-before:page}
+.arch{display:grid;grid-template-columns:1.05fr 1.25fr 1.05fr;gap:10px;align-items:stretch}
+.layer{border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);padding:6px 8px;background:#fff}
+.layer h3{font-family:"Pixel",monospace;font-size:6.8pt;margin-bottom:4px}
+.layer ul{padding-left:11px;font-size:7.8pt}
+.layer.core{background:var(--accent-soft)}
+.svc{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:9px}
+.svc div{border:2px dashed var(--ink);padding:5px 7px;font-size:7.7pt;background:#fffdf6}
+.svc b{display:block;font-size:8pt}
+.flowline{font-size:7.4pt;color:var(--muted);margin-top:5px;text-align:center}
+table{width:100%;border-collapse:collapse;font-size:8pt;margin-top:2px}
+th,td{text-align:left;vertical-align:top;padding:3.2px 6px;border-bottom:1px solid var(--rule)}
+th{font-family:"Pixel",monospace;font-size:6.3pt;background:var(--ink);color:#fff;font-weight:400}
+td:first-child{font-weight:650;white-space:nowrap;width:108px}
+.test{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
+.test div{border-left:3px solid var(--gold);padding:1px 0 1px 7px}
+.test b{display:block}
+.guard{white-space:nowrap;margin-top:9px;border:2px solid var(--ink);background:var(--ink);color:#fff;text-align:center;padding:5px;font-family:"Pixel",monospace;font-size:5.9pt;letter-spacing:.02em}
+.meas{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:2px}
+.meas div{border:2px solid var(--ink);padding:5px 7px;font-size:7.7pt;line-height:1.32;background:#fff}
+.meas b{display:block;font-family:"Pixel",monospace;font-size:6.2pt;color:var(--accent);margin-bottom:3px;font-weight:400}
+</style></head>
+<body>
+
+<div class="topbar">
+  <span class="px team">TEAM #____</span>
+  <span class="ps">Problem statement: <b>Empowering the Next Generation Through Financial Literacy</b> (Vanguard)</span>
+  <span class="px">M1 · APPROACH</span>
+</div>
+
+<h1>PAISA PATH</h1>
+<div class="tag">A pixel life-sim where students learn money by living it: make choices, see consequences, try again.</div>
+
+<div class="two">
+  <div>
+    <h2>1 · PROBLEM &amp; OUR UNDERSTANDING</h2>
+    <ul>
+      <li><b>Who:</b> Grade 11–12 (Intermediate) students from underserved communities in Hyderabad; ~1,500 at launch through partner NGOs, designed to scale.</li>
+      <li><b>What:</b> four pillars: plan &amp; budget, save &amp; manage, understand investing, stay financially safe.</li>
+      <li><b>Financial literacy, as we read it:</b> not finance as a subject, but the knowledge, habits and confidence to make sensible decisions with <i>one's own</i> money: pocket money, scholarships, UPI, a first salary.</li>
+      <li><b>What makes it hard:</b> (1) relatability without jargon; (2) proving learning, not just engagement; (3) NGO delivery on shared, low-end phones in several languages; (4) minors' privacy; (5) the guardrail: educate, never recommend investments; simulations are assumptions.</li>
+    </ul>
+  </div>
+  <div>
+    <h2>2 · IDEA / ABSTRACT</h2>
+    <div class="abstract">
+      <b>Paisa Path</b> is a browser-based pixel RPG. A student creates an avatar, answers a short onboarding quiz, and lives a compressed life in three stages: <b>Intermediate student → first salary → earning more</b>. Each stage is a run of <b>task "battles"</b> across the four pillars (a scam call, a festival budget, a medical emergency) where the student chooses what to do and the game shows the consequence, sometimes much later. Mistakes are logged and come back in new disguises until learned. The game ends with an <b>epilogue at ~60</b> showing where their choices led, and a <b>personal report</b> (including their biggest mistake replayed the other way) sent to their NGO facilitator, with their guardian copied.
+    </div>
+  </div>
+</div>
+
+<h2>3 · PLAYER JOURNEY (PIPELINE)</h2>
+<div class="pipe">
+  <div class="step"><span class="n">01</span><span class="t">Onboard</span><span class="d">Language, avatar + chosen name, pocket-money band, a few life questions</span></div>
+  <div class="step"><span class="n">02</span><span class="t">Persona + economy</span><span class="d">Persona sets how tasks are framed. Prices scale to the student's pocket money</span></div>
+  <div class="step"><span class="n">03</span><span class="t">Difficulty quiz</span><span class="d">Places the student in a bucket: simple · medium · hard. Repeated at the end</span></div>
+  <div class="step hi"><span class="n">04</span><span class="t">Three life stages</span><span class="d">School → first salary → earning more. Task battles, random events, mini-games</span></div>
+  <div class="step"><span class="n">05</span><span class="t">Epilogue</span><span class="d">Age ~60: what savings and investments became (labelled as assumptions)</span></div>
+  <div class="step"><span class="n">06</span><span class="t">Report</span><span class="d">Score + biggest-mistake "what if", emailed to the NGO facilitator, guardian CC'd</span></div>
+</div>
+
+<div class="two" style="margin-top:6px;grid-template-columns:1.08fr 1fr">
+  <div>
+    <h2>EVERY TASK IS A "MONEY BATTLE"</h2>
+    <div class="battle"><div class="scene">
+      <div class="foe">
+        <div class="row"><span>SCAM CALL</span><span>LV MED</span></div>
+        <div class="lbl">PRESSURE</div>
+        <div class="bar"><i style="width:72%;background:var(--red)"></i></div>
+      </div>
+      <div class="sprite phone"></div>
+      <div class="sprite kid"></div>
+      <div class="me">
+        <div class="row"><span>YOU</span><span>STAGE 1</span></div>
+        <div class="lbl">WALLET ₹1,840</div>
+        <div class="bar"><i style="width:62%;background:var(--green)"></i></div>
+        <div class="lbl">HAPPINESS</div>
+        <div class="bar"><i style="width:78%;background:var(--gold)"></i></div>
+      </div>
+      </div>
+      <div class="text">
+        <div class="say">"I'm from the scholarship office. Pay ₹500 now or your money is cancelled!"</div>
+        <div class="opts"><span>PAY ₹500</span><span>ASK A FRIEND</span><span>HANG UP</span><span>CHECK PORTAL</span></div>
+      </div>
+    </div>
+    <div class="cap">Concept mock-up with original art. Opponent = the situation; its bar = pressure. Your bars = wallet and happiness. 2–4 choices per turn.</div>
+  </div>
+  <div>
+    <h2>WHAT HAPPENS AFTER A CHOICE</h2>
+    <ul>
+      <li><b>Instant effect:</b> wallet, savings and happiness bars move; a 1–2 line lesson names the concept (taught <i>after</i> the choice, never as a lecture first).</li>
+      <li><b>Weak choice → detour:</b> extra consequence tasks, then the path rejoins.</li>
+      <li><b>Critical failure → restart the task:</b> falling for a scam, going broke, or happiness hitting zero.</li>
+      <li><b>Delayed effects:</b> some choices schedule a later event (an EMI deducted every month; a friend's unpaid loan resurfacing).</li>
+      <li><b>Mistake bank:</b> each wrong concept returns later in a new disguise; it's cleared only when answered right.</li>
+      <li><b>Info button:</b> current status at any point. <b>Replay library:</b> re-watch the short explainer animation for any past task.</li>
+      <li><b>Random mini-games:</b> skippable and rewarding, but locked while a status bar sits below its threshold.</li>
+    </ul>
+  </div>
+</div>
+
+
+<h2>HOW WE MEET THE SUCCESS MEASURES</h2>
+<div class="meas">
+  <div><b>SIMPLE</b>One decision per screen; lessons in 1–2 lines; no jargon</div>
+  <div><b>RELATABLE</b>Hyderabad places, everyday rupee situations, prices scaled to the student's own pocket money</div>
+  <div><b>PERSONA-LED</b>Persona framing for every task, plus difficulty buckets from the quiz</div>
+  <div><b>LANGUAGE-READY</b>One string file per language; Bhashini-assisted translation; audio narration</div>
+  <div><b>GAME-BASED</b>Learning measured through in-game choices, plus a before/after quiz</div>
+  <div><b>INTUITIVE UI</b>Tap-to-travel map, battle screen, info button, no sign-up form</div>
+  <div><b>NGO-INTEGRATED</b>Batch join codes, facilitator dashboard, reports emailed to facilitators</div>
+  <div><b>SAFE SANDBOX</b>Fake money, detours and restarts: mistakes cost nothing real</div>
+</div>
+<!-- PAGE 2 -->
+<div class="page2">
+<div class="topbar">
+  <span class="px team">TEAM #____</span>
+  <span class="ps">Paisa Path · architecture and testing</span>
+  <span class="px">M1 · APPROACH</span>
+</div>
+
+<h2>4 · ARCHITECTURE</h2>
+<div class="arch">
+  <div class="layer">
+    <h3>CLIENT · PHASER 3</h3>
+    <ul>
+      <li>Runs in any phone browser; offline-capable (PWA)</li>
+      <li>Scenes: onboarding, life map, task battle, mini-games, info panel, replay library, end report</li>
+      <li>Tap-to-travel town map built from Hyderabad landmarks (Charminar, Durgam Cheruvu, Gachibowli)</li>
+    </ul>
+  </div>
+  <div class="layer core">
+    <h3>GAME ENGINE · PLAIN JS, UNIT-TESTED</h3>
+    <ul>
+      <li><b>State store:</b> wallet, savings, happiness, stage, flags</li>
+      <li><b>Economy scaler:</b> real prices × (in-game start ÷ pocket money), so items cost the same share of budget as in real life</li>
+      <li><b>Task selector:</b> pillar × difficulty bucket, then persona framing</li>
+      <li><b>Consequence scheduler:</b> delayed effects</li>
+      <li><b>Mistake bank + scoring:</b> NCFE-aligned (knowledge, behaviour, attitude) + a safety score</li>
+      <li><b>History log:</b> every decision + its alternatives, for the "what if"</li>
+    </ul>
+  </div>
+  <div class="layer">
+    <h3>CONTENT · JSON</h3>
+    <ul>
+      <li>Task buckets per pillar × difficulty (simple/medium/hard), each with a framing per persona</li>
+      <li>Random events, mini-games, explainer animations</li>
+      <li>One string file per language</li>
+      <li>Editable by non-coders, and by NGOs adapting it to new cities</li>
+    </ul>
+  </div>
+</div>
+<div class="svc">
+  <div><b>Translation</b>Indian-language strings via Bhashini translation APIs, then human-checked</div>
+  <div><b>NGO dashboard</b>Batch join codes, progress per centre, aggregate before/after scores</div>
+  <div><b>Report service</b>End report as PDF, emailed to the facilitator with the guardian CC'd</div>
+  <div><b>Storage</b>Local-first save; syncs when online. Nickname only, no student PII</div>
+</div>
+<div class="flowline">Client ⇄ Engine ⇄ Content &nbsp;·&nbsp; Engine → Report service → NGO facilitator + guardian &nbsp;·&nbsp; Engine → anonymised aggregates → NGO dashboard / sponsor</div>
+
+<h2>KEY DESIGN DECISIONS</h2>
+<table>
+  <tr><th>MECHANIC</th><th>HOW IT WORKS</th></tr>
+  <tr><td>Persona</td><td>Assigned from life questions (incl. a pocket-money band); shown to the student, who can switch. Changes only the <b>framing and analogies</b> of each task, not its difficulty.</td></tr>
+  <tr><td>Difficulty</td><td>Onboarding quiz places the student in simple / medium / hard; tasks are drawn from that bucket. Same quiz at the end for before/after.</td></tr>
+  <tr><td>Economy scaling</td><td>Everyone starts with the same in-game amount; prices are scaled to the student's own pocket money, so a cricket bat "feels" as expensive as it does in their real life.</td></tr>
+  <tr><td>Life stages</td><td>Stage 1 Intermediate student → Stage 2 first salary → Stage 3 earning more. Investing grows naturally across stages; epilogue at ~60.</td></tr>
+  <tr><td>Biggest-mistake "what if"</td><td>From the decision log, the choice with the largest negative impact is replayed with the alternative, using the same random seed, and shown side by side.</td></tr>
+  <tr><td>Guardrail</td><td>Fictional assets only, never real products; every projection carries "assumes X% a year; real returns vary and can be negative".</td></tr>
+</table>
+
+<h2>5 · PLANNED TESTING METHODOLOGY</h2>
+<div class="test">
+  <div><b>Learning gain</b>Same difficulty quiz before and after; gain per pillar. In-game choices scored on the NCFE framework (knowledge ≥ 6/8, behaviour ≥ 6/9, attitude ≥ 3/5), with India's 27% adult baseline as reference.</div>
+  <div><b>Usability</b>Unguided play tests (peers as proxies during the hackathon, target-age students in a pilot): time to finish the first task with no help, help requests, drop-off points.</div>
+  <div><b>Engine correctness</b>Unit tests for the economy scaler, consequence scheduler, mistake bank, scoring and "what if" replay on seeded game histories. Schema checks that every task has a difficulty tag, all persona framings and valid effects.</div>
+  <div><b>Low-end devices</b>Chrome DevTools throttling (slow 3G, 4× CPU slowdown) on a budget-Android profile; offline play-through; load-time target under 5 s.</div>
+  <div><b>Language</b>Automated check that every string key exists in each language; screenshot review per language.</div>
+  <div><b>Report &amp; privacy</b>Reports generated for seeded histories and sent to sandbox inboxes. Content checklist: no product recommendations, all projections labelled. No PII beyond a nickname.</div>
+</div>
+
+<div class="guard">EDUCATE, DO NOT RECOMMEND INVESTMENTS · SIMULATIONS ARE ASSUMPTIONS, NOT PROMISES</div>
+</div>
+</body></html>
