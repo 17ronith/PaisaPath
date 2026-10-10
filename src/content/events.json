@@ -1016,5 +1016,100 @@
         "lesson": "You got the same ₹10,000, but a year later: no growth, and it buys less now."
       }
     ]
+  },
+  {
+    "id": "scam_call_sidequest",
+    "stages": [1, 2, 3],
+    "weight": 1.4,
+    "concept": "spot_fake_officials",
+    "framings": {
+      "default": {
+        "title": "INCOMING CALL",
+        "speaker": "Unknown number",
+        "place": "home",
+        "portrait": "caller_wonky",
+        "intro": "Your phone rings. Unknown number, blurry profile photo of a man in sunglasses.",
+        "text": "'Hello! This is the lottery department. Your number won ₹25,000! Just confirm the OTP we sent you to release the prize.'"
+      },
+      "pocket_money": {
+        "title": "INCOMING CALL",
+        "speaker": "Unknown number",
+        "place": "home",
+        "portrait": "caller_wonky",
+        "intro": "Mom's phone rings while you're holding it. Blurry photo of a man in sunglasses.",
+        "text": "'Madam's number has won ₹25,000 in a lucky draw! Read me the OTP that just came, and the prize is released today.'"
+      },
+      "scholarship": {
+        "title": "INCOMING CALL",
+        "speaker": "Unknown number",
+        "place": "college",
+        "portrait": "caller_wonky",
+        "intro": "Between classes, your phone rings. Unknown number, a sunglasses selfie as the photo.",
+        "text": "'Congratulations! Scholarship students are selected for a ₹25,000 bonus. Confirm the OTP on your phone and it's credited now.'"
+      },
+      "earner": {
+        "title": "INCOMING CALL",
+        "speaker": "Unknown number",
+        "place": "kirana",
+        "portrait": "caller_wonky",
+        "intro": "Mid-shift, your phone rings. Unknown number, a man in sunglasses as the photo.",
+        "text": "'Sir, your shop's UPI has won a merchant prize of ₹25,000. Tell me the OTP you just received to claim it.'"
+      }
+    },
+    "choices": [
+      {
+        "id": "read_otp",
+        "text": "READ OUT THE OTP",
+        "quality": "critical",
+        "effects": [
+          {
+            "label": "Account emptied",
+            "wallet": -1500,
+            "happiness": -30
+          }
+        ],
+        "scam": "fell",
+        "ncfe": [
+          {
+            "item": "takes_responsibility",
+            "value": 0
+          }
+        ],
+        "lesson": "Nobody needs your OTP to GIVE you money. You just handed over the key to the account.",
+        "hint": "Why would a prize need the code that lets money OUT?"
+      },
+      {
+        "id": "ask_details",
+        "text": "ASK WHICH LOTTERY",
+        "quality": "weak",
+        "effects": [
+          {
+            "label": "Ten minutes of pressure",
+            "happiness": -8
+          }
+        ],
+        "scam": "spotted",
+        "lesson": "You didn't fall for it, but every minute on the line is a minute of pressure. Prizes you didn't enter don't exist."
+      },
+      {
+        "id": "report_1930",
+        "text": "CUT, BLOCK, REPORT 1930",
+        "quality": "good",
+        "effects": [
+          {
+            "label": "Reported",
+            "happiness": 6
+          }
+        ],
+        "scam": "spotted",
+        "ncfe": [
+          {
+            "item": "takes_responsibility",
+            "value": 1
+          }
+        ],
+        "lesson": "Cut, block, and 1930 — the cyber-fraud helpline — can warn the next person. That's how a scam call ends."
+      }
+    ]
   }
 ]
