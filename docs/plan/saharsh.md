@@ -73,8 +73,8 @@ Module split (one file each, one test file each):
       seeded game with a policy (`always good` / `always worst` / `random`)
       and prints bars per chapter. Output table goes into M2.pdf as an
       "experiment". `npm run sim` → ask Monish to add the script (`DEP:`).
-- [ ] **≥ 20 tests green.** `npm run check`. Merge. Post `MERGED: engine v1`.
-- [ ] 02:45 call: swap stub → real with Ronith's Driver; fix mismatches.
+- [x] **≥ 20 tests green.** `npm run check`. Merge. Post `MERGED: engine v1`.
+- [x] 02:45 call: swap stub → real with Ronith's Driver; fix mismatches.
 
 ## Phase 2 (04:05 → 08:30) — nap 05:45–07:15
 
@@ -107,7 +107,7 @@ Module split (one file each, one test file each):
       "like videos earn ₹5,000/day"…); swipe/tap LEGIT or SCAM; ≥ 6/8 = win.
       No real brand names.
 - [x] `src/minigames/index.ts` exports both under their `MiniGameDef['id']`.
-- [ ] Hints: `hintsOn` after 2 fails — verify end-to-end with Ronith.
+- [x] Hints: `hintsOn` after 2 fails — verify end-to-end with Ronith.
 
 ## Phase 3 (08:30 → 11:00)
 
