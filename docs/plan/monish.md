@@ -117,10 +117,10 @@ rule), rebase-merged to `main`, tagged `v0-skeleton`.
 - [ ] Wire `sendReport` UI contract with Ronith: EndReport calls
       `session.sendReport({facilitatorEmail, guardianEmail})`, shows
       preview URL + "Download PDF".
-- [ ] `public/demo-save.json` — a `GameState` at chapter 8 with a banked
+- [x] `public/demo-save.json` — a `GameState` at chapter 8 with a banked
       mistake and a portfolio, for the demo. Add `?demo=1` handling in
       `main.ts` that loads it.
-- [ ] Perf: DevTools slow 3G + 4× CPU on `npm run preview` build → record
+- [x] Perf: DevTools slow 3G + 4× CPU on `npm run preview` build → record
       load time; Lighthouse PWA installable. Numbers go in final report.
 - [ ] 07:30 integration call: you drive. Decide cuts from README §3 cut list.
 - [x] `deliverables/final_report.tex` draft (≤ 3 pages: solution, approach,

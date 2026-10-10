@@ -10,6 +10,13 @@ git log origin/main --oneline -5 --format='  %h %<(14)%an %<(60,trunc)%s %cr'
 
 echo; echo "== branches (unmerged into main) =="
 for b in $(git branch -r --no-merged origin/main | grep -v HEAD | sed 's|origin/||'); do
+  # skip branches already on main by patch-id (rebase-merged → new SHAs), ignoring checklist-tick commits
+  unapplied=$(git cherry origin/main origin/$b 2>/dev/null | awk '/^\+/{print $2}')
+  real=0
+  for c in $unapplied; do
+    if git diff-tree --no-commit-id --name-only -r "$c" | grep -qv '^docs/plan/'; then real=1; break; fi
+  done
+  [ "$real" = "0" ] && continue
   ahead=$(git rev-list --count origin/main..origin/$b)
   last=$(git log -1 --format='%an · %cr · %s' origin/$b)
   printf '  %-28s +%-3s %s\n' "$b" "$ahead" "$last"
@@ -36,8 +43,7 @@ done
 REPO=$(git remote get-url origin | sed -E "s|.*github.com[:/]||; s|\.git$||")
 if command -v gh >/dev/null 2>&1; then
   echo; echo "== open PRs =="
-  gh pr list -R "$REPO" --limit 20 --json number,title,author,headRefName,statusCheckRollup \
-    --template '{{range .}}  #{{.number}} {{.title}} ({{.author.login}} · {{.headRefName}}){{"\n"}}{{end}}' 2>/dev/null || echo "  (gh not authenticated)"
+  gh api "repos/$REPO/pulls?state=open" -q '.[] | "  #\(.number) \(.title[0:60]) (\(.user.login) · \(.head.ref))"' 2>/dev/null || echo "  (gh not authenticated)"
   echo; echo "== last CI runs on main =="
   gh run list -R "$REPO" --branch main --limit 4 2>/dev/null || true
 fi

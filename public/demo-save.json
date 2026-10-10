@@ -1,0 +1,216 @@
+{
+  "profile": {
+    "nickname": "Ravi",
+    "lang": "en",
+    "avatar": "avatar_01",
+    "persona": "scholarship",
+    "pocketMoneyMonthly": 2000,
+    "flags": ["has_bank_account", "upi_shared"],
+    "difficulty": "medium",
+    "quizBefore": 2,
+    "quizBeforeAnswers": [0, 0, 2, 1, 0],
+    "joinCode": "HYD-097"
+  },
+  "seed": 97,
+  "rng": 2124340609,
+  "chapter": 8,
+  "stage": 2,
+  "bars": { "wallet": 86675, "savings": 22650, "happiness": 87 },
+  "flags": [
+    "has_bank_account",
+    "upi_shared",
+    "~mg:2",
+    "~mg:3",
+    "~inv:5:500:banyan=250,chai=100,mango=50",
+    "~mg:5"
+  ],
+  "scheduled": [
+    {
+      "effect": {
+        "label": "Auto-save",
+        "wallet": -3000,
+        "savings": 3000,
+        "delayChapters": 1,
+        "repeat": { "everyChapters": 1, "times": 2 }
+      },
+      "fireChapter": 8,
+      "sourceTaskId": "save_medium_s2_01",
+      "remaining": 1
+    },
+    {
+      "effect": {
+        "label": "Monthly saving into Banyan",
+        "wallet": -2000,
+        "savings": 2000,
+        "delayChapters": 1,
+        "repeat": { "everyChapters": 1, "times": 2 }
+      },
+      "fireChapter": 8,
+      "sourceTaskId": "invest_simple_s2_01",
+      "remaining": 2
+    }
+  ],
+  "mistakes": [],
+  "learned": ["plan_the_month", "spot_fake_officials"],
+  "log": [
+    {
+      "chapter": 1,
+      "taskId": "budget_medium_s1_01",
+      "choiceId": "birthday_first",
+      "quality": "weak",
+      "before": { "wallet": 5000, "savings": 0, "happiness": 67 },
+      "after": { "wallet": 4375, "savings": 0, "happiness": 75 },
+      "isDetour": false,
+      "isEvent": false
+    },
+    {
+      "chapter": 1,
+      "taskId": "detour_overspent_bus_pass_due",
+      "choiceId": "cut_wants",
+      "quality": "good",
+      "before": { "wallet": 4375, "savings": 0, "happiness": 75 },
+      "after": { "wallet": 4375, "savings": 0, "happiness": 70 },
+      "isDetour": true,
+      "isEvent": false
+    },
+    {
+      "chapter": 1,
+      "taskId": "canteen_price_hike",
+      "choiceId": "adjust",
+      "quality": "good",
+      "before": { "wallet": 4375, "savings": 0, "happiness": 70 },
+      "after": { "wallet": 4375, "savings": 0, "happiness": 68 },
+      "isDetour": false,
+      "isEvent": true
+    },
+    {
+      "chapter": 2,
+      "taskId": "safety_medium_s1_01",
+      "choiceId": "friend",
+      "quality": "weak",
+      "before": { "wallet": 9250, "savings": 0, "happiness": 57 },
+      "after": { "wallet": 9250, "savings": 0, "happiness": 52 },
+      "isDetour": false,
+      "isEvent": false
+    },
+    {
+      "chapter": 2,
+      "taskId": "detour_friend_bad_advice",
+      "choiceId": "check_site",
+      "quality": "good",
+      "before": { "wallet": 9250, "savings": 0, "happiness": 52 },
+      "after": { "wallet": 9250, "savings": 0, "happiness": 57 },
+      "isDetour": true,
+      "isEvent": false
+    },
+    {
+      "chapter": 2,
+      "taskId": "quiz_prize",
+      "choiceId": "split",
+      "quality": "good",
+      "before": { "wallet": 9250, "savings": 0, "happiness": 57 },
+      "after": { "wallet": 9250, "savings": 250, "happiness": 65 },
+      "isDetour": false,
+      "isEvent": true
+    },
+    {
+      "chapter": 3,
+      "taskId": "save_medium_s1_01",
+      "choiceId": "save_then_lend",
+      "quality": "good",
+      "before": { "wallet": 14650, "savings": 250, "happiness": 72 },
+      "after": { "wallet": 14275, "savings": 500, "happiness": 72 },
+      "isDetour": false,
+      "isEvent": false
+    },
+    {
+      "chapter": 4,
+      "taskId": "invest_medium_s1_01",
+      "choiceId": "banyan",
+      "quality": "good",
+      "before": { "wallet": 19675, "savings": 500, "happiness": 79 },
+      "after": { "wallet": 19675, "savings": 500, "happiness": 81 },
+      "isDetour": false,
+      "isEvent": false
+    },
+    {
+      "chapter": 5,
+      "taskId": "safety_medium_s2_01",
+      "choiceId": "ask_regulator",
+      "quality": "good",
+      "before": { "wallet": 44675, "savings": 100, "happiness": 78 },
+      "after": { "wallet": 44675, "savings": 100, "happiness": 83 },
+      "isDetour": false,
+      "isEvent": false
+    },
+    {
+      "chapter": 5,
+      "taskId": "market_bad_year",
+      "choiceId": "hold",
+      "quality": "good",
+      "before": { "wallet": 44675, "savings": 100, "happiness": 83 },
+      "after": { "wallet": 44675, "savings": 100, "happiness": 80 },
+      "isDetour": false,
+      "isEvent": true
+    },
+    {
+      "chapter": 6,
+      "taskId": "save_medium_s2_01",
+      "choiceId": "auto_save",
+      "quality": "good",
+      "before": { "wallet": 71675, "savings": 150, "happiness": 87 },
+      "after": { "wallet": 67925, "savings": 3900, "happiness": 87 },
+      "isDetour": false,
+      "isEvent": false
+    },
+    {
+      "chapter": 6,
+      "taskId": "bonus_now_or_later",
+      "choiceId": "now",
+      "quality": "good",
+      "before": { "wallet": 67925, "savings": 3900, "happiness": 87 },
+      "after": { "wallet": 67925, "savings": 16400, "happiness": 90 },
+      "isDetour": false,
+      "isEvent": true
+    },
+    {
+      "chapter": 7,
+      "taskId": "invest_simple_s2_01",
+      "choiceId": "start_now",
+      "quality": "good",
+      "before": { "wallet": 89175, "savings": 20150, "happiness": 87 },
+      "after": { "wallet": 86675, "savings": 22650, "happiness": 87 },
+      "isDetour": false,
+      "isEvent": false
+    }
+  ],
+  "seenTasks": [
+    "budget_medium_s1_01",
+    "detour_overspent_bus_pass_due",
+    "safety_medium_s1_01",
+    "detour_friend_bad_advice",
+    "save_medium_s1_01",
+    "invest_medium_s1_01",
+    "safety_medium_s2_01",
+    "save_medium_s2_01",
+    "invest_simple_s2_01"
+  ],
+  "seenExplainers": [
+    "exp_plan_the_month",
+    "exp_inflation",
+    "exp_spot_fake_officials",
+    "exp_goal_jar",
+    "exp_pay_yourself_first",
+    "exp_too_good_to_be_true",
+    "exp_risk_return",
+    "exp_emergency_buffer",
+    "exp_time_value",
+    "exp_compounding"
+  ],
+  "failCounts": {},
+  "detoursTaken": 2,
+  "restarts": 0,
+  "portfolio": { "banyan": 414, "chai": 156, "mango": 51 },
+  "phase": "chapter_start",
+  "barsAtTaskStart": { "wallet": 89175, "savings": 20150, "happiness": 87 }
+}

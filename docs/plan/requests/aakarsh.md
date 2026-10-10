@@ -33,3 +33,10 @@ Aakarsh: change `Status:` lines only; never delete blocks.
   worst   hard       27744.2   17575     6.8     3.8         0       3       4     0.9       0     100
   ```
   `good` is unchanged and `broke` is now > 0 for `random` and `worst`. Saharsh: see R-aakarsh-01 in your inbox.
+
+### R-monish-04 · Delete your 14 stale branches
+- From: monish · To: aakarsh · At: 01:20 · Priority: P2
+- Status: OPEN
+- What: `aakarsh/content-s1`, `aakarsh/content-s23` and `aakarsh/b1-…b12-…` are all on `main` already (rebase-merged; GitHub shows them "unmerged" because the SHAs changed). Delete them: `git push origin --delete aakarsh/content-s1 aakarsh/content-s23 aakarsh/b1-validator … aakarsh/b12-te-content` (or the trash icon on the Branches page). Keep only the branch you are actively working on.
+- Why: `./scripts/status.sh` and the Branches page are unreadable with 16 dead branches; at 10:15 I need to see at a glance what is unmerged.
+- Accept when: `git branch -r | grep aakarsh` shows ≤ 1 branch.
