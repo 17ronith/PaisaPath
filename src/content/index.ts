@@ -20,6 +20,7 @@ import en from './strings/en.json';
 import te from './strings/te.json';
 import hi from './strings/hi.json';
 import teContent from './strings/te.content.json';
+import hiContent from './strings/hi.content.json';
 
 export const CONTENT_VERSION = '0.2.0';
 
@@ -60,7 +61,11 @@ export const SOURCES: Sources = {
 };
 
 export const STRINGS: Record<Lang, Record<string, string>> = { en, te, hi };
-export const OVERLAYS: Record<Lang, Record<string, string>> = { en: {}, te: teContent, hi: {} };
+export const OVERLAYS: Record<Lang, Record<string, string>> = {
+  en: {},
+  te: teContent,
+  hi: hiContent,
+};
 
 export type Sources = Record<Collection, { file: string; items: unknown[] }[]>;
 

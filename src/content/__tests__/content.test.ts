@@ -231,11 +231,17 @@ describe('localize / applyOverlay', () => {
 });
 
 describe('strings', () => {
-  it('Telugu covers almost all UI strings; Hindi has title + buttons and falls back to English', () => {
+  it('Telugu and Hindi cover (almost) all UI strings; every key exists in English', () => {
     const en = Object.keys(STRINGS.en);
     expect(Object.keys(STRINGS.te).length / en.length).toBeGreaterThan(0.9);
-    expect(Object.keys(STRINGS.hi)).toContain('title');
-    expect(Object.keys(STRINGS.hi).every((k) => k === 'title' || k.startsWith('btn.'))).toBe(true);
+    expect(Object.keys(STRINGS.hi).length / en.length).toBeGreaterThan(0.9);
+    for (const lang of ['te', 'hi'] as const) {
+      for (const k of Object.keys(STRINGS[lang])) expect(en).toContain(k);
+    }
+  });
+
+  it('Hindi content overlay covers the same keys as the Telugu overlay', () => {
+    expect(Object.keys(OVERLAYS.hi).sort()).toEqual(Object.keys(OVERLAYS.te).sort());
   });
 });
 
