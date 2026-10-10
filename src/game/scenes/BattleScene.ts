@@ -71,7 +71,7 @@ export class BattleScene extends Phaser.Scene {
 
     // Opponent panel
     const opp = new PixelPanel(this, 10, 50, 208, 66, { variant: 'blue' });
-    const lv = task ? tr(`battle.lv.${task.difficulty}`, LV[task.difficulty]) : '';
+    const lv = task ? tr(`battle.level.${task.difficulty}`, LV[task.difficulty]) : '';
     opp.add(text(this, 10, 10, framing.title, 'sm', COLOR.ink, { wordWrap: { width: 150 } }));
     if (lv)
       opp.add(text(this, 196, 10, `${t('battle.lv')} ${lv}`, 'xs', COLOR.muted).setOrigin(1, 0));
@@ -147,14 +147,18 @@ export class BattleScene extends Phaser.Scene {
   }
 
   private hint(choices: Choice[]): void {
-    const h =
+    // battle.hint is the panel's heading ("Aunty's hint"); the body is the task's own hint,
+    // or the generic nudge when the task has none.
+    const body =
       choices.find((c) => c.hint)?.hint ??
-      tr('battle.hint', 'Think: what will you need later this month?');
+      tr('battle.hint_generic', 'Slow down. Who gains if you choose fast?');
     const W = VIEW.width;
-    const p = new PixelPanel(this, 12, 120, W - 140, 40, { fill: 0xfbe8f2, edge: COLOR.aunty });
-    p.add(
-      text(this, 8, 6, h, 'xs', COLOR.ink, { wordWrap: { width: W - 160, useAdvancedWrap: true } }),
-    );
+    const heading = text(this, 10, 7, tr('battle.hint', "Aunty's hint"), 'xs', COLOR.aunty);
+    const msg = text(this, 10, 7 + heading.height, body, 'xs', COLOR.ink, {
+      wordWrap: { width: W - 164, useAdvancedWrap: true },
+    });
+    const p = new PixelPanel(this, 10, 122, W - 144, msg.y + msg.height + 9, { variant: 'red' });
+    p.add([heading, msg]);
   }
 
   private showMoves(choices: Choice[]): void {
@@ -200,7 +204,7 @@ export class BattleScene extends Phaser.Scene {
     else if (o.quality !== 'ok') this.cameras.main.shake(200, 0.008);
 
     const auntyLine = o.lesson;
-    void this.box.say(auntyLine, tr('aunty.name', 'Aunty'), COLOR.aunty);
+    void this.box.say(auntyLine, tr('guide.name', 'Aunty'), COLOR.aunty);
     this.results(o);
 
     if (o.critical) this.restartFlash();
