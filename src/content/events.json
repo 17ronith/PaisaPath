@@ -1,34 +1,338 @@
 [
   {
     "id": "friend_asks_again",
-    "stages": [1],
+    "stages": [1, 2],
     "weight": 1,
     "concept": "pay_yourself_first",
+    "requiresFlags": ["lent_friend"],
     "framings": {
       "default": {
         "title": "FRIEND AGAIN",
         "speaker": "Friend",
-        "place": "canteen",
-        "text": "Bro, about that ₹500… can't return it yet. Actually, can you spare ₹300 more till Sunday?"
+        "place": "college",
+        "text": "The friend who borrowed ₹500 hasn't paid it back, and now asks for ₹300 more."
       }
     },
     "choices": [
       {
         "id": "lend_again",
-        "text": "LEND ₹300",
+        "text": "LEND ₹300 MORE",
         "quality": "weak",
-        "effects": [{ "label": "Lent again", "wallet": -300, "happiness": 3 }],
-        "lesson": "Money lent without a plan to get it back is money given.",
-        "attitude": "now"
+        "effects": [{ "label": "Lent ₹300 more", "wallet": -300, "happiness": -3 }],
+        "ncfe": [{ "item": "considers_affordability", "value": 0 }],
+        "lesson": "Lending more to someone who hasn't repaid only deepens the hole. Save first; lend only what you can lose."
+      },
+      {
+        "id": "ask_back",
+        "text": "ASK FOR THE ₹500 BACK",
+        "quality": "good",
+        "effects": [
+          {
+            "label": "Got ₹250 back, the rest next week",
+            "wallet": 250,
+            "happiness": 2,
+            "clearFlag": "lent_friend"
+          }
+        ],
+        "ncfe": [{ "item": "takes_responsibility", "value": 1 }],
+        "lesson": "Asking for your own money back is fair. Your savings plan comes first."
+      },
+      {
+        "id": "no_more",
+        "text": "NO MORE LOANS",
+        "quality": "ok",
+        "effects": [{ "label": "No new loan", "happiness": -2 }],
+        "lesson": "Good. The ₹500 may be gone, but you stopped the leak."
+      }
+    ]
+  },
+  {
+    "id": "cousin_wedding_gift",
+    "stages": [1],
+    "weight": 2,
+    "concept": "plan_the_month",
+    "framings": {
+      "default": {
+        "title": "WEDDING GIFT",
+        "speaker": "Mom",
+        "place": "home",
+        "text": "Your cousin's wedding is next week. The family expects you to chip in ₹150 for the gift."
+      }
+    },
+    "choices": [
+      {
+        "id": "fun_budget",
+        "text": "PAY FROM THE FUN BUDGET",
+        "quality": "good",
+        "effects": [{ "label": "Gift money from the fun budget", "wallet": -150, "happiness": 3 }],
+        "ncfe": [{ "item": "keeps_budget", "value": 1 }],
+        "lesson": "Planned spending absorbs surprises. Cutting wants this week kept your needs safe."
+      },
+      {
+        "id": "from_savings",
+        "text": "TAKE IT FROM SAVINGS",
+        "quality": "ok",
+        "effects": [{ "label": "Gift money from savings", "savings": -150, "happiness": 3 }],
+        "lesson": "That works, but savings are for goals and emergencies. Next time keep a small 'family events' line in the plan."
+      },
+      {
+        "id": "borrow",
+        "text": "BORROW IT",
+        "quality": "weak",
+        "effects": [
+          { "label": "Borrowed for the gift", "happiness": -2 },
+          { "label": "Repaid the gift loan + ₹20", "wallet": -170, "delayChapters": 1 }
+        ],
+        "ncfe": [{ "item": "loan_interest", "value": 0 }],
+        "lesson": "Borrowing for a gift means paying more for it later."
+      }
+    ]
+  },
+  {
+    "id": "recharge_expired",
+    "stages": [1, 2],
+    "weight": 2,
+    "concept": "compare_before_buying",
+    "framings": {
+      "default": {
+        "title": "DATA OVER",
+        "speaker": "Your phone",
+        "place": "mobile_shop",
+        "text": "Data's finished. Pack A: ₹199 for 28 days. Pack B: ₹19 a day. Which costs less for the month?"
+      }
+    },
+    "choices": [
+      {
+        "id": "monthly",
+        "text": "₹199 FOR 28 DAYS",
+        "quality": "good",
+        "effects": [{ "label": "Monthly pack", "wallet": -199 }],
+        "ncfe": [
+          { "item": "division", "value": 1 },
+          { "item": "compares_options", "value": 1 }
+        ],
+        "lesson": "₹19 × 28 days = ₹532. The monthly pack costs less than half. Divide before you decide."
+      },
+      {
+        "id": "daily",
+        "text": "₹19 A DAY",
+        "quality": "weak",
+        "effects": [
+          { "label": "Day pack", "wallet": -19 },
+          { "label": "Daily packs added up to ₹532", "wallet": -513, "delayChapters": 1 }
+        ],
+        "ncfe": [{ "item": "division", "value": 0 }],
+        "lesson": "₹19 feels cheap, but 28 of them is ₹532. Small daily costs add up."
+      }
+    ]
+  },
+  {
+    "id": "quiz_prize",
+    "stages": [1],
+    "weight": 2,
+    "concept": "goal_jar",
+    "framings": {
+      "default": {
+        "title": "QUIZ PRIZE!",
+        "speaker": "Principal",
+        "place": "college",
+        "text": "You won the college quiz! The prize: ₹200 cash."
+      }
+    },
+    "choices": [
+      {
+        "id": "split",
+        "text": "HALF TO JAR, HALF TREAT",
+        "quality": "good",
+        "effects": [{ "label": "₹100 to your jar, ₹100 treat", "savings": 100, "happiness": 8 }],
+        "attitude": "later",
+        "ncfe": [{ "item": "saves_actively", "value": 1 }],
+        "lesson": "Celebrate and save: a split keeps you happy now and gets you closer to your goal."
+      },
+      {
+        "id": "all_jar",
+        "text": "ALL INTO THE JAR",
+        "quality": "ok",
+        "effects": [{ "label": "₹200 into your jar", "savings": 200, "happiness": 3 }],
+        "attitude": "later",
+        "ncfe": [{ "item": "saves_actively", "value": 1 }],
+        "lesson": "Your goal jar just jumped! A small treat is allowed too."
+      },
+      {
+        "id": "treat",
+        "text": "TREAT EVERYONE",
+        "quality": "ok",
+        "effects": [{ "label": "Treated your friends", "happiness": 10 }],
+        "attitude": "now",
+        "lesson": "Fun! Next time, try putting part of a surprise windfall towards your goal."
+      }
+    ]
+  },
+  {
+    "id": "canteen_price_hike",
+    "stages": [1],
+    "weight": 2,
+    "concept": "inflation",
+    "framings": {
+      "default": {
+        "title": "PRICE HIKE",
+        "speaker": "Canteen anna",
+        "place": "canteen",
+        "text": "'Samosa ₹12 from today, tea ₹10.' Your pocket money is the same as last year."
+      }
+    },
+    "choices": [
+      {
+        "id": "adjust",
+        "text": "ADJUST: FEWER SNACKS",
+        "quality": "good",
+        "effects": [{ "label": "Snack budget adjusted", "happiness": -2 }],
+        "ncfe": [
+          { "item": "inflation", "value": 1 },
+          { "item": "watches_finances", "value": 1 }
+        ],
+        "lesson": "When prices rise and money doesn't, the same rupees buy less. That's inflation, so adjust the plan."
+      },
+      {
+        "id": "ignore",
+        "text": "IGNORE IT",
+        "quality": "weak",
+        "effects": [{ "label": "Snacks cost more all month", "wallet": -60, "happiness": 1 }],
+        "ncfe": [{ "item": "inflation", "value": 0 }],
+        "lesson": "Ignoring price rises quietly drains your budget. Inflation is real even when it's small."
+      }
+    ]
+  },
+  {
+    "id": "refund_collect_scam",
+    "stages": [1, 2, 3],
+    "weight": 2,
+    "concept": "never_share_otp_pin",
+    "framings": {
+      "default": {
+        "title": "REFUND?",
+        "speaker": "UPI request",
+        "place": "home",
+        "text": "'Refund of ₹299 for your order! Approve this request with your UPI PIN to receive it.'"
+      },
+      "earner": {
+        "title": "REFUND?",
+        "speaker": "'Customer'",
+        "place": "kirana",
+        "text": "A 'customer' says he overpaid you and sends a request: 'Approve with your PIN to get my refund.'"
+      }
+    },
+    "choices": [
+      {
+        "id": "approve",
+        "text": "APPROVE WITH PIN",
+        "quality": "weak",
+        "effects": [
+          { "label": "₹299 left your account instead", "wallet": -299, "happiness": -15 }
+        ],
+        "scam": "fell",
+        "lesson": "Entering your PIN always SENDS money. A refund never needs your PIN."
       },
       {
         "id": "decline",
-        "text": "NOT THIS TIME",
+        "text": "DECLINE IT",
         "quality": "good",
-        "effects": [{ "label": "Held firm", "happiness": -3 }],
-        "lesson": "Awkward for a minute. Solvent for the month.",
+        "effects": [{ "label": "Declined the request", "happiness": 4 }],
+        "scam": "spotted",
+        "ncfe": [{ "item": "takes_responsibility", "value": 1 }],
+        "lesson": "Right! A PIN means money going out. You never need it to receive."
+      }
+    ]
+  },
+  {
+    "id": "fake_payment_screenshot",
+    "stages": [1, 2],
+    "weight": 1,
+    "concept": "fake_payment_proof",
+    "framings": {
+      "default": {
+        "title": "PAID? REALLY?",
+        "speaker": "Customer",
+        "place": "kirana",
+        "text": "A customer shows a 'Payment successful ₹350' screenshot and starts to leave. Your phone hasn't pinged."
+      },
+      "scholarship": {
+        "title": "PAID? REALLY?",
+        "speaker": "Senior",
+        "place": "college",
+        "text": "You're selling your old books. A senior flashes a 'Paid ₹350' screenshot and grabs them. No ping."
+      }
+    },
+    "choices": [
+      {
+        "id": "trust",
+        "text": "TRUST THE SCREENSHOT",
+        "quality": "weak",
+        "effects": [{ "label": "No money ever arrived", "wallet": -350, "happiness": -12 }],
+        "scam": "fell",
+        "ncfe": [{ "item": "watches_finances", "value": 0 }],
+        "lesson": "A screenshot is a picture, not a payment. Only your own app or bank SMS proves money arrived."
+      },
+      {
+        "id": "check_app",
+        "text": "CHECK MY OWN APP FIRST",
+        "quality": "good",
+        "effects": [{ "label": "Checked: nothing had arrived", "happiness": 5 }],
+        "scam": "spotted",
+        "ncfe": [{ "item": "watches_finances", "value": 1 }],
+        "lesson": "Only your own app or bank SMS proves you were paid. Always check before you hand anything over."
+      }
+    ]
+  },
+  {
+    "id": "no_buffer_emergency",
+    "stages": [1, 2],
+    "weight": 3,
+    "concept": "emergency_buffer",
+    "requiresFlags": ["no_buffer"],
+    "framings": {
+      "default": {
+        "title": "TYRE BURST",
+        "speaker": "Your cycle",
+        "place": "bus_stop",
+        "text": "Your cycle tyre bursts on the way to college. Repair: ₹150. You have no savings to fall back on."
+      }
+    },
+    "choices": [
+      {
+        "id": "borrow",
+        "text": "BORROW ₹150",
+        "quality": "weak",
+        "effects": [
+          { "label": "Borrowed ₹150", "happiness": -3 },
+          { "label": "Repaid the ₹150", "wallet": -150, "delayChapters": 1 }
+        ],
+        "ncfe": [{ "item": "major_expense_no_borrow", "value": 0 }],
+        "lesson": "No buffer means every small shock becomes a loan. Even ₹50 a month adds up to a cushion."
+      },
+      {
+        "id": "walk",
+        "text": "WALK FOR A WEEK",
+        "quality": "ok",
+        "effects": [{ "label": "Walked an hour each way", "happiness": -10 }],
+        "lesson": "No debt, but it hurt. A small buffer would have fixed it the same day."
+      },
+      {
+        "id": "start_buffer",
+        "text": "FIX IT, START A BUFFER",
+        "quality": "good",
+        "effects": [
+          {
+            "label": "Fixed it; started saving ₹50 a month",
+            "wallet": -200,
+            "savings": 50,
+            "happiness": -2,
+            "clearFlag": "no_buffer"
+          }
+        ],
         "attitude": "later",
-        "ncfe": [{ "item": "keeps_budget", "value": 1 }]
+        "ncfe": [{ "item": "saves_actively", "value": 1 }],
+        "lesson": "Paying for it was tough, but starting a buffer today means the next shock won't be."
       }
     ]
   }

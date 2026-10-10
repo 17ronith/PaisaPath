@@ -6,33 +6,37 @@
     "difficulty": "simple",
     "stage": 1,
     "concept": "needs_vs_wants",
-    "pressure": 60,
+    "pressure": 55,
+    "source": "team estimate",
     "framings": {
       "default": {
         "title": "TURF MATCH",
         "speaker": "Friends",
         "place": "turf",
-        "text": "'Bro, you coming? ₹150 each.' You check the wallet. The biryani ate it."
+        "text": "'You coming? ₹100 each!' You check your wallet. Last night's biryani ate the match money."
       }
     },
     "choices": [
       {
         "id": "say_no",
-        "text": "SAY NO",
-        "quality": "ok",
+        "text": "SAY NO, STAY HOME",
+        "quality": "good",
         "effects": [{ "label": "Missed the match", "happiness": -15 }],
-        "lesson": "Last night's ₹500 cost you today's match. That's the real price of impulse."
+        "attitude": "later",
+        "ncfe": [{ "item": "considers_affordability", "value": 1 }],
+        "lesson": "Last night's ₹300 cost you today's match. That's the real price of an impulse buy."
       },
       {
         "id": "borrow",
-        "text": "BORROW ₹150",
+        "text": "BORROW ₹100 FOR IT",
         "quality": "weak",
         "effects": [
-          { "label": "Borrowed", "wallet": 150, "happiness": 5 },
-          { "label": "Repaid friend", "wallet": -150, "delayChapters": 1 }
+          { "label": "Borrowed for the match", "happiness": 5 },
+          { "label": "Repaid your friend", "wallet": -100, "delayChapters": 1 }
         ],
-        "lesson": "Borrowing moves the hole to next month. It doesn't fill it.",
-        "attitude": "now"
+        "attitude": "now",
+        "ncfe": [{ "item": "considers_affordability", "value": 0 }],
+        "lesson": "Borrowing for a want moves the hole to next month. It doesn't fill it."
       }
     ]
   },
@@ -43,33 +47,162 @@
     "difficulty": "medium",
     "stage": 1,
     "concept": "spot_fake_officials",
-    "pressure": 70,
+    "pressure": 55,
+    "source": "team estimate",
     "framings": {
       "default": {
-        "title": "FRIEND SAYS",
+        "title": "BAD ADVICE",
         "speaker": "Friend",
-        "place": "canteen",
-        "text": "'Arre, my cousin paid and his came through. Just pay, what's ₹500?' The caller rings again."
+        "place": "college",
+        "text": "'My cousin paid a fee like that and got his money. Just pay, yaar!'"
       }
     },
     "choices": [
       {
-        "id": "pay",
-        "text": "PAY ₹500",
-        "quality": "critical",
-        "effects": [{ "label": "Paid the scammer", "wallet": -500, "happiness": -25 }],
+        "id": "pay_anyway",
+        "text": "PAY, LIKE THE COUSIN DID",
+        "quality": "weak",
+        "effects": [{ "label": "Paid ₹500 to a scammer", "wallet": -500, "happiness": -15 }],
         "scam": "fell",
-        "lesson": "Your friend's cousin didn't get a scholarship. He got scammed too.",
-        "hint": "Has anyone ever been paid BY paying first?"
+        "lesson": "One cousin's story isn't proof. Real offices never collect fees on a call."
       },
       {
-        "id": "portal",
-        "text": "CHECK PORTAL",
+        "id": "check_site",
+        "text": "CHECK THE OFFICIAL SITE",
         "quality": "good",
-        "effects": [{ "label": "Verified yourself", "happiness": 4 }],
+        "effects": [{ "label": "Verified: it was a scam", "happiness": 5 }],
         "scam": "spotted",
         "ncfe": [{ "item": "compares_options", "value": 1 }],
-        "lesson": "Portal says: no fee, ever. Lesson learned the long way."
+        "lesson": "Friends guess; the official site knows. You checked, and it was a scam."
+      }
+    ]
+  },
+  {
+    "id": "detour_broke_by_week3",
+    "isDetour": true,
+    "pillar": "budget",
+    "difficulty": "simple",
+    "stage": 1,
+    "concept": "plan_the_month",
+    "pressure": 50,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "BROKE BY WEEK 3",
+        "speaker": "Empty wallet",
+        "place": "bus_stop",
+        "text": "Week 3, and your wallet is nearly empty. Bus fare, snacks and a recharge are all still to come."
+      }
+    },
+    "choices": [
+      {
+        "id": "week_plan",
+        "text": "MAKE A WEEK-BY-WEEK PLAN",
+        "quality": "good",
+        "effects": [{ "label": "Cut snacks, walked twice", "happiness": -4 }],
+        "attitude": "later",
+        "ncfe": [
+          { "item": "keeps_budget", "value": 1 },
+          { "item": "watches_finances", "value": 1 }
+        ],
+        "lesson": "A weekly plan stretches what's left. Next month, plan before you spend, not after."
+      },
+      {
+        "id": "borrow",
+        "text": "BORROW TILL NEXT MONTH",
+        "quality": "weak",
+        "effects": [
+          { "label": "Borrowed ₹100", "happiness": -2 },
+          { "label": "Repaid ₹100 from next month", "wallet": -100, "delayChapters": 1 }
+        ],
+        "ncfe": [{ "item": "keeps_budget", "value": 0 }],
+        "lesson": "Borrowing moves the hole to next month, so it starts short before it begins."
+      }
+    ]
+  },
+  {
+    "id": "detour_no_buffer_borrow",
+    "isDetour": true,
+    "pillar": "safety",
+    "difficulty": "hard",
+    "stage": 1,
+    "concept": "instant_loan_trap",
+    "pressure": 75,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "INSTANT LOAN AD",
+        "speaker": "Loan app",
+        "place": "home",
+        "text": "Your friend wants the money back early. An ad pops up: '₹400 in 5 minutes! No documents! Just allow contacts.'"
+      }
+    },
+    "choices": [
+      {
+        "id": "take_loan",
+        "text": "TAKE THE APP LOAN",
+        "quality": "weak",
+        "effects": [
+          { "label": "Loan app: ₹400 now", "happiness": -3 },
+          {
+            "label": "Repaid ₹600 + threat calls to your contacts",
+            "wallet": -600,
+            "happiness": -20,
+            "delayChapters": 1
+          }
+        ],
+        "scam": "fell",
+        "ncfe": [{ "item": "loan_interest", "value": 0 }],
+        "lesson": "Instant-loan apps charge huge fees and harass your contacts. ₹400 became ₹600 in a month."
+      },
+      {
+        "id": "family_plan",
+        "text": "SAY NO, TALK TO FAMILY",
+        "quality": "good",
+        "effects": [{ "label": "Family helped you make a repayment plan", "happiness": -2 }],
+        "scam": "spotted",
+        "ncfe": [{ "item": "loan_interest", "value": 1 }],
+        "lesson": "An app that wants your contacts for a 'no-document' loan is a trap. Ask people you trust first."
+      }
+    ]
+  },
+  {
+    "id": "detour_overspent_bus_pass_due",
+    "isDetour": true,
+    "pillar": "budget",
+    "difficulty": "medium",
+    "stage": 1,
+    "concept": "plan_the_month",
+    "pressure": 55,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "BUS PASS DUE",
+        "speaker": "Bus conductor",
+        "place": "bus_stop",
+        "text": "The pass is due today, but the birthday treat ate that money. Daily tickets cost ₹15 each way."
+      }
+    },
+    "choices": [
+      {
+        "id": "cut_wants",
+        "text": "CUT WANTS, PAY THE PASS",
+        "quality": "good",
+        "effects": [{ "label": "No snacks this week; pass paid", "happiness": -5 }],
+        "attitude": "later",
+        "ncfe": [{ "item": "pays_bills_on_time", "value": 1 }],
+        "lesson": "Bills first, wants wait. The pass is far cheaper than daily tickets."
+      },
+      {
+        "id": "daily_tickets",
+        "text": "PAY DAILY TICKETS",
+        "quality": "weak",
+        "effects": [{ "label": "Daily tickets cost more", "wallet": -80, "happiness": -3 }],
+        "ncfe": [
+          { "item": "compares_options", "value": 0 },
+          { "item": "pays_bills_on_time", "value": 0 }
+        ],
+        "lesson": "Skipping the pass cost more in daily tickets. A missed due date usually costs extra."
       }
     ]
   }
