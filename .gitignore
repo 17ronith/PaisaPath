@@ -1,1 +1,9 @@
 .remember/
+node_modules/
+dist/
+dev-dist/
+server/node_modules/
+server/dist/
+.DS_Store
+*.log
+.env

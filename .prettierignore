@@ -1,0 +1,11 @@
+node_modules
+dist
+dev-dist
+server/node_modules
+team97_vanguard_context
+deliverables
+docs
+CONTEXT.md
+*.pdf
+package-lock.json
+.claude
