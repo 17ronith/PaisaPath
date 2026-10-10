@@ -7,14 +7,14 @@
 Role until the end: integrator, every PDF, the video, the forms. Nap **05:30–07:00**.
 
 - [x] **04:00** confirm on GitHub that `deliverables/M2.pdf` is on `main` and the last commit is before 04:00. Post `MERGED: M2 in` in chat.
-- [ ] **04:15–05:15** `docs/plan/CONCEPTS.md` skeleton (PLAYTEST #24): table of the 17 concepts → one-line definition · the real-life situation · the lesson line · NCFE item · tasks that evidence it. Aakarsh fills the content columns after his nap.
-- [ ] **04:15–05:30** `src/app/tts.ts` (PLAYTEST #22b, P2): `speak(text, lang)` over the Web Speech API (`en-IN`/`te-IN`/`hi-IN` if the device has voices, else silent), `stop()`, a `ttsEnabled` flag persisted in localStorage. Hand Ronith one line to call it from Battle and Quiz (request in his inbox).
+- [x] **04:15–05:15** `docs/plan/CONCEPTS.md` skeleton (PLAYTEST #24): table of the 17 concepts → one-line definition · the real-life situation · the lesson line · NCFE item · tasks that evidence it. Aakarsh fills the content columns after his nap.
+- [x] **04:15–05:30** `src/app/tts.ts` (PLAYTEST #22b, P2): `speak(text, lang)` over the Web Speech API (`en-IN`/`te-IN`/`hi-IN` if the device has voices, else silent), `stop()`, a `ttsEnabled` flag persisted in localStorage. Hand Ronith one line to call it from Battle and Quiz (request in his inbox).
 - [ ] **05:30–07:00** nap.
 - [ ] **07:00** play test 2 (all four, phone + laptop). Write `docs/plan/PLAYTEST-02.md` in the same format; re-check every PLAYTEST-01 row marked DONE.
 - [ ] **07:30** integration call, 20 min. Decide cuts from the list: second mini-game → Telugu beyond onboarding → Stage 3 depth → town map → live email → what-if screen. Record the decision in `PLAYTEST-02.md`.
 - [ ] **08:00–09:00** `deliverables/src/final_report.tex` (≤ 3 pages: solution, approach, features, results). Numbers from Saharsh by 09:30 (tests, sim table) and from the validator. Team 97, no names, no IIIT. Compile here with xelatex.
 - [ ] **08:30** feature freeze announced in chat.
-- [ ] **09:00** `docs/demo-script.md` — ≤ 4 min, the 9 beats of README §8 with what's on screen + the voiceover line each. Ronith records the screen at 09:30 using `?demo=1` for the late game; you record the voiceover; stitch; upload to Drive; **"Anyone with the link"**; test in incognito by **10:30**.
+- [x] **09:00** `docs/demo-script.md` — ≤ 4 min, the 9 beats of README §8 with what's on screen + the voiceover line each. Ronith records the screen at 09:30 using `?demo=1` for the late game; you record the voiceover; stitch; upload to Drive; **"Anyone with the link"**; test in incognito by **10:30**.
 - [ ] **09:30** README final pass: setup/run only + credits (Kenney CC0, Press Start 2P OFL, any body font, music track licence, "original pixel-art backdrops by the team").
 - [ ] **10:15 code freeze**: `git checkout main && git pull && npm ci && npm run check && npm run build`. Only you push after this. `git archive -o team97.zip HEAD`.
 - [ ] **10:45** verify the latest commit on GitHub `main`; submit video link + zip through the forms on Discord.
