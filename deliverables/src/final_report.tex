@@ -1,5 +1,5 @@
 \documentclass[10pt,a4paper]{article}
-\usepackage[a4paper,top=1.25cm,bottom=1.3cm,left=1.55cm,right=1.55cm]{geometry}
+\usepackage[a4paper,top=1.2cm,bottom=1.2cm,left=1.5cm,right=1.5cm]{geometry}
 \usepackage{fontspec}
 \setmainfont{Inter}[Scale=0.93]
 \newfontfamily\rupeefont{DejaVu Sans}
@@ -16,13 +16,16 @@
 \color{ink}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{2.5pt}
-\linespread{1.04}
+\linespread{1.03}
 \titleformat{\section}{\normalsize\bfseries\color{acc}}{\thesection.}{0.45em}{}
-\titlespacing*{\section}{0pt}{6pt}{2.5pt}
+\titlespacing*{\section}{0pt}{5pt}{2pt}
 \titleformat{\subsection}{\small\bfseries}{\thesubsection}{0.4em}{}
-\titlespacing*{\subsection}{0pt}{4pt}{1.5pt}
-\setlist{nosep,leftmargin=1.1em,itemsep=1.2pt}
+\titlespacing*{\subsection}{0pt}{3pt}{1pt}
+\setlist{nosep,leftmargin=1.1em,itemsep=1pt}
 \pagestyle{empty}
+% One phone screenshot with a caption under it.
+\newcommand{\shot}[2]{\begin{minipage}[t]{0.158\textwidth}\centering
+  \includegraphics[width=\linewidth]{shots/#1.png}\\[1pt]{\scriptsize\color{muted}#2}\end{minipage}}
 \begin{document}
 
 % ---------- header ----------
@@ -37,42 +40,102 @@
 
 \vspace{3pt}
 {\color{acc}\rule{\textwidth}{1.2pt}}
-\vspace{-2pt}
+\vspace{-3pt}
+
+\section{Problem and Our Answer}
+\textbf{The brief.} Design a digital experience that Grade 11-12 (Intermediate) students from underserved communities in Hyderabad \emph{want} to use, and that teaches four pillars: \emph{plan and budget}, \emph{save and manage}, \emph{understand investing}, \emph{stay financially safe}. It starts with about 1,500 students delivered through NGOs and must scale. It is judged on seven measures (simple, relatable, persona-led, language-ready, game-based, intuitive UI, NGO-integrated) under one guardrail: \emph{educate, do not recommend investments; simulations are assumptions, not promises}.
+
+\textbf{Our reading.} Financial literacy here means sensible decisions with one's \emph{own} money: pocket money, a scholarship landing in a first bank account, UPI on a shared phone, a first salary. It is not finance as a subject and not stock trading. The two easy answers both miss: a quiz app with coins is a textbook with confetti, and a trading simulator breaks the guardrail and is far from a 16-year-old's life.
+
+\textbf{Our answer.} A browser game in which the student lives a compressed life (Intermediate student, first salary, earning more, then a look back at 60) and every money decision is a Pok\'emon-style \textbf{money battle} at a Hyderabad place they know. Two claims hold throughout: \textbf{the game teaches the concepts while being relatable to the target demographic}, and \textbf{the teaching is done through short abstract animations} that play \emph{after} the choice and its consequence, never as a lecture first.
+
+\vspace{3pt}
+\noindent\shot{battle}{Money battle}\hfill\shot{scamcall}{A scam call rings}\hfill\shot{turf}{The match you saved for}\hfill\shot{banyan}{Compounding as a banyan}\hfill\shot{market}{Charminar Market}\hfill\shot{report}{End report}
 
 \section{Solution}
-A browser game for Intermediate (Grade 11--12) students from underserved communities in Hyderabad, delivered through NGOs on shared low-end phones. The student names an avatar, answers four life questions that pick a \emph{persona} (pocket money, scholarship or earner) and a five-question quiz that sets the difficulty, then lives a compressed life in three stages --- \textbf{Intermediate student $\rightarrow$ first salary $\rightarrow$ earning more} --- and an epilogue at 60. Every decision is a Pok\'emon-style \textbf{money battle} set in a Hyderabad place and priced relative to the student's own pocket money. Two design claims from M1 hold throughout: \textbf{the game teaches the concepts while being relatable to the target demographic}, and \textbf{the teaching is done through short abstract animations} that play \emph{after} the choice, never as a lecture first. Mistakes are banked and return in disguise until learned. The game ends with the same quiz (learning gain), an NCFE-aligned score, an in-game ``what if'' of the biggest mistake, and a PDF report emailed to the NGO facilitator.
+\begin{center}
+\begin{tikzpicture}[node distance=2.5mm, box/.style={draw=acc, fill=accsoft, rounded corners=2pt, align=center, font=\scriptsize, inner sep=2.5pt, minimum height=8.5mm, text width=19.5mm}, ar/.style={-{Stealth[length=1.6mm]}, acc, thick}]
+\node[box] (a) {Setup: student, or NGO facilitator with batch code};
+\node[box, right=of a] (b) {Avatar, nickname, 4 life questions $\rightarrow$ persona};
+\node[box, right=of b] (c) {5-question quiz: \emph{before} score + difficulty};
+\node[box, right=of c] (d) {Stage 1: student\\ (4 months)};
+\node[box, right=of d] (e) {Stage 2: first salary\\ (3 months)};
+\node[box, right=of e] (f) {Stage 3: earning more\\ (3 months)};
+\node[box, right=of f] (g) {Age 60, what if, \emph{after} quiz, report};
+\foreach \x/\y in {a/b,b/c,c/d,d/e,e/f,f/g} \draw[ar] (\x) -- (\y);
+\end{tikzpicture}
+\end{center}
+\vspace{-3pt}
+\textbf{The teaching loop.} \emph{Situation} (a task from the student's difficulty bucket, framed for their persona) $\rightarrow$ \emph{choice} (2-4 moves) $\rightarrow$ \emph{consequence} (wallet and happiness bars move now; some effects are scheduled months later) $\rightarrow$ \emph{the Professor walks in}: one line of praise for a good choice, or a lesson line plus a 10-20\,s abstract animation for a weak one $\rightarrow$ the concept goes into a \emph{mistake bank} and comes back later in a new disguise until it is answered right. Weak choices send the player down a detour; falling for a scam, running out of money or happiness at zero restarts the task. Good choices can also be \emph{shown} paying off: pick \rs20 chips over a \rs300 biryani and the next day you bat three balls at the turf; order the biryani and the next scene is the match you cannot afford. Money comes from life (allowance, scholarship, wages), not from quests; mini-games are framed as side gigs and lock while a bar is low.
 
-\section{Approach}
-\subsection{Teaching loop}
-Situation (a task from the student's difficulty bucket, framed for their persona) $\rightarrow$ choice (2--4 options) $\rightarrow$ consequence (bars move now; some effects are scheduled chapters later) $\rightarrow$ a 10--20\,s abstract animation naming the concept $\rightarrow$ the concept is banked if the choice was weak, and comes back later in a new disguise. Weak choices send the player down a detour; a scam, going broke or happiness at zero restarts the task. Money comes only from life (allowance, scholarship, wages) --- and from two skippable mini-games framed as side gigs, locked while any bar is low.
-\subsection{Architecture}
-\textbf{One generic battle screen driven by JSON.} Four parts with one-way dependencies: \emph{shared} contract types and a zod schema; a \emph{pure game engine} (seeded RNG, economy scaler, chapter loop, task selector with pillar rotation and an investing gate, consequence scheduler with delays and repeats, mistake bank, NCFE scoring, investing simulation, deterministic what-if replay, save/resume); a \emph{content pack} editable by non-coders (tasks per pillar $\times$ difficulty with one framing per persona, detours, random events, explainer animations in a six-op DSL, personas, quiz, places, assets, strings per language); and a \emph{Phaser 3 client} as an offline PWA. A small Node report service emails the PDF (sandbox inbox in the demo) and falls back to a local outbox offline. A static facilitator dashboard mocks the NGO view.
-\subsection{Economy}
-Everyone starts Stage~1 with \rs5{,}000 in-game per month; in-game price $=$ real price $\times$ \rs5{,}000 $/$ monthly pocket money (from the indirect weekly-spend question), so a \rs200 bat costs the same \emph{share} of money in the game as in the student's life. Ten monthly chapters (4 + 3 + 3); stage jumps skip 5, 6 and 25 years so compounding on four made-up assets is visible.
-\subsection{Guardrail and privacy}
-No real products, companies or tickers; nothing is recommended; every projection carries ``assumes X\% a year; real returns vary and can be negative; simulations are assumptions, not promises.'' The app never asks for OTP, PIN, Aadhaar, phone or email; students are a nickname; NGOs enrol with batch join codes; the sponsor sees aggregates only.
+\textbf{Personas and difficulty are separate.} Four picture questions (where money comes from, weekly spend as a range, own bank account, whose phone has UPI) pick one of three personas: \emph{pocket money}, \emph{scholarship} or \emph{earner}. The persona changes only the story: the same scam is an ``OTP sent by mistake'' on a parent's phone, a fake scholarship officer asking \rs500, or a fake payment screenshot at the shop counter. The quiz score alone picks \emph{simple}, \emph{medium} or \emph{hard}.
 
-\section{Features}
+\textbf{End of game.} The epilogue at 60 shows what savings and the four made-up assets became, next to a cash box at home. A \emph{what if} screen replays the single biggest mistake from the decision log with the other choice, on the same random seed, side by side (shown only to the student). The after-quiz asks the same five concepts in new situations, giving a learning gain that is not memorisation. The student gets an NCFE-aligned score and a safety score, and a PDF report goes to the NGO facilitator with the guardian in CC.
+
+\section{Approach: Why This Design}
 \begin{itemize}
-  \item Onboarding: language (English, Telugu; Hindi partial), avatar + typed name, four picture questions $\rightarrow$ persona with ``Not me? Switch'', five-question difficulty quiz $=$ before score.
-  \item \textbf{[N]} main tasks across 4 pillars $\times$ 3 difficulties $\times$ 3 stages, each framed for all three personas (\textbf{[N]} framings), \textbf{[N]} detours, \textbf{[N]} random events, \textbf{[N]} delayed or repeating consequences (EMIs, lent money, no buffer).
-  \item \textbf{[N]} abstract explainer animations, one per concept, replayable from a library; an info panel with bars, commitments, open mistakes, lock status.
-  \item Chapter map and town map with \textbf{[N]} Hyderabad backdrops (original pixel art); hints after two failures; a guide character.
-  \item Mini-games: \emph{Kirana Rush} (needs vs wants) and \emph{Scam or Legit} (swipe fakes), locked while bars are low.
-  \item Investing from savings only, four made-up assets, seeded yearly returns, stage-jump growth, epilogue at 60 with assumption labels.
-  \item ``What if'': the biggest mistake from the decision log replayed with the other choice, same seed, side by side (in-game only).
-  \item End: after-quiz $\rightarrow$ learning gain; NCFE-aligned score (8 knowledge, 9 behaviour, 3 attitude; literate $=$ K$\ge$6, B$\ge$6, A$\ge$3; 27\% national reference) and a safety score; PDF report emailed to the facilitator with guardian CC; facilitator dashboard (mock).
-  \item Offline PWA; save and resume; one string file per language.
+  \item \textbf{Prices feel like the student's own life.} Stage 1 always gives \rs5{,}000 in-game a month, and in-game price $=$ real price $\times$ \rs5{,}000 $/$ the student's monthly pocket money (from the indirect weekly-spend band). A \rs200 cricket bat costs \rs200, \rs400 or \rs1{,}000 in-game for students with \rs5{,}000, \rs2{,}500 or \rs1{,}000 a month: the same \emph{share} of their money as in real life. Stages 2-3 pay rent, food and travel (55\% and 60\% of income) every month.
+  \item \textbf{Consequence before explanation.} The bars move first, then the Professor explains; the lesson lands on a decision the student owns. Animations are shapes and on-screen text only (a six-operation DSL in JSON), so translating one means swapping strings.
+  \item \textbf{Real life is delayed.} 45 delayed or repeating effects: a ``no-cost EMI'' bites every month, money lent to a friend does not come back, skipped savings meet an emergency with no buffer. Happiness rises with an impulse buy and falls a month later when the student cannot afford the turf match.
+  \item \textbf{Local analogies, not imported ones.} Compounding is the Pillalamarri banyan, whose roots become trunks (Hyderabad has no snowballs); diversification is the Charminar vendor who sells umbrellas \emph{and} water bottles.
+  \item \textbf{The guardrail is designed in.} Only made-up assets and fictional companies, never a ticker or a ``buy''; every projection carries ``assumes X\% a year; real returns vary and can be negative''. The Charminar Market scores \emph{behaviour only} (diversified, held through the crash, refused the hot tip, low churn); money made is shown but never scored.
+  \item \textbf{Private by default.} A nickname is the only identifier. The game never asks for OTP, PIN, Aadhaar or a student's phone or email; the facilitator enters report contacts with consent on setup. The sponsor sees aggregates only.
 \end{itemize}
+\textbf{Architecture.} One generic battle screen driven by JSON, in four parts with one-way dependencies: \emph{shared} contract types and a zod schema; a \emph{pure engine} in TypeScript (seeded RNG, economy scaler, chapter loop, task selector with pillar rotation and an investing gate, consequence scheduler, mistake bank, investing and market simulations, NCFE scoring, deterministic what-if replay, save and resume); a \emph{content pack} that non-coders and NGOs can edit (tasks per pillar $\times$ difficulty with one framing per persona, detours, events, explainers, places, strings per language); and a \emph{Phaser 3 client} shipped as an offline PWA. A small Node service emails the report and falls back to a local outbox offline; a static dashboard mocks the NGO view.
+
+\section{Features Against the Brief}
+{\small
+\begin{tabularx}{\textwidth}{@{}>{\bfseries\raggedright\arraybackslash}p{3.0cm}X@{}}
+\toprule
+Plan \& budget & Needs vs wants, plan the month, compare before buying, borrowing costs extra (incl. ``no-cost'' EMI): 4 concepts, tasks in every stage. \\
+Save \& manage & Save first then spend, emergency buffer, named savings goal; savings feed investing. \\
+Understand investing & Time value, compounding, risk and return, diversification, inflation; four made-up assets with seeded yearly returns; stage jumps of 5, 6 and 25 years make compounding visible. \\
+Stay safe & Fake officials, never share OTP or PIN, too good to be true, instant-loan apps, fake payment screenshots; a separate safety score (scams spotted / faced). \\
+\midrule
+Simple & One decision per screen, 2-4 big buttons, lessons of one line. \\
+Relatable & 13 Hyderabad places on 20 original pixel backdrops (Charminar, Durgam Cheruvu, Tank Bund, a kirana, a junior college, a turf ground); prices scaled to the student's own pocket money; TS ePASS scholarships, UPI, chit funds, festival spending. \\
+Persona-led & 3 personas $\times$ 24 tasks $=$ 72 framings; 3 difficulty buckets from the quiz; life stages from 16 to 60. \\
+Language-ready & One string file per language: English, Telugu (214/215 UI keys plus content) and Hindi (215/215 UI keys); adding a language means adding a file, with English fallback. The Professor and the characters speak: 422 recorded English voice-over lines, and the phone's own Telugu or Hindi voice elsewhere, with its own on/off switch. \\
+Game-based, tests learning & Before and after quiz (learning gain), NCFE-aligned score: knowledge 0-8, behaviour 0-9, attitude 1-5, \emph{literate} when K$\geq$6, B$\geq$6, A$\geq$3 (27\% of Indian adults in NCFE-FLIS 2019); mistakes fixed, detours, restarts. \\
+Interactive \& fun & Battles with animated bars; a living city map (day, evening and night, a boat and an auto on the move) with a hub of missions at each landmark; scam calls that ring like a real phone and ring back when declined; a turf match you bat in only if you saved for it; chiptune music; and mini-games: \emph{Kirana Rush} (sort NEED or WANT), \emph{Scam or Legit?} (swipe fake messages) and the \emph{Charminar Market} (four fictional companies, a monsoon, a hot tip and a crash). \\
+Intuitive UI & Tap a landmark to travel; an Info panel (money, commitments, open mistakes, mini-game lock); a replay library of every explainer; hints after two failures; music, sound and voice-over switches on every screen. \\
+NGO-integrated & ``Who is setting this up?'': the facilitator enters batch code, report email, guardian email and consent, then hands the phone over; PDF report emailed with guardian in CC; facilitator dashboard (mock): before/after, \% literate, common mistakes. \\
+Safe to explore & In-game rupees only; detours and restarts instead of game over; the market cannot lose more than was put in. \\
+\bottomrule
+\end{tabularx}}
+
+\vspace{4pt}
+\noindent\begin{minipage}[c]{0.415\textwidth}\includegraphics[width=\linewidth]{shots/game_map.png}\end{minipage}\hfill
+\begin{minipage}[c]{0.328\textwidth}\includegraphics[width=\linewidth]{shots/real_map.jpg}\end{minipage}\hfill
+\begin{minipage}[c]{0.23\textwidth}\scriptsize\raggedright
+\textbf{The city map is Hyderabad.} The same eight landmarks, numbered alike, in the game (left) and at their real coordinates (right). Charminar (7) sits due south of Hussain Sagar (6) in both: the same column in the game, 78.47\textdegree E in reality, with the Musi river between them. The IT corridor (1-3) is in the west and Ramoji Film City (8) far to the east. For any two landmarks, the game agrees with the city on 47 of 55 east-west and north-south comparisons.\\[1pt]
+{\color{muted}Right: \textcopyright\ OpenStreetMap contributors.}
+\end{minipage}
 
 \section{Results}
-\begin{itemize}
-  \item \textbf{Engine correctness:} \textbf{[N]} unit tests passing (engine \textbf{[N]}, content \textbf{[N]}, mini-games \textbf{[N]}, client helpers \textbf{[N]}). Save/resume round-trips exactly; what-if is deterministic.
-  \item \textbf{Scripted players on the real content} (20 seeds per cell): \textbf{[final sim table: good / random / worst $\times$ simple / medium / hard --- happiness, detours, restarts, broke, literate]}. Good play finishes stable and literate; careless play detours and can go broke; worst play restarts but always finishes.
-  \item \textbf{Content validation:} every cross-reference resolves; every stage covers every pillar with every persona; all 17 NCFE items evidenced; double-blind string check passes.
-  \item \textbf{Play tests:} team play test at 02:15 logged 24 issues (6 blocking) --- economy too forgiving, ambiguous choices, unlabelled bars, letterboxing, a too-short timer --- \textbf{[N]} fixed by the second play test at 07:00; \textbf{[second play-test findings]}.
-  \item \textbf{Devices and network} (production build, 360$\times$640): Fast 3G + 4$\times$ CPU \textbf{5.1\,s} to first frame on first visit, \textbf{1.4\,s} repeat; Slow 3G 20.5\,s (\textbf{[N]} KB); \textbf{offline reload 0.5\,s}.
-  \item \textbf{Report pipeline:} seeded games produce PDF reports; emailed to a sandbox inbox with guardian CC; offline fallback verified.
-  \item \textbf{Limitations and next steps:} prices are team estimates (next: a 10-student survey); Telugu is machine-drafted and needs a native check; Bhashini translation and voice; a real NGO pilot with the dashboard live; the slow-3G first load needs a smaller bundle.
-\end{itemize}
+\textbf{Engine correctness.} \textbf{151 unit tests passing} in 19 files: engine 77 (RNG, scaler, effects, selector, mistake bank, hints, investing, market, scoring, what-if determinism, save and resume), content 30, mini-games 20, client logic 19, quiz 4, report 1. Typecheck, lint and content validation run on every change.
+
+\textbf{Content validation.} 24 main tasks (12 / 6 / 6 per stage), 72 persona framings, 22 detours, 17 random events, 17 concepts each with an explainer, 45 delayed or repeating effects, 422/422 voice-over lines matched to their clips; every NCFE item (17/17) is evidenced by at least one choice; every cross-reference resolves; a double-blind string check passes.
+
+\textbf{Scripted players on the real content} (20 seeds per difficulty; ranges are across simple, medium and hard). \emph{Good} always picks the best move, \emph{random} picks at random, \emph{worst} picks the worst move but never repeats a fatal one, so it can finish. All 9 balance targets are met.
+\begin{center}\footnotesize
+\begin{tabular}{@{}lrrrrrrrr@{}}
+\toprule
+Policy & Wallet at end & Happiness end (min) & Portfolio at 60 & Detours & Restarts & Months broke & Literate & Finished \\
+\midrule
+good & \rs0.84-1.02 L & 98-99 (66-67) & \rs1.36-1.81 L & 0 & 0 & 0 & 100\% & 100\% \\
+random & \rs19-44 k & 32-60 (21-47) & \rs0.67-1.26 L & 2.7-3.6 & 0.9-1.4 & 0.1-0.5 & 5\% & 100\% \\
+worst & $-$\rs1.77 L to $-$\rs16 k & 9-41 (4-39) & 0 & 5.9-7.4 & 2.9-5.1 & 0.6-1.6 & 0\% & 100\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+Good play ends solvent, happy and NCFE-literate; careless play detours about three times and ends with little to spare; the worst play restarts often and goes into debt, yet always finishes. At M2, careless play still ended rich; monthly living costs in Stages 2-3 fixed that.
+
+\textbf{Play tests.} Two unguided team play tests on a phone and in phone mode (02:15 and 06:10) logged 36 issues, each with an owner; 25 were closed by 08:10, including all 12 from the second test.% TODO: update the count at 10:30
+\ They changed the design: a tighter economy, the Professor as the one teaching character, a labelled happiness number, a heading on every quiz screen, longer mini-game timers (60\,s and 45\,s), re-worded after-quiz questions, a report PDF that explains why each number matters, the facilitator setup path, and a sound toggle that works everywhere. A request for a stock simulator became the Charminar Market, reshaped to respect the guardrail.
+
+\textbf{Devices and network} (production build in headless Chrome, 360$\times$640, Fast 3G with a 4$\times$ CPU throttle, time until the title screen is drawn): \textbf{21.0\,s} on a first visit (1.1\,MB, mostly many small sprite and backdrop files), \textbf{1.2\,s} on a repeat visit and \textbf{1.9\,s} for an offline reload through the service worker. The first visit got slower since M2 (5.1\,s) as the map, characters and backdrops landed; after one load on Wi-Fi the game runs offline, so a facilitator can prepare phones before a session.
+\textbf{Report pipeline:} a seeded game produces the PDF report, which reaches a sandbox inbox with the guardian in CC; with no network it is saved locally and offered as a download.
+
+\textbf{Limitations and next steps.} Learning gain with real students is not yet measured: the next step is a pilot with one NGO batch, with the dashboard live. Prices and situations are team estimates and need a 10-student survey; Telugu and Hindi need a native-speaker review and their own recorded voice-over (Bhashini for more languages); the first visit on a slow network needs packed sprite atlases and a smaller first download.
 \end{document}
