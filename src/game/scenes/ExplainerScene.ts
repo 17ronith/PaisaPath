@@ -11,6 +11,7 @@ import { Button } from '../ui/Button';
 import { JAR_LEVELS, WALLET_FRAME } from '../ui/MoneyArt';
 import { COLOR, text, tr, type TextSize } from '../ui/theme';
 import { VIEW } from '../view';
+import { sayAfter, stopVoice } from '../voice';
 
 interface ExplainerData {
   explainerId: string;
@@ -103,6 +104,8 @@ export class ExplainerScene extends Phaser.Scene {
     }).setOrigin(0.5);
     this.layer = this.add.container(0, 0);
 
+    stopVoice(); // a lesson still being read gives way to the animation's narration
+    this.events.once('shutdown', stopVoice);
     const steps = [...ex.steps].sort((a, b) => a.at - b.at);
     this.planMoney(ex, steps);
     steps.forEach((s, i) => this.time.delayedCall(s.at, () => this.run(s, steps, i, ex)));
@@ -147,6 +150,7 @@ export class ExplainerScene extends Phaser.Scene {
   }
 
   private opText(s: Op<'text'>): void {
+    sayAfter(s.text); // the Professor narrates each caption, one after another, never overlapping
     const W = VIEW.width;
     const slot = s.slot ?? 'mid';
     this.slots[slot]?.destroy();

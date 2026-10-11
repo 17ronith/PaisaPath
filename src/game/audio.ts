@@ -1,16 +1,28 @@
-// Four tiny synthesized blips (no audio files to download on slow networks) + a persisted
-// mute toggle. Web Audio only starts after a user gesture; every caller is behind a tap.
+// Four tiny synthesized blips (no audio files to download on slow networks) + three persisted
+// sound channels the player switches separately in the ♪ panel: background music, sound effects
+// and the voice-over. Web Audio only starts after a user gesture; every caller is behind a tap.
 export type Blip = 'select' | 'good' | 'bad' | 'coin';
+export type Channel = 'music' | 'sfx' | 'voice';
+export const CHANNELS: Channel[] = ['music', 'sfx', 'voice'];
 
-const KEY = 'muted';
+const LEGACY_KEY = 'muted'; // the old single toggle: '1' meant everything off
+const keyFor = (c: Channel) => `audio.${c}`;
 let ctx: AudioContext | null = null;
-let muted = (() => {
+
+function readChannel(c: Channel): boolean {
   try {
-    return globalThis.localStorage?.getItem(KEY) === '1';
+    const v = globalThis.localStorage?.getItem(keyFor(c));
+    if (v === '1' || v === '0') return v === '1';
+    return globalThis.localStorage?.getItem(LEGACY_KEY) !== '1';
   } catch {
-    return false;
+    return true;
   }
-})();
+}
+const on: Record<Channel, boolean> = {
+  music: readChannel('music'),
+  sfx: readChannel('sfx'),
+  voice: readChannel('voice'),
+};
 
 /** [frequency Hz, duration s, wave] per note, played in sequence. */
 const SHAPES: Record<Blip, [number, number, OscillatorType][]> = {
@@ -29,29 +41,46 @@ const SHAPES: Record<Blip, [number, number, OscillatorType][]> = {
   ],
 };
 
-const listeners = new Set<(muted: boolean) => void>();
+const muteListeners = new Set<(muted: boolean) => void>();
+const channelListeners = new Set<(channel: Channel, on: boolean) => void>();
 
-export function isMuted(): boolean {
-  return muted;
+export function isOn(channel: Channel): boolean {
+  return on[channel];
 }
 
-/** Called on every mute toggle (music suspends instantly; read-aloud stops). */
-export function onMuteChange(cb: (muted: boolean) => void): void {
-  listeners.add(cb);
+/** Called whenever one channel is switched (music fades out, the voice stops mid-line, …). */
+export function onChannelChange(cb: (channel: Channel, on: boolean) => void): void {
+  channelListeners.add(cb);
 }
 
-export function setMuted(on: boolean): void {
-  muted = on;
+export function setOn(channel: Channel, value: boolean): void {
+  on[channel] = value;
   try {
-    globalThis.localStorage?.setItem(KEY, on ? '1' : '0');
+    globalThis.localStorage?.setItem(keyFor(channel), value ? '1' : '0');
   } catch {
     /* private mode: keep it for this session only */
   }
-  for (const cb of listeners) cb(on);
+  for (const cb of channelListeners) cb(channel, value);
+  for (const cb of muteListeners) cb(isMuted());
+}
+
+/** True when every channel is off (the ♪ icon shows × then). */
+export function isMuted(): boolean {
+  return CHANNELS.every((c) => !on[c]);
+}
+
+/** Called after any channel change with the all-off state, for icons that show ♪ / ×. */
+export function onMuteChange(cb: (muted: boolean) => void): void {
+  muteListeners.add(cb);
+}
+
+/** Switch every channel at once. */
+export function setMuted(muted: boolean): void {
+  for (const c of CHANNELS) setOn(c, !muted);
 }
 
 export function play(blip: Blip): void {
-  if (muted || typeof AudioContext === 'undefined') return;
+  if (!on.sfx || typeof AudioContext === 'undefined') return;
   try {
     ctx ??= new AudioContext();
     if (ctx.state === 'suspended') void ctx.resume();

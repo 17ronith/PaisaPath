@@ -4,7 +4,7 @@ import Phaser from 'phaser';
 import { getSession } from '@/app/session';
 import { rupees, t } from '@/shared/i18n';
 import { heartsFor } from '../logic/display';
-import { isMuted, onMuteChange, setMuted } from '../audio';
+import { isMuted, onMuteChange } from '../audio';
 import { Button } from '../ui/Button';
 import { COLOR, text, tr } from '../ui/theme';
 import { VIEW } from '../view';
@@ -80,10 +80,7 @@ export class HUDScene extends Phaser.Scene {
       193,
       20,
       isMuted() ? '×' : '♪',
-      () => {
-        setMuted(!isMuted());
-        mute.setCaption(isMuted() ? '×' : '♪');
-      },
+      () => this.scene.launch('AudioSettings'), // music / sound effects / voice-over switches
       { width: 34, height: 32, size: 'md', fill: 0x505878 },
     );
     onMuteChange((m) => mute.setCaption(m ? '×' : '♪')); // stays in sync with the corner toggle

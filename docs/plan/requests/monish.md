@@ -21,3 +21,10 @@ Monish: change `Status:` lines only; never delete blocks.
 - What: `docs/plan/PLAYTEST-01.md` — 24 (CONCEPTS.md with Aakarsh), 22b (TTS voiceover via Web Speech API, P2). Also: M2 play-test paragraph updated with these findings.
 - Why: Owner-of-record so the shared items don't fall through.
 - Accept when: every one of your rows in PLAYTEST-01.md reads DONE or has a DECLINED reason.
+
+### R-aakarsh-02 · Credit the voice-over engine in README
+- From: aakarsh · To: monish · At: 07:00 · Priority: P2
+- Status: OPEN
+- What: under asset credits in `README.md` add: "Voice-over generated offline with Kokoro-82M by hexgrad (Apache-2.0), via kokoro-onnx (MIT). Clips in `public/assets/voice/`; how to regenerate: `src/content/voice/README.md`."
+- Why: the voice-over PR (`aakarsh/voiceover`) adds generated clips; the rules want every third-party asset credited in README, which is your file.
+- Accept when: README has the line.

@@ -1,7 +1,13 @@
-// Background chiptune (PLAYTEST-01 #12) + a step blip for the walk (#1). Synthesised with the
-// Web Audio API: no file to download, no licence line, nothing for slow 3G to fetch.
-// Honours the mute flag from ./audio (polled every bar). Start only after a user gesture.
-import { isMuted, onMuteChange } from './audio';
+// Background music (PLAYTEST-01 #12) + a step blip for the walk (#1).
+// The music is the team's three picks, always in the same order (a → b → c → a …), streamed
+// from public/assets/music (credits in that folder's README). If none of them loads (files
+// missing, old browser), the synthesised chiptune below plays instead: no file, nothing to fetch.
+// Honours the music switch from ./audio. Start only after a user gesture.
+import { isOn, onChannelChange } from './audio';
+
+const TRACKS = ['a', 'b', 'c'];
+/** Quiet enough to sit under the voice-over (clips are normalised to −18 LUFS, tracks to −20). */
+const TRACK_VOL = 0.35;
 
 const BPM = 112;
 const BEAT = 60 / BPM; // seconds
@@ -133,6 +139,10 @@ let timer: ReturnType<typeof setInterval> | null = null;
 let nextStep = 0;
 let nextTime = 0;
 let master: GainNode | null = null;
+let track: HTMLAudioElement | null = null;
+let trackIndex = 0;
+let failures = 0; // tracks in a row that wouldn't load; all of them → fall back to the chiptune
+let started = false;
 
 function note(freq: number, at: number, dur: number, type: OscillatorType, gain: number): void {
   if (!ctx || !master || freq <= 0) return;
@@ -151,7 +161,7 @@ function note(freq: number, at: number, dur: number, type: OscillatorType, gain:
 function schedule(): void {
   if (!ctx) return;
   // mute = silence without losing the beat position, so unmuting continues in time
-  if (master) master.gain.value = isMuted() ? 0 : 1;
+  if (master) master.gain.value = isOn('music') ? 1 : 0;
   while (nextTime < ctx.currentTime + LOOKAHEAD_S) {
     const i = nextStep % STEPS;
     const m = MELODY[i];
@@ -167,38 +177,94 @@ function schedule(): void {
   }
 }
 
-// ISSUES #25: mute must be instant and total. Suspending the context silences notes already
-// scheduled ahead and the footstep blips; unmuting resumes the loop where it was.
-onMuteChange((m) => {
+// ISSUES #25: switching music off must be instant. The tracks pause and resume where they were;
+// for the chiptune, zeroing the master gain silences notes already scheduled ahead.
+onChannelChange((channel, value) => {
+  if (channel !== 'music') return;
+  if (track) {
+    if (value) void track.play().catch(() => undefined);
+    else track.pause();
+  }
   if (!ctx) return;
-  if (m) void ctx.suspend();
-  else if (timer) void ctx.resume();
+  // gain, not suspend: footstep blips share this context and follow the sound-effects switch
+  if (master) master.gain.value = value ? 1 : 0;
+  if (value && timer && ctx.state === 'suspended') void ctx.resume();
 });
+
+// Don't keep playing from a phone's background tab.
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => {
+    if (!track) return;
+    if (document.hidden) track.pause();
+    else if (isOn('music')) void track.play().catch(() => undefined);
+  });
+}
+
+function playTrack(i: number): void {
+  if (!track) return;
+  trackIndex = i % TRACKS.length;
+  track.src = `${import.meta.env.BASE_URL}assets/music/${TRACKS[trackIndex]}.mp3`;
+  if (isOn('music')) void track.play().catch(() => undefined);
+}
+
+function startTracks(): void {
+  track = new Audio();
+  track.preload = 'auto';
+  track.volume = TRACK_VOL;
+  track.addEventListener('playing', () => (failures = 0));
+  track.addEventListener('ended', () => playTrack(trackIndex + 1));
+  track.addEventListener('error', () => {
+    failures += 1;
+    if (failures < TRACKS.length) return playTrack(trackIndex + 1);
+    track?.removeAttribute('src');
+    track = null;
+    startSynth();
+  });
+  playTrack(0);
+}
+
+function startSynth(): void {
+  if (timer || !ctx) return;
+  master = ctx.createGain();
+  master.gain.value = isOn('music') ? 1 : 0;
+  master.connect(ctx.destination);
+  nextStep = 0;
+  nextTime = ctx.currentTime + 0.05;
+  timer = setInterval(schedule, TICK_MS);
+  schedule();
+}
 
 // A second copy of this module (hot reload, double import) must not leave an unmutable loop.
 const shared = globalThis as { __lmStopMusic?: () => void };
 
 /** Idempotent. Call from a tap handler (Title START is the natural place). */
 export function startMusic(): void {
-  if (timer || typeof AudioContext === 'undefined') return;
+  if (started) return;
+  started = true;
   if (shared.__lmStopMusic && shared.__lmStopMusic !== stopMusic) shared.__lmStopMusic();
   shared.__lmStopMusic = stopMusic;
   try {
-    ctx ??= new AudioContext();
-    if (ctx.state === 'suspended' && !isMuted()) void ctx.resume();
-    master = ctx.createGain();
-    master.gain.value = isMuted() ? 0 : 1;
-    master.connect(ctx.destination);
-    nextStep = 0;
-    nextTime = ctx.currentTime + 0.05;
-    timer = setInterval(schedule, TICK_MS);
-    schedule();
+    // Unlock the audio context inside this tap, so the chiptune fallback (and the footsteps)
+    // can start later even if the tracks fail after the tap is over.
+    if (typeof AudioContext !== 'undefined') {
+      ctx ??= new AudioContext();
+      if (ctx.state === 'suspended') void ctx.resume();
+    }
+    if (typeof Audio !== 'undefined') startTracks();
+    else startSynth();
   } catch {
     /* decoration only */
   }
 }
 
 export function stopMusic(): void {
+  started = false;
+  if (track) {
+    track.pause();
+    track.removeAttribute('src');
+    track = null;
+  }
+  failures = 0;
   if (timer) clearInterval(timer);
   timer = null;
   try {
@@ -210,12 +276,12 @@ export function stopMusic(): void {
 }
 
 export function musicPlaying(): boolean {
-  return timer !== null;
+  return started;
 }
 
 /** One short footstep; alternate `left` for a two-tone walk. */
 export function stepBlip(left = true): void {
-  if (isMuted() || typeof AudioContext === 'undefined') return;
+  if (!isOn('sfx') || typeof AudioContext === 'undefined') return;
   try {
     ctx ??= new AudioContext();
     if (ctx.state === 'suspended') void ctx.resume();

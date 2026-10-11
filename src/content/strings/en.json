@@ -30,6 +30,12 @@
   "btn.send": "SEND",
   "btn.mute": "SOUND OFF",
   "btn.unmute": "SOUND ON",
+  "audio.title": "Sound",
+  "audio.music": "Music",
+  "audio.sfx": "Sound effects",
+  "audio.voice": "Voice-over",
+  "audio.on": "ON",
+  "audio.off": "OFF",
 
   "lang.pick": "Choose your language",
   "lang.en": "English",

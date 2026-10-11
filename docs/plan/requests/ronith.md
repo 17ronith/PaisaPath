@@ -99,3 +99,10 @@ Ronith: change `Status:` lines only; never delete blocks.
 - What: in `BattleScene` after `choose()`: bars animate → Professor portrait (key `professor`, 32×32, you draw it; falls back to the current guide portrait until then) slides in beside the text box → **weak/critical:** show `o.lesson`, tap → `Explainer(o.explainerId)`, then detour/restart as now · **good/ok:** show one of `professor.praise.1..4` (use `tr()` with English fallbacks until Aakarsh adds them), tap → continue, **no Explainer**. Replay library unchanged (engine still records the explainer). Full spec: `docs/plan/PLAYTEST-01.md` rows 17 and 10.
 - Why: the team's redefinition of #17: the lesson lands after the consequence, and a good choice is rewarded in one beat instead of a 15-second animation.
 - Accept when: a weak choice shows lesson → animation; a good choice shows praise → next step with no animation; `npm run check` green.
+
+### R-aakarsh-03 · Voice-over + 3-way sound panel are in a PR for you to review (supersedes R-monish-06)
+- From: aakarsh · To: ronith · At: 07:00 · Priority: P2
+- Status: OPEN
+- What: PR `aakarsh/voiceover` touches your folder: `src/game/voice.ts` (new), `scenes/AudioSettingsScene.ts` (new, registered in `scenes/index.ts`), `audio.ts` split into music / sfx / voice channels (`isMuted`/`setMuted`/`onMuteChange` still work), `music.ts` follows the music channel, the corner ♪ and HUD ♪ now open the panel, and one-line hooks in `BattleScene` (opening line, hint, Professor line) and `ExplainerScene` (captions). Clips are in `public/assets/voice/`. Please review those files on the PR.
+- Why: Aakarsh decided the voice-over covers only the Professor, the explainers and the characters' lines (not options or quiz), with generated clips (Kokoro) instead of the device voice. That makes R-monish-06 unnecessary; mark it DECLINED (superseded) if you agree.
+- Accept when: you approve the PR or comment with fixes.

@@ -30,6 +30,12 @@
   "btn.send": "పంపు",
   "btn.mute": "శబ్దం ఆపు",
   "btn.unmute": "శబ్దం ఆన్",
+  "audio.title": "శబ్దం",
+  "audio.music": "సంగీతం",
+  "audio.sfx": "సౌండ్ ఎఫెక్ట్స్",
+  "audio.voice": "వాయిస్ ఓవర్",
+  "audio.on": "ఆన్",
+  "audio.off": "ఆఫ్",
 
   "lang.pick": "నీ భాష ఎంచుకో",
   "lang.en": "English",
