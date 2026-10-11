@@ -224,5 +224,9 @@
   "market.paper_tag": "PRACTICE",
   "market.real_tag": "REAL",
   "market.cash": "cash",
-  "market.total": "total"
+  "market.total": "total",
+  "explainer.out.salary": "PAYDAY",
+  "explainer.out.lender": "LENDER",
+  "explainer.out.scam": "SCAMMER",
+  "explainer.out.shop": "SHOP"
 }

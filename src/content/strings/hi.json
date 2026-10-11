@@ -204,5 +204,9 @@
   "market.paper_tag": "अभ्यास",
   "market.real_tag": "असली",
   "market.cash": "नकद",
-  "market.total": "कुल"
+  "market.total": "कुल",
+  "explainer.out.salary": "वेतन",
+  "explainer.out.lender": "उधार वाला",
+  "explainer.out.scam": "ठग",
+  "explainer.out.shop": "दुकान"
 }

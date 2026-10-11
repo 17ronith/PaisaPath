@@ -223,5 +223,9 @@
   "market.paper_tag": "ప్రాక్టీస్",
   "market.real_tag": "నిజం",
   "market.cash": "నగదు",
-  "market.total": "మొత్తం"
+  "market.total": "మొత్తం",
+  "explainer.out.salary": "జీతం",
+  "explainer.out.lender": "అప్పు ఇచ్చేవాడు",
+  "explainer.out.scam": "మోసగాడు",
+  "explainer.out.shop": "దుకాణం"
 }
