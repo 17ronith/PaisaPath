@@ -186,8 +186,13 @@ export class EndReportScene extends Phaser.Scene {
       type: 'email',
       width: 290,
       placeholder: 'facilitator@ngo.org',
+      value: getSession().setup.facilitatorEmail, // ISSUES #36: entered at setup by the facilitator
     });
-    const guard = htmlInput(this, W / 2, 150 + 148, { type: 'email', width: 290 });
+    const guard = htmlInput(this, W / 2, 150 + 148, {
+      type: 'email',
+      width: 290,
+      value: getSession().setup.guardianConsent ? getSession().setup.guardianEmail : undefined,
+    });
     this.inputs = [fac, guard];
     const send = new Button(
       this,
