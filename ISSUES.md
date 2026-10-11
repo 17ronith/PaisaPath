@@ -16,14 +16,14 @@
 | 7 | 🔴 | P0 | Ronith | the "not me, switch" gives some random thing, we need to fix that too | OPEN |
 | 8 | 🔴 | P0 | Ronith | there's a huge black space in the top and bottom of the thing, we need to fit it to screen | OPEN |
 | 9 | 🔴 | P1 | Aakarsh | questions and situations are bad | OPEN |
-| 10 | 🔴 | P1 | Ronith | aunty avatar doesn't look like it's an aunty | OPEN |
+| 10 | 🔴 | P1 | Ronith | **REDEFINED 05:40:** the guide is now **the Professor** (replaces Aunty): one 32×32 portrait — glasses, grey hair, kurta or jacket, chalk/pointer. Used in every teaching moment. (Original note: aunty avatar doesn't look like an aunty) | OPEN |
 | 11 | ✅ | P2 | Ronith → Saharsh → Monish | info page needs a redesign, it's not bad, it's just not the best we can do | DONE 04:35 — four cards (Money · Commitments · Learning · Mini-games), happiness bar, colour-coded lock state |
 | 12 | ✅ | P2 | Ronith → Saharsh → Monish | add a background retro music or something | DONE 04:35 — `src/game/music.ts`: synthesised 8-bar chiptune loop + `stepBlip()`, honours mute. **Needs Ronith's 1-line hook** (R-monish-07) |
 | 13 | 🔴 | P0 | Ronith | what are lives? what do the hearts represent? | OPEN |
 | 14 | 🔴 | P1 | Ronith | fix text formatting on the buffer screen | OPEN |
 | 15 | ✅ | P1 | Saharsh | scam game is good but we need to fix the time limit, it's way too short | DONE 04:20 (Monish) — 60 s; Kirana 45 s |
 | 16 | 🔴 | P0 | Ronith | we need a "back to map screen" option | OPEN |
-| 17 | 🔴 | P1 | Ronith | avatar + animations for teaching moments need to work properly | OPEN |
+| 17 | 🔴 | P1 | Ronith | **REDEFINED 05:40:** after the consequence, a **Professor** walks in. Weak/critical choice → he explains: lesson line, then the concept's abstract animation. Good/ok choice → he praises in one line and the battle ends — **no animation**. (Original note: avatar + animations for teaching moments need to work properly) | OPEN |
 | 18 | 🔴 | P0 | Ronith | game doesn't use updated images | OPEN |
 | 19 | 🔴 | P2 | Aakarsh + Ronith | at some point of the game, there should be a scam call that comes up which is a random sidequest. the dp of the call should be some wonky guy | OPEN |
 | 20 | 🟡 | P1 | Saharsh + Aakarsh | questions are way too ambiguous, imo they're not depicting the financial concepts that we're looking to instill in the students. for example, in the kirana rush game, the deo that we dropped could be a need | DOING — Kirana pool fixed 04:20 (Monish): body spray + phone cover out; bus pass, recharge, game top-up, second earphones in. Battle choices: Aakarsh |
