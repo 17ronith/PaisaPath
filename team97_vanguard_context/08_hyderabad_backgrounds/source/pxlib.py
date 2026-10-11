@@ -14,12 +14,13 @@ Scene.sh() paints a mask with a colour ramp, the way DS-era art is shaded:
 Finished images must be scaled by whole numbers, nearest-neighbour only.
 """
 import math
+import os
 import random
 
 import numpy as np
 from PIL import Image, ImageDraw
 
-W, H = 480, 270
+W, H = (270, 480) if os.environ.get('HYD_PORTRAIT') else (480, 270)   # portrait map build sets HYD_PORTRAIT=1
 _B4 = np.array([[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]], float) / 16.0
 BT = np.tile(_B4, (H // 4 + 1, W // 4 + 1))[:H, :W]     # 4x4 Bayer matrix for dithering
 

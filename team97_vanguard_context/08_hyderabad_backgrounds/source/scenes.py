@@ -1235,7 +1235,8 @@ SCENES += [('10_home', 'Home', S2.home),
            ('17_turf', 'Turf cricket (night)', S2.turf),
            ('18_campus', 'University gate', S2.campus),
            ('19_home_age60', 'Home, decades later (epilogue)', S2.home_age60),
-           ('20_office_lobby', 'Office lobby (5 years later)', S2.office_lobby)]
+           ('20_office_lobby', 'Office lobby (5 years later)', S2.office_lobby),
+           ('21_market_terminal', 'Market terminal (night)', S2.market_terminal)]
 PREVIEW_SCENE = '10_home'
 PALETTE_CAP = 160   # max colours per background (scenes 01-09 sit at 59-142)
 
@@ -1280,6 +1281,9 @@ def main(only=None):
     base = next(im for im, _, slug in tiles if slug == PREVIEW_SCENE)
     prev = Image.alpha_composite(base.convert('RGBA'), pl.image())
     prev.resize((W * 2, H * 2), Image.NEAREST).save('out/battle_preview.png')
+    # Charminar Market UI set (icons, 9-slices, device frame, sprite strips) + its contact sheet
+    import market
+    market.build('out')
 
 
 if __name__ == '__main__':

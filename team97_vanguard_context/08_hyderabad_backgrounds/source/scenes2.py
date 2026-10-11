@@ -1592,3 +1592,163 @@ def office_lobby():
     for k in range(0, W, 80):
         lighten(s, P([(k + 6, FL + 1), (k + 50, FL + 1), (k + 10, H - 1), (k - 40, H - 1)]), 0.08, '#fffbe8')
     return s
+
+
+# ================================================================== 21  MARKET TERMINAL (night, small flat)
+def _night_window(s, x0, y0, x1, y1, seed=21):
+    rng = random.Random(seed)
+    frame = pal('#4a7a68', '#2e5a4a', '#22463a', '#18342a', '#0c1a14')
+    inner = R(x0 + 5, y0 + 5, x1 - 5, y1 - 5)
+    ix0, iy0, ix1, iy1 = x0 + 5, y0 + 5, x1 - 5, y1 - 5
+    s.sh(R(x0, y0, x1, y1) & ~inner, frame, kl=1, kd=1, kdd=0)
+    s.outline(inner, frame['dd'])
+    sub = Scene()
+    sub.sky(['#080c22', '#10163a', '#1c2050', '#2c2a64'], iy0, iy1 + 1, sharp=3)
+    s.a[inner] = sub.a[inner]
+    for _ in range(16):
+        s.px(rng.randint(ix0, ix1), rng.randint(iy0, iy0 + 30), rng.choice(['#ffffff', '#c8d8ff', '#8a9ad8']))
+    s.put(O(ix1 - 12, iy0 + 10, 4) & ~O(ix1 - 10, iy0 + 8, 4) & inner, '#fff4c8')
+    x = ix0 - 3
+    while x < ix1:
+        bw, bh = rng.randint(7, 15), rng.randint(10, 36)
+        m = R(x, iy1 - bh, x + bw, iy1) & inner
+        s.put(m, '#141834')
+        for _ in range(bw * bh // 14):
+            wx, wy = rng.randint(x + 1, x + bw - 2), rng.randint(iy1 - bh + 2, iy1 - 2)
+            s.put(R(wx, wy, wx + 1, wy) & inner, rng.choice(['#ffd870', '#ffe6a0', '#f8b860', '#8a90c8']))
+        x += bw + rng.randint(0, 2)
+    # tiny Charminar on the skyline
+    cx, by = ix0 + 34, iy1
+    cm = R(cx - 7, by - 15, cx + 7, by) | R(cx - 9, by - 26, cx - 7, by) | R(cx + 7, by - 26, cx + 9, by)
+    cm |= O(cx - 8, by - 27, 2) | O(cx + 8, by - 27, 2)
+    s.put(cm & inner, '#22264e')
+    s.put(P(arch_pts(cx - 3, cx + 3, by - 6, by, 4)) & inner, '#ffcf70')
+    for k in (cx - 5, cx - 1, cx + 3):
+        s.put(R(k, by - 12, k + 1, by - 11) & inner, '#ffcf70')
+    # mosquito mesh + grill
+    grill = NONE()
+    for gx in range(x0 + 12, x1 - 6, 9):
+        grill |= R(gx, iy0, gx, iy1)
+    grill |= R(ix0, (y0 + y1) // 2, ix1, (y0 + y1) // 2)
+    yy, xx = np.indices((H, W))
+    mesh = inner & ~grill & (((yy + xx) % 2) == 0)
+    s.a[mesh, :3] = (s.a[mesh][:, :3].astype(float) * 0.82).astype(np.uint8)
+    s.put(grill & inner, frame['d'])
+    s.sh(R(x0 - 5, y1 + 1, x1 + 5, y1 + 5), pal('#8a8aa8', '#6a6a88', '#4a4a68', None, '#1a1a2a'), kl=1, kd=1, kdd=0, d=(0, 1))
+    return inner
+
+
+def _bookshelf(s, x0, x1, top):
+    rng = random.Random(7)
+    WD = pal('#c88a50', '#9a5e30', '#7a4420', '#5e321a', '#24140a')
+    s.shadow(E(x0 - 2, FL - 3, x1 + 10, FL + 5))
+    s.sh(R(x0, top, x1, FL - 1), WD, kl=1, kd=2, kdd=1)
+    for sy in range(top + 6, FL - 8, 22):
+        cav = R(x0 + 3, sy, x1 - 3, sy + 17)
+        s.put(cav, '#3e2616')
+        s.put(cav & ~shift(cav, 0, 2), '#2a180c')
+        bx = x0 + 4
+        while bx < x1 - 6:
+            bw, bh = rng.randint(2, 4), rng.randint(10, 16)
+            if rng.random() < 0.12:
+                bx += 3
+                continue
+            c = rng.choice(['#d84a3a', '#3a6ad0', '#40a060', '#f0b030', '#a060c0', '#e8e0d0', '#2a8a8a'])
+            bm = R(bx, sy + 17 - bh, bx + bw - 1, sy + 16)
+            s.put(bm, c)
+            s.put(R(bx, sy + 17 - bh, bx, sy + 16), mix(c, '#ffffff', 0.35))
+            s.put(R(bx, sy + 17 - bh + 2, bx + bw - 1, sy + 17 - bh + 2), mix(c, '#000000', 0.3))
+            bx += bw + 1
+        s.put(R(x0 + 3, sy + 17, x1 - 3, sy + 18), WD['l'])
+
+
+def market_terminal():
+    s = Scene(21)
+    wall = pal('#efe4d2', '#e2d4bc', '#c8b898')
+    room(s, wall, floor=('#d8ccb4', '#cec0a6', '#ae9e82'), skirt='#8a7458')
+    tube_light(s, 206, 276, 22, lit=False)
+    ceiling_fan(s, 330)
+    _curtain(s, 18, 40, 38, 140, '#7a8ad8', '#5a6ab8', seed=4)
+    wall_clock(s, 300, 64, 9, t=(11, 50))
+    _calendar(s, 330, 80, 'hill')
+    switchboard(s, 138, 108, 20, 16)
+    _bookshelf(s, 402, 462, 66)
+    # rug + study table
+    _rug(s, 136, 290, 186, 202, '#5a6ab8', '#e8b850')
+    WD = pal('#d8a068', '#b07c48', '#8a5a32', '#6a4226', '#2e1a10')
+    s.shadow(E(140, FL - 3, 312, FL + 6))
+    for lx in (146, 294):
+        s.sh(R(lx, 150, lx + 3, FL), WD, kl=0, kd=1, kdd=0, d=(1, 0))
+    s.put(R(150, 166, 294, 167), WD['d'])
+    s.sh(P([(146, 138), (298, 138), (302, 146), (142, 146)]), WD, kl=1, kd=1, kdd=1, d=(0, 1))
+    s.sh(R(142, 147, 302, 150), WD, kl=0, kd=1, kdd=0, d=(0, 1))
+    # desk lamp
+    s.sh(E(150, 139, 166, 144), IRON, kl=1, kd=1, kdd=0)
+    s.put(L([(158, 140), (155, 128), (160, 120)], 2), IRON['b'])
+    shade = P([(152, 112), (166, 112), (170, 121), (148, 121)])
+    s.sh(shade, pal('#ffd890', '#e8a040', '#c07a28', None, '#3a2408'), kl=1, kd=1, kdd=0)
+    # laptop
+    lid = R(196, 92, 254, 133)
+    s.sh(lid, pal('#6a6e7a', '#3a3e48', '#2a2e36', None, '#101218'), kl=1, kd=1, kdd=0)
+    base = P([(200, 134), (250, 134), (258, 142), (192, 142)])
+    s.sh(base, pal('#9a9eaa', '#7a7e8a', '#5a5e6a', None, '#16181e'), kl=1, kd=1, kdd=0, d=(0, 1))
+    for ky in (136, 138):
+        s.put(L([(200 - (ky - 134), ky), (250 + (ky - 134), ky)]) & base, '#5a5e6a')
+    s.put(R(219, 140, 231, 141), '#8a8e9a')
+    # phone, chai, newspaper
+    s.put(P([(168, 140), (184, 140), (186, 144), (166, 144)]), '#1c1c24')
+    glass_m = P([(268, 132), (277, 132), (276, 143), (269, 143)])
+    s.put(glass_m, '#e8f4f8')
+    s.put(glass_m & R(0, 135, W - 1, H - 1), '#a8642c')
+    s.put(glass_m & R(0, 135, W - 1, 135), '#d8a070')
+    for gx in (270, 273):
+        s.put(R(gx, 136, gx, 142) & glass_m, '#c88a4c')
+    s.outline(glass_m, '#7a8a90')
+    npm = P([(282, 139), (298, 139), (300, 144), (280, 144)])
+    s.put(npm, '#ecebe2')
+    for yy in (140, 142):
+        s.put(R(284, yy, 296, yy) & npm, '#a8a8a0')
+    s.outline(npm, '#8a8a80')
+
+    # ---- night: dim the room, then bring back every light source
+    tint_all(s, (0.42, 0.45, 0.70))
+    win = _night_window(s, 40, 40, 130, 134)
+    lighten(s, P([(45, FL + 1), (125, FL + 1), (200, H - 1), (95, H - 1)]), 0.10, '#8aa8ff')
+    lighten(s, P([(130, 60), (148, 60), (170, 134), (140, 134)]), 0.06, '#8aa8ff')
+    # lamp: warm pool
+    glow(s, 159, 122, 12, '#ffd890', 0.3)
+    lighten(s, E(128, 112, 198, 160), 0.16, '#ffc870')
+    lighten(s, E(140, 124, 186, 150), 0.10, '#ffc870')
+    s.put(R(153, 121, 165, 122), '#fff4c0')
+    s.put(R(156, 123, 162, 124), '#fffbe8')
+    # laptop screen + its cool glow
+    lighten(s, E(180, 84, 270, 148) & ~lid, 0.06, '#7aa8ff')
+    scr = R(199, 95, 251, 129)
+    s.put(scr, '#0c1424')
+    s.put(R(199, 95, 251, 99), '#1e2a48')
+    for k, c in enumerate(('#48b048', '#e04848', '#f0c040')):
+        s.put(R(201 + k * 6, 96, 205 + k * 6, 98), c)
+    for gy in (106, 114, 122):
+        for gx in range(200, 251, 3):
+            s.px(gx, gy, '#1a2640')
+    candles = [(120, 116), (116, 118), (118, 112), (112, 109), (109, 111), (111, 105), (105, 108), (108, 115), (115, 119)]
+    ma = []
+    for k, (o, c) in enumerate(candles):
+        cx = 203 + k * 5
+        up = c < o
+        col, wick = ('#48d048', '#2a8a3a') if up else ('#f05050', '#a02a2a')
+        top, bot = min(o, c), max(o, c)
+        s.put(R(cx + 1, top - 2, cx + 1, bot + 2), wick)
+        s.put(R(cx, top, cx + 2, bot), col)
+        ma.append((cx + 1, (o + c) / 2 - 1))
+    s.put(L(ma), '#f0c040')
+    s.px(225, 132, '#40f070')
+    # phone screen (a fresh tip just arrived)
+    ph = P([(169, 140), (183, 140), (184, 143), (168, 143)])
+    s.put(ph, '#d8f0ff')
+    s.put(R(171, 141, 177, 142), '#5cc85a')
+    lighten(s, E(160, 132, 192, 150) & ~ph, 0.08, '#a8d8ff')
+    # chai steam
+    for (sx, sy) in ((272, 129), (273, 127), (272, 125), (271, 123), (274, 122), (275, 120)):
+        s.px(sx, sy, '#c8c8e0')
+    return s
