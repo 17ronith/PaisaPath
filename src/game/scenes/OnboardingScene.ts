@@ -16,7 +16,9 @@ import {
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { charScale } from '../ui/chars';
 import { disposeInput, htmlInput } from '../ui/HtmlInput';
+import { overMap } from '../flow/journeyState';
 import { VIEW } from '../view';
 
 type StepId = 'who' | 'setup' | 'handover' | 'avatar' | 'name' | LifeQuestion['id'] | 'persona';
@@ -37,7 +39,7 @@ export class OnboardingScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.cameras.main.setBackgroundColor(COLOR.bg);
+    overMap(this, 0.72, true);
     this.avatar = AVATARS[0];
     this.nickname = '';
     this.answers = {};
@@ -113,14 +115,17 @@ export class OnboardingScene extends Phaser.Scene {
     const { width: W } = VIEW;
     this.heading(t('onboard.pick_avatar'));
     const frames: Phaser.GameObjects.Rectangle[] = [];
+    // Five characters: three on top, two below, centred.
     AVATARS.forEach((key, i) => {
-      const x = W / 2 + (i % 2 === 0 ? -72 : 72);
-      const y = 230 + Math.floor(i / 2) * 150;
+      const row = i < 3 ? 0 : 1;
+      const col = row ? i - 3 : i;
+      const x = W / 2 + (row ? (col - 0.5) * 112 : (col - 1) * 112);
+      const y = 240 + row * 156;
       const frame = this.add
-        .rectangle(x, y, 120, 130, COLOR.panelEdge)
+        .rectangle(x, y, 104, 140, COLOR.panelEdge)
         .setStrokeStyle(4, key === this.avatar ? COLOR.accent : 0x404060)
         .setInteractive({ useHandCursor: true });
-      const img = this.add.image(x, y, key).setScale(6);
+      const img = this.add.image(x, y, key).setScale(charScale(this, key, 6));
       frame.on('pointerup', () => {
         this.avatar = key;
         frames.forEach((f, j) => f.setStrokeStyle(4, AVATARS[j] === key ? COLOR.accent : 0x404060));
@@ -134,7 +139,9 @@ export class OnboardingScene extends Phaser.Scene {
   private showName(): void {
     const { width: W } = VIEW;
     this.heading(t('onboard.name'));
-    this.root.add(this.add.image(W / 2, 200, this.avatar).setScale(5));
+    this.root.add(
+      this.add.image(W / 2, 200, this.avatar).setScale(charScale(this, this.avatar, 6)),
+    );
     this.root.add(
       text(
         this,
@@ -402,7 +409,9 @@ export class OnboardingScene extends Phaser.Scene {
     const p = s.content.personas.find((x) => x.id === this.persona) ?? s.content.personas[0];
     this.heading(t('onboard.persona_card'), 90);
     const card = new PixelPanel(this, 24, 130, W - 48, 330);
-    card.add(this.add.image((W - 48) / 2, 60, this.avatar).setScale(4));
+    card.add(
+      this.add.image((W - 48) / 2, 60, this.avatar).setScale(charScale(this, this.avatar, 6)),
+    );
     card.add(text(this, (W - 48) / 2, 112, this.nickname, 'md', COLOR.ink).setOrigin(0.5));
     card.add(
       text(this, (W - 48) / 2, 140, p.label.toUpperCase(), 'sm', COLOR.aunty).setOrigin(0.5),

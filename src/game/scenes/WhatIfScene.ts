@@ -8,6 +8,7 @@ import { proceed } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { overMap } from '../flow/journeyState';
 import { VIEW } from '../view';
 
 export class WhatIfScene extends Phaser.Scene {
@@ -24,7 +25,7 @@ export class WhatIfScene extends Phaser.Scene {
       return;
     }
     const { width: W } = VIEW;
-    this.cameras.main.setBackgroundColor(COLOR.bg);
+    overMap(this, 0.78, false);
     this.cameras.main.fadeIn(500);
 
     const item =

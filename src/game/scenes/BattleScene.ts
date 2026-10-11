@@ -15,6 +15,7 @@ import { Portrait, portraitKey } from '../ui/Portrait';
 import { backdropKey, drawBackdrop, grassField } from '../ui/Backdrop';
 import { TextBox } from '../ui/TextBox';
 import { COLOR, text, tr } from '../ui/theme';
+import { charScale } from '../ui/chars';
 import { VIEW } from '../view';
 
 type BattleStep = Extract<Step, { kind: 'task' } | { kind: 'event' }>;
@@ -99,7 +100,11 @@ export class BattleScene extends Phaser.Scene {
     );
     opp.add(this.pressure);
     const oppKey = portraitKey(this, framing.portrait, framing.speaker);
-    if (oppKey) this.add.image(284, 152, oppKey).setOrigin(0.5, 1).setScale(5);
+    if (oppKey)
+      this.add
+        .image(284, 152, oppKey)
+        .setOrigin(0.5, 1)
+        .setScale(charScale(this, oppKey, 5));
     else new Portrait(this, 284, 110, 76, framing.portrait ?? '', framing.speaker);
 
     // Badges
@@ -111,7 +116,10 @@ export class BattleScene extends Phaser.Scene {
     // Player
     const avatar = game.state.profile.avatar;
     const back = this.textures.exists(`${avatar}_back`) ? `${avatar}_back` : avatar;
-    this.add.image(86, 270, back).setOrigin(0.5, 1).setScale(6);
+    this.add
+      .image(86, 270, back)
+      .setOrigin(0.5, 1)
+      .setScale(charScale(this, back, 6));
     const me = new PixelPanel(this, 152, 170, 198, 104, { variant: 'blue' });
     me.add(text(this, 10, 8, t('battle.you'), 'sm', COLOR.ink));
     me.add(

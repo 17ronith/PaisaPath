@@ -11,6 +11,7 @@ import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
 import { disposeInput, htmlInput } from '../ui/HtmlInput';
+import { overMap } from '../flow/journeyState';
 import { VIEW } from '../view';
 
 const PILLARS: Pillar[] = ['budget', 'save', 'invest', 'safety'];
@@ -35,7 +36,7 @@ export class EndReportScene extends Phaser.Scene {
     const s = getSession();
     const sum = this.summary ?? s.game?.summary();
     const { width: W } = VIEW;
-    this.cameras.main.setBackgroundColor(COLOR.bg);
+    overMap(this, 0.8, true);
     if (this.scene.isActive('HUD')) this.scene.stop('HUD');
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.closeForm());
     text(this, W / 2, 30, t('report.title'), 'lg', COLOR.white).setOrigin(0.5);

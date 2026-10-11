@@ -138,6 +138,11 @@ export const BACKDROP_EXTRA: Record<string, string> = {
   stage3: '09_hitec_city',
   epilogue: '19_home_age60',
   market: '21_market_terminal',
+  // Life-journey landmarks on the world map (logic/journey.ts) that no place uses yet.
+  ramoji: '04_film_city',
+  shilparamam: '05_shilparamam',
+  birla: '06_birla_mandir',
+  qutb: '07_qutb_shahi_tombs',
 };
 export const BACKDROP_W = 480;
 export const BACKDROP_H = 270;

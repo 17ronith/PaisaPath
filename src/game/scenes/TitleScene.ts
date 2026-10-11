@@ -6,8 +6,10 @@ import type { Lang } from '@/shared/types';
 import { advance } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { COLOR, text, tr } from '../ui/theme';
+import { charScale } from '../ui/chars';
+import { AVATARS } from '../logic/onboarding';
+import { mapBG, overMap } from '../flow/journeyState';
 import { VIEW } from '../view';
-import { drawBackdrop, townStrip } from '../ui/Backdrop';
 
 const LANG_NAMES: Partial<Record<Lang, string>> = { en: 'English', te: 'తెలుగు' };
 
@@ -19,16 +21,20 @@ export class TitleScene extends Phaser.Scene {
   create(): void {
     const s = getSession();
     const { width: W, height: H } = VIEW;
-    this.cameras.main.setBackgroundColor(COLOR.bg);
+    overMap(this, 0.3, true);
 
-    // Hyderabad backdrop (ISSUES #4/#5): Tank Bund at sunset; Tiny Town street as the fallback.
-    if (!drawBackdrop(this, 'bg_03_tank_bund_buddha', 0, H * 0.36, W, 160))
-      townStrip(this, H * 0.36, W, 160);
-    this.add.rectangle(0, H * 0.36 + 160, W, 3, COLOR.accent).setOrigin(0, 0);
+    const bg = mapBG(this);
+    bg?.setTimeOfDay('day', 0);
+    bg?.setDone([]);
+    // Title plate over the living map, the player standing on the road below it.
     this.add
-      .image(W / 2, H * 0.36 + 150, 'avatar_01')
+      .rectangle(W / 2, H * 0.215, W - 24, 150, COLOR.bg, 0.82)
+      .setStrokeStyle(2, COLOR.accent);
+    this.add.ellipse(W / 2, H * 0.6 + 4, 70, 14, 0x000000, 0.35);
+    this.add
+      .image(W / 2, H * 0.6, AVATARS[0])
       .setOrigin(0.5, 1)
-      .setScale(4);
+      .setScale(charScale(this, AVATARS[0], 6));
 
     text(this, W / 2, H * 0.16, t('title'), 'lg', COLOR.white, {
       align: 'center',

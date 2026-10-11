@@ -1,7 +1,6 @@
 // "n years later…": the persona's line for the next stage, then each investment's value
 // before → after with a sparkline of its seeded yearly returns, and the income note.
 import Phaser from 'phaser';
-import { drawBackdrop } from '../ui/Backdrop';
 import { getSession } from '@/app/session';
 import { rupees, t } from '@/shared/i18n';
 import type { AssetId, Portfolio, Stage, Step } from '@/shared/types';
@@ -9,6 +8,7 @@ import { proceed } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { charScale } from '../ui/chars';
 import { VIEW } from '../view';
 
 type StageEnd = Extract<Step, { kind: 'stage_end' }>;
@@ -34,15 +34,24 @@ export class StageEndScene extends Phaser.Scene {
       return;
     }
     const { width: W } = VIEW;
+    const st0 = this.step;
     this.cameras.main.setBackgroundColor(COLOR.bg);
     this.cameras.main.fadeIn(600);
+    // New life stage, new scene: office lobby (first job), HITEC City (earning more),
+    // Tank Bund at night (the long years before 60).
+    const sceneKey = (
+      { 1: 'bg_20_office_lobby', 2: 'bg_09_hitec_city', 3: 'bg_03_tank_bund_buddha' } as const
+    )[st0.stage];
+    if (this.textures.exists(sceneKey)) {
+      this.add
+        .image(W / 2, 0, sceneKey)
+        .setOrigin(0.5, 0)
+        .setScale((VIEW.height * 0.42) / 270);
+      this.add.rectangle(0, 0, W, VIEW.height * 0.42, COLOR.bg, 0.68).setOrigin(0);
+      this.add.rectangle(0, VIEW.height * 0.42 - 2, W, 3, COLOR.accent).setOrigin(0);
+    }
     const st = this.step;
     const nextStage = Math.min(3, st.stage + 1) as Stage;
-    // ISSUES #4: where the next stage happens — office lobby for the first salary, the towers for the raise.
-    if (
-      drawBackdrop(this, nextStage === 2 ? 'bg_20_office_lobby' : 'bg_09_hitec_city', 0, 0, W, 210)
-    )
-      this.add.rectangle(0, 0, W, 210, COLOR.bg, 0.55).setOrigin(0);
     const persona = s.content.personas.find((p) => p.id === game.state.profile.persona);
 
     text(
@@ -84,7 +93,7 @@ export class StageEndScene extends Phaser.Scene {
     this.add
       .image(W / 2, y + 70, game.state.profile.avatar)
       .setOrigin(0.5, 1)
-      .setScale(4);
+      .setScale(charScale(this, game.state.profile.avatar, 4));
     y += 84;
 
     const held = ASSETS.filter(

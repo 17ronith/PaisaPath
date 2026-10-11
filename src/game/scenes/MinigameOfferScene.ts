@@ -10,6 +10,7 @@ import { play } from '../audio';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { overMap } from '../flow/journeyState';
 import { VIEW } from '../view';
 
 type Offer = Extract<Step, { kind: 'minigame_offer' }>;
@@ -33,7 +34,7 @@ export class MinigameOfferScene extends Phaser.Scene {
     }
     const { width: W } = VIEW;
     const { minigame, locked, lockReason } = this.step;
-    this.cameras.main.setBackgroundColor(COLOR.bg);
+    overMap(this, 0.72, false);
     const p = new PixelPanel(this, 20, 90, W - 40, 300);
     p.add(
       text(

@@ -9,6 +9,7 @@ import { advance, save } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { overMap } from '../flow/journeyState';
 import { VIEW } from '../view';
 
 type Invest = Extract<Step, { kind: 'invest' }>;
@@ -49,7 +50,7 @@ export class InvestScene extends Phaser.Scene {
       return;
     }
     const { width: W } = VIEW;
-    this.cameras.main.setBackgroundColor(COLOR.bg);
+    overMap(this, 0.8, false);
     const savings = this.step.savingsCoins;
     const unit = Math.max(1, Math.round(savings / STEPS));
 

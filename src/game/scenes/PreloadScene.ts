@@ -1,12 +1,13 @@
 // Loads fonts + Kenney art (CC0), marks pixel art as NEAREST so it stays crisp under the
-// RES× camera, and builds named character textures (avatars, NPCs) from sheet frames.
+// RES× camera, loads Saharsh's character sprites and fills any gaps (NPCs) from Kenney frames.
 // Anything missing falls back to code-drawn placeholders, so a bad path never blocks play.
 import Phaser from 'phaser';
-import { AVATARS } from '../logic/onboarding';
+import { AVATARS, LEGACY_AVATARS } from '../logic/onboarding';
 import { BACKDROP_EXTRA, BACKDROP_FOR } from '../ui/Backdrop';
 import { MARKET_IMAGES, MARKET_SHEETS, registerMarketAnims } from '../ui/MarketArt';
 import { MONEY_SHEETS, registerMoneyAnims } from '../ui/MoneyArt';
 import { PANEL_KEYS } from '../ui/PixelPanel';
+import { hydTextureKeys, loadHydAssets } from '../ui/hyd';
 import { COLOR, text } from '../ui/theme';
 import { VIEW } from '../view';
 
@@ -46,12 +47,25 @@ const NINE_SLICES: Record<string, string> = {
   btn_grey_pressed: `${UI}Colored/grey_pressed.png`,
 };
 
-/** Front-facing standing frames. Urban: 27 cols; dungeon: 12 cols. */
+/**
+ * Saharsh's 48×48 characters (08_hyderabad_backgrounds/sprites, copied to assets/sprites):
+ * five avatars with a `_back` view for the battle platform, the Professor, and NPC portraits.
+ */
+const SPRITES = [
+  ...AVATARS.flatMap((a) => [a, `${a}_back`]),
+  'professor',
+  'professor_happy',
+  'professor_walk_0',
+  'professor_walk_1',
+  'npc_shady',
+  'npc_uncle',
+  'npc_friend',
+  'npc_shop',
+  'caller_wonky',
+];
+
+/** Kenney fallbacks, used only for NPCs with no sprite yet. Urban: 27 cols; dungeon: 12 cols. */
 const CHARACTERS: [key: string, sheet: keyof typeof SHEETS, frame: number][] = [
-  [AVATARS[0], 'urban', 24], // green tee
-  [AVATARS[1], 'urban', 105], // red top, long hair
-  [AVATARS[2], 'urban', 429], // headband, dark hair
-  [AVATARS[3], 'urban', 348], // grey tee
   ['npc_aunty', 'dungeon', 100],
   ['npc_shady', 'dungeon', 112],
   ['npc_shop', 'urban', 267],
@@ -66,6 +80,7 @@ const AVATAR_COLOURS: [number, number, number, number][] = [
   [0xd8a878, 0x181010, 0x48a058, 0x404040],
   [0xc08860, 0x402818, 0x4878c8, 0x605040],
   [0xa87050, 0x100808, 0xe0a030, 0x303858],
+  [0xe0b090, 0x281810, 0x9060c0, 0x383848],
 ];
 
 async function loadFonts(): Promise<void> {
@@ -98,7 +113,14 @@ export class PreloadScene extends Phaser.Scene {
     for (const [key, url] of Object.entries(SHEETS))
       this.load.spritesheet(key, url, { frameWidth: 16, frameHeight: 16 });
     for (const [key, url] of Object.entries(NINE_SLICES)) this.load.image(key, url);
-    // Hyderabad backdrops (ISSUES #18): 21 × 480×270 PNGs, ~370 KB total.
+    loadHydAssets(this.load);
+    for (const k of SPRITES) this.load.image(k, `assets/sprites/${k}.png`);
+    // Old saves keep their avatar key; draw the matching new character for it.
+    for (const [old, now] of Object.entries(LEGACY_AVATARS)) {
+      this.load.image(old, `assets/sprites/${now}.png`);
+      this.load.image(`${old}_back`, `assets/sprites/${now}_back.png`);
+    }
+    // Hyderabad backdrops (ISSUES #18): 20 × 480×270 PNGs, ~370 KB total, loaded once for every screen.
     for (const f of new Set([...Object.values(BACKDROP_FOR), ...Object.values(BACKDROP_EXTRA)]))
       this.load.image(`bg_${f}`, `assets/backdrops/${f}.png`);
     // Charminar Market device art (~120 KB): icons, 9-slices, animation strips.
@@ -111,12 +133,16 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   async create(): Promise<void> {
+    const legacy = Object.keys(LEGACY_AVATARS).flatMap((k) => [k, `${k}_back`]);
     for (const key of [
       ...Object.keys(SHEETS),
       ...Object.keys(NINE_SLICES),
       ...Object.keys(MARKET_IMAGES),
       ...Object.keys(MARKET_SHEETS),
       ...Object.keys(MONEY_SHEETS),
+      ...hydTextureKeys(),
+      ...SPRITES,
+      ...legacy,
     ])
       if (this.textures.exists(key))
         this.textures.get(key).setFilter(Phaser.Textures.FilterMode.NEAREST);
@@ -124,15 +150,15 @@ export class PreloadScene extends Phaser.Scene {
     registerMoneyAnims(this);
 
     for (const [key, sheet, frame] of CHARACTERS) this.characterFromSheet(key, sheet, frame);
-    // Urban sheet: the column after the front frame is the back view (Pokémon-style player).
-    for (const [key, sheet, frame] of CHARACTERS.filter(([k]) => k.startsWith('avatar_')))
-      this.characterFromSheet(`${key}_back`, sheet, frame + 1);
+    // A sprite that failed to load gets a code-drawn stand-in, so a bad path never blocks play.
     AVATAR_COLOURS.forEach((c, i) => this.placeholderAvatar(AVATARS[i], c));
 
     await loadFonts();
     // Warm both faces so the first real text renders in them, not the fallback.
     text(this, -100, -100, '₹0', 'xs').destroy();
     text(this, -100, -100, 'A', 'lg').destroy();
+    this.scene.launch('MapBG'); // never stopped: the map animates for the whole session
+    this.scene.sendToBack('MapBG');
     this.scene.launch('Sound'); // ISSUES #25: sound toggle on every screen
     this.scene.start('Title');
   }
