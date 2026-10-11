@@ -9,7 +9,9 @@
 //  - 'done' is terminal.
 // toJSON() always returns the state from just before the Step on screen, so a save taken at any
 // moment resumes on that same Step.
+import { createMarketApi } from './market';
 import type {
+  MarketApi,
   Bars,
   Choice,
   ContentPack,
@@ -60,6 +62,7 @@ const PRESSURE_DROP: Record<Quality, number> = { good: 40, ok: 20, weak: 5, crit
 const INFO_STEPS = new Set<Step['kind']>(['chapter_start', 'stage_end', 'epilogue']);
 
 export class EngineGame implements Game {
+  readonly market: MarketApi;
   private readonly s: GameState;
   private readonly rng: Rng;
   private current: Step | null = null;
@@ -71,6 +74,7 @@ export class EngineGame implements Game {
   ) {
     this.s = state;
     this.rng = bindRng(state);
+    this.market = createMarketApi(state);
   }
 
   get state(): GameState {

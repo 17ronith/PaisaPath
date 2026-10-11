@@ -12,6 +12,7 @@ import { MapBackgroundScene } from './MapBackgroundScene';
 import { WorldMapScene } from './WorldMapScene';
 import { LandmarkScene } from './LandmarkScene';
 import { BattleScene } from './BattleScene';
+import { MarketScene } from './MarketScene';
 import { MinigameOfferScene } from './MinigameOfferScene';
 import { InvestScene } from './InvestScene';
 import { StageEndScene } from './StageEndScene';
@@ -36,6 +37,7 @@ export const scenes: (typeof Phaser.Scene)[] = [
   LandmarkScene,
   BattleScene,
   MinigameOfferScene,
+  MarketScene,
   InvestScene,
   StageEndScene,
   EpilogueScene,

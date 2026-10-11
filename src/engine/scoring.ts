@@ -86,8 +86,10 @@ export function ncfeScore(
   content: ContentPack,
   log: LogEntry[],
   quizAfterAnswers?: number[],
+  extra: { item: NcfeItem; value: 0 | 1 }[] = [],
 ): NcfeScore {
   const evidence = new Map<NcfeItem, number[]>();
+  for (const ev of extra) evidence.set(ev.item, [...(evidence.get(ev.item) ?? []), ev.value]);
   for (const ev of quizEvidence(content, quizAfterAnswers)) {
     evidence.set(ev.item, [...(evidence.get(ev.item) ?? []), ev.value]);
   }
@@ -155,8 +157,8 @@ export function summarize(
     if (e.quality === 'good') perPillar[t.pillar].good += 1;
   }
 
-  let faced = 0;
-  let spotted = 0;
+  let faced = s.market?.scamsFaced ?? 0;
+  let spotted = s.market?.scamsSpotted ?? 0;
   for (const e of s.log) {
     const c = choiceOf(content, e);
     if (!c?.scam) continue;
@@ -169,7 +171,7 @@ export function summarize(
   return {
     finalBars: { ...s.bars },
     perPillar,
-    ncfe: ncfeScore(content, s.log, s.quizAfterAnswers),
+    ncfe: ncfeScore(content, s.log, s.quizAfterAnswers, s.market?.evidence ?? []),
     safety: { spotted, faced },
     mistakesFixed: [...s.learned],
     mistakesOpen: [...s.mistakes],
