@@ -194,7 +194,7 @@ export class TurfCricketScene extends Phaser.Scene {
     this.runsText.setText(String(this.runs));
     const pop = text(this, VIEW.width / 2, 250, tr(`turf.${runs}`, label), 'xl', COLOR.white)
       .setOrigin(0.5)
-      .setStroke('#1b1b2f', 6)
+      .setStroke('#1f2a1e', 6)
       .setScale(0.4);
     this.tweens.add({
       targets: pop,

@@ -16,8 +16,8 @@ export default defineConfig({
         description: 'A pixel-art life simulation that teaches financial literacy.',
         display: 'standalone',
         orientation: 'portrait',
-        background_color: '#1b1b2f',
-        theme_color: '#1b1b2f',
+        background_color: '#1f2a1e',
+        theme_color: '#1f2a1e',
         icons: [
           { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' },

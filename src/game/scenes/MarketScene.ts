@@ -227,9 +227,9 @@ export class MarketScene extends Phaser.Scene {
           () => {
             pct = v;
             realBtn.setCaption(label());
-            chips.forEach((c, j) => c.setFill([25, 50, 75, 100][j] === v ? COLOR.warn : 0x505878));
+            chips.forEach((c, j) => c.setFill([25, 50, 75, 100][j] === v ? COLOR.warn : 0x56684a));
           },
-          { width: 68, height: 32, size: 'xs', fill: v === pct ? COLOR.warn : 0x505878 },
+          { width: 68, height: 32, size: 'xs', fill: v === pct ? COLOR.warn : 0x56684a },
         );
         chips.push(chip);
         this.root.add(chip);
@@ -245,7 +245,7 @@ export class MarketScene extends Phaser.Scene {
         }).setOrigin(0.5, 0),
       );
     }
-    this.bezel([[tr('btn.back_map', '◀ BACK TO MAP'), () => this.exit(), 0x505878, 280]]);
+    this.bezel([[tr('btn.back_map', '◀ BACK TO MAP'), () => this.exit(), 0x56684a, 280]]);
   }
 
   private begin(mode: 'paper' | 'real', deposit: number): void {
@@ -271,7 +271,7 @@ export class MarketScene extends Phaser.Scene {
 
     const fees = IDS.filter((id) => this.pending[id] !== 0).length * FEE;
     this.bezel([
-      [tr('btn.exit', 'EXIT'), () => this.exit(), 0x505878, 96],
+      [tr('btn.exit', 'EXIT'), () => this.exit(), 0x56684a, 96],
       [
         `${tr('market.next', 'NEXT QUARTER ▶')}${fees ? ` · ${rupees(fees)}` : ''}`,
         () => this.advance(),
@@ -307,7 +307,7 @@ export class MarketScene extends Phaser.Scene {
     const top = y + 22;
     const ch = h - 28;
     if (all.length === 0) {
-      g.lineStyle(1, 0x505878, 1).lineBetween(x + 6, top + ch / 2, x + w - 6, top + ch / 2);
+      g.lineStyle(1, 0x56684a, 1).lineBetween(x + 6, top + ch / 2, x + w - 6, top + ch / 2);
       this.root.add(
         text(
           this,
@@ -497,7 +497,7 @@ export class MarketScene extends Phaser.Scene {
   ): void {
     if (!candles || candles.length === 0 || !this.textures.exists('mk_candle_up')) {
       const g = this.add.graphics();
-      g.lineStyle(1, 0x505878, 1).lineBetween(x, y + h / 2, x + w, y + h / 2);
+      g.lineStyle(1, 0x56684a, 1).lineBetween(x, y + h / 2, x + w, y + h / 2);
       this.root.add(g);
       if (!candles || candles.length === 0) return;
     }
@@ -802,7 +802,7 @@ export class MarketScene extends Phaser.Scene {
         COLOR.money,
         156,
       ],
-      [tr('btn.back_map', '◀ BACK TO MAP'), () => this.exit(), 0x505878, 156],
+      [tr('btn.back_map', '◀ BACK TO MAP'), () => this.exit(), 0x56684a, 156],
     ]);
   }
 

@@ -70,7 +70,7 @@ export class ReplayLibraryScene extends Phaser.Scene {
     }
 
     new Button(this, W / 2, 586, tr('btn.close', 'CLOSE'), () => this.scene.stop(), {
-      fill: 0x505878,
+      fill: 0x56684a,
       height: 50,
     });
   }

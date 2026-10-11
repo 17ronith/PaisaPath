@@ -127,7 +127,7 @@ export class EndReportScene extends Phaser.Scene {
         width: bw,
         height: 50,
         size: 'sm',
-        fill: 0x505878,
+        fill: 0x56684a,
       },
     );
     new Button(
@@ -227,7 +227,7 @@ export class EndReportScene extends Phaser.Scene {
         width: 130,
         height: 48,
         size: 'sm',
-        fill: 0x505878,
+        fill: 0x56684a,
       },
     );
     c.add([send, close]);

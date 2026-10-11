@@ -12,7 +12,7 @@ export const FONT_BODY = '"Jersey10", "Noto Sans Telugu", "Nirmala UI", sans-ser
 export const FONT = FONT_BODY;
 
 export const COLOR = {
-  bg: 0x1b1b2f,
+  bg: 0x1f2a1e,
   bgBattle: 0xe8f0d8,
   ground: 0xb8d8a0,
   panel: 0xf8f8f0,

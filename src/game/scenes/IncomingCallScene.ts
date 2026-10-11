@@ -88,7 +88,7 @@ export class IncomingCallScene extends Phaser.Scene {
       this.ringing.push(ripple);
     }
     this.photo = this.add.container(W / 2, PHOTO_Y);
-    this.photo.add(this.add.circle(0, 0, 78, 0x2a2f4a).setStrokeStyle(4, COLOR.white, 0.9));
+    this.photo.add(this.add.circle(0, 0, 78, 0x2a3326).setStrokeStyle(4, COLOR.white, 0.9));
     const key = portraitKey(this, this.call.portrait, this.call.caller);
     if (key)
       this.photo.add(
@@ -102,7 +102,7 @@ export class IncomingCallScene extends Phaser.Scene {
       ? tr('call.video_tag', 'Video call · not in contacts')
       : tr('call.spam', '⚠ Suspected spam');
     const tagBg = this.add.rectangle(W / 2, PHOTO_Y + 142, 10, 10, video ? 0x3a4060 : SPAM);
-    const tagText = text(this, W / 2, PHOTO_Y + 142, tag, 'xs', video ? COLOR.white : 0x1b1b2f);
+    const tagText = text(this, W / 2, PHOTO_Y + 142, tag, 'xs', video ? COLOR.white : 0x1f2a1e);
     tagText.setOrigin(0.5);
     tagBg.setSize(tagText.width + 18, tagText.height + 8);
 
@@ -267,7 +267,7 @@ export class IncomingCallScene extends Phaser.Scene {
     this.photo.setScale(1.6).setY(PHOTO_Y - 10);
     const avatar = getSession().game?.state.profile.avatar;
     const self = this.add
-      .rectangle(W - 70, 330, 80, 100, 0x2a2f4a)
+      .rectangle(W - 70, 330, 80, 100, 0x2a3326)
       .setStrokeStyle(2, COLOR.white, 0.8);
     void self;
     if (avatar && this.textures.exists(avatar))

@@ -174,7 +174,7 @@ export class InfoPanelScene extends Phaser.Scene {
       tr('btn.close', 'CLOSE'),
       () => this.scene.stop(),
       {
-        fill: 0x505878,
+        fill: 0x56684a,
         height: 50,
       },
     );

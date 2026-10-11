@@ -109,7 +109,7 @@ export class ExplainerScene extends Phaser.Scene {
     const steps = [...ex.steps].sort((a, b) => a.at - b.at);
     this.planMoney(ex, steps);
     steps.forEach((s, i) => this.time.delayedCall(s.at, () => this.run(s, steps, i, ex)));
-    this.time.delayedCall(3000, () => this.showButton(tr('explainer.skip', 'SKIP'), 0x505878));
+    this.time.delayedCall(3000, () => this.showButton(tr('explainer.skip', 'SKIP'), 0x56684a));
     this.time.delayedCall(ex.durationMs, () => this.showButton(t('btn.next'), COLOR.good));
   }
 
@@ -175,7 +175,7 @@ export class ExplainerScene extends Phaser.Scene {
       this.layer.add(text(this, x, y - 16, s.label, 'xs', COLOR.white));
       this.layer.add(
         this.add
-          .rectangle(x, y, w, 16, 0x303850)
+          .rectangle(x, y, w, 16, 0x2f3a2a)
           .setOrigin(0, 0)
           .setStrokeStyle(2, COLOR.panelEdge),
       );
@@ -251,7 +251,7 @@ export class ExplainerScene extends Phaser.Scene {
       sprite = this.add.sprite(0, 0, key, 0).setOrigin(0.5, 1).setScale(SPRITE_SCALE);
       root.add(sprite);
     } else {
-      root.add(this.add.rectangle(0, -20, 56, 40, 0x303850).setStrokeStyle(2, COLOR.accent));
+      root.add(this.add.rectangle(0, -20, 56, 40, 0x2f3a2a).setStrokeStyle(2, COLOR.accent));
     }
     const label =
       place === 'wallet'
