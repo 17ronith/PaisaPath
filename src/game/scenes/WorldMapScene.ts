@@ -71,10 +71,10 @@ export class WorldMapScene extends Phaser.Scene {
       const here = l.id === dest.id;
       if (i)
         this.add
-          .rectangle(x - (W - 44) / 7, 53, (W - 44) / 7 - 10, 2, done ? COLOR.good : 0x505870)
+          .rectangle(x - (W - 44) / 7, 53, (W - 44) / 7 - 10, 2, done ? COLOR.good : 0x56684a)
           .setOrigin(0, 0.5);
       this.add
-        .circle(x, 53, here ? 7 : 5, done ? COLOR.good : here ? COLOR.warn : 0x505870)
+        .circle(x, 53, here ? 7 : 5, done ? COLOR.good : here ? COLOR.warn : 0x56684a)
         .setStrokeStyle(2, COLOR.white, here ? 1 : 0.4);
     });
 

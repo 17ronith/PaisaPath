@@ -97,7 +97,7 @@ export class OnboardingScene extends Phaser.Scene {
     const W = VIEW.width;
     for (let k = 0; k < n; k++) {
       const x = W / 2 - ((n - 1) * 14) / 2 + k * 14;
-      this.root.add(this.add.rectangle(x, 40, 8, 8, k <= i ? COLOR.accent : 0x404060));
+      this.root.add(this.add.rectangle(x, 40, 8, 8, k <= i ? COLOR.accent : 0x3e4a36));
     }
   }
 
@@ -123,12 +123,12 @@ export class OnboardingScene extends Phaser.Scene {
       const y = 240 + row * 156;
       const frame = this.add
         .rectangle(x, y, 104, 140, COLOR.panelEdge)
-        .setStrokeStyle(4, key === this.avatar ? COLOR.accent : 0x404060)
+        .setStrokeStyle(4, key === this.avatar ? COLOR.accent : 0x3e4a36)
         .setInteractive({ useHandCursor: true });
       const img = this.add.image(x, y, key).setScale(charScale(this, key, 6));
       frame.on('pointerup', () => {
         this.avatar = key;
-        frames.forEach((f, j) => f.setStrokeStyle(4, AVATARS[j] === key ? COLOR.accent : 0x404060));
+        frames.forEach((f, j) => f.setStrokeStyle(4, AVATARS[j] === key ? COLOR.accent : 0x3e4a36));
       });
       frames.push(frame);
       this.root.add([frame, img]);
@@ -266,7 +266,7 @@ export class OnboardingScene extends Phaser.Scene {
         380,
         tr('onboard.who_facilitator', 'NGO facilitator, for a student'),
         () => pick('facilitator'),
-        { width: 290, height: 72, size: 'sm', fill: 0x505878 },
+        { width: 290, height: 72, size: 'sm', fill: 0x56684a },
       ),
     );
     this.root.add(
@@ -328,7 +328,7 @@ export class OnboardingScene extends Phaser.Scene {
         consent = !consent;
         paint();
       },
-      { width: 290, height: 44, size: 'xs', fill: 0x505878, align: 'left' },
+      { width: 290, height: 44, size: 'xs', fill: 0x56684a, align: 'left' },
     );
     const paint = (): void => {
       consentBtn.setCaption(
@@ -444,7 +444,7 @@ export class OnboardingScene extends Phaser.Scene {
           );
           this.showPersona(false);
         },
-        { fill: 0x505878, size: 'xs', height: 48 },
+        { fill: 0x56684a, size: 'xs', height: 48 },
       ),
     );
     this.root.add(

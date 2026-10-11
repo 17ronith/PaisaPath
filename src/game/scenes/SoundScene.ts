@@ -23,7 +23,7 @@ export class SoundScene extends Phaser.Scene {
         width: 30,
         height: 26,
         size: 'sm',
-        fill: 0x505878,
+        fill: 0x56684a,
       },
     ).setAlpha(0.85);
     onMuteChange((m) => btn.setCaption(m ? '×' : '♪'));

@@ -18,7 +18,7 @@ export const phaserConfig: Phaser.Types.Core.GameConfig = {
   parent: 'game',
   width: GAME_W * RES,
   height: GAME_H * RES,
-  backgroundColor: '#1b1b2f',
+  backgroundColor: '#1f2a1e',
   // Smooth text and shapes; pixel-art textures opt into NEAREST in PreloadScene.
   antialias: true,
   pixelArt: false,

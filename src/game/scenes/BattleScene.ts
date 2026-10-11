@@ -191,7 +191,7 @@ export class BattleScene extends Phaser.Scene {
       onEnded: (secs: number) => {
         begin();
         const m = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
-        this.badge(`📞 ${tr('battle.call_ended', 'CALL ENDED')} ${m}`, 0x505878, 122, 12);
+        this.badge(`📞 ${tr('battle.call_ended', 'CALL ENDED')} ${m}`, 0x56684a, 122, 12);
       },
     });
     this.scene.bringToTop('IncomingCall');

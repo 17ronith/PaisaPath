@@ -34,7 +34,7 @@ export class HUDScene extends Phaser.Scene {
   create(): void {
     const W = VIEW.width;
     this.makeHeart('heart_full', 0xe04848);
-    this.makeHeart('heart_empty', 0x505870);
+    this.makeHeart('heart_empty', 0x56684a);
     this.add.rectangle(0, 0, W, HUD_HEIGHT, COLOR.bg, 0.92).setOrigin(0, 0);
     this.add.rectangle(0, HUD_HEIGHT - 2, W, 2, COLOR.accent).setOrigin(0, 0);
     this.hearts = [0, 1, 2, 3, 4].map((i) =>
@@ -81,7 +81,7 @@ export class HUDScene extends Phaser.Scene {
       20,
       isMuted() ? '×' : '♪',
       () => this.scene.launch('AudioSettings'), // music / sound effects / voice-over switches
-      { width: 34, height: 32, size: 'md', fill: 0x505878 },
+      { width: 34, height: 32, size: 'md', fill: 0x56684a },
     );
     onMuteChange((m) => mute.setCaption(m ? '×' : '♪')); // stays in sync with the corner toggle
     new Button(this, W - 120, 20, t('btn.info'), () => this.openOverlay('InfoPanel'), {

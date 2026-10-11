@@ -29,12 +29,12 @@ export function setAvatarLandmark(id: LandmarkId | null): void {
 export function overMap(scene: Phaser.Scene, veil = 0.7, drift = true): void {
   const bg = mapBG(scene);
   if (!bg) {
-    scene.cameras.main.setBackgroundColor(0x1b1b2f);
+    scene.cameras.main.setBackgroundColor(0x1f2a1e);
     return;
   }
   const { width, height } = scene.scale.gameSize;
   // gameSize is RES× the logical view; the camera zoom maps it back, so cover generously.
-  scene.add.rectangle(0, 0, width, height, 0x1b1b2f, veil).setOrigin(0).setDepth(-1000);
+  scene.add.rectangle(0, 0, width, height, 0x1f2a1e, veil).setOrigin(0).setDepth(-1000);
   if (drift) {
     bg.hideAvatar();
     bg.drift(true);

@@ -86,7 +86,7 @@ export class InvestScene extends Phaser.Scene {
       width: 160,
       height: 52,
       size: 'sm',
-      fill: 0x505878,
+      fill: 0x56684a,
     });
     this.investBtn = new Button(this, W / 2 + 86, 596, t('btn.invest'), () => this.finish(false), {
       width: 160,

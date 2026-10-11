@@ -26,7 +26,7 @@ function skinFor(fill: number | undefined): Skin {
       return 'red';
     case COLOR.warn:
       return 'yellow';
-    case 0x505878:
+    case 0x56684a:
       return 'grey';
     default:
       return 'blue';

@@ -91,7 +91,7 @@ export class MinigameOfferScene extends Phaser.Scene {
         save();
         advance(this);
       },
-      { fill: 0x505878 },
+      { fill: 0x56684a },
     );
   }
 

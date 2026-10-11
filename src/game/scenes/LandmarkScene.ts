@@ -99,7 +99,7 @@ export class LandmarkScene extends Phaser.Scene {
         width: 108,
         height: 52,
         size: 'sm',
-        fill: 0x505878,
+        fill: 0x56684a,
       },
     );
     new Button(this, W / 2 + 60, H - 40, tr('landmark.play', 'PLAY MISSION ▸'), () => this.play(), {
@@ -194,7 +194,7 @@ export class LandmarkScene extends Phaser.Scene {
         .setDisplaySize((h - 16) * (16 / 9), h - 16);
       p.add(th);
     } else {
-      p.add(this.add.rectangle(8, 8, (h - 16) * (16 / 9), h - 16, 0x303850).setOrigin(0));
+      p.add(this.add.rectangle(8, 8, (h - 16) * (16 / 9), h - 16, 0x2f3a2a).setOrigin(0));
       p.add(
         text(this, 8 + ((h - 16) * (16 / 9)) / 2, h / 2, '🔒', 'md', COLOR.white).setOrigin(0.5),
       );
