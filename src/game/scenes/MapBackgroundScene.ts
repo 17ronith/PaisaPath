@@ -266,10 +266,14 @@ export class MapBackgroundScene extends Phaser.Scene {
     };
     if (!this.overviewOn || duration <= 0) {
       if (this.overviewOn) done();
-      this.skirt?.setVisible(true);
+      this.skirt?.setVisible(true).setAlpha(1);
       return Promise.resolve();
     }
-    this.skirt?.setVisible(true);
+    // Fade the ground slab in as we descend, so the whole-city view never shows it.
+    if (this.skirt) {
+      this.skirt.setVisible(true).setAlpha(0);
+      this.tweens.add({ targets: this.skirt, alpha: 1, duration, ease: 'Cubic.easeIn' });
+    }
     return new Promise((resolve) => {
       cam.zoomTo(RES, duration, 'Sine.easeInOut', true);
       cam.pan(

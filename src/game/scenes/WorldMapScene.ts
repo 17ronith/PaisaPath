@@ -33,8 +33,6 @@ export class WorldMapScene extends Phaser.Scene {
   private step?: ChapterStart;
   private returnTo?: Step;
   private busy = false;
-  /** Overview-only markers (the bouncing pin over this month's landmark). */
-  private pin: Phaser.GameObjects.GameObject[] = [];
 
   constructor() {
     super('WorldMap');
@@ -44,7 +42,6 @@ export class WorldMapScene extends Phaser.Scene {
     this.step = data.step?.kind === 'chapter_start' ? data.step : undefined;
     this.returnTo = data.returnTo;
     this.busy = false;
-    this.pin = [];
   }
 
   create(): void {
@@ -130,18 +127,22 @@ export class WorldMapScene extends Phaser.Scene {
     body.setY(72);
     card.add(body);
 
-    // ISSUES #26: open on the whole city (between the journey strip and the card), with the
-    // road to this month's landmark dotted in and a pin bouncing over it. GO glides down.
+    // Month start: the whole city first, then a glide down to the exact landmark you're at
+    // (street level, as before); the card and button fade in once it lands. Coming back from
+    // a landmark's "◀ Map" goes straight to street level.
     if (bg) {
-      bg.overview(70, cardY - 6);
-      if (!this.returnTo && from !== dest.id)
-        bg.showRoute(route(bg.data_.edges as Edge[], from, dest.id));
-      const n = bg.node(dest.id);
-      if (n) this.dropPin(bg.toScreen(n.x, n.y - 66), bg.toScreen(n.x, n.y - 2));
-      const top = bg.toScreen(0, 0).y;
-      text(this, W / 2, top - 8, tr('map.title', 'Your road through Hyderabad'), 'sm', COLOR.white)
-        .setOrigin(0.5, 1)
-        .setShadow(0, 1, 'rgba(0,0,0,0.8)', 2, false, true);
+      if (this.step && !this.returnTo) {
+        const cam = this.cameras.main;
+        bg.overview(40, H);
+        cam.setAlpha(0);
+        this.busy = true;
+        this.time.delayedCall(800, () => {
+          void bg.focus(from, 1600).then(() => {
+            this.busy = false;
+            this.tweens.add({ targets: cam, alpha: 1, duration: 300 });
+          });
+        });
+      } else void bg.focus(from, 0);
     }
 
     const needsWalk = !this.returnTo && from !== dest.id;
@@ -165,29 +166,10 @@ export class WorldMapScene extends Phaser.Scene {
     this.events.once('go-busy', () => go.setEnabled(false));
   }
 
-  /** A bouncing ▼ above this month's landmark and a pulsing ring at its foot (overview only). */
-  private dropPin(top: { x: number; y: number }, foot: { x: number; y: number }): void {
-    const ring = this.add.circle(foot.x, foot.y, 13).setStrokeStyle(2, COLOR.warn);
-    const at = top;
-    const arrow = text(this, at.x, at.y, '▼', 'md', COLOR.warn).setOrigin(0.5, 1);
-    arrow.setShadow(0, 1, 'rgba(0,0,0,0.8)', 2, false, true);
-    this.tweens.add({
-      targets: ring,
-      scale: 1.35,
-      alpha: 0.2,
-      yoyo: true,
-      repeat: -1,
-      duration: 550,
-    });
-    this.tweens.add({ targets: arrow, y: at.y + 6, yoyo: true, repeat: -1, duration: 400 });
-    this.pin = [ring, arrow];
-  }
-
   private async go(walk: boolean, from: string, to: string): Promise<void> {
     if (this.busy) return;
     this.busy = true;
     this.events.emit('go-busy');
-    for (const o of this.pin) o.destroy();
     const game = getSession().game!;
     const bg = mapBG(this);
     if (this.returnTo) {
