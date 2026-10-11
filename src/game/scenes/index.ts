@@ -1,6 +1,6 @@
 // Ronith owns this file. Scene keys are fixed in docs/plan/CONTRACTS.md §4.4.
 // Mini-game scenes come from Saharsh via src/minigames and are registered here once.
-// Order = draw order: HUD sits above game screens, Explainer above the HUD, mini-games on top.
+// Order = draw order (MapBG is sent to the back at launch): HUD sits above game screens, Explainer above the HUD, mini-games on top.
 import type Phaser from 'phaser';
 import { minigameScenes } from '@/minigames';
 import { BootScene } from './BootScene';
@@ -8,8 +8,9 @@ import { PreloadScene } from './PreloadScene';
 import { TitleScene } from './TitleScene';
 import { OnboardingScene } from './OnboardingScene';
 import { QuizScene } from './QuizScene';
-import { ChapterMapScene } from './ChapterMapScene';
-import { TownMapScene } from './TownMapScene';
+import { MapBackgroundScene } from './MapBackgroundScene';
+import { WorldMapScene } from './WorldMapScene';
+import { LandmarkScene } from './LandmarkScene';
 import { BattleScene } from './BattleScene';
 import { MinigameOfferScene } from './MinigameOfferScene';
 import { InvestScene } from './InvestScene';
@@ -23,13 +24,15 @@ import { ReplayLibraryScene } from './ReplayLibraryScene';
 import { ExplainerScene } from './ExplainerScene';
 
 export const scenes: (typeof Phaser.Scene)[] = [
-  BootScene,
+  BootScene, // first = auto-started
+  // The always-animating Hyderabad map; Preload launches it and sends it to the back.
+  MapBackgroundScene,
   PreloadScene,
   TitleScene,
   OnboardingScene,
   QuizScene,
-  ChapterMapScene,
-  TownMapScene,
+  WorldMapScene,
+  LandmarkScene,
   BattleScene,
   MinigameOfferScene,
   InvestScene,

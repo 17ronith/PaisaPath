@@ -6,10 +6,15 @@ import { getSession } from '@/app/session';
 import type { Game, Step } from '@/shared/types';
 
 // Dev builds only: lets a Playwright script read the current step (never shipped).
-if (import.meta.env?.DEV) (globalThis as Record<string, unknown>).__lmSession = getSession;
+let devManager: Phaser.Scenes.SceneManager | undefined;
+if (import.meta.env?.DEV) {
+  const g = globalThis as Record<string, unknown>;
+  g.__lmSession = getSession;
+  g.__lmActive = () => devManager?.getScenes(true).map((sc) => sc.scene.key) ?? [];
+}
 
 /** Scene keys that show the HUD overlay on top. */
-const WITH_HUD = new Set(['ChapterMap', 'TownMap', 'Battle', 'MinigameOffer']);
+const WITH_HUD = new Set(['WorldMap', 'Landmark', 'Battle', 'MinigameOffer']);
 
 /**
  * Informational steps have no answer method in the Game API. If the engine exposes
@@ -46,37 +51,20 @@ export function proceed(from: Phaser.Scene): void {
 }
 
 export function route(from: Phaser.Scene, step: Step): void {
-  const game = getSession().game;
+  if (import.meta.env?.DEV) devManager = from.scene.manager;
   let key: string;
   let data: object = { step };
   switch (step.kind) {
     case 'chapter_start':
-      key = 'ChapterMap';
+      // Every month starts on the world map: news, then the walk to this month's landmark.
+      key = 'WorldMap';
       break;
     case 'task':
-      // Main tasks go through the town first; detours and restarts go straight to the fight.
-      key =
-        from.scene.manager.keys['TownMap'] &&
-        !step.isDetour &&
-        !((game?.state.failCounts[step.task.id] ?? 0) > 0)
-          ? 'TownMap'
-          : 'Battle';
-      break;
     case 'event':
-      key = 'Battle';
-      break;
     case 'minigame_offer':
-      key = 'MinigameOffer';
-      break;
     case 'invest':
-      // Phase 1: no invest screen yet — keep everything in savings.
-      if (!from.scene.manager.keys['Invest']) {
-        game?.allocate({});
-        save();
-        advance(from);
-        return;
-      }
-      key = 'Invest';
+      // Everything playable is a mission inside the current landmark's hub.
+      key = 'Landmark';
       break;
     case 'stage_end':
       key = 'StageEnd';
