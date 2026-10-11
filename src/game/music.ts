@@ -1,7 +1,7 @@
 // Background chiptune (PLAYTEST-01 #12) + a step blip for the walk (#1). Synthesised with the
 // Web Audio API: no file to download, no licence line, nothing for slow 3G to fetch.
 // Honours the mute flag from ./audio (polled every bar). Start only after a user gesture.
-import { isMuted, onMuteChange } from './audio';
+import { isOn, onChannelChange } from './audio';
 
 const BPM = 112;
 const BEAT = 60 / BPM; // seconds
@@ -151,7 +151,7 @@ function note(freq: number, at: number, dur: number, type: OscillatorType, gain:
 function schedule(): void {
   if (!ctx) return;
   // mute = silence without losing the beat position, so unmuting continues in time
-  if (master) master.gain.value = isMuted() ? 0 : 1;
+  if (master) master.gain.value = isOn('music') ? 1 : 0;
   while (nextTime < ctx.currentTime + LOOKAHEAD_S) {
     const i = nextStep % STEPS;
     const m = MELODY[i];
@@ -167,12 +167,13 @@ function schedule(): void {
   }
 }
 
-// ISSUES #25: mute must be instant and total. Suspending the context silences notes already
-// scheduled ahead and the footstep blips; unmuting resumes the loop where it was.
-onMuteChange((m) => {
-  if (!ctx) return;
-  if (m) void ctx.suspend();
-  else if (timer) void ctx.resume();
+// ISSUES #25: switching music off must be instant. Zeroing the master gain silences notes already
+// scheduled ahead; switching it back on continues the loop where it was.
+onChannelChange((channel, value) => {
+  if (channel !== 'music' || !ctx) return;
+  // gain, not suspend: footstep blips share this context and follow the sound-effects switch
+  if (master) master.gain.value = value ? 1 : 0;
+  if (value && timer && ctx.state === 'suspended') void ctx.resume();
 });
 
 // A second copy of this module (hot reload, double import) must not leave an unmutable loop.
@@ -185,9 +186,9 @@ export function startMusic(): void {
   shared.__lmStopMusic = stopMusic;
   try {
     ctx ??= new AudioContext();
-    if (ctx.state === 'suspended' && !isMuted()) void ctx.resume();
+    if (ctx.state === 'suspended') void ctx.resume();
     master = ctx.createGain();
-    master.gain.value = isMuted() ? 0 : 1;
+    master.gain.value = isOn('music') ? 1 : 0;
     master.connect(ctx.destination);
     nextStep = 0;
     nextTime = ctx.currentTime + 0.05;
@@ -215,7 +216,7 @@ export function musicPlaying(): boolean {
 
 /** One short footstep; alternate `left` for a two-tone walk. */
 export function stepBlip(left = true): void {
-  if (isMuted() || typeof AudioContext === 'undefined') return;
+  if (!isOn('sfx') || typeof AudioContext === 'undefined') return;
   try {
     ctx ??= new AudioContext();
     if (ctx.state === 'suspended') void ctx.resume();

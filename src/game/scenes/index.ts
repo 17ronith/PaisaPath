@@ -23,6 +23,7 @@ import { InfoPanelScene } from './InfoPanelScene';
 import { ReplayLibraryScene } from './ReplayLibraryScene';
 import { ExplainerScene } from './ExplainerScene';
 import { SoundScene } from './SoundScene';
+import { AudioSettingsScene } from './AudioSettingsScene';
 
 export const scenes: (typeof Phaser.Scene)[] = [
   BootScene,
@@ -46,4 +47,5 @@ export const scenes: (typeof Phaser.Scene)[] = [
   ExplainerScene,
   ...(Object.values(minigameScenes) as (typeof Phaser.Scene)[]),
   SoundScene, // ISSUES #25: always on top
+  AudioSettingsScene, // the ♪ panel: music / sound effects / voice-over
 ];

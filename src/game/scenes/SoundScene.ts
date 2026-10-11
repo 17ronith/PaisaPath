@@ -1,8 +1,9 @@
 // ISSUES #25: a sound toggle on every screen. The HUD's ♪ only exists on the map and in battles;
 // everywhere else (title, onboarding, quiz, explainers, invest, mini-games, end screens) this small
 // corner button takes its place. It keeps itself on top and hides while the HUD is showing.
+// Tapping it opens the AudioSettings panel (music, sound effects and voice-over switches).
 import Phaser from 'phaser';
-import { isMuted, onMuteChange, setMuted } from '../audio';
+import { isMuted, onMuteChange } from '../audio';
 import { Button } from '../ui/Button';
 import { VIEW } from '../view';
 
@@ -17,7 +18,7 @@ export class SoundScene extends Phaser.Scene {
       VIEW.width - 20,
       17,
       isMuted() ? '×' : '♪',
-      () => setMuted(!isMuted()),
+      () => this.scene.launch('AudioSettings'), // music / sound effects / voice-over switches
       {
         width: 30,
         height: 26,
@@ -33,9 +34,10 @@ export class SoundScene extends Phaser.Scene {
       callback: () => {
         const mgr = this.scene.manager;
         const hudShowing = mgr.isActive('HUD') && mgr.isVisible('HUD');
-        btn.setVisible(!hudShowing);
-        this.input.enabled = !hudShowing;
-        this.scene.bringToTop();
+        const panelOpen = mgr.isActive('AudioSettings');
+        btn.setVisible(!hudShowing && !panelOpen);
+        this.input.enabled = !hudShowing && !panelOpen;
+        if (!panelOpen) this.scene.bringToTop();
       },
     });
   }
