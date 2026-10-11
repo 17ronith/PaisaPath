@@ -32,6 +32,26 @@
 | 23  | 🔴  | P1  | Ronith                    | too much happening in some screens like the investing screen, don't barebone back to zero                                                                                                                                                                                                                                     | OPEN                                                                                                                                                                                                                                        |
 | 24  | 🟡  | P1  | Aakarsh + Monish          | solidify financial literacy concepts we want to depict via this game                                                                                                                                                                                                                                                          | DOING — Monish: CONCEPTS.md generated 03:30 (`534d66a`); Aakarsh: fill + 3 gap tasks (PR #25 drafts)                                                                                                                                        |
 
+## Round 2 — play-test at 06:10 IST (12 new)
+
+> Reported by Monish. Triaged by the second Monish session ("s2"); s2 takes the rows marked DOING s2.
+> Rows touching TownMap/Battle/HUD are tiny diffs, rebased before push, to stay clear of s1's work.
+
+| #   |     | Pri | Owner | Reported (paraphrased) | Diagnosis → plan | Status |
+| --- | --- | --- | ----- | ---------------------- | ---------------- | ------ |
+| 25 | 🟡 | P0 | Monish s2 | Music button doesn't turn off music | Repro: mute flag + gain work, but the ♪ button only exists on the HUD, which is hidden on most screens (invest, explainer, mini-games, title), and the hidden HUD still catches taps (a tap on the invest title toggled mute). Fix: hard-stop the music loop on mute, sound toggle on every screen, hidden HUD stops taking input | DOING s2 |
+| 26 | 🔴 | P1 | Monish s2 | Town map should open on the whole map, not zoomed on Charminar | Camera starts centred on the current place. Fix: open fitted to the whole map, then glide to the place | DOING s2 |
+| 27 | 🔴 | P1 | Ronith (art) · Monish s2 (prompts) | Avatars look bad; write a specific prompt per avatar | s2 writes one image prompt per avatar (+ Professor) in `docs/art/avatar-prompts.md`; Ronith generates and imports | DOING s2 |
+| 28 | 🔴 | P1 | Monish s2 | Pokémon-style green platforms → shadow, not green | Two green ellipses in BattleScene. Fix: soft dark shadow ellipses | DOING s2 |
+| 29 | 🔴 | P1 | Monish s2 | Wallet animations need fixing | Needs a repro: what looks wrong (jump, wrong number, too fast)? s2 checks Bar tweens meanwhile | NEEDS DETAIL |
+| 30 | 🔴 | P1 | Monish s2 | Banyan compounding animation could look better | `grow` op draws stacked squares. Fix: a growing pixel tree (trunk, canopy, aerial roots) with a year counter and ₹ value | DOING s2 |
+| 31 | 🔴 | P2 | Monish s2 | Add lights to the night-time map | Fix: glowing window and street-lamp lights over the night map, gentle flicker | DOING s2 |
+| 32 | 🔴 | P2 | Monish s2 | Texture on progress bars | Flat rectangles in `ui/Bar.ts`. Fix: pixel segments, highlight strip, darker border | DOING s2 |
+| 33 | 🔴 | P1 | Team decision | Implement a stock market simulator | **Conflicts with the brief's guardrail** ("educate, do not recommend investments") and CONTEXT §2.10 ("no stock market simulator, ever"). Proposal: a "market week" view of the four made-up assets (live price wiggle, news events, buy/hold), no real companies or tickers | DECISION |
+| 34 | 🔴 | P1 | Aakarsh (content) · Monish s2 (plumbing) | Before and after quiz are identical; test the same concepts differently | s2 drafts 5 parallel after-questions (same concept, new situation and format) + `quizAfter` in the content pack; the after-quiz uses them | DOING s2 |
+| 35 | 🔴 | P1 | Monish s2 | Report PDF: pixel colour theme, explain why each number is reported, pie charts / graphs | `src/app/report.ts` rewrite: themed header, before→after bar chart, pillar pie, NCFE bars, one-line "why this matters" per section | DOING s2 |
+| 36 | 🔴 | P1 | Monish s2 · Ronith | Onboarding: choose "NGO facilitator is setting this up" or "I'm the student" | Facilitator path: batch code + consent + guardian contact, then "hand the phone to the student"; student path as today | DOING s2 |
+
 ## Order of attack for Ronith (P0 first — judges see these in the first minute)
 
 8 → 18 → 7 → 6 → 13 → 16, then 5 → 4 → 2 → 3 → 14 → 17, then 1 → 10 → 23.
