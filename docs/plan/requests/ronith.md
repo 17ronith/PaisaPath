@@ -39,14 +39,14 @@ Ronith: change `Status:` lines only; never delete blocks.
 
 ### R-monish-03 · Use the Hyderabad backdrops in BattleScene (and TownMap thumbnails)
 - From: monish · To: ronith · At: 01:45 · Priority: P1
-- Status: OPEN
+- Status: DONE `97b0f21` (superseded by 04)
 - What: nine finished 480×270 pixel-art backdrops are in `team97_vanguard_context/08_hyderabad_backgrounds/1x/` with a platforms overlay. Full mapping table and 5-step wiring in `docs/plan/ronith.md` → "Hyderabad backdrops". Copy the **1×** PNGs to `public/assets/backdrops/`, preload them, and draw the one matching `framing.place` in the arena strip at scale 0.75 (360×202) instead of `grassField`; keep `grassField` as fallback. Then, if cheap, the same images at 0.25 as TownMap thumbnails.
 - Why: this is the single biggest visual upgrade available before the demo video; every battle currently sits on a procedural green field.
 - Accept when: the Charminar scam task renders on the Charminar backdrop at 360×640 with no console errors, `npm run build` precache grows by ≈170 KB not 500 KB, and `npm run check` is green.
 
 ### R-monish-04 · Backdrops now cover every place — plus epilogue and stage-transition art
 - From: monish · To: ronith · At: 02:05 · Priority: P1
-- Status: OPEN
+- Status: DONE `97b0f21` — all 20 backdrops via `backdropForPlace()`; epilogue home_age60; stage ends office/hitec/tankbund
 - What: supersedes the mapping in R-monish-03 (same wiring, bigger table). 20 backdrops in `team97_vanguard_context/08_hyderabad_backgrounds/1x/` now cover all 13 `places.json` ids directly (`10_home` … `18_campus`), plus `19_home_age60` for `EpilogueScene`, `20_office_lobby` for the Stage 1→2 transition, `09_hitec_city` for Stage 2→3. Full table + wiring in `docs/plan/ronith.md` → "Hyderabad backdrops". `home` alone is 40 of 123 framings — do that one first if you do nothing else.
 - Why: this turns every screen from a green rectangle into Hyderabad; it is the demo video.
 - Accept when: a battle at `home`, `kirana` and `charminar` each shows its own backdrop at 360×640; Epilogue shows the aged room; `npm run build` precache grows ≈370 KB; `npm run check` green.
@@ -74,7 +74,7 @@ Ronith: change `Status:` lines only; never delete blocks.
 
 ### R-monish-07 · Two one-line hooks: start the music, step blips in the walk
 - From: monish · To: ronith · At: 04:35 · Priority: P1
-- Status: OPEN
+- Status: DONE `97b0f21` startMusic on START/CONTINUE · `dcd4c22` stepBlip per stride
 - What: `src/game/music.ts` exports `startMusic()`, `stopMusic()`, `stepBlip(left)`. (1) In `TitleScene`, call `startMusic()` inside the START/CONTINUE tap handler (needs a user gesture; it is idempotent and already obeys your mute flag — the HUD ♪/× button now silences music too without changes). (2) In the walk you're adding for #1, call `stepBlip(frame % 2 === 0)` on each frame change. Nothing else to wire.
 - Why: PLAYTEST #12 and the sound half of #1, without touching `audio.ts`.
 - Accept when: music starts on START, mutes with the HUD button, and the avatar's steps tick.
@@ -88,7 +88,7 @@ Ronith: change `Status:` lines only; never delete blocks.
 
 ### R-monish-09 · READ `/ISSUES.md` — the 24 play-test items, your open ones listed at the top
 - From: monish · To: ronith · At: 04:45 · Priority: P0
-- Status: OPEN
+- Status: DOING — #1, #4, #16, #18 DONE; #5 DOING
 - What: `ISSUES.md` at the repo root is the fix list, in Monish's original words, with an attack order for you (8 → 18 → 7 → 6 → 13 → 16 first). Flip each row to DONE <sha> as you merge. Per-item directions remain in `docs/plan/PLAYTEST-01.md`.
 - Why: the demo is judged on these; nothing else in your file outranks them before 06:00.
 - Accept when: every Ronith row in ISSUES.md is ✅ or carries a DECLINED reason.

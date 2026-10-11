@@ -7,11 +7,11 @@
 
 | # | | Pri | Owner | Reported (verbatim) | Status |
 |---|---|---|---|---|---|
-| 1 | 🔴 | P1 | Ronith | the walking is wrong, we want it to walk and make noises for each step | OPEN |
+| 1 | ✅ | P1 | Ronith | the walking is wrong, we want it to walk and make noises for each step | DONE `dcd4c22` — avatar walks the real roads on the Hyderabad map, step blip per stride |
 | 2 | 🔴 | P1 | Ronith | better quality avatars required, they're too less pixelated, assign based on the sex too | OPEN |
 | 3 | 🔴 | P1 | Ronith | we need better fonts | OPEN |
-| 4 | 🔴 | P1 | Ronith | background is so bad, we need to figure out a way to make it better, maybe align it to the hyderabad theme too | OPEN |
-| 5 | 🔴 | P1 | Ronith | homepage needs to be way way better | OPEN |
+| 4 | ✅ | P1 | Ronith | background is so bad, we need to figure out a way to make it better, maybe align it to the hyderabad theme too | DONE `97b0f21` — living Hyderabad map behind menus; place backdrops in battles, stage end, epilogue |
+| 5 | 🟡 | P1 | Ronith | homepage needs to be way way better | DOING — title now over the animated Hyderabad map (`97b0f21`); polish pending |
 | 6 | 🔴 | P0 | Ronith | mention that the quiz page is a QUIZ page, it's blank | OPEN |
 | 7 | 🔴 | P0 | Ronith | the "not me, switch" gives some random thing, we need to fix that too | OPEN |
 | 8 | 🔴 | P0 | Ronith | there's a huge black space in the top and bottom of the thing, we need to fit it to screen | OPEN |
@@ -22,9 +22,9 @@
 | 13 | 🔴 | P0 | Ronith | what are lives? what do the hearts represent? | OPEN |
 | 14 | 🔴 | P1 | Ronith | fix text formatting on the buffer screen | OPEN |
 | 15 | ✅ | P1 | Saharsh | scam game is good but we need to fix the time limit, it's way too short | DONE 04:20 (Monish) — 60 s; Kirana 45 s |
-| 16 | 🔴 | P0 | Ronith | we need a "back to map screen" option | OPEN |
+| 16 | ✅ | P0 | Ronith | we need a "back to map screen" option | DONE `2225baf` — "◀ MAP" on every landmark hub, returns to the same mission |
 | 17 | 🔴 | P1 | Ronith | avatar + animations for teaching moments need to work properly | OPEN |
-| 18 | 🔴 | P0 | Ronith | game doesn't use updated images | OPEN |
+| 18 | ✅ | P0 | Ronith | game doesn't use updated images | DONE `8e6bc1c` — 09_hyderabad_map + 20 backdrops from 08_hyderabad_backgrounds in use |
 | 19 | 🔴 | P2 | Aakarsh + Ronith | at some point of the game, there should be a scam call that comes up which is a random sidequest. the dp of the call should be some wonky guy | OPEN |
 | 20 | 🟡 | P1 | Saharsh + Aakarsh | questions are way too ambiguous, imo they're not depicting the financial concepts that we're looking to instill in the students. for example, in the kirana rush game, the deo that we dropped could be a need | DOING — Kirana pool fixed 04:20 (Monish): body spray + phone cover out; bus pass, recharge, game top-up, second earphones in. Battle choices: Aakarsh |
 | 21 | ✅ | P1 | Saharsh + Aakarsh | need to lose more money on bad decisions as consequences or earn less money | DONE 04:25 (Monish, engine side) — Stages 2–3 now pay rent/food/travel (55% / 60% of income) each chapter; sim: good ends ~₹0.9 L solvent, random ₹6–30 k, worst negative. Aakarsh's ×1.5 effects pass still welcome but no longer required |
