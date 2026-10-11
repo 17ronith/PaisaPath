@@ -13,6 +13,7 @@ import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { Portrait, portraitKey } from '../ui/Portrait';
 import { grassField } from '../ui/Backdrop';
+import { backdropForPlace } from '../ui/hyd';
 import { TextBox } from '../ui/TextBox';
 import { COLOR, text, tr } from '../ui/theme';
 import { VIEW } from '../view';
@@ -26,9 +27,10 @@ const ARENA_BOTTOM = 284;
 
 /** Dirt platform under a fighter: dark rim, lighter top. */
 function platform(scene: Phaser.Scene, x: number, y: number, w: number): void {
-  scene.add.ellipse(x, y + 2, w, w * 0.24, 0x8a6a40, 0.9);
-  scene.add.ellipse(x, y, w - 6, w * 0.2, 0xd8b070);
-  scene.add.ellipse(x - w * 0.08, y - 2, w * 0.6, w * 0.08, 0xe8c888, 0.8);
+  // Matches battle_platforms_overlay.png: grass disc with an earth rim.
+  scene.add.ellipse(x, y + 3, w, w * 0.24, 0x6a4a28, 0.95);
+  scene.add.ellipse(x, y, w - 4, w * 0.2, 0x5cb83c);
+  scene.add.ellipse(x - w * 0.06, y - 2, w * 0.62, w * 0.09, 0x8ad468, 0.8);
 }
 const LV = { simple: 'EASY', medium: 'MED', hard: 'HARD' } as const;
 
@@ -63,9 +65,17 @@ export class BattleScene extends Phaser.Scene {
     const task = isTask ? (this.step as Extract<Step, { kind: 'task' }>).task : null;
     const bars = game.state.bars;
 
-    // Arena: grass field with two dirt platforms, like the DS battle screen.
+    // Arena: the mission's own Hyderabad scene (home, kirana, bank, Charminar…), cropped to
+    // fill the strip, with two grass platforms like the DS battle screen.
     this.cameras.main.setBackgroundColor(COLOR.bg);
-    grassField(this, 0, 40, W, ARENA_BOTTOM - 40, 2, 3);
+    const bgKey = backdropForPlace(framing.place);
+    if (this.textures.exists(bgKey)) {
+      const scale = (ARENA_BOTTOM - 40) / 270;
+      this.add
+        .image(W / 2, 40, bgKey)
+        .setOrigin(0.5, 0)
+        .setScale(scale);
+    } else grassField(this, 0, 40, W, ARENA_BOTTOM - 40, 2, 3);
     this.add.rectangle(0, ARENA_BOTTOM - 2, W, 3, COLOR.panelEdge).setOrigin(0, 0);
     platform(this, 284, 150, 124);
     platform(this, 86, 266, 140);

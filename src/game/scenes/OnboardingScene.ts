@@ -16,6 +16,7 @@ import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
 import { disposeInput, htmlInput } from '../ui/HtmlInput';
+import { overMap } from '../flow/journeyState';
 import { VIEW } from '../view';
 
 type StepId = 'avatar' | 'name' | LifeQuestion['id'] | 'persona';
@@ -33,7 +34,7 @@ export class OnboardingScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.cameras.main.setBackgroundColor(COLOR.bg);
+    overMap(this, 0.72, true);
     this.avatar = AVATARS[0];
     this.nickname = '';
     this.answers = {};

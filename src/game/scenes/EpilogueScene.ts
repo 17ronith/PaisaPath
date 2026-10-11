@@ -47,6 +47,14 @@ export class EpilogueScene extends Phaser.Scene {
     const pr = this.step.projection;
     this.cameras.main.setBackgroundColor(COLOR.bg);
     this.cameras.main.fadeIn(800);
+    if (this.textures.exists('bg_home60')) {
+      // Full width (0.75 → 360×202), bottom-aligned just above the results panel.
+      this.add
+        .image(W / 2, 140, 'bg_home60')
+        .setOrigin(0.5, 1)
+        .setScale(W / 480);
+      this.add.rectangle(0, 0, W, 140, COLOR.bg, 0.35).setOrigin(0);
+    }
     text(this, W / 2, 40, t('epilogue.title'), 'lg', COLOR.white, {
       align: 'center',
       wordWrap: { width: W - 40 },

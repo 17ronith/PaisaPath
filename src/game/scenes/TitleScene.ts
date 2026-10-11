@@ -5,8 +5,9 @@ import type { Lang } from '@/shared/types';
 import { advance } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { COLOR, text, tr } from '../ui/theme';
+import { mapBG, overMap } from '../flow/journeyState';
+import { startMusic } from '../music';
 import { VIEW } from '../view';
-import { townStrip } from '../ui/Backdrop';
 
 const LANG_NAMES: Partial<Record<Lang, string>> = { en: 'English', te: 'తెలుగు' };
 
@@ -18,15 +19,20 @@ export class TitleScene extends Phaser.Scene {
   create(): void {
     const s = getSession();
     const { width: W, height: H } = VIEW;
-    this.cameras.main.setBackgroundColor(COLOR.bg);
+    overMap(this, 0.3, true);
 
-    // A little Tiny Town street with the player standing in it.
-    townStrip(this, H * 0.36, W, 160);
-    this.add.rectangle(0, H * 0.36 + 160, W, 3, COLOR.accent).setOrigin(0, 0);
+    const bg = mapBG(this);
+    bg?.setTimeOfDay('day', 0);
+    bg?.setDone([]);
+    // Title plate over the living map, the player standing on the road below it.
     this.add
-      .image(W / 2, H * 0.36 + 150, 'avatar_01')
+      .rectangle(W / 2, H * 0.215, W - 24, 150, COLOR.bg, 0.82)
+      .setStrokeStyle(2, COLOR.accent);
+    this.add.ellipse(W / 2, H * 0.6 + 4, 70, 14, 0x000000, 0.35);
+    this.add
+      .image(W / 2, H * 0.6, 'avatar_01')
       .setOrigin(0.5, 1)
-      .setScale(4);
+      .setScale(5);
 
     text(this, W / 2, H * 0.16, t('title'), 'lg', COLOR.white, {
       align: 'center',
@@ -67,6 +73,7 @@ export class TitleScene extends Phaser.Scene {
     });
 
     new Button(this, W / 2, H * 0.8, t('btn.start'), () => {
+      startMusic();
       void s.reset().then(() => this.scene.start('Onboarding'));
     });
 
@@ -78,6 +85,7 @@ export class TitleScene extends Phaser.Scene {
         H * 0.9,
         t('btn.continue'),
         async () => {
+          startMusic();
           const game = await s.resume();
           if (game) advance(this);
         },

@@ -8,6 +8,7 @@ import { finishProfile, type ProfileDraft } from '../logic/onboarding';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { overMap } from '../flow/journeyState';
 import { VIEW } from '../view';
 
 interface QuizData {
@@ -32,7 +33,7 @@ export class QuizScene extends Phaser.Scene {
   }
 
   create(): void {
-    this.cameras.main.setBackgroundColor(COLOR.bg);
+    overMap(this, 0.75, true);
     this.root = this.add.container(0, 0);
     this.intro();
   }

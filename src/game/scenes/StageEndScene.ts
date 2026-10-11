@@ -33,8 +33,20 @@ export class StageEndScene extends Phaser.Scene {
       return;
     }
     const { width: W } = VIEW;
+    const st0 = this.step;
     this.cameras.main.setBackgroundColor(COLOR.bg);
     this.cameras.main.fadeIn(600);
+    // New life stage, new scene: office lobby (first job), HITEC City (earning more),
+    // Tank Bund at night (the long years before 60).
+    const sceneKey = ({ 1: 'bg_office', 2: 'bg_hitec', 3: 'bg_tankbund' } as const)[st0.stage];
+    if (this.textures.exists(sceneKey)) {
+      this.add
+        .image(W / 2, 0, sceneKey)
+        .setOrigin(0.5, 0)
+        .setScale((VIEW.height * 0.42) / 270);
+      this.add.rectangle(0, 0, W, VIEW.height * 0.42, COLOR.bg, 0.68).setOrigin(0);
+      this.add.rectangle(0, VIEW.height * 0.42 - 2, W, 3, COLOR.accent).setOrigin(0);
+    }
     const st = this.step;
     const nextStage = Math.min(3, st.stage + 1) as Stage;
     const persona = s.content.personas.find((p) => p.id === game.state.profile.persona);
