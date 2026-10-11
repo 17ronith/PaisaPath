@@ -745,6 +745,103 @@
     ]
   },
   {
+    "id": "save_hard_s1_02",
+    "pillar": "save",
+    "difficulty": "hard",
+    "stage": 1,
+    "concept": "emergency_buffer",
+    "pressure": 70,
+    "source": "team estimate",
+    "framings": {
+      "default": {
+        "title": "WHERE DOES IT LIVE?",
+        "speaker": "Classmate",
+        "place": "college",
+        "text": "Your emergency jar finally has ₹3,000. A classmate: 'Why keep it idle? Put it in shares, it'll grow!'"
+      },
+      "pocket_money": {
+        "title": "IDLE MONEY?",
+        "speaker": "Cousin",
+        "place": "home",
+        "text": "Your emergency savings reached ₹3,000! Your cousin: 'Idle money is wasted money. Put it in shares, it'll grow!'"
+      },
+      "scholarship": {
+        "title": "IDLE MONEY?",
+        "speaker": "Senior",
+        "place": "college",
+        "text": "₹3,000 saved from your allowance, kept for emergencies. A senior: 'Why let it sleep? Put it in shares, it'll grow!'"
+      },
+      "earner": {
+        "title": "IDLE MONEY?",
+        "speaker": "Co-worker",
+        "place": "kirana",
+        "text": "₹3,000 saved from shop pay, kept for emergencies. A co-worker: 'Why sit on it? Put it in shares, it'll grow!'"
+      }
+    },
+    "choices": [
+      {
+        "id": "bank",
+        "text": "BANK ACCOUNT, READY TO USE",
+        "quality": "good",
+        "effects": [{ "label": "Buffer safe in the bank, ready any day", "happiness": 2 }],
+        "ncfe": [
+          { "item": "major_expense_no_borrow", "value": 1 },
+          { "item": "risk_return", "value": 1 }
+        ],
+        "lesson": "Boring on purpose: safe, and there the day something breaks. An emergency buffer's job is to be ready, not to grow."
+      },
+      {
+        "id": "shares",
+        "text": "SHARES, IT'LL GROW",
+        "quality": "weak",
+        "effects": [
+          { "label": "Buffer put into shares", "happiness": 3 },
+          {
+            "label": "Shares fell 20% the week your cycle broke: sold at a loss",
+            "savings": -600,
+            "happiness": -8,
+            "delayChapters": 1
+          }
+        ],
+        "ncfe": [{ "item": "risk_return", "value": 0 }],
+        "lesson": "Shares can be 20% down the very week you need the money. Emergency money stays safe and ready; only money you won't need for years should take risks.",
+        "hint": "What if you need it the week prices fall?"
+      },
+      {
+        "id": "almirah",
+        "text": "CASH IN THE ALMIRAH",
+        "quality": "ok",
+        "effects": [
+          {
+            "label": "₹300 slipped out of the almirah on small treats",
+            "savings": -300,
+            "happiness": 2,
+            "delayChapters": 1
+          }
+        ],
+        "ncfe": [{ "item": "saves_actively", "value": 1 }],
+        "lesson": "It's there when you need it, but cash at home is easy to dip into and earns nothing. A bank account is just as ready, and safer."
+      },
+      {
+        "id": "lend",
+        "text": "LEND IT AT 3% A MONTH",
+        "quality": "weak",
+        "effects": [
+          { "label": "Lent ₹3,000 at '3% a month'", "savings": -3000, "happiness": 2 },
+          {
+            "label": "'Next month, pakka.' Only ₹1,000 came back",
+            "savings": 1000,
+            "happiness": -10,
+            "delayChapters": 2
+          }
+        ],
+        "ncfe": [{ "item": "risk_return", "value": 0 }],
+        "lesson": "High interest means high risk. Your emergency money became someone else's promise, and promises don't pay hospital bills.",
+        "hint": "Can you get it back the day you need it?"
+      }
+    ]
+  },
+  {
     "id": "invest_simple_s1_01",
     "pillar": "invest",
     "difficulty": "simple",
@@ -1180,6 +1277,7 @@
         "call": "voice",
         "speaker": "Caller",
         "place": "home",
+        "portrait": "caller_wonky",
         "text": "I'm from the scholarship office. Pay ₹500 now or your money is cancelled!"
       },
       "pocket_money": {
@@ -1187,6 +1285,7 @@
         "call": "voice",
         "speaker": "'Electricity office'",
         "place": "home",
+        "portrait": "caller_wonky",
         "text": "A caller on Mom's phone: 'Your bill is unpaid. Pay ₹500 on this link now or power is cut tonight!'"
       },
       "scholarship": {
@@ -1194,6 +1293,7 @@
         "call": "voice",
         "speaker": "'ePASS officer'",
         "place": "college",
+        "portrait": "caller_wonky",
         "text": "Your allowance is approved! Pay a ₹500 processing fee now or it lapses today."
       },
       "earner": {
@@ -1201,6 +1301,7 @@
         "call": "voice",
         "speaker": "'Bank officer'",
         "place": "kirana",
+        "portrait": "caller_wonky",
         "text": "'Your UPI will be blocked today! Pay a ₹500 KYC fee on this link to keep it active.'"
       }
     },

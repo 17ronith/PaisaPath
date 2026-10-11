@@ -34,10 +34,10 @@ describe('content pack', () => {
     ]);
   });
 
-  it('has 12 Stage-1 main tasks: one per pillar × difficulty, each framed for all 3 personas', () => {
+  it('covers every pillar × difficulty in Stage 1, each task framed for all 3 personas', () => {
     const pack = loadContent();
     const s1 = pack.tasks.filter((t) => t.stage === 1 && !t.isDetour);
-    expect(s1).toHaveLength(12);
+    expect(s1.length).toBeGreaterThanOrEqual(12); // extras (save_hard_s1_02) rotate in by pillar
     const cells = new Set(s1.map((t) => `${t.pillar}/${t.difficulty}`));
     expect(cells.size).toBe(12);
     for (const t of s1) {

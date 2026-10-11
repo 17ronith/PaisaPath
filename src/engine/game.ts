@@ -15,6 +15,7 @@ import type {
   Bars,
   Choice,
   ContentPack,
+  DemoBeat,
   Effect,
   Game,
   GameState,
@@ -153,7 +154,10 @@ export class EngineGame implements Game {
     const fired = fireDue(s);
     if (living > 0)
       fired.unshift({ label: `Rent, food and travel: −₹${living.toLocaleString('en-IN')}` });
-    s.phase = INVEST_CHAPTERS.includes(s.chapter) && s.bars.savings > 0 ? 'invest' : 'main_task';
+    s.phase =
+      !s.demoScript && INVEST_CHAPTERS.includes(s.chapter) && s.bars.savings > 0
+        ? 'invest'
+        : 'main_task';
     return {
       kind: 'chapter_start',
       chapter: s.chapter,
@@ -196,6 +200,13 @@ export class EngineGame implements Game {
       if (task && this.takeRestart(task.id)) return this.taskStep(task, false, false);
       delete s.pendingRestart;
     }
+    if (s.demoScript) {
+      const task = this.task(this.beat()?.main ?? '');
+      if (!task || s.seenTasks.includes(task.id)) return null;
+      s.seenTasks.push(task.id);
+      this.beginItem();
+      return this.taskStep(task, false, false);
+    }
     const pick = pickMainTask(s, this.content, this.rng);
     if (!pick) return null;
     s.seenTasks.push(pick.task.id);
@@ -236,7 +247,9 @@ export class EngineGame implements Game {
       delete s.pendingRestart;
     }
     for (const id of pendingEvents(s)) if (!this.event(id)) dequeueEvent(s, id);
-    const ev = pickEvent(s, this.content, this.rng);
+    const ev = s.demoScript
+      ? this.event(this.beat()?.event ?? '')
+      : pickEvent(s, this.content, this.rng);
     if (!ev) return null;
     dequeueEvent(s, ev.id);
     this.beginItem();
@@ -254,6 +267,10 @@ export class EngineGame implements Game {
 
   private offerMinigame(): Step | null {
     const games = this.content.minigames;
+    if (this.s.demoScript) {
+      const minigame = games.find((m) => m.id === this.beat()?.minigame);
+      return minigame ? { kind: 'minigame_offer', minigame, locked: false } : null;
+    }
     if (games.length === 0 || this.rng.next() >= MINIGAME_CHANCE) return null;
     const minigame = this.rng.pick(games);
     const lockReason = this.lockReason();
@@ -264,6 +281,7 @@ export class EngineGame implements Game {
 
   private endChapter(): void {
     const s = this.s;
+    if (s.demoScript) return this.endDemoChapter();
     if (STAGE_END_YEARS[s.chapter]) {
       s.phase = 'stage_end';
     } else {
@@ -370,6 +388,7 @@ export class EngineGame implements Game {
     } else if (
       quality === 'weak' &&
       !isDetour &&
+      !s.demoScript &&
       choice.detourTaskId &&
       this.task(choice.detourTaskId)
     ) {
@@ -558,6 +577,32 @@ export class EngineGame implements Game {
     return this.content.events.find((e) => e.id === id);
   }
 
+  // ---- demo-video order (GameState.demoScript) ------------------------------
+
+  private beat(): DemoBeat | undefined {
+    return this.s.demoScript?.find((b) => b.chapter === this.s.chapter);
+  }
+
+  /** Jump to the next scripted chapter; crossing a stage ends the stage (its time jump) first. */
+  private endDemoChapter(): void {
+    const s = this.s;
+    const next = (s.demoScript ?? []).find((b) => b.chapter > s.chapter);
+    if (!next) {
+      s.chapter = LAST_CHAPTER;
+      s.phase = 'stage_end';
+    } else if (stageOfChapter(next.chapter) > stageOfChapter(s.chapter)) {
+      s.chapter = Math.max(
+        ...Object.keys(STAGE_END_YEARS)
+          .map(Number)
+          .filter((c) => stageOfChapter(c) === stageOfChapter(s.chapter)),
+      );
+      s.phase = 'stage_end';
+    } else {
+      s.chapter = next.chapter;
+      s.phase = 'chapter_start';
+    }
+  }
+
   private explainerFor(concept: string | undefined): string | undefined {
     if (!concept) return undefined;
     return (
@@ -567,8 +612,15 @@ export class EngineGame implements Game {
   }
 }
 
-export function createGame(content: ContentPack, profile: Profile, seed = Date.now()): Game {
-  return new EngineGame(content, initialState(profile, seed));
+export function createGame(
+  content: ContentPack,
+  profile: Profile,
+  seed = Date.now(),
+  opts: { demoScript?: DemoBeat[] } = {},
+): Game {
+  const state = initialState(profile, seed);
+  if (opts.demoScript) state.demoScript = clone(opts.demoScript);
+  return new EngineGame(content, state);
 }
 
 export function loadGame(content: ContentPack, state: GameState): Game {
