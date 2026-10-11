@@ -55,6 +55,45 @@
 | 35 | ✅ | P1 | Monish s2 | Report PDF: pixel colour theme, explain why each number is reported, pie charts / graphs | `src/app/report.ts` rewrite: themed header, before→after bar chart, pillar pie, NCFE bars, one-line "why this matters" per section | DONE `5c477f3` — pixel palette, "why" line per section, gain blocks, NCFE bars, pillar donut, scam ring |
 | 36 | ✅ | P1 | Monish s2 · Ronith | Onboarding: choose "NGO facilitator is setting this up" or "I'm the student" | Facilitator path: batch code + consent + guardian contact, then "hand the phone to the student"; student path as today | DONE `3c03d6f` — "Who is setting this up?": facilitator path (batch code, report emails, consent, hand-over) or student path |
 
+### Round 2 — what changed, what's done, what's left (07:30)
+
+**Done: 11 of 12.** On `main`: 25, 28, 29, 30, 32, 33, 34, 35, 36. On the integration branch `monish/hyd-map-fixes`
+(waiting for Ronith's merge): 26, 31. **Half done:** 27 (prompts written, art not made yet).
+
+**What changed, by file** (so nobody redoes it or overwrites it):
+
+| # | Files | Change |
+| --- | --- | --- |
+| 25 | `game/audio.ts`, `game/music.ts`, `game/scenes/SoundScene.ts` (new), `game/flow/Driver.ts`, `app/tts.ts`, `game/scenes/PreloadScene.ts`, `game/scenes/index.ts` | Mute now suspends the music's audio context and cancels read-aloud. A corner ♪/× sits on every screen without the HUD. A hidden HUD stops taking taps. |
+| 28 | `game/scenes/BattleScene.ts` (`platform()`) | Green grass discs → three soft black shadow ellipses. |
+| 29 | `game/scenes/HUDScene.ts` (`animateWallet()`) | HUD wallet tweens with the battle bar (0.7 s), green up / red down, floating `+₹` / `−₹`. |
+| 30 | `game/scenes/ExplainerScene.ts` (`opGrow`), `content/explainers.json` | A pixel banyan grows with the ₹ value; one curve compares compounding with simple interest. The two old bar steps in `exp_compounding` are removed. |
+| 32 | `game/ui/Bar.ts` | Inset track, highlight, shade, segment notches, leading-edge glint. |
+| 33 | `docs/plan/STOCKS.md`, `engine/market.ts`, `game/scenes/MarketScene.ts` (Monish s1) | Charminar Market: fictional companies only, behaviour-only scoring (guardrail-safe). |
+| 34 | `content/onboarding.json` (`quizAfter` A1–A5), `shared/quiz.ts` (new), `shared/types.ts`, `shared/schema.ts`, `content/index.ts`, `engine/game.ts`, `engine/scoring.ts`, `engine/scripts/simulate.ts`, `game/scenes/QuizScene.ts`, `shared/__tests__/quiz.test.ts` | The after-quiz asks the same 5 concepts in new situations, with the same answer positions so scoring is unchanged. Falls back to the before-quiz if `quizAfter` is missing. |
+| 35 | `app/report.ts` (`buildReportPdf`) | Pixel palette, badge, "How to read this report", a "why" line on every section, gain blocks, NCFE bars, pillar donut, scam ring, next-session banner. |
+| 36 | `game/scenes/OnboardingScene.ts`, `app/session.ts` (`SetupInfo`, saved on the phone only), `game/logic/onboarding.ts` (`joinCode`), `game/scenes/EndReportScene.ts` | First screen: "I'm the student" or "NGO facilitator". The facilitator path takes batch code, report email, guardian email and consent, then "hand the phone to the student". The end screen pre-fills the emails. |
+| 26 | *(branch)* `game/scenes/MapBackgroundScene.ts` (`overview`, `toScreen`, `showRoute`, `toStreet`), `game/scenes/WorldMapScene.ts` | Each month opens on the whole city with the route dotted and a pin on the landmark. Walk or Enter glides down to street level. |
+| 31 | *(branch)* `game/scenes/MapBackgroundScene.ts` (`buildLights`, `updateLights`) | Additive lights that ignore the night tint: lamps along every road, lit arches and windows per landmark, the LED bridge, festoons, the auto's headlights, the boat's lantern. Off by day, 55% at evening, 100% at night. |
+| — | *(branch, merge fixes)* `game/ui/hyd.ts`, `game/ui/Backdrop.ts`, `game/logic/journey.ts`, `game/scenes/StageEndScene.ts`, `HUDScene.ts`, `MarketScene.ts`; removed `public/assets/hyd/bg/` and `TownMapScene.ts` | One backdrop loader instead of two copies of the same 20 PNGs. The Market 📈 chip shows on WorldMap and Landmark and returns to the screen that opened it. |
+| 27 | `docs/art/avatar-prompts.md` (new) | Style block plus one prompt per character: 3 boys and 3 girls (front, back, side), Professor, amma, nanna, kirana uncle, friend, bank officer, scam caller. Cleanup and import steps included. |
+
+**What's left (owner → action → closes):**
+
+1. **Ronith → merge `monish/hyd-map-fixes`** (into `ronith/hyd-map` or straight into `main`) → closes 26 and 31.
+   It also lands the living map (round 1 #4, #5). Checks are green and Title → WorldMap → Landmark → Market and back is verified.
+2. **Ronith → make the art** from `docs/art/avatar-prompts.md` and import it per §6 → closes 27, round 1 #2 (boy/girl rows) and #10 (Professor), and gives #19 its caller face.
+   The new sprites are 32 px, so halve every avatar and NPC `setScale`.
+3. **Aakarsh → strings.** Telugu and Hindi for A1–A5 (`A1.text`, `A1.options.0…` in `te.content.json` / `hi.content.json`).
+   The 14 new onboarding keys (`onboard.who*`, `onboard.setup*`, `onboard.batch`, `onboard.fac_email`, `onboard.guardian_email`, `onboard.consent`, `onboard.handover*`) go into `en.json`, `te.json` and `hi.json`. English fallbacks are in place until then.
+4. **Whole team → review gate on A1–A5** (`content/onboarding.json` → `quizAfter`). They're new questions, so they get the same double-check as Aakarsh's content.
+5. **Monish → phone re-test** after the merge:
+   - #25: mute on title, quiz, explainer and a mini-game.
+   - #29: wallet after a good and a bad choice.
+   - #35: download the PDF and check the charts.
+   - #36: run both onboarding paths.
+   - Night map: Stage 3 lights.
+
 ## Order of attack for Ronith (P0 first — judges see these in the first minute)
 
 8 → 18 → 7 → 6 → 13 → 16, then 5 → 4 → 2 → 3 → 14 → 17, then 1 → 10 → 23.
