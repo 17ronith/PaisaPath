@@ -5,7 +5,7 @@ Megathon X — Team 97
 ## Prerequisites
 
 - Node.js 20+ and npm
-- A modern browser (Chrome recommended; use device mode at 360×640 for the phone layout)
+- A modern browser (Chrome recommended). The layout adapts to phones, tablets and desktop.
 
 ## Setup
 
