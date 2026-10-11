@@ -9,3 +9,7 @@ server/dist/
 .env
 outbox/
 .vitest/
+
+# art generator scratch (outputs are copied into 1x/, 4x/ and public/assets/)
+__pycache__/
+team97_vanguard_context/08_hyderabad_backgrounds/source/out/
