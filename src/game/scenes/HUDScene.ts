@@ -18,6 +18,9 @@ export class HUDScene extends Phaser.Scene {
   private happyLabel!: Phaser.GameObjects.Text;
   private mapBtn!: Button;
   private wallet!: Phaser.GameObjects.Text;
+  /** ISSUES #29: the wallet figure counts to its new value instead of jumping. */
+  private walletShown: number | null = null;
+  private walletTween?: Phaser.Tweens.Tween;
   private stage!: Phaser.GameObjects.Text;
   private lastKey = '';
 
@@ -110,9 +113,51 @@ export class HUDScene extends Phaser.Scene {
     this.hearts.forEach((h, i) => h.setTexture(i < n ? 'heart_full' : 'heart_empty'));
     // number beside the hearts; the word HAPPY is on the battle panel and the Info card
     this.happyLabel.setText(String(Math.round(s.bars.happiness)));
-    this.wallet.setText(rupees(s.bars.wallet)).setColor(s.bars.wallet < 0 ? '#e04848' : '#ffffff');
+    this.animateWallet(s.bars.wallet);
     this.stage
       .setText(`${t('hud.stage', { n: s.stage })}\n${t('hud.month', { n: s.chapter })}`)
       .setAlign('center');
+  }
+
+  /** Count the wallet to `to` over 700 ms (in step with the battle bar), flash green/red and
+   *  float the change (+₹500 / −₹300) up from the figure. First paint is instant. */
+  private animateWallet(to: number): void {
+    const restColor = (v: number): string => (v < 0 ? '#e04848' : '#ffffff');
+    const from = this.walletShown;
+    this.walletShown = to;
+    this.walletTween?.stop();
+    if (from === null || from === to) {
+      this.wallet.setText(rupees(to)).setColor(restColor(to));
+      return;
+    }
+    const up = to > from;
+    this.wallet.setColor(up ? '#7ee07e' : '#ff7a7a');
+    this.walletTween = this.tweens.addCounter({
+      from,
+      to,
+      duration: 700,
+      ease: 'Cubic.easeOut',
+      onUpdate: (tw) => this.wallet.setText(rupees(Math.round(tw.getValue() ?? to))),
+      onComplete: () => this.wallet.setText(rupees(to)).setColor(restColor(to)),
+    });
+    const delta = to - from;
+    const float = text(
+      this,
+      this.wallet.x + this.wallet.width + 6,
+      this.wallet.y,
+      `${up ? '+' : '−'}${rupees(Math.abs(delta))}`,
+      'xs',
+      up ? COLOR.good : COLOR.bad,
+    )
+      .setOrigin(0, 0.5)
+      .setDepth(5);
+    this.tweens.add({
+      targets: float,
+      y: float.y + (up ? -14 : 14),
+      alpha: 0,
+      delay: 350,
+      duration: 900,
+      onComplete: () => float.destroy(),
+    });
   }
 }

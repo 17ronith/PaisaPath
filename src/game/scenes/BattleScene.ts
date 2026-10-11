@@ -36,11 +36,12 @@ function praiseLine(o: Outcome): string {
   return tr(`professor.praise.${i + 1}`, PRAISE[i]);
 }
 
-/** Dirt platform under a fighter: dark rim, lighter top. */
+/** ISSUES #28: a soft ground shadow under a fighter (no coloured platform): a wide faint
+ *  penumbra with a darker core, so it reads on every Hyderabad backdrop. */
 function platform(scene: Phaser.Scene, x: number, y: number, w: number): void {
-  scene.add.ellipse(x, y + 2, w, w * 0.24, 0x8a6a40, 0.9);
-  scene.add.ellipse(x, y, w - 6, w * 0.2, 0xd8b070);
-  scene.add.ellipse(x - w * 0.08, y - 2, w * 0.6, w * 0.08, 0xe8c888, 0.8);
+  scene.add.ellipse(x, y, w * 0.95, w * 0.2, 0x000000, 0.16);
+  scene.add.ellipse(x, y, w * 0.7, w * 0.14, 0x000000, 0.22);
+  scene.add.ellipse(x, y, w * 0.42, w * 0.08, 0x000000, 0.26);
 }
 const LV = { simple: 'EASY', medium: 'MED', hard: 'HARD' } as const;
 
