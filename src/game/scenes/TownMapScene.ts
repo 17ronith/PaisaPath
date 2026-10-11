@@ -3,6 +3,7 @@
 // travel, 300 ms) → Battle. Other places just say their name. Detours, restarts and random
 // events skip the town (the Driver decides).
 import Phaser from 'phaser';
+import { stepBlip } from '../music';
 import { getSession } from '@/app/session';
 import type { Place, Step } from '@/shared/types';
 import { Button } from '../ui/Button';
@@ -121,14 +122,34 @@ export class TownMapScene extends Phaser.Scene {
     this.moving = true;
     const place = getSession().content.places.find((p) => p.id === this.step.framing.place);
     this.toast?.setText(tr('town.travel', 'Heading to {place}…', { place: place?.name ?? '' }));
+    // ISSUES #1: walk there, don't teleport — face the way you're going, bob with each step,
+    // and tick a footstep per step. Duration scales with distance (0.6–1.4 s).
+    const tx = x + 22;
+    const ty = y + 4;
+    const dist = Math.hypot(tx - this.avatar.x, ty - this.avatar.y);
+    const duration = Math.max(600, Math.min(1400, dist * 4));
+    this.avatar.setFlipX(tx < this.avatar.x);
+    let step = 0;
+    const stepper = this.time.addEvent({
+      delay: 170,
+      loop: true,
+      callback: () => {
+        step += 1;
+        stepBlip(step % 2 === 0);
+        this.avatar.setScale(2, step % 2 === 0 ? 1.9 : 2.06);
+      },
+    });
     this.tweens.add({
       targets: this.avatar,
-      x: x + 22,
-      y: y + 4,
-      duration: 300,
-      ease: 'Quad.easeInOut',
-      onComplete: () =>
-        this.time.delayedCall(250, () => this.scene.start('Battle', { step: this.step })),
+      x: tx,
+      y: ty,
+      duration,
+      ease: 'Sine.easeInOut',
+      onComplete: () => {
+        stepper.remove();
+        this.avatar.setScale(2, 2);
+        this.time.delayedCall(250, () => this.scene.start('Battle', { step: this.step }));
+      },
     });
   }
 }

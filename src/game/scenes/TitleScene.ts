@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { startMusic } from '../music';
 import { getSession } from '@/app/session';
 import { t } from '@/shared/i18n';
 import type { Lang } from '@/shared/types';
@@ -46,11 +47,11 @@ export class TitleScene extends Phaser.Scene {
       },
     ).setOrigin(0.5);
 
-    const langs: Lang[] = ['en', 'te'];
+    const langs: Lang[] = ['en', 'te', 'hi']; // ISSUES #22: Hindi joins (PR #25 fills the strings)
     langs.forEach((l, i) => {
       const b = new Button(
         this,
-        W / 2 - 70 + i * 140,
+        W / 2 - 112 + i * 112,
         H * 0.7,
         tr(`lang.${l}`, LANG_NAMES[l] ?? l),
         () => {
@@ -58,7 +59,7 @@ export class TitleScene extends Phaser.Scene {
           this.scene.restart();
         },
         {
-          width: 128,
+          width: 104,
           height: 48,
           size: l === 'en' ? 'xs' : 'md',
           fill: s.lang === l ? COLOR.good : COLOR.button,
@@ -68,6 +69,7 @@ export class TitleScene extends Phaser.Scene {
     });
 
     new Button(this, W / 2, H * 0.8, t('btn.start'), () => {
+      startMusic(); // ISSUES #12: needs a user gesture; idempotent; obeys the mute button
       void s.reset().then(() => this.scene.start('Onboarding'));
     });
 
@@ -79,6 +81,7 @@ export class TitleScene extends Phaser.Scene {
         H * 0.9,
         t('btn.continue'),
         async () => {
+          startMusic();
           const game = await s.resume();
           if (game) advance(this);
         },
