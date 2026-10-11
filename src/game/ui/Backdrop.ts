@@ -137,6 +137,7 @@ export const BACKDROP_EXTRA: Record<string, string> = {
   stage2: '20_office_lobby',
   stage3: '09_hitec_city',
   epilogue: '19_home_age60',
+  market: '21_market_terminal',
 };
 export const BACKDROP_W = 480;
 export const BACKDROP_H = 270;

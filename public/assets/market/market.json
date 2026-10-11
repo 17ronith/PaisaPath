@@ -1,0 +1,101 @@
+{
+ "note": "All sizes/coords at 1x; multiply by 4 for the 4x folder. Strips are horizontal, frames left to right.",
+ "nine_slice": {
+  "btn_buy": {
+   "size": [
+    48,
+    32
+   ],
+   "left": 8,
+   "right": 8,
+   "top": 8,
+   "bottom": 12
+  },
+  "btn_sell": {
+   "size": [
+    48,
+    32
+   ],
+   "left": 8,
+   "right": 8,
+   "top": 8,
+   "bottom": 12
+  },
+  "card_news": {
+   "size": [
+    64,
+    48
+   ],
+   "left": 8,
+   "right": 8,
+   "top": 8,
+   "bottom": 6,
+   "tip": "torn edge repeats every 4 px - keep stretched widths at 16 + a multiple of 4"
+  }
+ },
+ "device_frame": {
+  "size": [
+   360,
+   640
+  ],
+  "screen_rect": [
+   20,
+   40,
+   320,
+   520
+  ],
+  "led_rect": [
+   30,
+   18,
+   4,
+   4
+  ]
+ },
+ "animations": {
+  "prof_market_walk": {
+   "frame_size": [
+    32,
+    32
+   ],
+   "frames": 4,
+   "ms_per_frame": 140,
+   "loop": true
+  },
+  "tip_forward": {
+   "frame_size": [
+    48,
+    48
+   ],
+   "frames": 6,
+   "ms_per_frame": 80,
+   "loop": true
+  },
+  "crash_flash": {
+   "frame_size": [
+    64,
+    32
+   ],
+   "frames": 6,
+   "ms_per_frame": 140,
+   "loop": true
+  },
+  "coin_rain": {
+   "frame_size": [
+    32,
+    32
+   ],
+   "frames": 6,
+   "ms_per_frame": 90,
+   "loop": true
+  },
+  "led_blink": {
+   "frame_size": [
+    4,
+    4
+   ],
+   "frames": 2,
+   "ms_per_frame": 500,
+   "loop": true
+  }
+ }
+}

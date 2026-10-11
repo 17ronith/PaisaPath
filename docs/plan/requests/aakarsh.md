@@ -102,3 +102,11 @@ Aakarsh: change `Status:` lines only; never delete blocks.
 - What: `guide.name` → "Professor"; `battle.lesson` → "Professor says"; `battle.hint` → "Professor's hint"; new `professor.praise.1` "Sharp. That's exactly how it's done." · `.2` "Good call. Your future self just got richer." · `.3` "That's the move. On we go." · `.4` "Well handled. Nothing to teach here." — in `en.json`, `te.json`, `hi.json` (after PR #25 merges). Lesson lines that say "Aunty" (grep `Aunty` in `src/content`) → neutral wording.
 - Why: the guide character is now the Professor (README §6 row 10).
 - Accept when: `grep -ri aunty src/content` returns nothing and validate:content is green.
+
+### R-monish-11 · Proofread market strings in te/hi
+- From: monish · To: aakarsh · At: 07:10 · Priority: P2
+- Status: OPEN
+- What: 46 new keys (`market.*`, `btn.market`, `btn.map`, `btn.exit`, `btn.back_map`, `professor.name`, `professor.hint`, `battle.banked`) were added to `en.json`, `te.json`, `hi.json` so the Charminar Market is fully translated. Fix any wording you don't like; keep the `{amount}`/`{fees}` placeholders.
+- Why: the market shipped with first-draft Telugu/Hindi.
+- Accept when: validate:content green and you're happy with the lines.
+

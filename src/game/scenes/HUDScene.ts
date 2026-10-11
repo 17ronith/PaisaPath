@@ -13,6 +13,9 @@ export const HUD_HEIGHT = 40;
 
 const HEART = ['.XX.XX.', 'XXXXXXX', 'XXXXXXX', '.XXXXX.', '..XXX..', '...X...'];
 
+/** MARKET button height on each map: above the town's hint strip, above the chapter panel. */
+const MARKET_BTN_Y = { town: 536, chapter: 404 } as const;
+
 export class HUDScene extends Phaser.Scene {
   private hearts: Phaser.GameObjects.Image[] = [];
   private happyLabel!: Phaser.GameObjects.Text;
@@ -79,6 +82,11 @@ export class HUDScene extends Phaser.Scene {
         const onMap = this.scene.isActive('ChapterMap') || this.scene.isActive('TownMap');
         this.marketBtn.setVisible(
           !!g?.market?.eligible() && onMap && !this.scene.isActive('Market'),
+        );
+        // sit just above each map's full-width GO bar instead of on top of it
+        this.marketBtn.setPosition(
+          VIEW.width - 60,
+          this.scene.isActive('TownMap') ? MARKET_BTN_Y.town : MARKET_BTN_Y.chapter,
         );
       },
     });

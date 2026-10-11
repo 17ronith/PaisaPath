@@ -12,7 +12,6 @@ import type {
   MarketOrder,
   MarketRun,
   MarketState,
-  MarketTurnResult,
   NcfeItem,
 } from '@/shared/types';
 import { bindRng, type Rng } from './rng';

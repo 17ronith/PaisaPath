@@ -42,7 +42,11 @@ no tickers, nothing recommended, the assumption line everywhere.
 - Client: `src/game/scenes/MarketScene.ts`; HUD 📈 button on ChapterMap/TownMap when `game.market.eligible()`.
 - Contract: additive types in `src/shared/types.ts` (`Market*`), `Game.market?`.
 
-## Status (06:55)
-- Engine `src/engine/market.ts` + `marketData.ts`: done, 9 tests. Scoring merges evidence.
-- Scene `src/game/scenes/MarketScene.ts`: intro → practice (3 quarters) → real run (deposit 25/50/75/100 % of savings) → results card; decorative candles; HUD 📈 button from chapter 5. Verified in a real run.
-- Open: art from the market asset prompt (device frame, company icons, candle sprites, tip/crash GIFs); strings `market.*` / `btn.market` / `btn.exit` / `btn.back_map` in te/hi (English fallbacks in place); Professor walk-in animation.
+## Status (07:10) — shipped
+- Engine `src/engine/market.ts` + `marketData.ts`: done, 9 tests. Scoring merges evidence. The tip card says "Forwarded message" (no real app names, guardrail).
+- Scene `src/game/scenes/MarketScene.ts`: everything drawn inside the device frame (`device_frame.png`, screen 20,40 320×520); action buttons on the bottom bezel. Intro with the market-terminal backdrop → practice (3 quarters) → real run (25/50/75/100 % of savings) → results card.
+- Art wired (`public/assets/market/`, keys in `src/game/ui/MarketArt.ts`, ~120 KB, precached offline): company icons 32/16 px, risk badges, ticker arrows, buy/sell 9-slices, torn news card 9-slice, candle sprites (row sparklines), big OHLC chart of the selected company (tap a row), tip-forward and crash-flash loops on those news cards, Professor walks in each quarter, coin shower on a good result, blinking LED.
+- Strings: 46 keys (`market.*`, `btn.market`, `btn.map`, `btn.exit`, `btn.back_map`, `professor.name`, `professor.hint`, `battle.banked`) in en/te/hi — 205/205 each. Aakarsh to proofread te/hi (R-monish-11).
+- HUD 📈 MARKET sits above each map's GO bar (chapter map y 404, town y 536).
+- Verified by a Playwright drive in English and Telugu: paper round leaves savings untouched; real run deposits 50 %, settles back, 5 evidence items; no console errors.
+- Known: Telugu glyph spacing in the pixel font is the game-wide font issue (ISSUES #3), not market-specific.

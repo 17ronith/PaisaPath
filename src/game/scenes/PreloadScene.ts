@@ -4,6 +4,7 @@
 import Phaser from 'phaser';
 import { AVATARS } from '../logic/onboarding';
 import { BACKDROP_EXTRA, BACKDROP_FOR } from '../ui/Backdrop';
+import { MARKET_IMAGES, MARKET_SHEETS, registerMarketAnims } from '../ui/MarketArt';
 import { PANEL_KEYS } from '../ui/PixelPanel';
 import { COLOR, text } from '../ui/theme';
 import { VIEW } from '../view';
@@ -99,12 +100,22 @@ export class PreloadScene extends Phaser.Scene {
     // Hyderabad backdrops (ISSUES #18): 21 × 480×270 PNGs, ~370 KB total.
     for (const f of new Set([...Object.values(BACKDROP_FOR), ...Object.values(BACKDROP_EXTRA)]))
       this.load.image(`bg_${f}`, `assets/backdrops/${f}.png`);
+    // Charminar Market device art (~120 KB): icons, 9-slices, animation strips.
+    for (const [key, url] of Object.entries(MARKET_IMAGES)) this.load.image(key, url);
+    for (const [key, [url, frameWidth, frameHeight]] of Object.entries(MARKET_SHEETS))
+      this.load.spritesheet(key, url, { frameWidth, frameHeight });
   }
 
   async create(): Promise<void> {
-    for (const key of [...Object.keys(SHEETS), ...Object.keys(NINE_SLICES)])
+    for (const key of [
+      ...Object.keys(SHEETS),
+      ...Object.keys(NINE_SLICES),
+      ...Object.keys(MARKET_IMAGES),
+      ...Object.keys(MARKET_SHEETS),
+    ])
       if (this.textures.exists(key))
         this.textures.get(key).setFilter(Phaser.Textures.FilterMode.NEAREST);
+    registerMarketAnims(this);
 
     for (const [key, sheet, frame] of CHARACTERS) this.characterFromSheet(key, sheet, frame);
     // Urban sheet: the column after the front frame is the back view (Pokémon-style player).

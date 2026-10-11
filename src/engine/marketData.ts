@@ -119,7 +119,7 @@ export const NEWS: MarketNews[] = [
     turn: TIP_TURN,
     kind: 'tip',
     about: 'dashkart',
-    headline: 'WhatsApp forward: "DashKart will DOUBLE by Diwali — buy now, insider info!"',
+    headline: 'Forwarded message: "DashKart will DOUBLE by Diwali — buy now, insider info!"',
     detail: 'Forwarded many times. No source. The price is already jumping.',
     professor:
       'A guaranteed double is a guaranteed lie. If the tip were real, the person would not need you.',
