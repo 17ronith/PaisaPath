@@ -1,0 +1,220 @@
+{
+ "cold": {
+  "file": "assets/vo/cold.wav",
+  "dur": 7.535,
+  "lines": [
+   {
+    "show": "Only 27% of Indian adults are financially literate.",
+    "start": 0.0,
+    "end": 3.924
+   },
+   {
+    "show": "What if every student could live the lesson, before it costs them?",
+    "start": 4.244,
+    "end": 7.535
+   }
+  ]
+ },
+ "onboard": {
+  "file": "assets/vo/onboard.wav",
+  "dur": 13.706,
+  "lines": [
+   {
+    "show": "Learning Money by Living It is a pixel life-sim for Grade 11 and 12 students.",
+    "start": 0.0,
+    "end": 4.93
+   },
+   {
+    "show": "A nickname and four questions pick your story: pocket money, a scholarship, or your first job.",
+    "start": 5.25,
+    "end": 10.861
+   },
+   {
+    "show": "Five quick questions set your starting point.",
+    "start": 11.181,
+    "end": 13.706
+   }
+  ]
+ },
+ "food": {
+  "file": "assets/vo/food.wav",
+  "dur": 10.226,
+  "lines": [
+   {
+    "show": "Every month brings a real choice.",
+    "start": 0.0,
+    "end": 1.822
+   },
+   {
+    "show": "Biryani now, or keep ₹100 for tomorrow's cricket?",
+    "start": 2.142,
+    "end": 5.789
+   },
+   {
+    "show": "Pick the impulse, and the Professor shows you why: needs first, then wants.",
+    "start": 6.109,
+    "end": 10.226
+   }
+  ]
+ },
+ "scam": {
+  "file": "assets/vo/scam.wav",
+  "dur": 1.301,
+  "lines": [
+   {
+    "show": "Then, the phone rings.",
+    "start": 0.0,
+    "end": 1.301
+   }
+  ]
+ },
+ "scam_2": {
+  "file": "assets/vo/scam_2.wav",
+  "dur": 7.404,
+  "lines": [
+   {
+    "show": "Pay up, and the money is gone, and you replay the moment.",
+    "start": 0.0,
+    "end": 2.997
+   },
+   {
+    "show": "The lesson always comes after the choice: money in never needs money out.",
+    "start": 3.317,
+    "end": 7.404
+   }
+  ]
+ },
+ "buffer": {
+  "file": "assets/vo/buffer.wav",
+  "dur": 9.342,
+  "lines": [
+   {
+    "show": "Emergencies don't wait for payday.",
+    "start": 0.0,
+    "end": 2.046
+   },
+   {
+    "show": "A small savings jar turns a cracked phone into a bad day, not a crisis.",
+    "start": 2.366,
+    "end": 6.498
+   },
+   {
+    "show": "Without one, the instant-loan apps are waiting.",
+    "start": 6.819,
+    "end": 9.342
+   }
+  ]
+ },
+ "emi": {
+  "file": "assets/vo/emi.wav",
+  "dur": 8.329,
+  "lines": [
+   {
+    "show": "Then life jumps forward: five years, and a first salary.",
+    "start": 0.0,
+    "end": 3.288
+   },
+   {
+    "show": "That “no-cost” EMI? It comes back every month, right when friends plan a trip.",
+    "start": 3.608,
+    "end": 8.329
+   }
+  ]
+ },
+ "banyan": {
+  "file": "assets/vo/banyan.wav",
+  "dur": 13.411,
+  "lines": [
+   {
+    "show": "Start investing at 23, or at 33?",
+    "start": 0.0,
+    "end": 2.753
+   },
+   {
+    "show": "Watch the banyan grow: money that starts early keeps growing on its own.",
+    "start": 3.073,
+    "end": 7.203
+   },
+   {
+    "show": "Every asset is made up, and every number is labelled an assumption. We teach. We never recommend.",
+    "start": 7.523,
+    "end": 13.411
+   }
+  ]
+ },
+ "market": {
+  "file": "assets/vo/market.wav",
+  "dur": 10.331,
+  "lines": [
+   {
+    "show": "In the Charminar Market, students trade shares in made-up companies.",
+    "start": 0.0,
+    "end": 3.727
+   },
+   {
+    "show": "Spread your money, ignore the hot tip, and hold through the crash.",
+    "start": 4.047,
+    "end": 7.323
+   },
+   {
+    "show": "Only behaviour is scored. Never the profit.",
+    "start": 7.643,
+    "end": 10.331
+   }
+  ]
+ },
+ "police": {
+  "file": "assets/vo/police.wav",
+  "dur": 2.029,
+  "lines": [
+   {
+    "show": "Years later, the scams get bolder.",
+    "start": 0.0,
+    "end": 2.029
+   }
+  ]
+ },
+ "police_2": {
+  "file": "assets/vo/police_2.wav",
+  "dur": 4.365,
+  "lines": [
+   {
+    "show": "The right move never changes: hang up, and report it to 1930.",
+    "start": 0.0,
+    "end": 4.365
+   }
+  ]
+ },
+ "measure": {
+  "file": "assets/vo/measure.wav",
+  "dur": 11.737,
+  "lines": [
+   {
+    "show": "At the end, the same five ideas are tested again, asked a new way, so the gain is real.",
+    "start": 0.0,
+    "end": 5.339
+   },
+   {
+    "show": "A one-page report goes to the NGO facilitator.",
+    "start": 5.659,
+    "end": 8.978
+   },
+   {
+    "show": "And their dashboard shows the whole batch at a glance.",
+    "start": 9.298,
+    "end": 11.737
+   }
+  ]
+ },
+ "end": {
+  "file": "assets/vo/end.wav",
+  "dur": 4.512,
+  "lines": [
+   {
+    "show": "",
+    "start": 0.0,
+    "end": 4.512
+   }
+  ]
+ }
+}

@@ -42,6 +42,11 @@ const SHAPES: Record<Blip, [number, number, OscillatorType][]> = {
 };
 
 const muteListeners = new Set<(muted: boolean) => void>();
+
+/** For the demo-video recorder (tools/video): it logs every sound so the edit can mix it in. */
+export function audioTap(kind: 'sfx' | 'voice', name: string): void {
+  (globalThis as { __lmAudioTap?: (k: string, n: string) => void }).__lmAudioTap?.(kind, name);
+}
 const channelListeners = new Set<(channel: Channel, on: boolean) => void>();
 
 export function isOn(channel: Channel): boolean {
@@ -82,6 +87,7 @@ export function setMuted(muted: boolean): void {
 /** ISSUES #19: one ring of a phone (two quick trills), for the incoming scam call. */
 export function ring(): void {
   if (!on.sfx || typeof AudioContext === 'undefined') return;
+  audioTap('sfx', 'ring');
   try {
     ctx ??= new AudioContext();
     if (ctx.state === 'suspended') void ctx.resume();
@@ -118,6 +124,7 @@ export function buzz(pattern: number[]): void {
 
 export function play(blip: Blip): void {
   if (!on.sfx || typeof AudioContext === 'undefined') return;
+  audioTap('sfx', blip);
   try {
     ctx ??= new AudioContext();
     if (ctx.state === 'suspended') void ctx.resume();

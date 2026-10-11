@@ -50,6 +50,7 @@ export const FramingSchema = z.object({
   place: z.string().min(1),
   portrait: z.string().optional(),
   intro: z.string().optional(),
+  call: z.enum(['voice', 'video']).optional(),
 });
 
 const FramingsSchema = z.object({

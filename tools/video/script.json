@@ -1,0 +1,139 @@
+{
+  "title": "Learning Money by Living It",
+  "voice": { "name": "af_heart", "speed": 1.0 },
+  "segments": [
+    {
+      "id": "cold",
+      "vo": [
+        { "say": "Only twenty-seven percent of Indian adults are financially literate.", "show": "Only 27% of Indian adults are financially literate." },
+        { "say": "What if every student could live the lesson, before it costs them?", "show": "What if every student could live the lesson, before it costs them?" }
+      ]
+    },
+    {
+      "id": "onboard",
+      "n": "01",
+      "title": "Your own story",
+      "pillar": "Every pillar",
+      "color": "#6fd6c0",
+      "measures": ["Persona-led", "Language-ready", "Intuitive UI"],
+      "line": "A nickname, four life questions, five quick questions.",
+      "vo": [
+        { "say": "Learning Money by Living It is a pixel life-sim for Grade 11 and 12 students.", "show": "Learning Money by Living It is a pixel life-sim for Grade 11 and 12 students." },
+        { "say": "A nickname and four questions pick your story: pocket money, a scholarship, or your first job.", "show": "A nickname and four questions pick your story: pocket money, a scholarship, or your first job." },
+        { "say": "Five quick questions set your starting point.", "show": "Five quick questions set your starting point." }
+      ]
+    },
+    {
+      "id": "food",
+      "n": "02",
+      "title": "Needs before wants",
+      "pillar": "Plan & budget",
+      "color": "#ffb347",
+      "measures": ["Relatable", "Game-based"],
+      "line": "Biryani now, or cricket tomorrow?",
+      "vo": [
+        { "say": "Every month brings a real choice.", "show": "Every month brings a real choice." },
+        { "say": "Biryani now, or keep a hundred rupees for tomorrow's cricket?", "show": "Biryani now, or keep ₹100 for tomorrow's cricket?" },
+        { "say": "Pick the impulse, and the Professor shows you why: needs first, then wants.", "show": "Pick the impulse, and the Professor shows you why: needs first, then wants." }
+      ]
+    },
+    {
+      "id": "scam",
+      "n": "03",
+      "title": "The scholarship scam",
+      "pillar": "Stay financially safe",
+      "color": "#ff6b6b",
+      "measures": ["Persona-led", "Learn from the mistake"],
+      "line": "A fake ePASS officer wants ₹500, today.",
+      "vo": [{ "say": "Then, the phone rings.", "show": "Then, the phone rings." }],
+      "vo2": [
+        { "say": "Pay up, and the money is gone, and you replay the moment.", "show": "Pay up, and the money is gone, and you replay the moment." },
+        { "say": "The lesson always comes after the choice: money in never needs money out.", "show": "The lesson always comes after the choice: money in never needs money out." }
+      ]
+    },
+    {
+      "id": "buffer",
+      "n": "04",
+      "title": "The emergency buffer",
+      "pillar": "Save & manage",
+      "color": "#6fd6c0",
+      "measures": ["Simple", "Consequences that stick"],
+      "line": "A cracked phone, ₹400, weeks before payday.",
+      "vo": [
+        { "say": "Emergencies don't wait for payday.", "show": "Emergencies don't wait for payday." },
+        { "say": "A small savings jar turns a cracked phone into a bad day, not a crisis.", "show": "A small savings jar turns a cracked phone into a bad day, not a crisis." },
+        { "say": "Without one, the instant-loan apps are waiting.", "show": "Without one, the instant-loan apps are waiting." }
+      ]
+    },
+    {
+      "id": "emi",
+      "n": "05",
+      "title": "The no-cost EMI",
+      "pillar": "Plan & budget · borrowing",
+      "color": "#ffb347",
+      "measures": ["Game-based", "Costs that come back"],
+      "line": "Five years later: a first salary, and a shiny phone.",
+      "vo": [
+        { "say": "Then life jumps forward: five years, and a first salary.", "show": "Then life jumps forward: five years, and a first salary." },
+        { "say": "That no-cost EMI? It comes back every month, right when friends plan a trip.", "show": "That “no-cost” EMI? It comes back every month, right when friends plan a trip." }
+      ]
+    },
+    {
+      "id": "banyan",
+      "n": "06",
+      "title": "Start early",
+      "pillar": "Understand investing",
+      "color": "#7bd88f",
+      "measures": ["Compounding", "Guardrail: made-up assets"],
+      "line": "Invest at 23 or at 33?",
+      "vo": [
+        { "say": "Start investing at twenty-three, or at thirty-three?", "show": "Start investing at 23, or at 33?" },
+        { "say": "Watch the banyan grow: money that starts early keeps growing on its own.", "show": "Watch the banyan grow: money that starts early keeps growing on its own." },
+        { "say": "Every asset is made up, and every number is labelled an assumption. We teach. We never recommend.", "show": "Every asset is made up, and every number is labelled an assumption. We teach. We never recommend." }
+      ]
+    },
+    {
+      "id": "market",
+      "n": "07",
+      "title": "Charminar Market",
+      "pillar": "Understand investing",
+      "color": "#7bd88f",
+      "measures": ["Behaviour scored, not profit", "Fictional companies"],
+      "line": "Spread it, skip the hot tip, hold through the crash.",
+      "vo": [
+        { "say": "In the Charminar Market, students trade shares in made-up companies.", "show": "In the Charminar Market, students trade shares in made-up companies." },
+        { "say": "Spread your money, ignore the hot tip, and hold through the crash.", "show": "Spread your money, ignore the hot tip, and hold through the crash." },
+        { "say": "Only behaviour is scored. Never the profit.", "show": "Only behaviour is scored. Never the profit." }
+      ]
+    },
+    {
+      "id": "police",
+      "n": "08",
+      "title": "The digital arrest",
+      "pillar": "Stay financially safe",
+      "color": "#ff6b6b",
+      "measures": ["Scams grow with you", "Report to 1930"],
+      "line": "A video call from the “police”.",
+      "vo": [{ "say": "Years later, the scams get bolder.", "show": "Years later, the scams get bolder." }],
+      "vo2": [{ "say": "The right move never changes: hang up, and report it to nineteen thirty.", "show": "The right move never changes: hang up, and report it to 1930." }]
+    },
+    {
+      "id": "measure",
+      "n": "09",
+      "title": "Learning you can measure",
+      "pillar": "NGO-integrated",
+      "color": "#a78bfa",
+      "measures": ["Before → after", "Facilitator report", "Batch dashboard"],
+      "line": "The same five ideas, asked a new way.",
+      "vo": [
+        { "say": "At the end, the same five ideas are tested again, asked a new way, so the gain is real.", "show": "At the end, the same five ideas are tested again, asked a new way, so the gain is real." },
+        { "say": "A one-page report goes to the NGO facilitator.", "show": "A one-page report goes to the NGO facilitator." },
+        { "say": "And their dashboard shows the whole batch at a glance.", "show": "And their dashboard shows the whole batch at a glance." }
+      ]
+    },
+    {
+      "id": "end",
+      "vo": [{ "say": "Learning Money by Living It. Make choices. See consequences. Try again.", "show": "" }]
+    }
+  ]
+}

@@ -86,6 +86,7 @@ export interface Framing {
   place: string; // Place.id — where it happens in town
   portrait?: string; // sprite key for opponent
   intro?: string; // optional one-line scene setter above the box
+  call?: 'voice' | 'video'; // ISSUES #19: arrives as a ringing phone call (video: a video call)
 }
 
 export interface Choice {

@@ -1177,24 +1177,28 @@
     "framings": {
       "default": {
         "title": "SCAM CALL",
+        "call": "voice",
         "speaker": "Caller",
         "place": "home",
         "text": "I'm from the scholarship office. Pay ₹500 now or your money is cancelled!"
       },
       "pocket_money": {
         "title": "SCAM CALL",
+        "call": "voice",
         "speaker": "'Electricity office'",
         "place": "home",
         "text": "A caller on Mom's phone: 'Your bill is unpaid. Pay ₹500 on this link now or power is cut tonight!'"
       },
       "scholarship": {
         "title": "SCAM CALL",
+        "call": "voice",
         "speaker": "'ePASS officer'",
         "place": "college",
         "text": "Your allowance is approved! Pay a ₹500 processing fee now or it lapses today."
       },
       "earner": {
         "title": "SCAM CALL",
+        "call": "voice",
         "speaker": "'Bank officer'",
         "place": "kirana",
         "text": "'Your UPI will be blocked today! Pay a ₹500 KYC fee on this link to keep it active.'"

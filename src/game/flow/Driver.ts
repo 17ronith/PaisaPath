@@ -11,6 +11,7 @@ if (import.meta.env?.DEV) {
   const g = globalThis as Record<string, unknown>;
   g.__lmSession = getSession;
   g.__lmActive = () => devManager?.getScenes(true).map((sc) => sc.scene.key) ?? [];
+  g.__lmRoute = (from: Phaser.Scene, step: Step) => route(from, step); // demo-video recorder
 }
 
 /** Scene keys that show the HUD overlay on top. */

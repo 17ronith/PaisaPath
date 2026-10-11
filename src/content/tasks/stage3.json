@@ -157,24 +157,28 @@
     "framings": {
       "default": {
         "title": "DIGITAL ARREST",
+        "call": "video",
         "speaker": "'Police officer'",
         "place": "home",
         "text": "Video call: a man in uniform says a parcel in your name had drugs. 'Pay ₹50,000 to clear your name or be arrested now!'"
       },
       "pocket_money": {
         "title": "DIGITAL ARREST",
+        "call": "video",
         "speaker": "'Police officer'",
         "place": "home",
         "text": "A video call to Dad's phone: 'Your child's ID was used for a crime. Pay ₹50,000 now or we arrest them!'"
       },
       "scholarship": {
         "title": "DIGITAL ARREST",
+        "call": "video",
         "speaker": "'Police officer'",
         "place": "home",
         "text": "A uniformed man on video: 'Your bank account was used for fraud. Pay ₹50,000 to verify or face arrest!'"
       },
       "earner": {
         "title": "DIGITAL ARREST",
+        "call": "video",
         "speaker": "'Police officer'",
         "place": "home",
         "text": "Video call: 'A parcel in your name had drugs. Stay on camera, tell nobody, pay ₹50,000 now!'"

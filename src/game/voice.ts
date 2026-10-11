@@ -7,7 +7,7 @@ import manifest from '@/content/voice/manifest.json';
 import { voiceKey } from '@/content/voice/key';
 import { getLang } from '@/shared/i18n';
 import type { Lang } from '@/shared/types';
-import { isOn, onChannelChange } from './audio';
+import { audioTap, isOn, onChannelChange } from './audio';
 
 const CLIPS = new Set<string>(manifest.keys as string[]);
 const LOCALE: Record<Lang, string> = { en: 'en-IN', te: 'te-IN', hi: 'hi-IN' };
@@ -69,6 +69,7 @@ function playClip(line: string, done: () => void): void {
     if (!speakWithDevice(line, done)) done();
   };
   audio.src = `${import.meta.env.BASE_URL}assets/voice/${voiceKey(line)}.mp3`;
+  audioTap('voice', voiceKey(line));
   audio.play().catch(() => done());
 }
 

@@ -600,7 +600,7 @@
       },
       {
         "id": "start_later",
-        "text": "START AT 30, ENJOY NOW",
+        "text": "START AT 33, ENJOY NOW",
         "quality": "weak",
         "detourTaskId": "detour_late_start",
         "effects": [

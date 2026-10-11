@@ -55,7 +55,7 @@
   "quiz.before_intro": "Just pick what you think. There's no penalty for guessing.",
   "quiz.progress": "Question {n} of {total}",
   "quiz.before_score": "Your before score: {score}/5 · {difficulty}",
-  "quiz.after_title": "Same five questions, years later",
+  "quiz.after_title": "The same five ideas, asked a new way",
   "quiz.after_score": "Your after score: {score}/5",
 
   "diff.simple": "simple",

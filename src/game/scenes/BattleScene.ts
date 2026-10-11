@@ -47,7 +47,7 @@ function platform(scene: Phaser.Scene, x: number, y: number, w: number): void {
 }
 const LV = { simple: 'EASY', medium: 'MED', hard: 'HARD' } as const;
 /** ISSUES #19: events whose caller is the scam caller arrive as a ringing phone first. */
-const CALL_PORTRAIT = 'caller_wonky';
+const CALL_PORTRAIT = 'caller_wonky'; // older content marks calls by the caller's face
 /** Choice cutscene id → the scene that plays it. */
 const CUTSCENE_SCENES: Record<Cutscene, string> = { turf_cricket: 'TurfCricket' };
 
@@ -59,8 +59,6 @@ export class BattleScene extends Phaser.Scene {
   private box!: TextBox;
   private moves: Phaser.GameObjects.GameObject[] = [];
   private busy = false;
-  /** Running call timer while on a scam call; stopped when a choice is made. */
-  private callClock?: Phaser.Time.TimerEvent;
 
   constructor() {
     super('Battle');
@@ -70,7 +68,6 @@ export class BattleScene extends Phaser.Scene {
     this.step = data.step as BattleStep;
     this.moves = [];
     this.busy = false;
-    this.callClock = undefined;
   }
 
   create(): void {
@@ -164,12 +161,13 @@ export class BattleScene extends Phaser.Scene {
     // Text box
     this.box = new TextBox(this, 12, 286, W - 24, 128);
     const opening = framing.intro ? `${framing.intro}\n${framing.text}` : framing.text;
+    const call = framing.call ?? (framing.portrait === CALL_PORTRAIT ? 'voice' : undefined);
     const begin = (): void => {
       void this.box.say(opening, framing.speaker, COLOR.muted);
-      say(framing.text); // voice-over: the caller / friend / shopkeeper's opening line
+      if (!call) say(framing.text); // voice-over: the friend / shopkeeper's opening line (a caller already spoke on the call)
     };
     this.events.once('shutdown', stopVoice);
-    if (this.step.kind === 'event' && framing.portrait === CALL_PORTRAIT) this.incomingCall(begin);
+    if (call) this.incomingCall(call, begin);
     else begin();
 
     // Hint (after two fails on the same task)
@@ -181,35 +179,22 @@ export class BattleScene extends Phaser.Scene {
   }
 
   /** ISSUES #19: ring first (IncomingCall on top); on Answer, the line opens and a call timer runs. */
-  private incomingCall(begin: () => void): void {
+  /** ISSUES #19: the call rings full screen first; once it has ended, the choices appear here. */
+  private incomingCall(kind: 'voice' | 'video', begin: () => void): void {
     const f = this.step.framing;
     this.scene.launch('IncomingCall', {
       caller: f.speaker,
+      line: f.text,
+      kind,
       portrait: f.portrait,
       place: f.place,
-      onAnswer: () => {
+      onEnded: (secs: number) => {
         begin();
-        this.startCallClock();
+        const m = `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`;
+        this.badge(`📞 ${tr('battle.call_ended', 'CALL ENDED')} ${m}`, 0x505878, 122, 12);
       },
     });
     this.scene.bringToTop('IncomingCall');
-  }
-
-  private startCallClock(): void {
-    const pill = this.add.container(12, 122); // under the caller's panel, clear of his photo
-    const label = text(this, 8, 4, '📞 0:00', 'xs', COLOR.white);
-    const bg = this.add.rectangle(0, 0, 70, 18, COLOR.bad).setOrigin(0, 0);
-    pill.add([bg, label]);
-    this.tweens.add({ targets: bg, alpha: 0.6, yoyo: true, repeat: -1, duration: 500 });
-    let secs = 0;
-    this.callClock = this.time.addEvent({
-      delay: 1000,
-      loop: true,
-      callback: () => {
-        secs++;
-        label.setText(`📞 ${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, '0')}`);
-      },
-    });
   }
 
   private badge(label: string, color: number, y: number, x = 230): void {
@@ -272,7 +257,6 @@ export class BattleScene extends Phaser.Scene {
     save();
     this.moves.forEach((m) => m.destroy());
     this.moves = [];
-    this.callClock?.remove(); // the call ends with the choice; the timer freezes where it was
 
     await Promise.all([
       this.wallet.setValue(o.after.wallet),

@@ -3,13 +3,13 @@
 // from public/assets/music (credits in that folder's README). If none of them loads (files
 // missing, old browser), the synthesised chiptune below plays instead: no file, nothing to fetch.
 // Honours the music switch from ./audio. Start only after a user gesture.
-import { isOn, onChannelChange } from './audio';
+import { audioTap, isOn, onChannelChange } from './audio';
 
 const TRACKS = ['a', 'b', 'c'];
 /** Quiet enough to sit under the voice-over (clips are normalised to −18 LUFS, tracks to −20). */
 const TRACK_VOL = 0.35;
 
-const BPM = 112;
+export const BPM = 112;
 const BEAT = 60 / BPM; // seconds
 const STEP = BEAT / 2; // eighth notes
 const BARS = 8;
@@ -32,7 +32,7 @@ const N = {
   G5: 784,
 };
 // Melody: 64 eighth-notes, Hyderabad-evening cheerful, mostly stepwise so it loops without a seam.
-const MELODY: number[] = [
+export const MELODY: number[] = [
   N.A4,
   0,
   N.C5,
@@ -99,7 +99,7 @@ const MELODY: number[] = [
   0,
 ];
 // Bass: one note per beat (32 beats).
-const BASS: number[] = [
+export const BASS: number[] = [
   N.A3,
   N.A3,
   N.A3,
@@ -282,6 +282,7 @@ export function musicPlaying(): boolean {
 /** One short footstep; alternate `left` for a two-tone walk. */
 export function stepBlip(left = true): void {
   if (!isOn('sfx') || typeof AudioContext === 'undefined') return;
+  audioTap('sfx', left ? 'stepL' : 'stepR');
   try {
     ctx ??= new AudioContext();
     if (ctx.state === 'suspended') void ctx.resume();
