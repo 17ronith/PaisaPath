@@ -102,7 +102,18 @@ Ronith: change `Status:` lines only; never delete blocks.
 
 ### R-aakarsh-03 · Voice-over + 3-way sound panel are in a PR for you to review (supersedes R-monish-06)
 - From: aakarsh · To: ronith · At: 07:00 · Priority: P2
-- Status: OPEN
+- Status: ON MAIN (Monish integrated `aakarsh/music` at 07:45 on request) — Ronith: review on main, comment fixes
 - What: PR `aakarsh/voiceover` touches your folder: `src/game/voice.ts` (new), `scenes/AudioSettingsScene.ts` (new, registered in `scenes/index.ts`), `audio.ts` split into music / sfx / voice channels (`isMuted`/`setMuted`/`onMuteChange` still work), `music.ts` follows the music channel, the corner ♪ and HUD ♪ now open the panel, and one-line hooks in `BattleScene` (opening line, hint, Professor line) and `ExplainerScene` (captions). Clips are in `public/assets/voice/`. Please review those files on the PR.
 - Why: Aakarsh decided the voice-over covers only the Professor, the explainers and the characters' lines (not options or quiz), with generated clips (Kokoro) instead of the device voice. That makes R-monish-06 unnecessary; mark it DECLINED (superseded) if you agree.
 - Accept when: you approve the PR or comment with fixes.
+
+### R-saharsh-02 · New character sprites: 5 avatars (front + back), Professor, 4 NPC portraits
+- From: saharsh · To: ronith · At: 06:34 · Priority: P1
+- Status: DONE `1541189` (Ronith, on the map branch; on main via the 07:45 integration)
+- What: 19 PNGs in `team97_vanguard_context/08_hyderabad_backgrounds/sprites/1x/` (built by `source/sprites.py`, same pipeline as the backdrops; see `sprites/README.txt`). Copy them to `public/assets/sprites/` and load them in `PreloadScene` with NEAREST filtering, keys = file names. Then:
+  1. Picker: `AVATARS` → `avatar_boy_1, avatar_boy_2, avatar_girl_1, avatar_girl_2, avatar_neutral` (5 slots); map old saves `avatar_01..04` to the first four.
+  2. Battle: draw `${profile.avatar}_back` on the player platform (×3), the front sprite stays for the picker/title.
+  3. `Portrait.ts` ROLES: add `/uncle|relative|mom.?s friend/i → npc_uncle` before the family rule; `npc_shady`, `npc_friend`, `npc_shop` already match. `caller_wonky` is for the call overlay (#19).
+  4. `professor` / `professor_happy` for the guide (#10/#17); `professor_walk_0/1` (32×32, facing right) for a walk-in.
+- Why: the current 16×16 Kenney characters at 5–6× look blocky in the picker and on the battle platform.
+- Accept when: picker shows the 5 new avatars, the battle shows the chosen avatar from behind, and a scam caller / uncle / friend / shopkeeper battle shows the matching portrait.
