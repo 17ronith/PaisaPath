@@ -393,24 +393,6 @@
         "size": "sm"
       },
       {
-        "at": 9000,
-        "op": "bar",
-        "id": "a",
-        "label": "Without compounding",
-        "from": 0,
-        "to": 34,
-        "slot": 0
-      },
-      {
-        "at": 9000,
-        "op": "bar",
-        "id": "b",
-        "label": "With compounding",
-        "from": 0,
-        "to": 100,
-        "slot": 1
-      },
-      {
         "at": 12000,
         "op": "text",
         "text": "Assumes 8% a year. Real returns vary and can be negative.",
