@@ -169,7 +169,8 @@ export class BattleScene extends Phaser.Scene {
       say(framing.text); // voice-over: the caller / friend / shopkeeper's opening line
     };
     this.events.once('shutdown', stopVoice);
-    if (this.step.kind === 'event' && framing.portrait === CALL_PORTRAIT) this.incomingCall(begin);
+    // the scam call rings first, whether it's the side-quest event or a task's call (scholarship 'officer')
+    if (framing.portrait === CALL_PORTRAIT) this.incomingCall(begin);
     else begin();
 
     // Hint (after two fails on the same task)
