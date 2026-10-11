@@ -310,6 +310,7 @@ export interface GameState {
   portfolio: Portfolio;
   quizAfter?: number;
   quizAfterAnswers?: number[];
+  market?: MarketState; // Charminar Market device (additive)
   phase:
     | 'chapter_start'
     | 'main_task'
@@ -440,6 +441,121 @@ export interface Report {
   // what-if is deliberately NOT here (in-game only, CONTEXT.md §2.12)
 }
 
+// ---- Charminar Market (stock-simulator device; docs/plan/STOCKS.md) — additive ----
+
+export type MarketCompanyId = 'zipeats' | 'dashkart' | 'autogo' | 'chaiwala';
+
+export interface MarketCompany {
+  id: MarketCompanyId;
+  name: string;
+  category: string;
+  icon: string;
+  blurb: string;
+  movedBy: string; // one line: what moves this price
+  meanQuarterPct: number;
+  volQuarterPct: number;
+  risk: 1 | 2 | 3;
+}
+
+export interface MarketCandle {
+  o: number;
+  h: number;
+  l: number;
+  c: number;
+}
+
+export interface MarketNews {
+  turn: number; // 1-based turn the card belongs to
+  headline: string;
+  detail: string;
+  professor: string; // the Professor's one line for this turn
+  kind: 'info' | 'monsoon' | 'tip' | 'crash' | 'recovery' | 'results';
+  about?: MarketCompanyId;
+}
+
+export interface MarketOrder {
+  company: MarketCompanyId;
+  shares: number; // +buy / −sell
+}
+
+export interface MarketTrade {
+  turn: number;
+  company: MarketCompanyId;
+  shares: number;
+  price: number;
+  fee: number;
+}
+
+export interface MarketChecks {
+  diversified: boolean;
+  heldThroughCrash: boolean;
+  refusedTip: boolean;
+  lowChurn: boolean;
+  beatBanyan: boolean;
+  deposit: number;
+  finalValue: number;
+  banyanValue: number;
+  fees: number;
+  trades: number;
+  panicSells: number;
+}
+
+export interface MarketRun {
+  mode: 'paper' | 'real';
+  seed: number;
+  rng: number;
+  turn: number; // 0 = before the first quarter; turns = finished
+  turns: number;
+  cash: number; // paper: virtual; real: coins taken from savings
+  deposit: number;
+  holdings: Record<MarketCompanyId, number>;
+  prices: Record<MarketCompanyId, number[]>; // close per turn, index 0 = start
+  candles: Record<MarketCompanyId, MarketCandle[][]>; // [turn][8] decorative
+  trades: MarketTrade[];
+  soldOnTurn: number[]; // turns on which any sell happened
+  finished: boolean;
+  checks?: MarketChecks;
+}
+
+export interface MarketState {
+  runs: MarketRun[]; // finished runs (paper and real)
+  current?: MarketRun;
+  evidence: { item: NcfeItem; value: 0 | 1 }[]; // from finished REAL runs
+  scamsFaced: number;
+  scamsSpotted: number;
+}
+
+export interface MarketTurnResult {
+  run: MarketRun;
+  valueBefore: number;
+  valueAfter: number;
+  happinessDelta: number;
+  panicSold: boolean;
+  news: MarketNews | null; // next turn's card (null when finished)
+}
+
+export interface MarketApi {
+  companies(): MarketCompany[];
+  /** Chapter ≥ 5 (first salary). */
+  eligible(): boolean;
+  state(): MarketState;
+  /** Start a run. Real: moves `deposit` coins from savings into the run's cash. */
+  start(mode: 'paper' | 'real', deposit: number): MarketRun;
+  current(): MarketRun | null;
+  news(): MarketNews | null; // card for the upcoming turn
+  /** Price now for a company in the current run. */
+  price(company: MarketCompanyId): number;
+  value(): number; // cash + holdings at current prices
+  /** Apply orders (each is one trade with a fee). Throws on insufficient cash/shares. */
+  trade(orders: MarketOrder[]): MarketRun;
+  /** Advance one quarter: prices move, happiness may move. */
+  nextTurn(): MarketTurnResult;
+  /** Settle a finished run: real → cash + holdings back into savings; records checks + evidence. */
+  finish(): MarketChecks;
+  /** Leave mid-run (real holdings stay; resume later). */
+  close(): void;
+}
+
 // ---- The engine API (src/engine/index.ts exports createGame, loadGame, scaleToCoins) ----
 
 export interface Game {
@@ -461,6 +577,8 @@ export interface Game {
   whatIf(): WhatIfResult | null;
   report(): Report;
   toJSON(): GameState;
+  /** Charminar Market device (additive; docs/plan/STOCKS.md). */
+  market?: MarketApi;
 }
 
 export type CreateGame = (content: ContentPack, profile: Profile, seed?: number) => Game;

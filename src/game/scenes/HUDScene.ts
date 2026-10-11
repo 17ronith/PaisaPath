@@ -17,6 +17,7 @@ export class HUDScene extends Phaser.Scene {
   private hearts: Phaser.GameObjects.Image[] = [];
   private happyLabel!: Phaser.GameObjects.Text;
   private mapBtn!: Button;
+  private marketBtn!: Button;
   private wallet!: Phaser.GameObjects.Text;
   /** ISSUES #29: the wallet figure counts to its new value instead of jumping. */
   private walletShown: number | null = null;
@@ -56,10 +57,30 @@ export class HUDScene extends Phaser.Scene {
       { width: 72, height: 36, size: 'xs', fill: 0x505878 },
     );
     this.mapBtn.setVisible(false);
+    // Charminar Market device (docs/plan/STOCKS.md): unlocks from chapter 5; opens from the map/town.
+    this.marketBtn = new Button(
+      this,
+      VIEW.width - 60,
+      VIEW.height - 28,
+      '📈 ' + tr('btn.market', 'MARKET'),
+      () => {
+        const from = this.scene.isActive('TownMap') ? 'TownMap' : 'ChapterMap';
+        if (this.scene.isActive(from)) this.scene.get(from).scene.start('Market');
+      },
+      { width: 104, height: 36, size: 'xs', fill: COLOR.money },
+    );
+    this.marketBtn.setVisible(false);
     this.time.addEvent({
       delay: 250,
       loop: true,
-      callback: () => this.mapBtn.setVisible(this.scene.isActive('TownMap')),
+      callback: () => {
+        this.mapBtn.setVisible(this.scene.isActive('TownMap'));
+        const g = getSession().game;
+        const onMap = this.scene.isActive('ChapterMap') || this.scene.isActive('TownMap');
+        this.marketBtn.setVisible(
+          !!g?.market?.eligible() && onMap && !this.scene.isActive('Market'),
+        );
+      },
     });
     this.stage = text(this, 152, 20, '', 'xs', COLOR.accent).setOrigin(0.5);
     const mute = new Button(
