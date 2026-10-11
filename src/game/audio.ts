@@ -79,6 +79,43 @@ export function setMuted(muted: boolean): void {
   for (const c of CHANNELS) setOn(c, !muted);
 }
 
+/** ISSUES #19: one ring of a phone (two quick trills), for the incoming scam call. */
+export function ring(): void {
+  if (!on.sfx || typeof AudioContext === 'undefined') return;
+  try {
+    ctx ??= new AudioContext();
+    if (ctx.state === 'suspended') void ctx.resume();
+    let at = ctx.currentTime;
+    for (let burst = 0; burst < 2; burst++) {
+      for (let i = 0; i < 10; i++) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.value = i % 2 ? 1480 : 1175;
+        gain.gain.setValueAtTime(0.035, at);
+        gain.gain.exponentialRampToValueAtTime(0.0001, at + 0.042);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start(at);
+        osc.stop(at + 0.045);
+        at += 0.045;
+      }
+      at += 0.2;
+    }
+  } catch {
+    /* audio is decoration; never let it break a tap */
+  }
+}
+
+/** Buzz the phone (where supported) along with the sound effects; `[]` stops it. */
+export function buzz(pattern: number[]): void {
+  if (!on.sfx && pattern.length) return;
+  try {
+    globalThis.navigator?.vibrate?.(pattern.length ? pattern : 0);
+  } catch {
+    /* not every browser can vibrate */
+  }
+}
+
 export function play(blip: Blip): void {
   if (!on.sfx || typeof AudioContext === 'undefined') return;
   try {
