@@ -8,6 +8,7 @@ import { rupees, t } from '@/shared/i18n';
 import type { Choice, Effect, Outcome, Step } from '@/shared/types';
 import { advance, save } from '../flow/Driver';
 import { play } from '../audio';
+import { say, sayAfter, stopVoice } from '../voice';
 import { Bar } from '../ui/Bar';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
@@ -146,6 +147,8 @@ export class BattleScene extends Phaser.Scene {
     this.box = new TextBox(this, 12, 286, W - 24, 128);
     const opening = framing.intro ? `${framing.intro}\n${framing.text}` : framing.text;
     void this.box.say(opening, framing.speaker, COLOR.muted);
+    say(framing.text); // voice-over: the caller / friend / shopkeeper's opening line
+    this.events.once('shutdown', stopVoice);
 
     // Hint (after two fails on the same task)
     if (this.step.kind === 'task' && this.step.hintsOn) this.hint(task?.choices ?? []);
@@ -174,6 +177,7 @@ export class BattleScene extends Phaser.Scene {
     });
     const p = new PixelPanel(this, 10, 122, W - 144, msg.y + msg.height + 9, { variant: 'red' });
     p.add([heading, msg]);
+    sayAfter(body); // the Professor reads the hint once the opening line is done
   }
 
   private showMoves(choices: Choice[]): void {
@@ -230,6 +234,7 @@ export class BattleScene extends Phaser.Scene {
     const professor = tr('professor.name', 'Professor');
     const line = o.quality === 'good' ? praiseLine(o) : o.lesson;
     void this.box.say(line, professor, COLOR.aunty);
+    say(line);
     this.results(o);
 
     if (o.critical) this.restartFlash();
