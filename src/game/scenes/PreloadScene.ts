@@ -4,6 +4,7 @@
 import Phaser from 'phaser';
 import { AVATARS } from '../logic/onboarding';
 import { PANEL_KEYS } from '../ui/PixelPanel';
+import { hydTextureKeys, loadHydAssets } from '../ui/hyd';
 import { COLOR, text } from '../ui/theme';
 import { VIEW } from '../view';
 
@@ -95,10 +96,11 @@ export class PreloadScene extends Phaser.Scene {
     for (const [key, url] of Object.entries(SHEETS))
       this.load.spritesheet(key, url, { frameWidth: 16, frameHeight: 16 });
     for (const [key, url] of Object.entries(NINE_SLICES)) this.load.image(key, url);
+    loadHydAssets(this.load);
   }
 
   async create(): Promise<void> {
-    for (const key of [...Object.keys(SHEETS), ...Object.keys(NINE_SLICES)])
+    for (const key of [...Object.keys(SHEETS), ...Object.keys(NINE_SLICES), ...hydTextureKeys()])
       if (this.textures.exists(key))
         this.textures.get(key).setFilter(Phaser.Textures.FilterMode.NEAREST);
 
@@ -112,6 +114,8 @@ export class PreloadScene extends Phaser.Scene {
     // Warm both faces so the first real text renders in them, not the fallback.
     text(this, -100, -100, '₹0', 'xs').destroy();
     text(this, -100, -100, 'A', 'lg').destroy();
+    this.scene.launch('MapBG'); // never stopped: the map animates for the whole session
+    this.scene.sendToBack('MapBG');
     this.scene.start('Title');
   }
 
