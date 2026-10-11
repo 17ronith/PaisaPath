@@ -115,7 +115,10 @@ export class BattleScene extends Phaser.Scene {
 
     // Player
     const avatar = game.state.profile.avatar;
-    const back = this.textures.exists(`${avatar}_back`) ? `${avatar}_back` : avatar;
+    // From behind, head turned toward the opponent (three-quarter view); back view as fallback.
+    const back = [`${avatar}_quarter`, `${avatar}_back`, avatar].find((k) =>
+      this.textures.exists(k),
+    )!;
     this.add
       .image(86, 270, back)
       .setOrigin(0.5, 1)
@@ -176,12 +179,17 @@ export class BattleScene extends Phaser.Scene {
       choices.find((c) => c.hint)?.hint ??
       tr('battle.hint_generic', 'Slow down. Who gains if you choose fast?');
     const W = VIEW.width;
-    const heading = text(this, 10, 7, tr('professor.hint', "Professor's hint"), 'xs', COLOR.aunty);
-    const msg = text(this, 10, 7 + heading.height, body, 'xs', COLOR.ink, {
-      wordWrap: { width: W - 164, useAdvancedWrap: true },
+    // The Professor's face beside his hint (48 px sprite at 1×).
+    const face = this.textures.exists('professor') ? 46 : 0;
+    const tx = 10 + face;
+    const heading = text(this, tx, 7, tr('professor.hint', "Professor's hint"), 'xs', COLOR.aunty);
+    const msg = text(this, tx, 7 + heading.height, body, 'xs', COLOR.ink, {
+      wordWrap: { width: W - 164 - face, useAdvancedWrap: true },
     });
-    const p = new PixelPanel(this, 10, 122, W - 144, msg.y + msg.height + 9, { variant: 'red' });
+    const h = Math.max(msg.y + msg.height + 9, face ? 54 : 0);
+    const p = new PixelPanel(this, 10, 122, W - 144, h, { variant: 'red' });
     p.add([heading, msg]);
+    if (face) p.add(this.add.image(4, h - 4, 'professor').setOrigin(0, 1));
   }
 
   private showMoves(choices: Choice[]): void {
@@ -237,7 +245,12 @@ export class BattleScene extends Phaser.Scene {
     const isMistake = o.quality === 'weak' || o.quality === 'critical';
     const professor = tr('professor.name', 'Professor');
     const line = o.quality === 'good' ? praiseLine(o) : o.lesson;
-    void this.box.say(line, professor, COLOR.aunty);
+    void this.box.say(
+      line,
+      professor,
+      COLOR.aunty,
+      o.quality === 'good' ? 'professor_happy' : 'professor',
+    );
     this.results(o);
 
     if (o.critical) this.restartFlash();
