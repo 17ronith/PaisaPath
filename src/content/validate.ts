@@ -25,6 +25,8 @@ import {
   STRINGS as DEFAULT_STRINGS,
 } from './index';
 import type { Collection, Sources } from './index';
+import voiceManifest from './voice/manifest.json';
+import { voiceLines } from './voice/lines';
 
 export interface ValidationResult {
   errors: string[];
@@ -413,6 +415,18 @@ export function validateContent(input: Partial<ValidationInput> = {}): Validatio
     hiKeys: Object.keys(STRINGS.hi).length,
     teContentKeys: Object.keys(OVERLAYS.te).length,
   };
+  // ---- voice-over: every voiced line should have a generated clip (else the device voice reads it)
+  if (!input.sources) {
+    const clips = new Set<string>(voiceManifest.keys as string[]);
+    const lines = voiceLines();
+    const missing = lines.filter((l) => !clips.has(l.key));
+    for (const l of missing.slice(0, 5))
+      warn('voice', `no clip for ${l.where} ("${l.text.slice(0, 40)}…")`);
+    if (missing.length)
+      warn('voice', `${missing.length} line(s) have no clip — rerun src/content/voice/generate.py`);
+    stats.voiceLines = lines.length;
+    stats.voiceClips = lines.length - missing.length;
+  }
   return finish(errors, warnings, stats);
 }
 
@@ -423,7 +437,8 @@ function finish(errors: string[], warnings: string[], s: Record<string, number>)
     : `OK · ${s.mainTasks} tasks (S1 ${s.s1} · S2 ${s.s2} · S3 ${s.s3}) · ${s.personaFramings} persona framings · ` +
       `${s.detours} detours · ${s.events} events · ${s.explainers} explainers · ${s.concepts} concepts · ` +
       `${s.delayed} delayed/repeat effects · NCFE ${s.ncfeEvidenced}/${s.ncfeTotal} items evidenced · ` +
-      `en ${s.enKeys} keys · te ${s.teKeys} keys (${pct(s.teKeys)}%) + ${s.teContentKeys} content · hi ${s.hiKeys} keys (${pct(s.hiKeys)}%)`;
+      `en ${s.enKeys} keys · te ${s.teKeys} keys (${pct(s.teKeys)}%) + ${s.teContentKeys} content · hi ${s.hiKeys} keys (${pct(s.hiKeys)}%)` +
+      (s.voiceLines ? ` · voice ${s.voiceClips}/${s.voiceLines} lines` : '');
   return { errors, warnings, stats: s, summary };
 }
 
