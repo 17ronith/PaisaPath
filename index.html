@@ -30,6 +30,22 @@
         image-rendering: crisp-edges;
         touch-action: none;
       }
+      /* Desktops, tablets and landscape phones: the 9:16 game sits centred over the
+         Hyderabad map instead of flat margins, framed like a phone. */
+      @media (min-aspect-ratio: 10/16) {
+        body {
+          background:
+            linear-gradient(rgba(20, 22, 40, 0.55), rgba(20, 22, 40, 0.7)),
+            url('/assets/hyd/map/map_base.png') center / cover no-repeat #1b1b2f;
+          image-rendering: pixelated;
+        }
+        canvas {
+          border-radius: 14px;
+          box-shadow:
+            0 0 0 3px #2a2f4a,
+            0 18px 60px rgba(0, 0, 0, 0.6);
+        }
+      }
     </style>
   </head>
   <body>

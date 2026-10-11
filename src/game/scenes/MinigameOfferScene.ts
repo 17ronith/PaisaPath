@@ -11,7 +11,7 @@ import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
 import { overMap } from '../flow/journeyState';
-import { VIEW } from '../view';
+import { fromBottom, VIEW } from '../view';
 
 type Offer = Extract<Step, { kind: 'minigame_offer' }>;
 
@@ -75,7 +75,7 @@ export class MinigameOfferScene extends Phaser.Scene {
         }),
       );
     } else if (scene) {
-      new Button(this, W / 2, 460, t('btn.play'), () => this.play(), {
+      new Button(this, W / 2, fromBottom(460), t('btn.play'), () => this.play(), {
         fill: COLOR.good,
       });
     } else {
@@ -84,7 +84,7 @@ export class MinigameOfferScene extends Phaser.Scene {
     new Button(
       this,
       W / 2,
-      560,
+      fromBottom(560),
       t('btn.skip'),
       () => {
         game.skipMinigame();
@@ -125,6 +125,8 @@ export class MinigameOfferScene extends Phaser.Scene {
     text(this, W / 2, H * 0.45, effects.map((e) => `• ${e.label}`).join('\n'), 'xs', COLOR.white, {
       align: 'center',
     }).setOrigin(0.5, 0);
-    new Button(this, W / 2, 560, t('btn.next'), () => advance(this), { fill: COLOR.good });
+    new Button(this, W / 2, fromBottom(560), t('btn.next'), () => advance(this), {
+      fill: COLOR.good,
+    });
   }
 }

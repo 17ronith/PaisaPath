@@ -10,7 +10,7 @@ import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
 import { charScale } from '../ui/chars';
-import { VIEW } from '../view';
+import { fromBottom, VIEW } from '../view';
 
 type Epilogue = Extract<Step, { kind: 'epilogue' }>;
 
@@ -120,7 +120,7 @@ export class EpilogueScene extends Phaser.Scene {
       wordWrap: { width: W - 40, useAdvancedWrap: true },
     });
 
-    new Button(this, W / 2, 596, t('btn.next'), () => this.scene.start('WhatIf'), {
+    new Button(this, W / 2, fromBottom(596), t('btn.next'), () => this.scene.start('WhatIf'), {
       fill: COLOR.good,
     });
   }

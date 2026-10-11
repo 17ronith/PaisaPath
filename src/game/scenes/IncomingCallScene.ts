@@ -6,7 +6,7 @@ import Phaser from 'phaser';
 import { buzz, play, ring } from '../audio';
 import { backdropKey, drawBackdrop } from '../ui/Backdrop';
 import { COLOR, text, tr } from '../ui/theme';
-import { VIEW } from '../view';
+import { fromBottom, VIEW } from '../view';
 
 export interface IncomingCallData {
   caller: string;
@@ -17,7 +17,7 @@ export interface IncomingCallData {
 
 const RING_MS = 2600;
 const PHOTO_Y = 236;
-const BTN_Y = 540;
+const BTN_Y = fromBottom(540);
 
 export class IncomingCallScene extends Phaser.Scene {
   private call!: IncomingCallData;

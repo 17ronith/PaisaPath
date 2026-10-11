@@ -1,14 +1,24 @@
 import Phaser from 'phaser';
 import { scenes } from './scenes';
-import { GAME_H, GAME_W, RES } from './view';
+import { DESIGN_H, GAME_H, GAME_W, RES } from './view';
 
 export { GAME_H, GAME_W } from './view';
 
-/** Zoom every scene's main camera so scenes keep laying out in 360×640 logical units. */
+/**
+ * Scenes laid out strictly in the 640 design box (device frames, mini-game arenas): on a
+ * taller screen they sit centred, with their background colour filling above and below.
+ * Every other scene is top-aligned and anchors its bottom UI to VIEW.height.
+ */
+const CENTRED = new Set(['Market', 'Explainer', 'kirana_rush', 'scam_or_legit']);
+
+/** Zoom every scene's main camera so scenes keep laying out in logical units. */
 function fitCameras(game: Phaser.Game): void {
   for (const scene of game.scene.scenes) {
     scene.sys.events.on(Phaser.Scenes.Events.START, () => {
-      scene.cameras.main.setZoom(RES).centerOn(GAME_W / 2, GAME_H / 2);
+      const key = scene.sys.settings.key;
+      scene.cameras.main
+        .setZoom(RES)
+        .centerOn(GAME_W / 2, CENTRED.has(key) ? DESIGN_H / 2 : GAME_H / 2);
     });
   }
 }
@@ -26,7 +36,9 @@ export const phaserConfig: Phaser.Types.Core.GameConfig = {
   // Overrides index.html's `image-rendering: pixelated` — the canvas is already
   // near device resolution, so smooth downscaling looks cleaner than blocky.
   canvasStyle: 'image-rendering: auto;',
-  scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
+  // index.html's flex container centres the canvas; Phaser centring it too (margins) would
+  // push it off-centre on wide screens.
+  scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.NO_CENTER },
   dom: { createContainer: true },
   callbacks: { postBoot: fitCameras },
   scene: scenes,

@@ -10,7 +10,7 @@ import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
 import { overMap } from '../flow/journeyState';
-import { VIEW } from '../view';
+import { fromBottom, VIEW } from '../view';
 
 type Invest = Extract<Step, { kind: 'invest' }>;
 
@@ -68,11 +68,11 @@ export class InvestScene extends Phaser.Scene {
 
     this.step.assets.forEach((a, i) => this.card(a, 12, 82 + i * 98, W - 24, unit));
 
-    this.leftText = text(this, W / 2, 482, '', 'sm', COLOR.white).setOrigin(0.5);
+    this.leftText = text(this, W / 2, fromBottom(482), '', 'sm', COLOR.white).setOrigin(0.5);
     text(
       this,
       W / 2,
-      516,
+      fromBottom(516),
       tr('invest.assumption', 'Made-up assets. Assumptions, not promises.'),
       'xs',
       COLOR.muted,
@@ -82,18 +82,25 @@ export class InvestScene extends Phaser.Scene {
       },
     ).setOrigin(0.5);
 
-    new Button(this, W / 2 - 86, 596, t('btn.keep_saving'), () => this.finish(true), {
+    new Button(this, W / 2 - 86, fromBottom(596), t('btn.keep_saving'), () => this.finish(true), {
       width: 160,
       height: 52,
       size: 'sm',
       fill: 0x505878,
     });
-    this.investBtn = new Button(this, W / 2 + 86, 596, t('btn.invest'), () => this.finish(false), {
-      width: 160,
-      height: 52,
-      size: 'sm',
-      fill: COLOR.good,
-    });
+    this.investBtn = new Button(
+      this,
+      W / 2 + 86,
+      fromBottom(596),
+      t('btn.invest'),
+      () => this.finish(false),
+      {
+        width: 160,
+        height: 52,
+        size: 'sm',
+        fill: COLOR.good,
+      },
+    );
     this.refresh();
   }
 

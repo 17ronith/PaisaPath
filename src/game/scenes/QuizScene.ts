@@ -10,7 +10,7 @@ import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
 import { charScale } from '../ui/chars';
 import { overMap } from '../flow/journeyState';
-import { VIEW } from '../view';
+import { fromBottom, VIEW } from '../view';
 import { afterQuiz } from '@/shared/quiz';
 
 interface QuizData {
@@ -60,7 +60,7 @@ export class QuizScene extends Phaser.Scene {
         { align: 'center', wordWrap: { width: W - 60 } },
       ).setOrigin(0.5),
     );
-    this.root.add(new Button(this, W / 2, 540, t('btn.start'), () => this.ask(0)));
+    this.root.add(new Button(this, W / 2, fromBottom(540), t('btn.start'), () => this.ask(0)));
   }
 
   private ask(i: number): void {
@@ -136,7 +136,9 @@ export class QuizScene extends Phaser.Scene {
         this.add.image(W / 2, 360, profile.avatar).setScale(charScale(this, profile.avatar, 4)),
       );
       this.root.add(
-        new Button(this, W / 2, 540, t('btn.next'), () => advance(this), { fill: COLOR.good }),
+        new Button(this, W / 2, fromBottom(540), t('btn.next'), () => advance(this), {
+          fill: COLOR.good,
+        }),
       );
       return;
     }
@@ -163,7 +165,9 @@ export class QuizScene extends Phaser.Scene {
       ).setOrigin(0.5),
     );
     this.root.add(
-      new Button(this, W / 2, 540, t('btn.next'), () => advance(this), { fill: COLOR.good }),
+      new Button(this, W / 2, fromBottom(540), t('btn.next'), () => advance(this), {
+        fill: COLOR.good,
+      }),
     );
   }
 }
