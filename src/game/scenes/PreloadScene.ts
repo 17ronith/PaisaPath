@@ -49,10 +49,10 @@ const NINE_SLICES: Record<string, string> = {
 
 /**
  * Saharsh's 48×48 characters (08_hyderabad_backgrounds/sprites, copied to assets/sprites):
- * five avatars with a `_back` view for the battle platform, the Professor, and NPC portraits.
+ * five avatars with `_back` and `_quarter` (back, head turned to the opponent) views, the Professor, and NPC portraits.
  */
 const SPRITES = [
-  ...AVATARS.flatMap((a) => [a, `${a}_back`]),
+  ...AVATARS.flatMap((a) => [a, `${a}_back`, `${a}_quarter`]),
   'professor',
   'professor_happy',
   'professor_walk_0',
@@ -119,6 +119,7 @@ export class PreloadScene extends Phaser.Scene {
     for (const [old, now] of Object.entries(LEGACY_AVATARS)) {
       this.load.image(old, `assets/sprites/${now}.png`);
       this.load.image(`${old}_back`, `assets/sprites/${now}_back.png`);
+      this.load.image(`${old}_quarter`, `assets/sprites/${now}_quarter.png`);
     }
     // Hyderabad backdrops (ISSUES #18): 20 × 480×270 PNGs, ~370 KB total, loaded once for every screen.
     for (const f of new Set([...Object.values(BACKDROP_FOR), ...Object.values(BACKDROP_EXTRA)]))
@@ -133,7 +134,7 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   async create(): Promise<void> {
-    const legacy = Object.keys(LEGACY_AVATARS).flatMap((k) => [k, `${k}_back`]);
+    const legacy = Object.keys(LEGACY_AVATARS).flatMap((k) => [k, `${k}_back`, `${k}_quarter`]);
     for (const key of [
       ...Object.keys(SHEETS),
       ...Object.keys(NINE_SLICES),
