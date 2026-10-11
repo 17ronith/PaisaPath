@@ -1,6 +1,7 @@
 // "n years later…": the persona's line for the next stage, then each investment's value
 // before → after with a sparkline of its seeded yearly returns, and the income note.
 import Phaser from 'phaser';
+import { drawBackdrop } from '../ui/Backdrop';
 import { getSession } from '@/app/session';
 import { rupees, t } from '@/shared/i18n';
 import type { AssetId, Portfolio, Stage, Step } from '@/shared/types';
@@ -37,6 +38,11 @@ export class StageEndScene extends Phaser.Scene {
     this.cameras.main.fadeIn(600);
     const st = this.step;
     const nextStage = Math.min(3, st.stage + 1) as Stage;
+    // ISSUES #4: where the next stage happens — office lobby for the first salary, the towers for the raise.
+    if (
+      drawBackdrop(this, nextStage === 2 ? 'bg_20_office_lobby' : 'bg_09_hitec_city', 0, 0, W, 210)
+    )
+      this.add.rectangle(0, 0, W, 210, COLOR.bg, 0.55).setOrigin(0);
     const persona = s.content.personas.find((p) => p.id === game.state.profile.persona);
 
     text(

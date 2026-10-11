@@ -6,7 +6,7 @@ import { advance } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { COLOR, text, tr } from '../ui/theme';
 import { VIEW } from '../view';
-import { townStrip } from '../ui/Backdrop';
+import { drawBackdrop, townStrip } from '../ui/Backdrop';
 
 const LANG_NAMES: Partial<Record<Lang, string>> = { en: 'English', te: 'తెలుగు' };
 
@@ -20,8 +20,9 @@ export class TitleScene extends Phaser.Scene {
     const { width: W, height: H } = VIEW;
     this.cameras.main.setBackgroundColor(COLOR.bg);
 
-    // A little Tiny Town street with the player standing in it.
-    townStrip(this, H * 0.36, W, 160);
+    // Hyderabad backdrop (ISSUES #4/#5): Tank Bund at sunset; Tiny Town street as the fallback.
+    if (!drawBackdrop(this, 'bg_03_tank_bund_buddha', 0, H * 0.36, W, 160))
+      townStrip(this, H * 0.36, W, 160);
     this.add.rectangle(0, H * 0.36 + 160, W, 3, COLOR.accent).setOrigin(0, 0);
     this.add
       .image(W / 2, H * 0.36 + 150, 'avatar_01')

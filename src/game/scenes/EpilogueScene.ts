@@ -1,6 +1,7 @@
 // Age 60: what each made-up asset grew into, next to the "kept in a cash box" path, with the
 // engine's assumption line in full. NEXT → WhatIf (in-game only), which then proceeds.
 import Phaser from 'phaser';
+import { drawBackdrop } from '../ui/Backdrop';
 import { getSession } from '@/app/session';
 import { rupees, t } from '@/shared/i18n';
 import type { Step } from '@/shared/types';
@@ -47,6 +48,9 @@ export class EpilogueScene extends Phaser.Scene {
     const pr = this.step.projection;
     this.cameras.main.setBackgroundColor(COLOR.bg);
     this.cameras.main.fadeIn(800);
+    // ISSUES #4: the same room as Stage 1's home, decades later.
+    if (drawBackdrop(this, 'bg_19_home_age60', 0, 0, W, 210))
+      this.add.rectangle(0, 0, W, 210, COLOR.bg, 0.55).setOrigin(0);
     text(this, W / 2, 40, t('epilogue.title'), 'lg', COLOR.white, {
       align: 'center',
       wordWrap: { width: W - 40 },

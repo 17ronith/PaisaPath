@@ -24,6 +24,18 @@ const STAGE_INCOME = { 1: 5000, 2: 25000, 3: 60000 } as const;
 const EVENT_PRESSURE = 50;
 const ARENA_BOTTOM = 284;
 
+const PRAISE = [
+  "Sharp. That's exactly how it's done.",
+  'Good call. Your future self just got richer.',
+  "That's the move. On we go.",
+  'Well handled. Nothing to teach here.',
+];
+/** Deterministic per outcome so the same choice always gets the same praise. */
+function praiseLine(o: Outcome): string {
+  const i = Math.abs(Math.round(o.after.wallet + o.after.happiness)) % PRAISE.length;
+  return tr(`professor.praise.${i + 1}`, PRAISE[i]);
+}
+
 /** Dirt platform under a fighter: dark rim, lighter top. */
 function platform(scene: Phaser.Scene, x: number, y: number, w: number): void {
   scene.add.ellipse(x, y + 2, w, w * 0.24, 0x8a6a40, 0.9);
@@ -155,7 +167,7 @@ export class BattleScene extends Phaser.Scene {
       choices.find((c) => c.hint)?.hint ??
       tr('battle.hint_generic', 'Slow down. Who gains if you choose fast?');
     const W = VIEW.width;
-    const heading = text(this, 10, 7, tr('battle.hint', "Aunty's hint"), 'xs', COLOR.aunty);
+    const heading = text(this, 10, 7, tr('professor.hint', "Professor's hint"), 'xs', COLOR.aunty);
     const msg = text(this, 10, 7 + heading.height, body, 'xs', COLOR.ink, {
       wordWrap: { width: W - 164, useAdvancedWrap: true },
     });
@@ -210,18 +222,27 @@ export class BattleScene extends Phaser.Scene {
       play('bad');
     }
 
-    const auntyLine = o.lesson;
-    void this.box.say(auntyLine, tr('guide.name', 'Aunty'), COLOR.aunty);
+    // ISSUES #17 — the Professor walks in after the consequence.
+    // weak/critical: his lesson line, then the concept's animation. ok: the lesson line, no animation.
+    // good: one line of praise and on we go — the animation stays in the replay library.
+    const isMistake = o.quality === 'weak' || o.quality === 'critical';
+    const professor = tr('professor.name', 'Professor');
+    const line = o.quality === 'good' ? praiseLine(o) : o.lesson;
+    void this.box.say(line, professor, COLOR.aunty);
     this.results(o);
 
     if (o.critical) this.restartFlash();
     else if (o.clearedConcept) this.badge(t('battle.learned'), COLOR.good, 128);
 
     const W = VIEW.width;
-    new Button(this, W / 2, 600, t('btn.next'), () => this.toExplainer(o.explainerId), {
-      fill: o.critical ? COLOR.bad : COLOR.good,
-      height: 52,
-    });
+    new Button(
+      this,
+      W / 2,
+      600,
+      t('btn.next'),
+      () => (isMistake ? this.toExplainer(o.explainerId) : advance(this)),
+      { fill: o.critical ? COLOR.bad : COLOR.good, height: 52 },
+    );
   }
 
   private results(o: Outcome): void {
