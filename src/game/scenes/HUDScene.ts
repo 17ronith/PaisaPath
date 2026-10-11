@@ -4,9 +4,9 @@ import Phaser from 'phaser';
 import { getSession } from '@/app/session';
 import { rupees, t } from '@/shared/i18n';
 import { heartsFor } from '../logic/display';
-import { isMuted, setMuted } from '../audio';
+import { isMuted, onMuteChange, setMuted } from '../audio';
 import { Button } from '../ui/Button';
-import { COLOR, text } from '../ui/theme';
+import { COLOR, text, tr } from '../ui/theme';
 import { VIEW } from '../view';
 
 export const HUD_HEIGHT = 40;
@@ -15,7 +15,12 @@ const HEART = ['.XX.XX.', 'XXXXXXX', 'XXXXXXX', '.XXXXX.', '..XXX..', '...X...']
 
 export class HUDScene extends Phaser.Scene {
   private hearts: Phaser.GameObjects.Image[] = [];
+  private happyLabel!: Phaser.GameObjects.Text;
+  private mapBtn!: Button;
   private wallet!: Phaser.GameObjects.Text;
+  /** ISSUES #29: the wallet figure counts to its new value instead of jumping. */
+  private walletShown: number | null = null;
+  private walletTween?: Phaser.Tweens.Tween;
   private stage!: Phaser.GameObjects.Text;
   private lastKey = '';
 
@@ -35,8 +40,28 @@ export class HUDScene extends Phaser.Scene {
         .setOrigin(0, 0)
         .setScale(2),
     );
+    // ISSUES #13: say what the hearts are.
+    this.happyLabel = text(this, 96, 4, '', 'xs', COLOR.happy);
     this.wallet = text(this, 8, 29, '', 'xs', COLOR.white).setOrigin(0, 0.5);
-    this.stage = text(this, 140, 20, '', 'xs', COLOR.accent).setOrigin(0.5);
+    // ISSUES #16: a way back to the map from the town (battles are the only screen without an exit).
+    this.mapBtn = new Button(
+      this,
+      44,
+      VIEW.height - 28,
+      '◀ ' + tr('btn.map', 'MAP'),
+      () => {
+        const town = this.scene.get('TownMap');
+        if (town && this.scene.isActive('TownMap')) town.scene.start('ChapterMap');
+      },
+      { width: 72, height: 36, size: 'xs', fill: 0x505878 },
+    );
+    this.mapBtn.setVisible(false);
+    this.time.addEvent({
+      delay: 250,
+      loop: true,
+      callback: () => this.mapBtn.setVisible(this.scene.isActive('TownMap')),
+    });
+    this.stage = text(this, 152, 20, '', 'xs', COLOR.accent).setOrigin(0.5);
     const mute = new Button(
       this,
       193,
@@ -48,6 +73,7 @@ export class HUDScene extends Phaser.Scene {
       },
       { width: 34, height: 32, size: 'md', fill: 0x505878 },
     );
+    onMuteChange((m) => mute.setCaption(m ? '×' : '♪')); // stays in sync with the corner toggle
     new Button(this, W - 120, 20, t('btn.info'), () => this.openOverlay('InfoPanel'), {
       width: 58,
       height: 32,
@@ -85,9 +111,53 @@ export class HUDScene extends Phaser.Scene {
     this.lastKey = key;
     const n = heartsFor(s.bars.happiness);
     this.hearts.forEach((h, i) => h.setTexture(i < n ? 'heart_full' : 'heart_empty'));
-    this.wallet.setText(rupees(s.bars.wallet)).setColor(s.bars.wallet < 0 ? '#e04848' : '#ffffff');
+    // number beside the hearts; the word HAPPY is on the battle panel and the Info card
+    this.happyLabel.setText(String(Math.round(s.bars.happiness)));
+    this.animateWallet(s.bars.wallet);
     this.stage
       .setText(`${t('hud.stage', { n: s.stage })}\n${t('hud.month', { n: s.chapter })}`)
       .setAlign('center');
+  }
+
+  /** Count the wallet to `to` over 700 ms (in step with the battle bar), flash green/red and
+   *  float the change (+₹500 / −₹300) up from the figure. First paint is instant. */
+  private animateWallet(to: number): void {
+    const restColor = (v: number): string => (v < 0 ? '#e04848' : '#ffffff');
+    const from = this.walletShown;
+    this.walletShown = to;
+    this.walletTween?.stop();
+    if (from === null || from === to) {
+      this.wallet.setText(rupees(to)).setColor(restColor(to));
+      return;
+    }
+    const up = to > from;
+    this.wallet.setColor(up ? '#7ee07e' : '#ff7a7a');
+    this.walletTween = this.tweens.addCounter({
+      from,
+      to,
+      duration: 700,
+      ease: 'Cubic.easeOut',
+      onUpdate: (tw) => this.wallet.setText(rupees(Math.round(tw.getValue() ?? to))),
+      onComplete: () => this.wallet.setText(rupees(to)).setColor(restColor(to)),
+    });
+    const delta = to - from;
+    const float = text(
+      this,
+      this.wallet.x + this.wallet.width + 6,
+      this.wallet.y,
+      `${up ? '+' : '−'}${rupees(Math.abs(delta))}`,
+      'xs',
+      up ? COLOR.good : COLOR.bad,
+    )
+      .setOrigin(0, 0.5)
+      .setDepth(5);
+    this.tweens.add({
+      targets: float,
+      y: float.y + (up ? -14 : 14),
+      alpha: 0,
+      delay: 350,
+      duration: 900,
+      onComplete: () => float.destroy(),
+    });
   }
 }

@@ -113,3 +113,62 @@ export function townStrip(scene: Phaser.Scene, y: number, w: number, h: number, 
     (f, i) => prop(scene, s * 0.75 + (i * (w - s * 1.5)) / 5, y + h - s * 0.25, f, scale),
   );
 }
+
+// ---- Hyderabad backdrops (ISSUES #18) — original pixel art, 480×270, in public/assets/backdrops ----
+/** places.json id → backdrop file (no extension). Every current place is covered. */
+export const BACKDROP_FOR: Record<string, string> = {
+  home: '10_home',
+  gachibowli: '09_hitec_city',
+  kirana: '11_kirana',
+  college: '12_college',
+  bank: '13_bank',
+  charminar: '01_charminar',
+  mobile_shop: '14_mobile_shop',
+  clinic: '15_clinic',
+  canteen: '16_canteen',
+  bus_stop: '08_bus_stop',
+  turf: '17_turf',
+  durgam_cheruvu: '02_durgam_cheruvu',
+  campus: '18_campus',
+};
+/** Non-battle screens. */
+export const BACKDROP_EXTRA: Record<string, string> = {
+  title: '03_tank_bund_buddha',
+  stage2: '20_office_lobby',
+  stage3: '09_hitec_city',
+  epilogue: '19_home_age60',
+  // Life-journey landmarks on the world map (logic/journey.ts) that no place uses yet.
+  ramoji: '04_film_city',
+  shilparamam: '05_shilparamam',
+  birla: '06_birla_mandir',
+  qutb: '07_qutb_shahi_tombs',
+};
+export const BACKDROP_W = 480;
+export const BACKDROP_H = 270;
+
+export function backdropKey(placeId: string | undefined): string | null {
+  const f = placeId ? BACKDROP_FOR[placeId] : undefined;
+  return f ? `bg_${f}` : null;
+}
+
+/**
+ * Draw a backdrop so it fills the box (cover: scale to the box height, centre, crop the sides).
+ * Returns false if the texture isn't loaded (caller falls back to grassField).
+ */
+export function drawBackdrop(
+  scene: Phaser.Scene,
+  key: string | null,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+): boolean {
+  if (!key || !scene.textures.exists(key)) return false;
+  const scale = Math.max(w / BACKDROP_W, h / BACKDROP_H);
+  const img = scene.add.image(x + w / 2, y + h / 2, key).setScale(scale);
+  // crop to the box so nothing bleeds over the HUD or text box
+  const cropW = w / scale;
+  const cropH = h / scale;
+  img.setCrop((BACKDROP_W - cropW) / 2, (BACKDROP_H - cropH) / 2, cropW, cropH);
+  return true;
+}

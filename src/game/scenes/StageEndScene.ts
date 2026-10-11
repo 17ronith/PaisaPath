@@ -38,7 +38,9 @@ export class StageEndScene extends Phaser.Scene {
     this.cameras.main.fadeIn(600);
     // New life stage, new scene: office lobby (first job), HITEC City (earning more),
     // Tank Bund at night (the long years before 60).
-    const sceneKey = ({ 1: 'bg_office', 2: 'bg_hitec', 3: 'bg_tankbund' } as const)[st0.stage];
+    const sceneKey = (
+      { 1: 'bg_20_office_lobby', 2: 'bg_09_hitec_city', 3: 'bg_03_tank_bund_buddha' } as const
+    )[st0.stage];
     if (this.textures.exists(sceneKey)) {
       this.add
         .image(W / 2, 0, sceneKey)

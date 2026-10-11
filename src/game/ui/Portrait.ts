@@ -6,6 +6,7 @@ import { COLOR, text } from './theme';
 
 /** Speaker words → NPC texture made in PreloadScene. First match wins. */
 const ROLES: [RegExp, string][] = [
+  [/professor|sir|teacher/i, 'npc_clerk'],
   [/aunty|aunt/i, 'npc_aunty'],
   [
     /caller|unknown|officer|agent|scam|recruiter|stranger|app|upi|sms|message|refund|link|lender/i,

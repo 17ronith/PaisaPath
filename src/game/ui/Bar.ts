@@ -26,6 +26,15 @@ function lighten(c: number, amt: number): number {
   return (l(r) << 16) | (l(g) << 8) | l(b);
 }
 
+/** Darken a 0xRRGGBB colour toward black by `amt` (0..1). */
+function darken(c: number, amt: number): number {
+  const d = (v: number): number => Math.round(v * (1 - amt));
+  return (d((c >> 16) & 0xff) << 16) | (d((c >> 8) & 0xff) << 8) | d(c & 0xff);
+}
+
+/** ISSUES #32: pixel segments every SEG px give the bars an HP-bar texture. */
+const SEG = 6;
+
 export class Bar extends Phaser.GameObjects.Container {
   private opts: Required<Omit<BarOpts, 'hideValue'>> & { hideValue: boolean };
   private fill: Phaser.GameObjects.Graphics;
@@ -43,6 +52,11 @@ export class Bar extends Phaser.GameObjects.Container {
     const track = scene.add.graphics();
     track.fillStyle(COLOR.panelEdge, 1).fillRoundedRect(0, TRACK_Y, width, TRACK_H, 3);
     track.fillStyle(0x3a4256, 1).fillRoundedRect(1.5, TRACK_Y + 1.5, width - 3, TRACK_H - 3, 2);
+    // inset shadow on the empty track + faint segment notches, so even an empty bar has texture
+    track.fillStyle(0x262c3a, 1).fillRect(2, TRACK_Y + 1.5, width - 4, 1.5);
+    track.fillStyle(0x2e3546, 1);
+    for (let sx = 1.5 + SEG; sx < width - 3; sx += SEG)
+      track.fillRect(sx, TRACK_Y + 3, 1, TRACK_H - 4.5);
     this.fill = scene.add.graphics();
     this.add([label, this.valueText, track, this.fill]);
     scene.add.existing(this);
@@ -90,7 +104,13 @@ export class Bar extends Phaser.GameObjects.Container {
     if (w >= 1) {
       const h = TRACK_H - 3;
       g.fillStyle(base, 1).fillRoundedRect(1.5, TRACK_Y + 1.5, w, h, Math.min(2, w / 2));
+      // bottom shade + top highlight + a brighter glint at the leading edge
+      g.fillStyle(darken(base, 0.28), 1).fillRect(2, TRACK_Y + h, Math.max(0, w - 1), 1.5);
       g.fillStyle(lighten(base, 0.35), 1).fillRect(2.5, TRACK_Y + 2.5, Math.max(0, w - 2), 1.5);
+      g.fillStyle(lighten(base, 0.7), 1).fillRect(Math.max(2.5, w - 1.5), TRACK_Y + 2.5, 1.5, 1.5);
+      // segment notches across the fill
+      g.fillStyle(darken(base, 0.22), 1);
+      for (let sx = 1.5 + SEG; sx < 1.5 + w - 1; sx += SEG) g.fillRect(sx, TRACK_Y + 3, 1, h - 2);
     }
     this.valueText.setText(this.opts.format(v));
   }

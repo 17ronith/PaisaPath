@@ -20,5 +20,7 @@ async function maybeLoadDemoSave(): Promise<void> {
 // Session first (loads + localizes content), then Phaser.
 void maybeLoadDemoSave().then(() => {
   getSession();
-  new Phaser.Game(phaserConfig);
+  const game = new Phaser.Game(phaserConfig);
+  // dev only: lets Playwright scripts jump straight to a scene (demo recording, visual checks)
+  if (import.meta.env?.DEV) (globalThis as Record<string, unknown>).__lmGame = game;
 });

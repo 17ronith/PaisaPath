@@ -92,3 +92,10 @@ Ronith: change `Status:` lines only; never delete blocks.
 - What: `ISSUES.md` at the repo root is the fix list, in Monish's original words, with an attack order for you (8 → 18 → 7 → 6 → 13 → 16 first). Flip each row to DONE <sha> as you merge. Per-item directions remain in `docs/plan/PLAYTEST-01.md`.
 - Why: the demo is judged on these; nothing else in your file outranks them before 06:00.
 - Accept when: every Ronith row in ISSUES.md is ✅ or carries a DECLINED reason.
+
+### R-monish-10 · Teaching moments = the Professor (ISSUES #17 + #10, redefined by Monish 05:40)
+- From: monish · To: ronith · At: 05:40 · Priority: P1
+- Status: OPEN
+- What: in `BattleScene` after `choose()`: bars animate → Professor portrait (key `professor`, 32×32, you draw it; falls back to the current guide portrait until then) slides in beside the text box → **weak/critical:** show `o.lesson`, tap → `Explainer(o.explainerId)`, then detour/restart as now · **good/ok:** show one of `professor.praise.1..4` (use `tr()` with English fallbacks until Aakarsh adds them), tap → continue, **no Explainer**. Replay library unchanged (engine still records the explainer). Full spec: `docs/plan/PLAYTEST-01.md` rows 17 and 10.
+- Why: the team's redefinition of #17: the lesson lands after the consequence, and a good choice is rewarded in one beat instead of a 15-second animation.
+- Accept when: a weak choice shows lesson → animation; a good choice shows praise → next step with no animation; `npm run check` green.

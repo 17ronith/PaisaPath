@@ -136,5 +136,51 @@
       "options": ["The umbrella-only vendor", "The one selling both", "They earn the same"],
       "answer": 1
     }
+  ],
+  "quizAfter": [
+    {
+      "id": "A1",
+      "concept": "time_value",
+      "pillar": "invest",
+      "text": "A savings account pays 5% a year. Which is worth more to you today?",
+      "options": ["₹500 today", "₹520 five years from now", "They are worth the same"],
+      "answer": 0
+    },
+    {
+      "id": "A2",
+      "concept": "cost_of_borrowing",
+      "pillar": "budget",
+      "text": "A loan app lends you ₹2,000 and wants ₹2,300 back after one month. The interest is what percent of what you borrowed?",
+      "options": ["3%", "15%", "30%", "115%"],
+      "answer": 1
+    },
+    {
+      "id": "A3",
+      "concept": "compounding",
+      "pillar": "invest",
+      "text": "Riya and Sam each save ₹1,000 at 10% a year. Riya leaves the interest in; Sam takes it out every year. After 3 years, who has more?",
+      "options": ["Riya", "Sam", "Both have the same"],
+      "answer": 0
+    },
+    {
+      "id": "A4",
+      "concept": "inflation",
+      "pillar": "invest",
+      "text": "Your savings grow 4% a year, but prices go up 6% a year. After one year, your savings can buy:",
+      "options": ["More than now", "The same as now", "Less than now"],
+      "answer": 2
+    },
+    {
+      "id": "A5",
+      "concept": "diversification",
+      "pillar": "invest",
+      "text": "You have ₹3,000 to put into small businesses. Which is safer?",
+      "options": [
+        "All ₹3,000 in one stall a friend says can't fail",
+        "₹1,000 each in three different businesses",
+        "Both are equally safe"
+      ],
+      "answer": 1
+    }
   ]
 }

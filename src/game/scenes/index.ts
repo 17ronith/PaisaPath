@@ -22,6 +22,7 @@ import { HUDScene } from './HUDScene';
 import { InfoPanelScene } from './InfoPanelScene';
 import { ReplayLibraryScene } from './ReplayLibraryScene';
 import { ExplainerScene } from './ExplainerScene';
+import { SoundScene } from './SoundScene';
 
 export const scenes: (typeof Phaser.Scene)[] = [
   BootScene, // first = auto-started
@@ -45,4 +46,5 @@ export const scenes: (typeof Phaser.Scene)[] = [
   ReplayLibraryScene,
   ExplainerScene,
   ...(Object.values(minigameScenes) as (typeof Phaser.Scene)[]),
+  SoundScene, // ISSUES #25: always on top
 ];

@@ -232,6 +232,7 @@ export const ContentPackSchema = z.object({
   personas: z.array(PersonaSchema).length(3),
   lifeQuestions: z.array(LifeQuestionSchema).length(4),
   quiz: z.array(QuizQuestionSchema).length(5),
+  quizAfter: z.array(QuizQuestionSchema).max(5).optional(),
   concepts: z.array(ConceptSchema).min(1),
   tasks: z.array(TaskSchema).min(1),
   events: z.array(RandomEventSchema),
