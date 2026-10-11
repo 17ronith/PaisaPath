@@ -6,7 +6,7 @@ import { rupees, t } from '@/shared/i18n';
 import { heartsFor } from '../logic/display';
 import { isMuted, setMuted } from '../audio';
 import { Button } from '../ui/Button';
-import { COLOR, text } from '../ui/theme';
+import { COLOR, text, tr } from '../ui/theme';
 import { VIEW } from '../view';
 
 export const HUD_HEIGHT = 40;
@@ -15,6 +15,8 @@ const HEART = ['.XX.XX.', 'XXXXXXX', 'XXXXXXX', '.XXXXX.', '..XXX..', '...X...']
 
 export class HUDScene extends Phaser.Scene {
   private hearts: Phaser.GameObjects.Image[] = [];
+  private happyLabel!: Phaser.GameObjects.Text;
+  private mapBtn!: Button;
   private wallet!: Phaser.GameObjects.Text;
   private stage!: Phaser.GameObjects.Text;
   private lastKey = '';
@@ -35,8 +37,28 @@ export class HUDScene extends Phaser.Scene {
         .setOrigin(0, 0)
         .setScale(2),
     );
+    // ISSUES #13: say what the hearts are.
+    this.happyLabel = text(this, 96, 4, '', 'xs', COLOR.happy);
     this.wallet = text(this, 8, 29, '', 'xs', COLOR.white).setOrigin(0, 0.5);
-    this.stage = text(this, 140, 20, '', 'xs', COLOR.accent).setOrigin(0.5);
+    // ISSUES #16: a way back to the map from the town (battles are the only screen without an exit).
+    this.mapBtn = new Button(
+      this,
+      44,
+      VIEW.height - 28,
+      '◀ ' + tr('btn.map', 'MAP'),
+      () => {
+        const town = this.scene.get('TownMap');
+        if (town && this.scene.isActive('TownMap')) town.scene.start('ChapterMap');
+      },
+      { width: 72, height: 36, size: 'xs', fill: 0x505878 },
+    );
+    this.mapBtn.setVisible(false);
+    this.time.addEvent({
+      delay: 250,
+      loop: true,
+      callback: () => this.mapBtn.setVisible(this.scene.isActive('TownMap')),
+    });
+    this.stage = text(this, 152, 20, '', 'xs', COLOR.accent).setOrigin(0.5);
     const mute = new Button(
       this,
       193,
@@ -85,6 +107,8 @@ export class HUDScene extends Phaser.Scene {
     this.lastKey = key;
     const n = heartsFor(s.bars.happiness);
     this.hearts.forEach((h, i) => h.setTexture(i < n ? 'heart_full' : 'heart_empty'));
+    // number beside the hearts; the word HAPPY is on the battle panel and the Info card
+    this.happyLabel.setText(String(Math.round(s.bars.happiness)));
     this.wallet.setText(rupees(s.bars.wallet)).setColor(s.bars.wallet < 0 ? '#e04848' : '#ffffff');
     this.stage
       .setText(`${t('hud.stage', { n: s.stage })}\n${t('hud.month', { n: s.chapter })}`)

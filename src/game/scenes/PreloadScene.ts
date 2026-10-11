@@ -3,6 +3,7 @@
 // Anything missing falls back to code-drawn placeholders, so a bad path never blocks play.
 import Phaser from 'phaser';
 import { AVATARS } from '../logic/onboarding';
+import { BACKDROP_EXTRA, BACKDROP_FOR } from '../ui/Backdrop';
 import { PANEL_KEYS } from '../ui/PixelPanel';
 import { COLOR, text } from '../ui/theme';
 import { VIEW } from '../view';
@@ -95,6 +96,9 @@ export class PreloadScene extends Phaser.Scene {
     for (const [key, url] of Object.entries(SHEETS))
       this.load.spritesheet(key, url, { frameWidth: 16, frameHeight: 16 });
     for (const [key, url] of Object.entries(NINE_SLICES)) this.load.image(key, url);
+    // Hyderabad backdrops (ISSUES #18): 21 × 480×270 PNGs, ~370 KB total.
+    for (const f of new Set([...Object.values(BACKDROP_FOR), ...Object.values(BACKDROP_EXTRA)]))
+      this.load.image(`bg_${f}`, `assets/backdrops/${f}.png`);
   }
 
   async create(): Promise<void> {

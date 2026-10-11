@@ -12,7 +12,7 @@ import { Bar } from '../ui/Bar';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { Portrait, portraitKey } from '../ui/Portrait';
-import { grassField } from '../ui/Backdrop';
+import { backdropKey, drawBackdrop, grassField } from '../ui/Backdrop';
 import { TextBox } from '../ui/TextBox';
 import { COLOR, text, tr } from '../ui/theme';
 import { VIEW } from '../view';
@@ -63,9 +63,10 @@ export class BattleScene extends Phaser.Scene {
     const task = isTask ? (this.step as Extract<Step, { kind: 'task' }>).task : null;
     const bars = game.state.bars;
 
-    // Arena: grass field with two dirt platforms, like the DS battle screen.
+    // Arena: the place's Hyderabad backdrop (ISSUES #18), grass field as the fallback.
     this.cameras.main.setBackgroundColor(COLOR.bg);
-    grassField(this, 0, 40, W, ARENA_BOTTOM - 40, 2, 3);
+    if (!drawBackdrop(this, backdropKey(framing.place), 0, 40, W, ARENA_BOTTOM - 40))
+      grassField(this, 0, 40, W, ARENA_BOTTOM - 40, 2, 3);
     this.add.rectangle(0, ARENA_BOTTOM - 2, W, 3, COLOR.panelEdge).setOrigin(0, 0);
     platform(this, 284, 150, 124);
     platform(this, 86, 266, 140);

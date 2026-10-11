@@ -67,7 +67,14 @@ export class QuizScene extends Phaser.Scene {
     const { width: W } = VIEW;
     this.root.removeAll(true);
     this.root.add(
-      text(this, W / 2, 36, `${i + 1} / ${quiz.length}`, 'sm', COLOR.accent).setOrigin(0.5),
+      text(
+        this,
+        W / 2,
+        36,
+        `${(this.mode === 'before' ? t('quiz.before_title') : t('quiz.after_title')).toUpperCase()} · ${t('quiz.progress', { n: i + 1, total: quiz.length })}`,
+        'xs',
+        COLOR.accent,
+      ).setOrigin(0.5),
     );
     const panel = new PixelPanel(this, 20, 64, W - 40, 170);
     panel.add(
