@@ -68,14 +68,21 @@ export class MarketScene extends Phaser.Scene {
   /** The footer line; hidden while a toast takes its place. */
   private footText: Phaser.GameObjects.Text | null = null;
 
+  /** The screen that opened the Market, restarted as it was on exit. */
+  private back: { key: string; data?: object } = { key: 'WorldMap' };
+
   constructor() {
     super('Market');
+  }
+
+  init(data: { back?: { key: string; data?: object } }): void {
+    this.back = data?.back ?? { key: 'WorldMap' };
   }
 
   create(): void {
     const game = getSession().game;
     if (!game?.market) {
-      this.scene.start('ChapterMap');
+      this.scene.start(this.back.key, this.back.data);
       return;
     }
     this.api = game.market;
@@ -917,6 +924,6 @@ export class MarketScene extends Phaser.Scene {
   private exit(): void {
     this.api.close();
     this.hud(true);
-    this.scene.start('ChapterMap');
+    this.scene.start(this.back.key, this.back.data);
   }
 }

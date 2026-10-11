@@ -13,13 +13,12 @@ export const HUD_HEIGHT = 40;
 
 const HEART = ['.XX.XX.', 'XXXXXXX', 'XXXXXXX', '.XXXXX.', '..XXX..', '...X...'];
 
-/** MARKET button height on each map: above the town's hint strip, above the chapter panel. */
-const MARKET_BTN_Y = { town: 536, chapter: 404 } as const;
+/** Screens the Market can be opened from (and returns to). */
+const MARKET_FROM = ['WorldMap', 'Landmark'];
 
 export class HUDScene extends Phaser.Scene {
   private hearts: Phaser.GameObjects.Image[] = [];
   private happyLabel!: Phaser.GameObjects.Text;
-  private mapBtn!: Button;
   private marketBtn!: Button;
   private wallet!: Phaser.GameObjects.Text;
   /** ISSUES #29: the wallet figure counts to its new value instead of jumping. */
@@ -47,46 +46,31 @@ export class HUDScene extends Phaser.Scene {
     // ISSUES #13: say what the hearts are.
     this.happyLabel = text(this, 96, 4, '', 'xs', COLOR.happy);
     this.wallet = text(this, 8, 29, '', 'xs', COLOR.white).setOrigin(0, 0.5);
-    // ISSUES #16: a way back to the map from the town (battles are the only screen without an exit).
-    this.mapBtn = new Button(
-      this,
-      44,
-      VIEW.height - 28,
-      '◀ ' + tr('btn.map', 'MAP'),
-      () => {
-        const town = this.scene.get('TownMap');
-        if (town && this.scene.isActive('TownMap')) town.scene.start('ChapterMap');
-      },
-      { width: 72, height: 36, size: 'xs', fill: 0x505878 },
-    );
-    this.mapBtn.setVisible(false);
-    // Charminar Market device (docs/plan/STOCKS.md): unlocks from chapter 5; opens from the map/town.
+    // Charminar Market device (docs/plan/STOCKS.md): unlocks from chapter 5; opens from the
+    // world map or a landmark hub (whose ◀ MAP covers ISSUES #16), as a chip under the HUD bar so
+    // it never sits on their big bottom buttons. The Market returns to the screen it came from.
     this.marketBtn = new Button(
       this,
-      VIEW.width - 60,
-      VIEW.height - 28,
+      VIEW.width - 58,
+      88,
       '📈 ' + tr('btn.market', 'MARKET'),
       () => {
-        const from = this.scene.isActive('TownMap') ? 'TownMap' : 'ChapterMap';
-        if (this.scene.isActive(from)) this.scene.get(from).scene.start('Market');
+        const from = MARKET_FROM.find((k) => this.scene.isActive(k));
+        if (!from) return;
+        const s = this.scene.get(from);
+        s.scene.start('Market', { back: { key: from, data: s.sys.settings.data } });
       },
-      { width: 104, height: 36, size: 'xs', fill: COLOR.money },
+      { width: 104, height: 32, size: 'xs', fill: COLOR.money },
     );
     this.marketBtn.setVisible(false);
     this.time.addEvent({
       delay: 250,
       loop: true,
       callback: () => {
-        this.mapBtn.setVisible(this.scene.isActive('TownMap'));
         const g = getSession().game;
-        const onMap = this.scene.isActive('ChapterMap') || this.scene.isActive('TownMap');
+        const onMap = MARKET_FROM.some((k) => this.scene.isActive(k));
         this.marketBtn.setVisible(
           !!g?.market?.eligible() && onMap && !this.scene.isActive('Market'),
-        );
-        // sit just above each map's full-width GO bar instead of on top of it
-        this.marketBtn.setPosition(
-          VIEW.width - 60,
-          this.scene.isActive('TownMap') ? MARKET_BTN_Y.town : MARKET_BTN_Y.chapter,
         );
       },
     });
