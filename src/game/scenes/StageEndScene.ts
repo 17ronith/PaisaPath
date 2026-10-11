@@ -9,7 +9,7 @@ import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
 import { charScale } from '../ui/chars';
-import { VIEW } from '../view';
+import { fromBottom, VIEW } from '../view';
 
 type StageEnd = Extract<Step, { kind: 'stage_end' }>;
 const total = (p: Portfolio): number => Object.values(p).reduce<number>((a, b) => a + (b ?? 0), 0);
@@ -140,7 +140,9 @@ export class StageEndScene extends Phaser.Scene {
         COLOR.muted,
       ).setOrigin(0.5, 0);
     }
-    new Button(this, W / 2, 596, t('btn.next'), () => proceed(this), { fill: COLOR.good });
+    new Button(this, W / 2, fromBottom(596), t('btn.next'), () => proceed(this), {
+      fill: COLOR.good,
+    });
   }
 
   /** Cumulative value line from yearly % returns; red years dip. */

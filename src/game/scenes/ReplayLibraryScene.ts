@@ -6,7 +6,7 @@ import type { Explainer, Pillar } from '@/shared/types';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
-import { VIEW } from '../view';
+import { fromBottom, VIEW } from '../view';
 
 const PILLARS: Pillar[] = ['budget', 'save', 'invest', 'safety'];
 const PILLAR_FILL: Record<Pillar, number> = {
@@ -26,7 +26,7 @@ export class ReplayLibraryScene extends Phaser.Scene {
     const game = s.game;
     const { width: W, height: H } = VIEW;
     this.add.rectangle(0, 0, W, H, 0x000000, 0.6).setOrigin(0).setInteractive();
-    const p = new PixelPanel(this, 12, 44, W - 24, 500);
+    const p = new PixelPanel(this, 12, 44, W - 24, fromBottom(500));
     p.add(text(this, 14, 12, tr('replay.title', 'Replay library'), 'md', COLOR.ink));
 
     const seen = new Set(game?.state.seenExplainers ?? []);
@@ -56,7 +56,7 @@ export class ReplayLibraryScene extends Phaser.Scene {
       text(this, 26, y, tr(`pillar.${pillar}`, pillar), 'xs', COLOR.muted);
       y += 22;
       for (const x of items) {
-        if (y > 520) break;
+        if (y > fromBottom(520)) break;
         new Button(this, W / 2, y + 20, x.title, () => this.play(x.id), {
           width: W - 52,
           height: 42,
@@ -69,7 +69,7 @@ export class ReplayLibraryScene extends Phaser.Scene {
       y += 6;
     }
 
-    new Button(this, W / 2, 586, tr('btn.close', 'CLOSE'), () => this.scene.stop(), {
+    new Button(this, W / 2, fromBottom(586), tr('btn.close', 'CLOSE'), () => this.scene.stop(), {
       fill: 0x56684a,
       height: 50,
     });

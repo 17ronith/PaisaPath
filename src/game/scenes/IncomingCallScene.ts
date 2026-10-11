@@ -12,7 +12,7 @@ import { say, stopVoice } from '../voice';
 import { backdropKey, drawBackdrop } from '../ui/Backdrop';
 import { portraitKey } from '../ui/Portrait';
 import { COLOR, text, tr } from '../ui/theme';
-import { VIEW } from '../view';
+import { fromBottom, VIEW } from '../view';
 
 export interface IncomingCallData {
   caller: string;
@@ -26,7 +26,7 @@ export interface IncomingCallData {
 
 const RING_MS = 2600;
 const PHOTO_Y = 226;
-const BTN_Y = 548;
+const BTN_Y = fromBottom(548);
 const SPAM = 0xff9f43;
 
 export class IncomingCallScene extends Phaser.Scene {
@@ -238,10 +238,10 @@ export class IncomingCallScene extends Phaser.Scene {
     this.clock = text(this, W / 2, PHOTO_Y + 168, '00:00', 'md', COLOR.white).setOrigin(0.5);
 
     // The caller's line as live subtitles, voiced. Nobody else speaks.
-    const panel = this.add.rectangle(16, 410, W - 32, 92, 0x000000, 0.55).setOrigin(0);
+    const panel = this.add.rectangle(16, fromBottom(410), W - 32, 92, 0x000000, 0.55).setOrigin(0);
     panel.setStrokeStyle(2, 0xffffff, 0.15);
-    text(this, 28, 418, this.callerName(), 'xs', SPAM);
-    const sub = text(this, 28, 436, '', 'sm', COLOR.white, {
+    text(this, 28, fromBottom(418), this.callerName(), 'xs', SPAM);
+    const sub = text(this, 28, fromBottom(436), '', 'sm', COLOR.white, {
       wordWrap: { width: W - 60, useAdvancedWrap: true },
     });
     const line = this.call.line.replace(/^'|'$/g, '');

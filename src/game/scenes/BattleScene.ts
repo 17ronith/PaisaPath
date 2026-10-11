@@ -17,7 +17,7 @@ import { backdropKey, drawBackdrop, grassField } from '../ui/Backdrop';
 import { TextBox } from '../ui/TextBox';
 import { COLOR, text, tr } from '../ui/theme';
 import { charScale } from '../ui/chars';
-import { VIEW } from '../view';
+import { fromBottom, VIEW } from '../view';
 
 type BattleStep = Extract<Step, { kind: 'task' } | { kind: 'event' }>;
 
@@ -232,7 +232,7 @@ export class BattleScene extends Phaser.Scene {
       const col = i % cols;
       const row = Math.floor(i / cols);
       const x = cols === 1 ? W / 2 : 12 + bw / 2 + col * (bw + 12);
-      const y = 466 + row * 92;
+      const y = fromBottom(466) + row * 92;
       const b = new Button(this, x, y, c.text, () => this.pick(c.id), {
         width: bw,
         height: 80,
@@ -297,7 +297,7 @@ export class BattleScene extends Phaser.Scene {
     new Button(
       this,
       W / 2,
-      600,
+      fromBottom(600),
       t('btn.next'),
       () =>
         isMistake
@@ -331,7 +331,7 @@ export class BattleScene extends Phaser.Scene {
       wordWrap: { width: W - 48, useAdvancedWrap: true },
     });
     const h = Math.min(150, Math.max(40, body.height + 22));
-    const p = new PixelPanel(this, 12, 424, W - 24, h, { variant: 'card' });
+    const p = new PixelPanel(this, 12, fromBottom(424), W - 24, h, { variant: 'card' });
     p.add(body);
   }
 

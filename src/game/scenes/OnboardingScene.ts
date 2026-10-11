@@ -19,7 +19,7 @@ import { COLOR, text, tr } from '../ui/theme';
 import { charScale } from '../ui/chars';
 import { disposeInput, htmlInput } from '../ui/HtmlInput';
 import { overMap } from '../flow/journeyState';
-import { VIEW } from '../view';
+import { fromBottom, VIEW } from '../view';
 
 type StepId = 'who' | 'setup' | 'handover' | 'avatar' | 'name' | LifeQuestion['id'] | 'persona';
 
@@ -133,7 +133,9 @@ export class OnboardingScene extends Phaser.Scene {
       frames.push(frame);
       this.root.add([frame, img]);
     });
-    this.root.add(new Button(this, W / 2, 570, t('btn.next'), () => this.go(1, 'avatar')));
+    this.root.add(
+      new Button(this, W / 2, fromBottom(570), t('btn.next'), () => this.go(1, 'avatar')),
+    );
   }
 
   private showName(): void {
@@ -165,7 +167,7 @@ export class OnboardingScene extends Phaser.Scene {
       label: t('onboard.name'),
     });
     this.nameInput = el;
-    const next = new Button(this, W / 2, 570, t('btn.next'), () => {
+    const next = new Button(this, W / 2, fromBottom(570), t('btn.next'), () => {
       const name = sanitizeName(el.value);
       if (!name) {
         el.focus();
@@ -352,7 +354,7 @@ export class OnboardingScene extends Phaser.Scene {
       ).setOrigin(0.5),
     );
 
-    const next = new Button(this, W / 2, 570, t('btn.next'), () => {
+    const next = new Button(this, W / 2, fromBottom(570), t('btn.next'), () => {
       const code = batch.value.trim().toUpperCase();
       if (!code) {
         batch.focus();
@@ -396,8 +398,12 @@ export class OnboardingScene extends Phaser.Scene {
       ).setOrigin(0.5),
     );
     this.root.add(
-      new Button(this, W / 2, 570, tr('onboard.handover_go', "I'm the student, let's start"), () =>
-        this.go(1, 'handover'),
+      new Button(
+        this,
+        W / 2,
+        fromBottom(570),
+        tr('onboard.handover_go', "I'm the student, let's start"),
+        () => this.go(1, 'handover'),
       ),
     );
   }
@@ -451,7 +457,7 @@ export class OnboardingScene extends Phaser.Scene {
       new Button(
         this,
         W / 2,
-        575,
+        fromBottom(575),
         t('btn.confirm'),
         () => {
           const draft: ProfileDraft = { ...this.draftWithSetup(), persona: this.persona };

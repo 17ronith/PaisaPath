@@ -9,7 +9,7 @@ import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
 import { overMap } from '../flow/journeyState';
-import { VIEW } from '../view';
+import { fromBottom, VIEW } from '../view';
 
 export class WhatIfScene extends Phaser.Scene {
   constructor() {
@@ -72,11 +72,12 @@ export class WhatIfScene extends Phaser.Scene {
       w.altEnd.savings +
       w.altPortfolioTotal -
       (w.actualEnd.wallet + w.actualEnd.savings + w.actualPortfolioTotal);
-    if (diff > 0) text(this, W / 2, 470, `+${rupees(diff)}`, 'xl', COLOR.good).setOrigin(0.5);
+    if (diff > 0)
+      text(this, W / 2, fromBottom(470), `+${rupees(diff)}`, 'xl', COLOR.good).setOrigin(0.5);
     text(
       this,
       W / 2,
-      510,
+      fromBottom(510),
       tr('whatif.private', 'Not sent to anyone. This is just for you.'),
       'xs',
       COLOR.muted,
@@ -85,7 +86,9 @@ export class WhatIfScene extends Phaser.Scene {
         wordWrap: { width: W - 40 },
       },
     ).setOrigin(0.5);
-    new Button(this, W / 2, 596, t('btn.next'), () => proceed(this), { fill: COLOR.good });
+    new Button(this, W / 2, fromBottom(596), t('btn.next'), () => proceed(this), {
+      fill: COLOR.good,
+    });
   }
 
   private column(

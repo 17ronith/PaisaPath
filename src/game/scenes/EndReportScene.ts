@@ -12,7 +12,7 @@ import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
 import { disposeInput, htmlInput } from '../ui/HtmlInput';
 import { overMap } from '../flow/journeyState';
-import { VIEW } from '../view';
+import { fromBottom, VIEW } from '../view';
 
 const PILLARS: Pillar[] = ['budget', 'save', 'invest', 'safety'];
 
@@ -41,7 +41,9 @@ export class EndReportScene extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => this.closeForm());
     text(this, W / 2, 30, t('report.title'), 'lg', COLOR.white).setOrigin(0.5);
     if (!sum) {
-      new Button(this, W / 2, 596, t('btn.play_again'), () => this.scene.start('Title'));
+      new Button(this, W / 2, fromBottom(596), t('btn.play_again'), () =>
+        this.scene.start('Title'),
+      );
       return;
     }
 
@@ -100,18 +102,18 @@ export class EndReportScene extends Phaser.Scene {
     );
     line(tr('report.disclaimer', 'An in-game score, not a certification.'), 'xs', COLOR.muted);
 
-    this.status = text(this, W / 2, 446, '', 'xs', COLOR.accent, {
+    this.status = text(this, W / 2, fromBottom(446), '', 'xs', COLOR.accent, {
       align: 'center',
       wordWrap: { width: W - 30, useAdvancedWrap: true },
     }).setOrigin(0.5, 0);
 
     const bw = (W - 36) / 2;
-    new Button(this, 12 + bw / 2, 512, t('btn.download'), () => void this.download(), {
+    new Button(this, 12 + bw / 2, fromBottom(512), t('btn.download'), () => void this.download(), {
       width: bw,
       height: 50,
       size: 'sm',
     });
-    new Button(this, W - 12 - bw / 2, 512, t('btn.email'), () => this.openForm(), {
+    new Button(this, W - 12 - bw / 2, fromBottom(512), t('btn.email'), () => this.openForm(), {
       width: bw,
       height: 50,
       size: 'sm',
@@ -120,7 +122,7 @@ export class EndReportScene extends Phaser.Scene {
     new Button(
       this,
       12 + bw / 2,
-      574,
+      fromBottom(574),
       tr('btn.facilitator', 'FACILITATOR VIEW'),
       () => window.open('./ngo/index.html', '_blank'),
       {
@@ -133,7 +135,7 @@ export class EndReportScene extends Phaser.Scene {
     new Button(
       this,
       W - 12 - bw / 2,
-      574,
+      fromBottom(574),
       t('btn.play_again'),
       () => {
         void s.reset().then(() => this.scene.start('Title'));
