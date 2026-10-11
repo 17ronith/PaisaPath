@@ -119,7 +119,7 @@ def main():
         'keys': [k for k in keys if k in wanted],
     }
     with open(MANIFEST, 'w') as f:
-        json.dump(manifest, f, indent=1)
+        json.dump(manifest, f, indent=2)
         f.write('\n')
     print(f'made {made}, kept {skipped}, manifest {len(manifest["keys"])}/{len(wanted)} lines',
           file=sys.stderr)
