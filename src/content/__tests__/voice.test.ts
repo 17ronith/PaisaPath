@@ -44,7 +44,7 @@ describe('voice-over lines', () => {
 describe('voice-over clips', () => {
   it('every clip in the manifest exists as a small file under public/assets/voice', () => {
     for (const k of manifest.keys) {
-      const file = resolve(__dirname, '../../../public/assets/voice', `${k}.m4a`);
+      const file = resolve(__dirname, '../../../public/assets/voice', `${k}.mp3`);
       expect(existsSync(file), k).toBe(true);
       expect(statSync(file).size).toBeLessThan(150_000);
     }

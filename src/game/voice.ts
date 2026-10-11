@@ -68,7 +68,7 @@ function playClip(line: string, done: () => void): void {
     // missing file or unsupported codec: try the device voice before giving up
     if (!speakWithDevice(line, done)) done();
   };
-  audio.src = `${import.meta.env.BASE_URL}assets/voice/${voiceKey(line)}.m4a`;
+  audio.src = `${import.meta.env.BASE_URL}assets/voice/${voiceKey(line)}.mp3`;
   audio.play().catch(() => done());
 }
 

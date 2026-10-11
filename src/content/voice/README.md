@@ -9,7 +9,7 @@ the quiz are not.
 - `key.ts` turns a line into its clip name (FNV-1a of the exact text). The game looks clips up by the
   text on screen, so an edited line goes silent (or uses the device voice) instead of saying old words.
 - `generate.py` makes the clips with **Kokoro-82M** (Apache-2.0, runs offline, free) into
-  `public/assets/voice/<key>.m4a`, and writes `manifest.json`.
+  `public/assets/voice/<key>.mp3`, and writes `manifest.json`.
 - `npm run validate:content` warns when a line has no clip.
 
 ## Regenerate after editing lines (only new/changed lines are synthesised)

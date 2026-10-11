@@ -5,7 +5,7 @@
 
 Needs: pip install kokoro-onnx soundfile; ffmpeg on PATH. Model files from
 https://github.com/thewh1teagle/kokoro-onnx/releases/tag/model-files-v1.0
-Writes public/assets/voice/<key>.m4a (AAC, mono) for every line that doesn't have one yet, and
+Writes public/assets/voice/<key>.mp3 (mono; MP3 plays in every browser) for every line that doesn't have one yet, and
 src/content/voice/manifest.json listing the keys that exist. Keys must match key.ts (FNV-1a).
 """
 import argparse, json, os, re, subprocess, sys, tempfile, unicodedata
@@ -80,7 +80,7 @@ def main():
     ap.add_argument('lines')
     ap.add_argument('--model', required=True)
     ap.add_argument('--voices', required=True)
-    ap.add_argument('--bitrate', default='40k')
+    ap.add_argument('--bitrate', default='48k')
     args = ap.parse_args()
 
     from kokoro_onnx import Kokoro
@@ -93,7 +93,7 @@ def main():
     for i, line in enumerate(lines):
         k = key(line['text'])
         assert k == line['key'], f"key mismatch for {line['where']}: {k} != {line['key']}"
-        out = os.path.join(OUT_DIR, f'{k}.m4a')
+        out = os.path.join(OUT_DIR, f'{k}.mp3')
         if os.path.exists(out):
             skipped += 1
             continue
@@ -103,14 +103,16 @@ def main():
         samples, sr = kokoro.create(speakable(line['text'], lang), voice=voice, speed=speed, lang=espeak)
         with tempfile.NamedTemporaryFile(suffix='.wav') as wav:
             sf.write(wav.name, samples, sr)
+            part = out + '.part.mp3'  # renamed when complete, so a second worker never sees half a file
             subprocess.run(['ffmpeg', '-loglevel', 'error', '-y', '-i', wav.name, '-ac', '1', '-ar', '24000',
-                            '-af', 'loudnorm=I=-18:TP=-2', '-c:a', 'aac', '-b:a', args.bitrate,
-                            '-movflags', '+faststart', out], check=True)
+                            '-af', 'loudnorm=I=-18:TP=-2', '-c:a', 'libmp3lame', '-b:a', args.bitrate,
+                            part], check=True)
+            os.replace(part, out)
         made += 1
         if made % 25 == 0:
             print(f'{i + 1}/{len(lines)} …', file=sys.stderr, flush=True)
 
-    keys = sorted(f[:-4] for f in os.listdir(OUT_DIR) if f.endswith('.m4a'))
+    keys = sorted(f[:-4] for f in os.listdir(OUT_DIR) if f.endswith('.mp3') and '.part' not in f)
     wanted = {l['key'] for l in lines}
     manifest = {
         'engine': 'Kokoro-82M v1.0 (Apache-2.0) via kokoro-onnx',
