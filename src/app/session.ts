@@ -2,6 +2,7 @@
 import type { ContentPack, Game, Lang, Profile } from '@/shared/types';
 import { setLang as i18nSetLang } from '@/shared/i18n';
 import { createGame, loadGame } from '@/engine';
+import { DEMO_VIDEO, demoVideoOn } from './demoVideo';
 import { loadContent, localize } from '@/content';
 import { clearProfileDraft, clearState, loadState, saveState } from './storage';
 import { buildReportPdf, postReport } from './report';
@@ -90,7 +91,13 @@ export function getSession(): Session {
       const urlSeed = Number(new URLSearchParams(globalThis.location?.search ?? '').get('seed'));
       const chosen =
         seed ?? (Number.isFinite(urlSeed) && urlSeed > 0 ? urlSeed : Date.now() % 2147483647);
-      s.game = createGame(s.content, profile, chosen);
+      // `?video` plays the demo-video order (src/app/demoVideo.ts) instead of the usual mix.
+      s.game = createGame(
+        s.content,
+        profile,
+        chosen,
+        demoVideoOn() ? { demoScript: DEMO_VIDEO } : {},
+      );
       void clearProfileDraft();
       void s.save();
       return s.game;

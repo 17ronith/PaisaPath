@@ -292,6 +292,18 @@ export interface LogEntry {
 
 export type Portfolio = Partial<Record<AssetId, number>>; // coins per asset
 
+/**
+ * One chapter of the demo-video build (`?video`): the main task, event and mini-game it serves, in
+ * order. Chapters not listed are skipped (a skip across a stage boundary is that stage's time jump).
+ * No detours, no invest screen, mini-games never locked. Normal games never set it.
+ */
+export interface DemoBeat {
+  chapter: number;
+  main?: string;
+  event?: string;
+  minigame?: string;
+}
+
 export interface GameState {
   profile: Profile;
   seed: number;
@@ -316,6 +328,7 @@ export interface GameState {
   quizAfter?: number;
   quizAfterAnswers?: number[];
   market?: MarketState; // Charminar Market device (additive)
+  demoScript?: DemoBeat[]; // demo-video build only (additive): fixed order, see DemoBeat
   phase:
     | 'chapter_start'
     | 'main_task'
