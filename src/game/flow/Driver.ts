@@ -102,8 +102,13 @@ function setHud(from: Phaser.Scene, on: boolean): void {
   if (!mgr.keys['HUD']) return;
   if (on) {
     if (!mgr.isActive('HUD')) from.scene.launch('HUD');
-    else mgr.getScene('HUD').scene.setVisible(true);
+    else {
+      mgr.getScene('HUD').scene.setVisible(true);
+      mgr.getScene('HUD').input.enabled = true;
+    }
   } else if (mgr.isActive('HUD')) {
     mgr.getScene('HUD').scene.setVisible(false);
+    // ISSUES #25: a hidden HUD must not catch taps (its ♪/Info/Replay were live but invisible).
+    mgr.getScene('HUD').input.enabled = false;
   }
 }

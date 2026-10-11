@@ -116,6 +116,7 @@ export class PreloadScene extends Phaser.Scene {
     // Warm both faces so the first real text renders in them, not the fallback.
     text(this, -100, -100, '₹0', 'xs').destroy();
     text(this, -100, -100, 'A', 'lg').destroy();
+    this.scene.launch('Sound'); // ISSUES #25: sound toggle on every screen
     this.scene.start('Title');
   }
 

@@ -1,7 +1,7 @@
 // Background chiptune (PLAYTEST-01 #12) + a step blip for the walk (#1). Synthesised with the
 // Web Audio API: no file to download, no licence line, nothing for slow 3G to fetch.
 // Honours the mute flag from ./audio (polled every bar). Start only after a user gesture.
-import { isMuted } from './audio';
+import { isMuted, onMuteChange } from './audio';
 
 const BPM = 112;
 const BEAT = 60 / BPM; // seconds
@@ -167,12 +167,25 @@ function schedule(): void {
   }
 }
 
+// ISSUES #25: mute must be instant and total. Suspending the context silences notes already
+// scheduled ahead and the footstep blips; unmuting resumes the loop where it was.
+onMuteChange((m) => {
+  if (!ctx) return;
+  if (m) void ctx.suspend();
+  else if (timer) void ctx.resume();
+});
+
+// A second copy of this module (hot reload, double import) must not leave an unmutable loop.
+const shared = globalThis as { __lmStopMusic?: () => void };
+
 /** Idempotent. Call from a tap handler (Title START is the natural place). */
 export function startMusic(): void {
   if (timer || typeof AudioContext === 'undefined') return;
+  if (shared.__lmStopMusic && shared.__lmStopMusic !== stopMusic) shared.__lmStopMusic();
+  shared.__lmStopMusic = stopMusic;
   try {
     ctx ??= new AudioContext();
-    if (ctx.state === 'suspended') void ctx.resume();
+    if (ctx.state === 'suspended' && !isMuted()) void ctx.resume();
     master = ctx.createGain();
     master.gain.value = isMuted() ? 0 : 1;
     master.connect(ctx.destination);

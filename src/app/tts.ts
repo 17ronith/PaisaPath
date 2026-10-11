@@ -2,6 +2,7 @@
 // Voices for te-IN / hi-IN exist on most Android Chrome builds; where they don't, we stay silent
 // rather than reading Telugu text with an English voice. Bhashini TTS is the "next step".
 import type { Lang } from '@/shared/types';
+import { isMuted, onMuteChange } from '@/game/audio';
 
 const LOCALE: Record<Lang, string> = { en: 'en-IN', te: 'te-IN', hi: 'hi-IN' };
 const KEY = 'tts';
@@ -46,7 +47,7 @@ export function voiceFor(lang: Lang): SpeechSynthesisVoice | null {
 /** Speak `text` in `lang` if TTS is on and a matching voice exists. Cancels anything still speaking. */
 export function speak(text: string, lang: Lang): boolean {
   const s = synth();
-  if (!s || !ttsEnabled() || !text.trim()) return false;
+  if (!s || !ttsEnabled() || isMuted() || !text.trim()) return false;
   const voice = voiceFor(lang);
   if (!voice) return false;
   s.cancel();
@@ -75,3 +76,8 @@ if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
     window.speechSynthesis.getVoices(),
   );
 }
+
+// ISSUES #25: the sound toggle silences read-aloud too.
+onMuteChange((m) => {
+  if (m) synth()?.cancel();
+});
