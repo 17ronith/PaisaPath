@@ -9,7 +9,21 @@ import type {
 } from '@/shared/types';
 
 export const NAME_MAX = 12;
-export const AVATARS = ['avatar_01', 'avatar_02', 'avatar_03', 'avatar_04'] as const;
+/** Saharsh's 48×48 characters (public/assets/sprites), each with a `_back` view for battles. */
+export const AVATARS = [
+  'avatar_boy_1',
+  'avatar_girl_1',
+  'avatar_boy_2',
+  'avatar_girl_2',
+  'avatar_neutral',
+] as const;
+/** Saves from before the new sprites: old Kenney keys → the new character drawn in their place. */
+export const LEGACY_AVATARS: Record<string, (typeof AVATARS)[number]> = {
+  avatar_01: 'avatar_boy_1',
+  avatar_02: 'avatar_girl_1',
+  avatar_03: 'avatar_boy_2',
+  avatar_04: 'avatar_girl_2',
+};
 
 /** Letters (any script, incl. Telugu vowel signs), digits and single spaces. No emoji. Max 12. */
 export function sanitizeName(raw: string): string {

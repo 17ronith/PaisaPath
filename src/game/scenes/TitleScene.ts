@@ -6,6 +6,8 @@ import type { Lang } from '@/shared/types';
 import { advance } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { COLOR, text, tr } from '../ui/theme';
+import { charScale } from '../ui/chars';
+import { AVATARS } from '../logic/onboarding';
 import { mapBG, overMap } from '../flow/journeyState';
 import { VIEW } from '../view';
 
@@ -30,9 +32,9 @@ export class TitleScene extends Phaser.Scene {
       .setStrokeStyle(2, COLOR.accent);
     this.add.ellipse(W / 2, H * 0.6 + 4, 70, 14, 0x000000, 0.35);
     this.add
-      .image(W / 2, H * 0.6, 'avatar_01')
+      .image(W / 2, H * 0.6, AVATARS[0])
       .setOrigin(0.5, 1)
-      .setScale(5);
+      .setScale(charScale(this, AVATARS[0], 6));
 
     text(this, W / 2, H * 0.16, t('title'), 'lg', COLOR.white, {
       align: 'center',

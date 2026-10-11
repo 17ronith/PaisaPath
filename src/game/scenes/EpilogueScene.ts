@@ -9,6 +9,7 @@ import { proceed } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { charScale } from '../ui/chars';
 import { VIEW } from '../view';
 
 type Epilogue = Extract<Step, { kind: 'epilogue' }>;
@@ -58,7 +59,7 @@ export class EpilogueScene extends Phaser.Scene {
     this.add
       .image(W / 2, 128, game.state.profile.avatar)
       .setOrigin(0.5, 1)
-      .setScale(4)
+      .setScale(charScale(this, game.state.profile.avatar, 4))
       .setTint(0xd8d8d8);
 
     const rows: Row[] = [

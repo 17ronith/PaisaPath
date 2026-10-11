@@ -5,6 +5,7 @@
 // timings from map_data.json) instead of the 5.6 MB GIF — same 18 s loop, ~200 KB.
 import Phaser from 'phaser';
 import { stepBlip } from '../music';
+import { charScale } from '../ui/chars';
 import { MAP_DATA_KEY, MAP_H, MAP_NODE_IDS, MAP_W } from '../ui/hyd';
 import type { Point } from '../logic/journey';
 import { RES, VIEW } from '../view';
@@ -78,6 +79,7 @@ export class MapBackgroundScene extends Phaser.Scene {
   private birds: Phaser.GameObjects.Image[][] = [];
   private icons = new Map<string, Phaser.GameObjects.Image>();
   private avatar?: Phaser.GameObjects.Image;
+  private avatarScale = S;
   private tint = 0xffffff;
   private tintTween?: Phaser.Tweens.Tween;
   private driftTween?: Phaser.Tweens.Tween;
@@ -543,9 +545,11 @@ export class MapBackgroundScene extends Phaser.Scene {
         ? undefined
         : { x: at[0], y: at[1] };
     if (!p) return;
-    if (!this.avatar) this.avatar = this.add.image(0, 0, texture).setOrigin(0.5, 1).setScale(S);
+    if (!this.avatar) this.avatar = this.add.image(0, 0, texture).setOrigin(0.5, 1);
+    this.avatarScale = charScale(this, texture, S);
     this.avatar
       .setTexture(texture)
+      .setScale(this.avatarScale)
       .setVisible(true)
       .setPosition(p.x * S, p.y * S)
       .setDepth(p.y + 1)
@@ -582,7 +586,7 @@ export class MapBackgroundScene extends Phaser.Scene {
         i++;
         if (i >= points.length) {
           this.walking = false;
-          av.setAngle(0).setScale(S);
+          av.setAngle(0).setScale(this.avatarScale);
           resolve();
           return;
         }
@@ -592,7 +596,10 @@ export class MapBackgroundScene extends Phaser.Scene {
         // Stride: bob + slight tilt every 3 points, with a step sound.
         if (i % 3 === 0) {
           const stride = (i / 3) % 2 === 0;
-          av.setAngle(stride ? -4 : 4).setScale(S, S * (stride ? 1 : 0.94));
+          av.setAngle(stride ? -4 : 4).setScale(
+            this.avatarScale,
+            this.avatarScale * (stride ? 1 : 0.94),
+          );
           stepBlip(stride);
         }
         this.time.delayedCall(stepMs, tick);

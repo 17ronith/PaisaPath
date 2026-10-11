@@ -1,20 +1,21 @@
-// Character portrait: a framed card with a Kenney character sprite scaled by a whole number
-// (nearest-neighbour, so every art pixel stays square). The sprite is picked from the
+// Character portrait: a framed card with a character sprite (Saharsh's 48×48 set, Kenney for
+// the rest) scaled by a whole number (nearest-neighbour, so every art pixel stays square). The sprite is picked from the
 // framing's `portrait` key, else from the speaker's role.
 import Phaser from 'phaser';
 import { COLOR, text } from './theme';
 
 /** Speaker words → NPC texture made in PreloadScene. First match wins. */
 const ROLES: [RegExp, string][] = [
-  [/professor|sir|teacher/i, 'npc_clerk'],
+  [/professor|sir|teacher|principal|lecturer/i, 'professor'],
   [/aunty|aunt/i, 'npc_aunty'],
   [
-    /caller|unknown|officer|agent|scam|recruiter|stranger|app|upi|sms|message|refund|link|lender/i,
+    /caller|unknown|officer|agent|admin|scam|recruiter|stranger|app|upi|sms|message|refund|link|lender/i,
     'npc_shady',
   ],
   [/shop|kirana|vendor|customer|owner|boss/i, 'npc_shop'],
+  [/uncle|relative|mom.?s friend/i, 'npc_uncle'],
   [/mom|mum|amma|dad|nanna|father|mother|parent|uncle|family/i, 'npc_parent'],
-  [/friend|classmate|cousin|brother|sister/i, 'npc_friend'],
+  [/friend|classmate|cousin|brother|sister|co-?worker|senior|manager/i, 'npc_friend'],
   [/bank|clerk|teacher|doctor|college/i, 'npc_clerk'],
 ];
 

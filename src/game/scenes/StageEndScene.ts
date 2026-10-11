@@ -8,6 +8,7 @@ import { proceed } from '../flow/Driver';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
+import { charScale } from '../ui/chars';
 import { VIEW } from '../view';
 
 type StageEnd = Extract<Step, { kind: 'stage_end' }>;
@@ -92,7 +93,7 @@ export class StageEndScene extends Phaser.Scene {
     this.add
       .image(W / 2, y + 70, game.state.profile.avatar)
       .setOrigin(0.5, 1)
-      .setScale(4);
+      .setScale(charScale(this, game.state.profile.avatar, 4));
     y += 84;
 
     const held = ASSETS.filter(
