@@ -82,7 +82,8 @@
             "value": 1
           }
         ],
-        "lesson": "A small want that fits, and tomorrow's match is still on. That's needs vs wants done right."
+        "lesson": "A small want that fits, and tomorrow's match is still on. That's needs vs wants done right.",
+        "cutscene": "turf_cricket"
       },
       {
         "id": "split",
@@ -109,7 +110,8 @@
           }
         ],
         "attitude": "later",
-        "lesson": "Saving matters, but food is a need. Skip the wants, not the needs."
+        "lesson": "Saving matters, but food is a need. Skip the wants, not the needs.",
+        "cutscene": "turf_cricket"
       }
     ]
   },

@@ -74,6 +74,7 @@ export const ChoiceSchema = z.object({
   attitude: z.enum(['now', 'later']).optional(),
   scam: z.enum(['spotted', 'fell']).optional(),
   hint: z.string().optional(),
+  cutscene: z.enum(['turf_cricket']).optional(),
 });
 
 export const TaskSchema = z.object({

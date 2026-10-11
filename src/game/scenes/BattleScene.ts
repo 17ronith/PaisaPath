@@ -5,7 +5,7 @@
 import Phaser from 'phaser';
 import { getSession } from '@/app/session';
 import { rupees, t } from '@/shared/i18n';
-import type { Choice, Effect, Outcome, Step } from '@/shared/types';
+import type { Choice, Cutscene, Effect, Outcome, Step } from '@/shared/types';
 import { advance, save } from '../flow/Driver';
 import { play } from '../audio';
 import { say, sayAfter, stopVoice } from '../voice';
@@ -48,6 +48,8 @@ function platform(scene: Phaser.Scene, x: number, y: number, w: number): void {
 const LV = { simple: 'EASY', medium: 'MED', hard: 'HARD' } as const;
 /** ISSUES #19: events whose caller is the scam caller arrive as a ringing phone first. */
 const CALL_PORTRAIT = 'caller_wonky';
+/** Choice cutscene id → the scene that plays it. */
+const CUTSCENE_SCENES: Record<Cutscene, string> = { turf_cricket: 'TurfCricket' };
 
 export class BattleScene extends Phaser.Scene {
   private step!: BattleStep;
@@ -303,15 +305,35 @@ export class BattleScene extends Phaser.Scene {
     if (o.critical) this.restartFlash();
     else if (o.clearedConcept) this.badge(t('battle.learned'), COLOR.good, 128);
 
+    // A choice can earn a short scene after its lesson (the turf match you saved for).
+    const choices = this.step.kind === 'task' ? this.step.task.choices : this.step.event.choices;
+    const cutscene = choices.find((c) => c.id === choiceId)?.cutscene;
+
     const W = VIEW.width;
     new Button(
       this,
       W / 2,
       600,
       t('btn.next'),
-      () => (isMistake ? this.toExplainer(o.explainerId) : advance(this)),
+      () =>
+        isMistake
+          ? this.toExplainer(o.explainerId)
+          : cutscene
+            ? this.toCutscene(cutscene)
+            : advance(this),
       { fill: o.critical ? COLOR.bad : COLOR.good, height: 52 },
     );
+  }
+
+  private toCutscene(cutscene: Cutscene): void {
+    const key = CUTSCENE_SCENES[cutscene];
+    if (!this.scene.manager.keys[key]) {
+      advance(this);
+      return;
+    }
+    this.scene.pause();
+    this.scene.launch(key, { onDone: () => advance(this) });
+    this.scene.bringToTop(key);
   }
 
   private results(o: Outcome): void {

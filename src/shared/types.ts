@@ -105,7 +105,12 @@ export interface Choice {
   scam?: 'spotted' | 'fell';
   /** Hint text shown when hintsOn (after 2 fails of the same task). */
   hint?: string;
+  /** A short scene played after this choice's lesson (e.g. the turf match you saved for). */
+  cutscene?: Cutscene;
 }
+
+/** Cutscene ids the client knows how to play (`TurfCricket` scene). */
+export type Cutscene = 'turf_cricket';
 
 export interface Task {
   id: string; // 'budget_simple_s1_01'

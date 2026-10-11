@@ -26,6 +26,7 @@ import { ExplainerScene } from './ExplainerScene';
 import { SoundScene } from './SoundScene';
 import { AudioSettingsScene } from './AudioSettingsScene';
 import { IncomingCallScene } from './IncomingCallScene';
+import { TurfCricketScene } from './TurfCricketScene';
 
 export const scenes: (typeof Phaser.Scene)[] = [
   BootScene, // first = auto-started
@@ -53,4 +54,5 @@ export const scenes: (typeof Phaser.Scene)[] = [
   SoundScene, // ISSUES #25: always on top
   AudioSettingsScene, // the ♪ panel: music / sound effects / voice-over
   IncomingCallScene, // ISSUES #19: the scam call rings before its choices (launched by Battle)
+  TurfCricketScene, // the turf match a saving choice earns (launched by Battle)
 ];
