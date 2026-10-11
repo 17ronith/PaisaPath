@@ -42,6 +42,7 @@ export interface ProfileDraft {
   persona: PersonaId;
   pocketMoneyMonthly: number;
   flags: string[];
+  joinCode?: string; // ISSUES #36: set when an NGO facilitator did the setup
 }
 
 const DEFAULT_POCKET_MONEY = 800;

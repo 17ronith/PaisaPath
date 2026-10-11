@@ -29,8 +29,15 @@ const SHAPES: Record<Blip, [number, number, OscillatorType][]> = {
   ],
 };
 
+const listeners = new Set<(muted: boolean) => void>();
+
 export function isMuted(): boolean {
   return muted;
+}
+
+/** Called on every mute toggle (music suspends instantly; read-aloud stops). */
+export function onMuteChange(cb: (muted: boolean) => void): void {
+  listeners.add(cb);
 }
 
 export function setMuted(on: boolean): void {
@@ -40,6 +47,7 @@ export function setMuted(on: boolean): void {
   } catch {
     /* private mode: keep it for this session only */
   }
+  for (const cb of listeners) cb(on);
 }
 
 export function play(blip: Blip): void {

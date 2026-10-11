@@ -3,6 +3,7 @@
 // Anything missing falls back to code-drawn placeholders, so a bad path never blocks play.
 import Phaser from 'phaser';
 import { AVATARS } from '../logic/onboarding';
+import { BACKDROP_EXTRA, BACKDROP_FOR } from '../ui/Backdrop';
 import { PANEL_KEYS } from '../ui/PixelPanel';
 import { hydTextureKeys, loadHydAssets } from '../ui/hyd';
 import { COLOR, text } from '../ui/theme';
@@ -97,6 +98,9 @@ export class PreloadScene extends Phaser.Scene {
       this.load.spritesheet(key, url, { frameWidth: 16, frameHeight: 16 });
     for (const [key, url] of Object.entries(NINE_SLICES)) this.load.image(key, url);
     loadHydAssets(this.load);
+    // Hyderabad backdrops (ISSUES #18): 20 × 480×270 PNGs, ~370 KB total, loaded once for every screen.
+    for (const f of new Set([...Object.values(BACKDROP_FOR), ...Object.values(BACKDROP_EXTRA)]))
+      this.load.image(`bg_${f}`, `assets/backdrops/${f}.png`);
   }
 
   async create(): Promise<void> {
@@ -116,6 +120,7 @@ export class PreloadScene extends Phaser.Scene {
     text(this, -100, -100, 'A', 'lg').destroy();
     this.scene.launch('MapBG'); // never stopped: the map animates for the whole session
     this.scene.sendToBack('MapBG');
+    this.scene.launch('Sound'); // ISSUES #25: sound toggle on every screen
     this.scene.start('Title');
   }
 

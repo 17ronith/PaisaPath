@@ -12,8 +12,7 @@ import { Bar } from '../ui/Bar';
 import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { Portrait, portraitKey } from '../ui/Portrait';
-import { grassField } from '../ui/Backdrop';
-import { backdropForPlace } from '../ui/hyd';
+import { backdropKey, drawBackdrop, grassField } from '../ui/Backdrop';
 import { TextBox } from '../ui/TextBox';
 import { COLOR, text, tr } from '../ui/theme';
 import { VIEW } from '../view';
@@ -25,12 +24,24 @@ const STAGE_INCOME = { 1: 5000, 2: 25000, 3: 60000 } as const;
 const EVENT_PRESSURE = 50;
 const ARENA_BOTTOM = 284;
 
-/** Dirt platform under a fighter: dark rim, lighter top. */
+const PRAISE = [
+  "Sharp. That's exactly how it's done.",
+  'Good call. Your future self just got richer.',
+  "That's the move. On we go.",
+  'Well handled. Nothing to teach here.',
+];
+/** Deterministic per outcome so the same choice always gets the same praise. */
+function praiseLine(o: Outcome): string {
+  const i = Math.abs(Math.round(o.after.wallet + o.after.happiness)) % PRAISE.length;
+  return tr(`professor.praise.${i + 1}`, PRAISE[i]);
+}
+
+/** ISSUES #28: a soft ground shadow under a fighter (no coloured platform): a wide faint
+ *  penumbra with a darker core, so it reads on every Hyderabad backdrop. */
 function platform(scene: Phaser.Scene, x: number, y: number, w: number): void {
-  // Matches battle_platforms_overlay.png: grass disc with an earth rim.
-  scene.add.ellipse(x, y + 3, w, w * 0.24, 0x6a4a28, 0.95);
-  scene.add.ellipse(x, y, w - 4, w * 0.2, 0x5cb83c);
-  scene.add.ellipse(x - w * 0.06, y - 2, w * 0.62, w * 0.09, 0x8ad468, 0.8);
+  scene.add.ellipse(x, y, w * 0.95, w * 0.2, 0x000000, 0.16);
+  scene.add.ellipse(x, y, w * 0.7, w * 0.14, 0x000000, 0.22);
+  scene.add.ellipse(x, y, w * 0.42, w * 0.08, 0x000000, 0.26);
 }
 const LV = { simple: 'EASY', medium: 'MED', hard: 'HARD' } as const;
 
@@ -65,17 +76,10 @@ export class BattleScene extends Phaser.Scene {
     const task = isTask ? (this.step as Extract<Step, { kind: 'task' }>).task : null;
     const bars = game.state.bars;
 
-    // Arena: the mission's own Hyderabad scene (home, kirana, bank, Charminar…), cropped to
-    // fill the strip, with two grass platforms like the DS battle screen.
+    // Arena: the place's Hyderabad backdrop (ISSUES #18), grass field as the fallback.
     this.cameras.main.setBackgroundColor(COLOR.bg);
-    const bgKey = backdropForPlace(framing.place);
-    if (this.textures.exists(bgKey)) {
-      const scale = (ARENA_BOTTOM - 40) / 270;
-      this.add
-        .image(W / 2, 40, bgKey)
-        .setOrigin(0.5, 0)
-        .setScale(scale);
-    } else grassField(this, 0, 40, W, ARENA_BOTTOM - 40, 2, 3);
+    if (!drawBackdrop(this, backdropKey(framing.place), 0, 40, W, ARENA_BOTTOM - 40))
+      grassField(this, 0, 40, W, ARENA_BOTTOM - 40, 2, 3);
     this.add.rectangle(0, ARENA_BOTTOM - 2, W, 3, COLOR.panelEdge).setOrigin(0, 0);
     platform(this, 284, 150, 124);
     platform(this, 86, 266, 140);
@@ -164,7 +168,7 @@ export class BattleScene extends Phaser.Scene {
       choices.find((c) => c.hint)?.hint ??
       tr('battle.hint_generic', 'Slow down. Who gains if you choose fast?');
     const W = VIEW.width;
-    const heading = text(this, 10, 7, tr('battle.hint', "Aunty's hint"), 'xs', COLOR.aunty);
+    const heading = text(this, 10, 7, tr('professor.hint', "Professor's hint"), 'xs', COLOR.aunty);
     const msg = text(this, 10, 7 + heading.height, body, 'xs', COLOR.ink, {
       wordWrap: { width: W - 164, useAdvancedWrap: true },
     });
@@ -219,18 +223,27 @@ export class BattleScene extends Phaser.Scene {
       play('bad');
     }
 
-    const auntyLine = o.lesson;
-    void this.box.say(auntyLine, tr('guide.name', 'Aunty'), COLOR.aunty);
+    // ISSUES #17 — the Professor walks in after the consequence.
+    // weak/critical: his lesson line, then the concept's animation. ok: the lesson line, no animation.
+    // good: one line of praise and on we go — the animation stays in the replay library.
+    const isMistake = o.quality === 'weak' || o.quality === 'critical';
+    const professor = tr('professor.name', 'Professor');
+    const line = o.quality === 'good' ? praiseLine(o) : o.lesson;
+    void this.box.say(line, professor, COLOR.aunty);
     this.results(o);
 
     if (o.critical) this.restartFlash();
     else if (o.clearedConcept) this.badge(t('battle.learned'), COLOR.good, 128);
 
     const W = VIEW.width;
-    new Button(this, W / 2, 600, t('btn.next'), () => this.toExplainer(o.explainerId), {
-      fill: o.critical ? COLOR.bad : COLOR.good,
-      height: 52,
-    });
+    new Button(
+      this,
+      W / 2,
+      600,
+      t('btn.next'),
+      () => (isMistake ? this.toExplainer(o.explainerId) : advance(this)),
+      { fill: o.critical ? COLOR.bad : COLOR.good, height: 52 },
+    );
   }
 
   private results(o: Outcome): void {

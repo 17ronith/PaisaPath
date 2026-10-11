@@ -12,6 +12,7 @@ import { createGame } from '../game';
 import { portfolioTotal } from '../invest';
 import { incomeCoins } from '../economy';
 import { fixturePack, fixtureProfile } from '../__fixtures__/pack';
+import { afterQuiz } from '@/shared/quiz';
 
 const args = process.argv.slice(2);
 const useContent = args.includes('--content');
@@ -31,6 +32,7 @@ function loadRealContent(): ContentPack {
     personas: read('personas.json'),
     lifeQuestions: onboarding.lifeQuestions,
     quiz: onboarding.quiz,
+    quizAfter: onboarding.quizAfter,
     concepts: read('concepts.json'),
     tasks: ['stage1', 'stage2', 'stage3', 'detours'].flatMap((f) => read(`tasks/${f}.json`)),
     events: read('events.json'),
@@ -42,8 +44,8 @@ function loadRealContent(): ContentPack {
 }
 
 const content = useContent ? loadRealContent() : fixturePack;
-const correct = content.quiz.map((q) => q.answer);
-const wrong = content.quiz.map((q) => (q.answer + 1) % q.options.length);
+const correct = afterQuiz(content).map((q) => q.answer);
+const wrong = afterQuiz(content).map((q) => (q.answer + 1) % q.options.length);
 
 interface Run {
   game: Game;

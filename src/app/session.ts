@@ -6,6 +6,16 @@ import { loadContent, localize } from '@/content';
 import { clearProfileDraft, clearState, loadState, saveState } from './storage';
 import { buildReportPdf, postReport } from './report';
 
+/** ISSUES #36: who did onboarding. A facilitator enters the batch code and the report
+ *  contacts once, on the device, so the student never types an email. */
+export interface SetupInfo {
+  by: 'student' | 'facilitator';
+  joinCode?: string;
+  facilitatorEmail?: string;
+  guardianEmail?: string;
+  guardianConsent?: boolean;
+}
+
 export interface Session {
   content: ContentPack;
   game: Game | null;
@@ -16,6 +26,8 @@ export interface Session {
   hasSave(): Promise<boolean>;
   resume(): Promise<Game | null>;
   reset(): Promise<void>;
+  setup: SetupInfo;
+  setSetup(info: SetupInfo): void;
   sendReport(opts: {
     facilitatorEmail: string;
     guardianEmail?: string;
@@ -24,6 +36,16 @@ export interface Session {
 
 let session: Session | null = null;
 const LANGS: Lang[] = ['en', 'te', 'hi'];
+
+function readSetup(): SetupInfo {
+  try {
+    const raw = globalThis.localStorage?.getItem('setup');
+    const v = raw ? (JSON.parse(raw) as SetupInfo) : null;
+    return v && (v.by === 'student' || v.by === 'facilitator') ? v : { by: 'student' };
+  } catch {
+    return { by: 'student' };
+  }
+}
 
 function readLang(): Lang {
   try {
@@ -43,6 +65,15 @@ export function getSession(): Session {
     content: localize(base, initialLang),
     game: null,
     lang: initialLang,
+    setup: readSetup(),
+    setSetup(info) {
+      s.setup = info;
+      try {
+        globalThis.localStorage?.setItem('setup', JSON.stringify(info));
+      } catch {
+        /* private mode: keep it for this session only */
+      }
+    },
     setLang(l) {
       s.lang = l;
       i18nSetLang(l);

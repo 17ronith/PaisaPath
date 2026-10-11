@@ -191,28 +191,140 @@ export class ExplainerScene extends Phaser.Scene {
     }
   }
 
+  /**
+   * ISSUES #30: compounding as a banyan that grows year by year — the trunk thickens, the
+   * canopy spreads, aerial roots drop and become new trunks, coins fill the branches — with a
+   * big running value and a small curve underneath that bends upward (growth on growth).
+   */
   private opGrow(s: Op<'grow'>, budgetMs: number): void {
     const series = growSeries(s.principal, s.ratePct, s.years);
     const n = series.length;
-    const left = 30;
-    const base = 360;
-    const maxH = 170;
-    const colW = Math.max(3, Math.floor(300 / n) - 1);
     const max = series[n - 1] || 1;
-    const label = text(this, left, base + 10, '', 'xs', COLOR.white);
-    this.layer.add(label);
-    this.layer.add(this.add.rectangle(left, base, 300, 2, COLOR.muted).setOrigin(0, 0));
+    const CX = 180;
+    const GROUND = 395;
+
+    const value = text(this, CX, 150, rupees(series[0]), 'lg', COLOR.happy).setOrigin(0.5);
+    const caption = text(this, CX, 172, '', 'xs', COLOR.white).setOrigin(0.5);
+    const tree = this.add.graphics();
+    const curve = this.add.graphics();
+    const withLabel = text(this, 0, 0, '', 'xs', COLOR.happy).setOrigin(0, 0.5);
+    const withoutLabel = text(this, 0, 0, '', 'xs', COLOR.muted).setOrigin(0, 0.5);
+    const legend = text(
+      this,
+      46,
+      GROUND + 12,
+      `— ${tr('explainer.with_compounding', 'with compounding')}   ··· ${tr('explainer.without_compounding', 'interest taken out')}`,
+      'xs',
+      COLOR.muted,
+    );
+    this.layer.add([tree, curve, value, caption, withLabel, withoutLabel, legend]);
+
+    // ground: soil band + grass lip
+    const ground = this.add.graphics();
+    ground.fillStyle(0x6d4c41, 1).fillRect(40, GROUND, 280, 10);
+    ground.fillStyle(0x66bb6a, 1).fillRect(40, GROUND - 2, 280, 3);
+    this.layer.add(ground);
+
+    // a fixed scatter of canopy spots for coins (deterministic, so replays look the same)
+    const spots = [
+      [-0.55, -0.1],
+      [0.5, -0.2],
+      [0.05, -0.5],
+      [-0.3, 0.2],
+      [0.3, 0.15],
+      [-0.75, 0.25],
+      [0.78, 0.2],
+      [-0.15, -0.25],
+      [0.25, -0.45],
+      [0.6, 0.35],
+      [-0.5, 0.4],
+      [0.0, 0.05],
+    ];
+    const blobs: [number, number, number][] = [
+      [0, 0, 1],
+      [-0.68, 0.12, 0.74],
+      [0.68, 0.12, 0.74],
+      [-0.38, -0.42, 0.7],
+      [0.38, -0.42, 0.7],
+      [-1.0, 0.36, 0.52],
+      [1.0, 0.36, 0.52],
+    ];
+
+    const draw = (v: number, year: number): void => {
+      const f = Math.min(1, v / max);
+      const trunkH = 46 + 104 * f;
+      const trunkW = 8 + 16 * Math.sqrt(f);
+      const topY = GROUND - trunkH;
+      const R = 26 + 64 * Math.sqrt(f);
+      const g = tree.clear();
+      // aerial roots: more of them as the years pass; older ones are thicker (they become trunks)
+      const roots = Math.floor((year / Math.max(1, n - 1)) * 6);
+      for (let r = 0; r < roots; r++) {
+        const side = r % 2 ? 1 : -1;
+        const x = CX + side * R * (0.38 + 0.11 * Math.floor(r / 2));
+        const w = Math.max(2, Math.min(6, 2 + (roots - r)));
+        g.fillStyle(0x795548, 1).fillRect(x - w / 2, topY + R * 0.3, w, GROUND - (topY + R * 0.3));
+      }
+      // trunk with a darker left edge
+      g.fillStyle(0x6d4c41, 1).fillRect(CX - trunkW / 2, topY, trunkW, trunkH);
+      g.fillStyle(0x4e342e, 1).fillRect(CX - trunkW / 2, topY, Math.max(2, trunkW * 0.3), trunkH);
+      // canopy: dark base blobs, then lighter highlights up-left
+      for (const [dx, dy, k] of blobs)
+        g.fillStyle(0x2e7d32, 1).fillCircle(CX + dx * R, topY + dy * R, R * 0.58 * k);
+      for (const [dx, dy, k] of blobs)
+        g.fillStyle(0x4caf50, 1).fillCircle(
+          CX + dx * R - R * 0.12,
+          topY + dy * R - R * 0.14,
+          R * 0.36 * k,
+        );
+      // coins: one more for every doubling-ish step of growth
+      const coins = Math.min(
+        spots.length,
+        Math.max(0, Math.round(Math.log2(Math.max(1, v / series[0])) * 3)),
+      );
+      for (let c = 0; c < coins; c++) {
+        const [sx, sy] = spots[c];
+        const x = CX + sx * R;
+        const y = topY + sy * R;
+        g.fillStyle(0x8a5a00, 1).fillCircle(x + 0.6, y + 0.6, 4);
+        g.fillStyle(0xf0b030, 1).fillCircle(x, y, 3.6);
+        g.fillStyle(0xffe08a, 1).fillRect(x - 1.5, y - 2, 1.5, 1.5);
+      }
+      // the growth curve so far (bends upward = growth on growth) against a dashed straight line
+      // for the same money without compounding (interest taken out every year)
+      const cw = 230;
+      const ch = 44;
+      const cx0 = 46;
+      const cy0 = GROUND + 60;
+      const xAt = (t: number): number => cx0 + (t / Math.max(1, n - 1)) * cw;
+      const yAt = (v2: number): number => cy0 - (v2 / max) * ch;
+      const simple = (t: number): number => series[0] * (1 + (s.ratePct / 100) * t);
+      const k = curve.clear();
+      k.lineStyle(1, COLOR.muted, 1).lineBetween(cx0, cy0, cx0 + cw, cy0);
+      k.fillStyle(COLOR.muted, 1);
+      for (let t = 0; t < year; t += 0.5) k.fillRect(xAt(t), yAt(simple(t)) - 1, 3, 2);
+      k.lineStyle(2, COLOR.happy, 1).beginPath();
+      for (let t = 0; t <= year; t++) {
+        if (t === 0) k.moveTo(xAt(t), yAt(series[t]));
+        else k.lineTo(xAt(t), yAt(series[t]));
+      }
+      k.strokePath();
+      withLabel.setPosition(xAt(year) + 4, yAt(series[year])).setText(rupees(v));
+      withoutLabel
+        .setPosition(xAt(year) + 4, yAt(simple(year)) + 2)
+        .setText(rupees(Math.round(simple(year))));
+      value.setText(rupees(v));
+      caption.setText(`${s.label} · ${tr('explainer.year', 'year {n}', { n: year })}`);
+    };
+
+    draw(series[0], 0);
     const per = Math.max(30, (budgetMs * 0.9) / n);
     series.forEach((v, year) => {
+      if (year === 0) return;
       this.time.delayedCall(year * per, () => {
-        const h = Math.max(2, Math.round((v / max) * maxH));
-        const col = this.add
-          .rectangle(left + year * (colW + 1), base, colW, h, year === 0 ? COLOR.money : COLOR.good)
-          .setOrigin(0, 1);
-        this.layer.add(col);
-        label.setText(
-          `${s.label}: ${rupees(v)} · ${tr('explainer.year', 'year {n}', { n: year })}`,
-        );
+        draw(v, year);
+        if (year === n - 1)
+          this.tweens.add({ targets: value, scale: 1.15, yoyo: true, duration: 220 });
       });
     });
   }

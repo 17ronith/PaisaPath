@@ -28,6 +28,7 @@ export const COLLECTIONS = [
   'personas',
   'lifeQuestions',
   'quiz',
+  'quizAfter',
   'concepts',
   'tasks',
   'events',
@@ -43,6 +44,7 @@ export const SOURCES: Sources = {
   personas: [{ file: 'personas.json', items: personas }],
   lifeQuestions: [{ file: 'onboarding.json', items: onboarding.lifeQuestions }],
   quiz: [{ file: 'onboarding.json', items: onboarding.quiz }],
+  quizAfter: [{ file: 'onboarding.json', items: onboarding.quizAfter ?? [] }],
   concepts: [{ file: 'concepts.json', items: concepts }],
   tasks: [
     { file: 'tasks/stage1.json', items: stage1 },

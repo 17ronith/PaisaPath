@@ -254,6 +254,8 @@ export interface ContentPack {
   personas: Persona[];
   lifeQuestions: LifeQuestion[];
   quiz: QuizQuestion[]; // exactly 5
+  /** ISSUES #34: the after-quiz — same concepts, asked a different way. Falls back to `quiz`. */
+  quizAfter?: QuizQuestion[];
   concepts: Concept[];
   tasks: Task[];
   events: RandomEvent[];

@@ -185,8 +185,8 @@ export class LandmarkScene extends Phaser.Scene {
     const thumbKey = m.place
       ? backdropForPlace(m.place)
       : this.step.kind === 'invest'
-        ? 'bg_bank'
-        : 'bg_bus_stop';
+        ? backdropForPlace('bank')
+        : backdropForPlace('bus_stop');
     if (m.state !== 'locked' && this.textures.exists(thumbKey)) {
       const th = this.add
         .image(8, 8, thumbKey)

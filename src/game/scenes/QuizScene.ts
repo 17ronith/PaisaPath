@@ -10,6 +10,7 @@ import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
 import { overMap } from '../flow/journeyState';
 import { VIEW } from '../view';
+import { afterQuiz } from '@/shared/quiz';
 
 interface QuizData {
   mode: 'before' | 'after';
@@ -62,13 +63,22 @@ export class QuizScene extends Phaser.Scene {
   }
 
   private ask(i: number): void {
-    const quiz = getSession().content.quiz;
+    const content = getSession().content;
+    // ISSUES #34: the after-quiz asks the same concepts a different way
+    const quiz = this.mode === 'after' ? afterQuiz(content) : content.quiz;
     if (i >= quiz.length) return this.finish();
     const q = quiz[i];
     const { width: W } = VIEW;
     this.root.removeAll(true);
     this.root.add(
-      text(this, W / 2, 36, `${i + 1} / ${quiz.length}`, 'sm', COLOR.accent).setOrigin(0.5),
+      text(
+        this,
+        W / 2,
+        36,
+        `${(this.mode === 'before' ? t('quiz.before_title') : t('quiz.after_title')).toUpperCase()} · ${t('quiz.progress', { n: i + 1, total: quiz.length })}`,
+        'xs',
+        COLOR.accent,
+      ).setOrigin(0.5),
     );
     const panel = new PixelPanel(this, 20, 64, W - 40, 170);
     panel.add(

@@ -23,16 +23,23 @@ export const JOURNEY: Landmark[] = [
     chapters: [1],
     age: 16,
     phase: 'First pocket money',
-    backdrop: 'bg_charminar',
+    backdrop: 'bg_01_charminar',
   },
-  { id: 'qutb', stage: 1, chapters: [2], age: 16, phase: 'Saving up', backdrop: 'bg_qutb' },
+  {
+    id: 'qutb',
+    stage: 1,
+    chapters: [2],
+    age: 16,
+    phase: 'Saving up',
+    backdrop: 'bg_07_qutb_shahi_tombs',
+  },
   {
     id: 'durgam',
     stage: 1,
     chapters: [3],
     age: 17,
     phase: 'Friends and weekends',
-    backdrop: 'bg_durgam',
+    backdrop: 'bg_02_durgam_cheruvu',
   },
   {
     id: 'shilparamam',
@@ -40,7 +47,7 @@ export const JOURNEY: Landmark[] = [
     chapters: [4],
     age: 17,
     phase: 'Festival season',
-    backdrop: 'bg_shilparamam',
+    backdrop: 'bg_05_shilparamam',
   },
   {
     id: 'hitec',
@@ -48,7 +55,7 @@ export const JOURNEY: Landmark[] = [
     chapters: [5, 6],
     age: 23,
     phase: 'First job in the city',
-    backdrop: 'bg_hitec',
+    backdrop: 'bg_09_hitec_city',
   },
   {
     id: 'birla',
@@ -56,7 +63,7 @@ export const JOURNEY: Landmark[] = [
     chapters: [7],
     age: 24,
     phase: 'Family and duties',
-    backdrop: 'bg_birla',
+    backdrop: 'bg_06_birla_mandir',
   },
   {
     id: 'tankbund',
@@ -64,9 +71,16 @@ export const JOURNEY: Landmark[] = [
     chapters: [8, 9],
     age: 30,
     phase: 'A growing family',
-    backdrop: 'bg_tankbund',
+    backdrop: 'bg_03_tank_bund_buddha',
   },
-  { id: 'ramoji', stage: 3, chapters: [10], age: 31, phase: 'Big dreams', backdrop: 'bg_ramoji' },
+  {
+    id: 'ramoji',
+    stage: 3,
+    chapters: [10],
+    age: 31,
+    phase: 'Big dreams',
+    backdrop: 'bg_04_film_city',
+  },
 ];
 
 export function landmarkForChapter(chapter: number): Landmark {

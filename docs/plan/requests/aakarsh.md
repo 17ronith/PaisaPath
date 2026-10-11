@@ -95,3 +95,10 @@ Aakarsh: change `Status:` lines only; never delete blocks.
 - What: review/merge PR #26 (`events.json` +1 event, all personas). Edit the lines freely. Ronith has the overlay request (R-monish-08 in his inbox).
 - Why: play-test item 19.
 - Accept when: merged or declined with reason.
+
+### R-monish-09 · Professor replaces Aunty — strings in en/te/hi (ISSUES #10/#17)
+- From: monish · To: aakarsh · At: 05:40 · Priority: P1
+- Status: OPEN
+- What: `guide.name` → "Professor"; `battle.lesson` → "Professor says"; `battle.hint` → "Professor's hint"; new `professor.praise.1` "Sharp. That's exactly how it's done." · `.2` "Good call. Your future self just got richer." · `.3` "That's the move. On we go." · `.4` "Well handled. Nothing to teach here." — in `en.json`, `te.json`, `hi.json` (after PR #25 merges). Lesson lines that say "Aunty" (grep `Aunty` in `src/content`) → neutral wording.
+- Why: the guide character is now the Professor (README §6 row 10).
+- Accept when: `grep -ri aunty src/content` returns nothing and validate:content is green.
