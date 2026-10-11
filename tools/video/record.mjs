@@ -12,7 +12,7 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { FIND, FIND_IMAGES, FORWARD, SCENES, SETUP } from './lib.mjs';
+import { FIND, FIND_IMAGES, FORWARD, INSTALL_OPEN, SCENES, SETUP } from './lib.mjs';
 
 const require = createRequire(import.meta.url);
 let pw;
@@ -59,6 +59,7 @@ const game = page.frames().find((f) => f.url().includes('seed=8'));
 if (!game) throw new Error('game iframe not found');
 await game.waitForFunction(() => globalThis.__lmGame && globalThis.__lmSession && globalThis.__lmRoute, null, { timeout: 30000 });
 await game.waitForFunction(() => globalThis.__lmGame.scene.isActive('Title'), null, { timeout: 30000 });
+await game.evaluate(`(${INSTALL_OPEN})()`);
 await game.evaluate(() => {
   globalThis.__lmTaps = [];
   globalThis.__lmAudioTap = (k, n) => globalThis.__lmTaps.push({ k, n });

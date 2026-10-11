@@ -57,6 +57,23 @@ export const FIND_IMAGES = `(re) => {
   return out;
 }`;
 
+/**
+ * Installed once by the recorder: open a step's screen from a clean slate. A part can end on an
+ * explainer over a paused battle; both must go, or the old battle stays drawn over the new screen.
+ */
+export const INSTALL_OPEN = `() => {
+  globalThis.__lmOpen = (step) => {
+    const g = globalThis.__lmGame;
+    const keep = ['Sound', 'MapBG', 'HUD', 'Boot', 'Preload'];
+    const left = g.scene.getScenes(false).filter((sc) => !keep.includes(sc.scene.key) &&
+      (sc.sys.isActive() || sc.sys.isPaused() || sc.sys.isSleeping()));
+    const from = left.find((sc) => sc.sys.isActive()) ?? g.scene.getScene('Title');
+    for (const sc of left) if (sc !== from) sc.scene.stop();
+    if (!from.sys.isActive()) from.scene.resume();
+    globalThis.__lmRoute(from, step);
+  };
+}`;
+
 /** Active scene keys, without the always-on ones. */
 export const SCENES = `() => globalThis.__lmGame.scene.getScenes(true).map((s) => s.scene.key)
   .filter((k) => !['MapBG', 'Sound', 'HUD'].includes(k))`;
@@ -99,9 +116,7 @@ export const SETUP = `async (spec) => {
   if (!found) throw new Error('setup: target never served ' + JSON.stringify(u));
   if (spec.patch?.savings !== undefined) game.state.bars.savings = spec.patch.savings;
   s.game = game;
-  const g = globalThis.__lmGame;
-  const live = g.scene.getScenes(true).find((sc) => !['Sound', 'MapBG', 'HUD'].includes(sc.scene.key));
-  globalThis.__lmRoute(live, found);
+  globalThis.__lmOpen(found);
   return { kind: found.kind, chapter: game.state.chapter, stage: game.state.stage };
 }`;
 
@@ -118,8 +133,6 @@ export const FORWARD = `async (u) => {
     } });
   } catch (e) { if (String(e.message) !== '__found__') throw e; }
   if (!found) throw new Error('forward: never reached ' + JSON.stringify(u));
-  const g = globalThis.__lmGame;
-  const live = g.scene.getScenes(true).find((sc) => !['Sound', 'MapBG', 'HUD'].includes(sc.scene.key));
-  globalThis.__lmRoute(live, found);
+  globalThis.__lmOpen(found);
   return found.kind;
 }`;
