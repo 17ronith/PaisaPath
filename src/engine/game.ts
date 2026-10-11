@@ -48,6 +48,7 @@ import { summarize } from './scoring';
 import { clone, initialState } from './state';
 import { framingFor, pickEvent, pickMainTask } from './selector';
 import { whatIf } from './whatif';
+import { afterQuiz } from '@/shared/quiz';
 
 export const HAPPINESS_DECAY = 3;
 export const MINIGAME_CHANCE = 0.4;
@@ -466,7 +467,10 @@ export class EngineGame implements Game {
     const s = this.s;
     if (s.phase !== 'quiz_after')
       throw new Error(`answerQuiz() needs quiz_after; phase ${s.phase}`);
-    const score = this.content.quiz.reduce((n, q, i) => n + (answers[i] === q.answer ? 1 : 0), 0);
+    const score = afterQuiz(this.content).reduce(
+      (n, q, i) => n + (answers[i] === q.answer ? 1 : 0),
+      0,
+    );
     s.quizAfter = score;
     s.quizAfterAnswers = [...answers];
     s.phase = 'done';

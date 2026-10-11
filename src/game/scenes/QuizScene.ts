@@ -9,6 +9,7 @@ import { Button } from '../ui/Button';
 import { PixelPanel } from '../ui/PixelPanel';
 import { COLOR, text, tr } from '../ui/theme';
 import { VIEW } from '../view';
+import { afterQuiz } from '@/shared/quiz';
 
 interface QuizData {
   mode: 'before' | 'after';
@@ -61,7 +62,9 @@ export class QuizScene extends Phaser.Scene {
   }
 
   private ask(i: number): void {
-    const quiz = getSession().content.quiz;
+    const content = getSession().content;
+    // ISSUES #34: the after-quiz asks the same concepts a different way
+    const quiz = this.mode === 'after' ? afterQuiz(content) : content.quiz;
     if (i >= quiz.length) return this.finish();
     const q = quiz[i];
     const { width: W } = VIEW;

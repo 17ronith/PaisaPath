@@ -13,6 +13,7 @@ import type {
   Projection,
   Summary,
 } from '@/shared/types';
+import { afterQuiz } from '@/shared/quiz';
 
 export const NCFE_KNOWLEDGE: NcfeKnowledge[] = [
   'division',
@@ -74,7 +75,7 @@ export function quizEvidence(
   answers: number[] | undefined,
 ): { item: NcfeKnowledge; value: 0 | 1 }[] {
   if (!answers) return [];
-  return content.quiz.flatMap((q, i) => {
+  return afterQuiz(content).flatMap((q, i) => {
     if (answers[i] === undefined) return [];
     const value: 0 | 1 = answers[i] === q.answer ? 1 : 0;
     return quizItems(content, q.concept).map((item) => ({ item, value }));
