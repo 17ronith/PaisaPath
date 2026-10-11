@@ -45,7 +45,6 @@ await context.clock.install({ time: new Date('2026-10-11T09:41:00+05:30') });
 // Mute the dev server's hot-reload socket: an edited file must not reload the page mid-recording.
 await context.routeWebSocket(/.*/, () => {});
 const page = await context.newPage();
-const cdp = await context.newCDPSession(page); // direct frame capture: faster than page.screenshot
 page.on('pageerror', (e) => console.error('  [page error]', e.message));
 page.on('console', (m) => {
   if (m.type() === 'error' && !/GL Driver|WebGL/.test(m.text())) console.error('  [console]', m.text().slice(0, 300));
@@ -82,8 +81,8 @@ async function step(capture) {
   if (!capture) return;
   for (const t of taps) timeline.push({ t: vt(), k: t.k, n: t.n });
   await page.evaluate((t) => window.studio.frame(t), T0 + vt());
-  const shot = await cdp.send('Page.captureScreenshot', { format: 'jpeg', quality: 93, optimizeForSpeed: true });
-  writeFileSync(join(FRAMES, `${String(frame).padStart(6, '0')}.jpg`), Buffer.from(shot.data, 'base64'));
+  // page.screenshot (not a raw CDP capture): it keeps the renderer delivering input under the fake clock
+  await page.screenshot({ path: join(FRAMES, `${String(frame).padStart(6, '0')}.jpg`), type: 'jpeg', quality: 93 });
   frame += 1;
   if (frame % (FPS * 5) === 0) process.stdout.write(`  ${vt().toFixed(0)}s`);
 }
@@ -474,13 +473,29 @@ const PARTS = {
 };
 
 const order = ['cold', 'onboard', 'food', 'scam', 'buffer', 'emi', 'banyan', 'market', 'police', 'measure', 'end'];
+const skipped = [];
 for (const id of order) {
   if (ONLY && !ONLY.includes(id)) continue;
   const t0 = vt();
+  const f0 = frame;
+  const ev0 = timeline.length;
+  const vo0 = voEnd;
   process.stdout.write(`\n▶ ${id.padEnd(8)} at ${t0.toFixed(1)}s`);
-  await PARTS[id]();
-  process.stdout.write(`  (${(vt() - t0).toFixed(1)}s)`);
+  try {
+    await PARTS[id]();
+    process.stdout.write(`  (${(vt() - t0).toFixed(1)}s)`);
+  } catch (e) {
+    // A part that fails is cut out: its frames, sounds and captions go; the run carries on.
+    console.error(`\n  ✗ SKIPPED ${id}: ${e.message.split('\n')[0]}`);
+    skipped.push({ id, error: e.message.split('\n')[0] });
+    for (let i = f0; i < frame; i++) rmSync(join(FRAMES, `${String(i).padStart(6, '0')}.jpg`), { force: true });
+    frame = f0;
+    timeline.length = ev0;
+    voEnd = vo0;
+    await page.evaluate((t) => window.studio.rollback(t), T0 + vt()).catch(() => undefined);
+  }
 }
+if (skipped.length) writeFileSync(join(OUT, `skipped-${TAG}.json`), JSON.stringify(skipped, null, 1));
 const duration = vt();
 writeFileSync(join(OUT, `timeline-${TAG}.json`), JSON.stringify({ fps: FPS, frames: frame, duration, t0: T0, events: timeline }, null, 1));
 console.log(`\n\nrecorded ${frame} frames = ${duration.toFixed(2)} s at ${FPS} fps → ${FRAMES}`);
