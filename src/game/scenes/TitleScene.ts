@@ -36,10 +36,15 @@ export class TitleScene extends Phaser.Scene {
       .setOrigin(0.5, 1)
       .setScale(charScale(this, AVATARS[0], 6));
 
-    text(this, W / 2, H * 0.16, t('title'), 'lg', COLOR.white, {
-      align: 'center',
-      wordWrap: { width: W - 40 },
-    }).setOrigin(0.5);
+    // "₹ PaisaPath": Press Start 2P has no ₹, so the sign is drawn on the font's own 8×8 grid.
+    const unit = 3; // one font pixel at 24px
+    const name = text(this, 0, H * 0.16, t('title'), 'lg', COLOR.white, {
+      fontSize: `${unit * 8}px`,
+    }).setOrigin(0, 0.5);
+    const signW = unit * 12; // glyph cell plus half a space
+    const left = W / 2 - (signW + name.width) / 2;
+    name.setX(left + signW);
+    drawRupee(this, left, H * 0.16 - (unit * 8) / 2, unit, COLOR.white);
     text(
       this,
       W / 2,
@@ -95,4 +100,16 @@ export class TitleScene extends Phaser.Scene {
       );
     });
   }
+}
+
+/** ₹ in Press Start 2P's style: 7×7 inside an 8×8 cell, 1-px bars, 2–3-px strokes. */
+const RUPEE = ['#######', '...###.', '#######', '..###..', '####...', '..###..', '....###'];
+
+function drawRupee(scene: Phaser.Scene, x: number, y: number, unit: number, color: number): void {
+  const g = scene.add.graphics().fillStyle(color);
+  RUPEE.forEach((row, r) =>
+    [...row].forEach((ch, c) => {
+      if (ch === '#') g.fillRect(x + c * unit, y + r * unit, unit, unit);
+    }),
+  );
 }

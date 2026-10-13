@@ -11,8 +11,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Learning Money by Living It',
-        short_name: 'Money Life',
+        name: 'PaisaPath',
+        short_name: 'PaisaPath',
         description: 'A pixel-art life simulation that teaches financial literacy.',
         display: 'standalone',
         orientation: 'portrait',
